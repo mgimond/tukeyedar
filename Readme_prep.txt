@@ -1,0 +1,1 @@
+Make sure to copy the README files and HTML vignettes to doc/ after building. Then add links from doc/Readme to vignettes.
