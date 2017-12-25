@@ -1,0 +1,22 @@
+Package: tukeyedar
+Type: Package
+Title: Tukey inspired exploratory data analysis functions
+Version: 0.1.0
+Authors@R: person("Manuel", "Gimond", email = "mgimond@gmail.com",
+           role = c("aut", "cre"))
+Description: This packages hosts a small set of Tukey inspired functions for use in exploring datasets in a robust manner.
+License: GPL-3
+URL: https://mgimond.github.io/, https://github.com/mgimond/tukeyedar
+BugReports: https://github.com/mgimond/tukeyedar/issues
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Depends: R (>= 2.10)
+Imports:
+   graphics, 
+   grDevices,
+   stats
+Suggests: knitr,
+    rmarkdown,
+    dplyr
+VignetteBuilder: knitr
