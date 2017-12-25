@@ -35,7 +35,7 @@ Read the vignettes!
 
 It's strongly recommended that you read the vignettes that come installed with the package.
 
-You can access the vignettes from the github site: + [Introduction to the EDA functions](Introduction.html) + [Introduction to the resistant line function](RLine.html)
+You can access the vignettes from the github site: \* [Introduction to the EDA functions](Introduction.html) \* [Introduction to the resistant line function](RLine.html)
 
 Using the functions
 -------------------
