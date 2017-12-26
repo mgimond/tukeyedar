@@ -46,7 +46,7 @@ The functions available in this package are listed below:
 `eda_rtrim_df`  Trim upper records of a dataframe
 `eda_re`        Re-express using Tukey powers or Box-Cox transformation
 `eda_lsum`      Letter value summaries
-`eda_sl`        Spread-level funcion
+`eda_sl`        Spread-level function
 `eda_lm`        Generate scatter plot along with regression line and LOESS curve
 `eda_3pt`       Generate 3-point summary of data and plot half-slopes
 `eda_unipow`    Generate matrix of re-expressed univariate values based on ladder of powers
