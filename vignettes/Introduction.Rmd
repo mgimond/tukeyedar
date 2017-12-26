@@ -29,7 +29,6 @@ knitr::opts_chunk$set(
 
 ```
 
-<link href="http://fonts.googleapis.com/css?family=Open+Sans%7CSource+Code+Pro" rel="stylesheet">
 
 ## Introduction 
 
