@@ -40,18 +40,19 @@ The vignette will require that `dplyr` be installed since the `eda_sl` function 
 
 If for some reason the vignettes are not created, you might want to reinstall the package with the `force=TRUE` parameter.
 
-``` t
+``` r
 devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE, force=TRUE)
 ```
 
 Read the vignettes!
 -------------------
 
-It's strongly recommended that you read the vignettes that come installed with the package. To view a rundown of the available functions read the `Introduction` vignette, `vignette("Introduction", package = "tukeyedar")`. A separate (detailed) vignette on the `eda_rline` resistant line function is also available `vignette("RLine", package = "tukeyedar")`.
+It's strongly recommended that you read the vignettes. These can be accessed from this website:
 
-If you use a dark themed IDE, the vignettes may be best viewed in a web browser via the function:
+-   [An introduction to the functions](Introduction.html)
+-   [A detailed rundown of the resistant line function](RLine.html)
 
-`RShowDoc("Introduction", package = "tukeyedar")` `RShowDoc("RLine", package = "tukeyedar")`
+If you chose to have the vignettes locally created when you installed the package then you can view them locally via `vignette("Introduction", package = "tukeyedar")` and `vignette("RLine", package = "tukeyedar")`. If you use a dark themed IDE, the vignettes may not render very well so you might opt to view them in a web browser via the functions `RShowDoc("Introduction", package = "tukeyedar")` and `RShowDoc("RLine", package = "tukeyedar")`.
 
 Using the functions
 -------------------
@@ -80,34 +81,9 @@ eda_3pt(mtcars, disp, mpg)
     #> $ymed
     #> [1] 27.30 19.20 14.95
 
-Most functions are *pipe* friendly. For example,
+Note that most functions are *pipe* friendly. For example the following will work:
 
 ``` r
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 mtcars %>% eda_3pt(disp,mpg)
 ```
-
-![](README-unnamed-chunk-6-1.png)
-
-    #> $slope1
-    #> [1] -0.1117241
-    #> 
-    #> $slope2
-    #> [1] -0.0220894
-    #> 
-    #> $hsrtio
-    #> [1] 0.1977137
-    #> 
-    #> $xmed
-    #> [1]  95.1 167.6 360.0
-    #> 
-    #> $ymed
-    #> [1] 27.30 19.20 14.95
