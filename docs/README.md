@@ -30,15 +30,28 @@ This package can be installed from github (the installation process makes use of
 devtools::install_github("mgimond/tukeyedar")
 ```
 
+Note that the vignettes will not be automatically generated with the above command; note that the vignettes are available on this website (see next section). If you want a local version of the vignettes, add the `build_vignettes = TRUE` parameter.
+
+``` r
+devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
+```
+
+The vignette will require that `dplyr` be installed since the `eda_sl` function relies on it. If `dplyr` is not alreay installed, the aforementioned synatx will automatically install it for you.
+
+If for some reason the vignettes are not created, you might want to reinstall the package with the `force=TRUE` parameter.
+
+``` t
+devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE, force=TRUE)
+```
+
 Read the vignettes!
 -------------------
 
-It's strongly recommended that you read the vignettes that come installed with the package.
+It's strongly recommended that you read the vignettes that come installed with the package. To view a rundown of the available functions read the `Introduction` vignette, `vignette("Introduction", package = "tukeyedar")`. A separate (detailed) vignette on the `eda_rline` resistant line function is also available `vignette("RLine", package = "tukeyedar")`.
 
-You can access the vignettes from the github site:
+If you use a dark themed IDE, the vignettes may be best viewed in a web browser via the function:
 
--   [Introduction to the EDA functions](Introduction.html)
--   [Introduction to the resistant line function](RLine.html)
+`RShowDoc("Introduction", package = "tukeyedar")` `RShowDoc("RLine", package = "tukeyedar")`
 
 Using the functions
 -------------------
@@ -50,7 +63,7 @@ library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](README-unnamed-chunk-5-1.png)
 
     #> $slope1
     #> [1] -0.1117241
@@ -82,7 +95,7 @@ library(dplyr)
 mtcars %>% eda_3pt(disp,mpg)
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](README-unnamed-chunk-6-1.png)
 
     #> $slope1
     #> [1] -0.1117241

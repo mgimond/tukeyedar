@@ -30,6 +30,20 @@ This package can be installed from github (the installation process makes use of
 devtools::install_github("mgimond/tukeyedar")
 ```
 
+Note that the vignettes will not be automatically generated with the above command; note that the vignettes are available on this website (see next section). If you want a local version of the vignettes, add the `build_vignettes = TRUE` parameter.
+
+``` r
+devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
+```
+
+The vignette will require that `dplyr` be installed since the `eda_sl` function relies on it. If `dplyr` is not alreay installed, the aforementioned synatx will automatically install it for you.
+
+If for some reason the vignettes are not created, you might want to reinstall the package with the `force=TRUE` parameter.
+
+``` t
+devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE, force=TRUE)
+```
+
 Read the vignettes!
 -------------------
 
@@ -49,7 +63,7 @@ library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](README-unnamed-chunk-5-1.png)
 
     #> $slope1
     #> [1] -0.1117241
@@ -81,7 +95,7 @@ library(dplyr)
 mtcars %>% eda_3pt(disp,mpg)
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](README-unnamed-chunk-6-1.png)
 
     #> $slope1
     #> [1] -0.1117241
