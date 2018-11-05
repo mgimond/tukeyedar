@@ -214,7 +214,7 @@ par(OP)
 
 where the final slope and intercept are `r round(M$b,2)` and `r round(M$a,2)`, respectively.
 
-## Implementating the resistant line
+## Implementing the resistant line
 
 The `eda_rline` takes just three arguments: data frame, x variable and y variable. The function output is a list.
 
