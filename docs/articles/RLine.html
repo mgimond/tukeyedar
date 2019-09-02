@@ -260,9 +260,9 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Intercept =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">1</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) ),
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
-<span class="co">#&gt;                   5%      95%</span>
-<span class="co">#&gt;  Intercept -75.54813 9.343161</span>
-<span class="co">#&gt;  Slope       1.71868 3.532495</span></code></pre></div>
+<span class="co">#&gt;                    5%       95%</span>
+<span class="co">#&gt;  Intercept -76.190065 11.210370</span>
+<span class="co">#&gt;  Slope       1.667784  3.555722</span></code></pre></div>
 </div>
 <div id="resampling-the-x-y-paired-values" class="section level3">
 <h3 class="hasAnchor">
@@ -284,9 +284,9 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Intercept =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">1</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) ),
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
-<span class="co">#&gt;                     5%       95%</span>
-<span class="co">#&gt;  Intercept -112.736066 13.863550</span>
-<span class="co">#&gt;  Slope        1.643678  4.254098</span></code></pre></div>
+<span class="co">#&gt;                     5%      95%</span>
+<span class="co">#&gt;  Intercept -116.523077 9.951724</span>
+<span class="co">#&gt;  Slope        1.692337 4.338462</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1">
