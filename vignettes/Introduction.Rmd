@@ -1,15 +1,14 @@
 ---
 title: "Introduction to EDA functions"
+Version: 0.1.0
 author: "Manuel Gimond"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     toc: TRUE
     css: style.css
-    includes:
-      before_body: prefix.html
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction to EDA functions}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -237,9 +236,9 @@ eda_re(x, p = 0, tukey = FALSE)
 
 $$
 \begin{equation} T_{Tukey} = 
-\begin{cases} x^p , & p > 0 \\
+\begin{cases} x^p , & p \neq 0 \\
               log(x), & p = 0 \\
-              -x^{p}, & p < 0
+              
 \end{cases}
 \end{equation}
 $$
@@ -533,5 +532,4 @@ For a detailed discussion on the resistant line, see the [accompanying vignette]
 * _Understanding robust and exploratory data analysis_,  D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.
 * _Exploratory Data Analysis_, John Tukey, 1977.
 
--------
-![Copyleft](http://i.creativecommons.org/l/by-sa/4.0/88x31.png) Manuel Gimond, 2017
+

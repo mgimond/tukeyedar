@@ -4,8 +4,8 @@
 \alias{eda_3pt}
 \title{3-point summary plot}
 \usage{
-eda_3pt(dat, x, y, x.lab = NULL, y.lab = NULL, adj = -0.12, dir = TRUE,
-  pch = 20, col = "grey40", ...)
+eda_3pt(dat, x, y, x.lab = NULL, y.lab = NULL, adj = -0.12,
+  dir = TRUE, pch = 20, col = "grey40", ...)
 }
 \arguments{
 \item{dat}{data frame}

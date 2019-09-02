@@ -4,9 +4,10 @@
 \alias{eda_unipow}
 \title{Ladder of powers transformation on a single vector}
 \usage{
-eda_unipow(x, p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2), tukey = TRUE,
-  bins = 5, cex.main = 1.3, col = "#DDDDDD", border = "#AAAAAA",
-  title = "Re-expressed data via ladder of powers", ...)
+eda_unipow(x, p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2),
+  tukey = TRUE, bins = 5, cex.main = 1.3, col = "#DDDDDD",
+  border = "#AAAAAA", title = "Re-expressed data via ladder of powers",
+  ...)
 }
 \arguments{
 \item{x}{vector}
