@@ -49,8 +49,8 @@ Read the vignettes!
 
 It's strongly recommended that you read the vignettes. These can be accessed from this website:
 
--   [An introduction to the functions](https://mgimond.github.io/tukeyedar/Introduction.html)
--   [A detailed rundown of the resistant line function](https://mgimond.github.io/tukeyedar/RLine.html)
+-   [An introduction to the functions](https://mgimond.github.io/tukeyedar/articles/Introduction.html)
+-   [A detailed rundown of the resistant line function](https://mgimond.github.io/tukeyedar/articles/RLine.html)
 
 If you chose to have the vignettes locally created when you installed the package then you can view them locally via `vignette("Introduction", package = "tukeyedar")` and `vignette("RLine", package = "tukeyedar")`. If you use a dark themed IDE, the vignettes may not render very well so you might opt to view them in a web browser via the functions `RShowDoc("Introduction", package = "tukeyedar")` and `RShowDoc("RLine", package = "tukeyedar")`.
 
