@@ -99,12 +99,12 @@
 <p>The <code>eda_rline</code> function fits a robust line through a bivariate dataset. It does so by first breaking the data into three roughly equal sized batches following the x-axis variable. It then uses the batches’ median values to compute the slope and intercept.</p>
 <p>However, the function doesn’t stop there. After fitting the inital line, the function fits another line (following the aforementioned methodology) to the model’s residuals. If the slope is not close to zero, the residual slope is added to the original fitted model creating an <em>updated</em> model. This iteration is repeated until the residual slope is close to zero or until the residual slope changes in sign (at which point the average of the last two iterated slopes is used in the final fit).</p>
 <p>An example of the iteration follows using data from Velleman et. al’s book. The dataset, <code>neoplasms</code>, consists of breast cancer mortality rates for regions with varying mean annual temperatures.</p>
-<p><img src="RLine_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-2-1.png" width="307.2"></p>
 <p>The three batches are divided as follows:</p>
-<p><img src="RLine_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-3-1.png" width="307.2"></p>
 <p>Note that the 16 record dataset is not divisible by three thus forcing an extra point in the middle batch (had the remainder of the division by three been two, then each extra point would have been added to the tail-end batches).</p>
 <p>Next, we compute the medians for each batch (highlighted as red points in the following figure).</p>
-<p><img src="RLine_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-4-1.png" width="307.2"></p>
 <p>The two end medians are used to compute the slope as:</p>
 <p><span class="math display">\[
 b = \frac{y_r - y_l}{x_r-x_l}
@@ -118,7 +118,7 @@ median(y_{l,m,r} - b * x_{l,m,r})
 <p>The initial model slope and intercept are 3.412 and -69.877 respectively and the residual’s slope and intercept are -0.873 and 41.451 respectively. The residual slope is then added to the first computed slope and the process is again repeated thus generating the following tweaked slope and updated residuals:</p>
 <p><img src="RLine_files/figure-html/unnamed-chunk-6-1.png" width="528"></p>
 <p>The updated slope is now 3.412 + (-0.873) = 2.539. The iteration continues until the slope residuals stabilize. The final line for this working example is,</p>
-<p><img src="RLine_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-7-1.png" width="307.2"></p>
 <p>where the final slope and intercept are 2.89 and -45.91, respectively.</p>
 </div>
 <div id="implementing-the-resistant-line" class="section level2">
@@ -159,30 +159,30 @@ M
 <p>You can use the output values to generate the following plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Mortality<span class="op">~</span>Temp, neoplasms, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-9-1.png" width="307.2"></p>
 <p>If you wish to add the median values to all three batches for reference, modify the code as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Mortality<span class="op">~</span>Temp, neoplasms, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(<span class="dt">x=</span>M<span class="op">$</span>xmed, <span class="dt">y=</span>M<span class="op">$</span>ymed, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">cex=</span><span class="dv">2</span>)</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-10-1.png" width="307.2"></p>
 <p>To see how this resistant line compares to an ordinary least-squares (OLS) regression slope, type:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Mortality<span class="op">~</span>Temp, neoplasms, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(Mortality<span class="op">~</span>Temp, neoplasms),<span class="dt">lty=</span><span class="dv">2</span>) <span class="co"># Regression model</span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-11-1.png" width="307.2"></p>
 <p>The regression model computes a slope of <code>2.36</code> whereas the resistant line function generates a slope of <code>2.89</code>. From the scatter plot, we can spot a point that may have undo influence on the regression line (this point is highlighted in green in the following plot).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Mortality<span class="op">~</span>Temp, neoplasms, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(Mortality<span class="op">~</span>Temp, neoplasms),<span class="dt">lty=</span><span class="dv">2</span>) <span class="co"># Regression model</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(neoplasms[<span class="dv">15</span>,], <span class="dt">col=</span><span class="st">"#43CD80"</span>,<span class="dt">cex=</span><span class="dv">2</span> ,<span class="dt">pch=</span><span class="dv">20</span>)</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-12-1.png" width="307.2"></p>
 <p>Removing that point from the data generates an OLS regression line more inline with our resistant model. The point of interest is the 15<sup>th</sup> record in the <code>neoplasms</code> data frame.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">neoplasms.sub &lt;-<span class="st"> </span>neoplasms[<span class="op">-</span><span class="dv">15</span>,]</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Mortality<span class="op">~</span>Temp, neoplasms, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(Mortality<span class="op">~</span>Temp, neoplasms.sub),<span class="dt">lty=</span><span class="dv">2</span>) <span class="co"># Regression model with data subset</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(neoplasms[<span class="dv">15</span>,], <span class="dt">col=</span><span class="st">"#43CD80"</span>,<span class="dt">cex=</span><span class="dv">2</span> ,<span class="dt">pch=</span><span class="dv">20</span>)</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-14-1.png" width="307.2"></p>
 </div>
 <div id="other-examples" class="section level2">
 <h2 class="hasAnchor">
@@ -194,7 +194,7 @@ M
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M &lt;-<span class="st"> </span><span class="kw"><a href="../reference/eda_rline.html">eda_rline</a></span>(nine_point, X,Y)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Y<span class="op">~</span>X, nine_point, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-16-1.png" width="307.2"></p>
 <p>Here, slope and intercept are 0.067 and 0.133 respectively matching the 1/15 and 2/15 values computed by Hoaglin et. al.</p>
 </div>
 <div id="age-vs-height-data" class="section level3">
@@ -204,7 +204,7 @@ M
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M &lt;-<span class="st"> </span><span class="kw"><a href="../reference/eda_rline.html">eda_rline</a></span>(age_height, Months,Height)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(Height <span class="op">~</span><span class="st"> </span>Months, age_height, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-18-1.png" width="307.2"></p>
 <p>Here, slope and intercept are 0.429 and 91.007 respectively matching the 0.426 slope and closely matching the 90.366 intercept values computed by Hoaglin et. al on page 137.</p>
 </div>
 </div>
@@ -216,25 +216,25 @@ M
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M &lt;-<span class="st"> </span><span class="kw"><a href="../reference/eda_rline.html">eda_rline</a></span>(mtcars, disp, mpg)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(mpg <span class="op">~</span><span class="st"> </span>disp, mtcars, <span class="dt">pch=</span><span class="dv">20</span>)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-20-1.png" width="307.2"></p>
 <p>It’s important to note that just because a resistant line can be fit does not necessarily imply that the relationship is linear. To assess linearity of the <code>mtcars</code> dataset, we’ll make use of the <code>eda_3pt</code> function (see the <a href="Introduction.html#eda_3pt">accompanying vignette</a> for details on interpreting the 3-point summary function).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/eda_3pt.html">eda_3pt</a></span>(mtcars, disp, mpg)</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-21-1.png" width="307.2"></p>
 <p>It’s clear from the two half slopes that the relationship is not linear. Velleman et. al first suggest re-expressing <code>mpg</code> to <code>1/mpg</code> giving us number of gallons consumed per mile driven.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/eda_3pt.html">eda_3pt</a></span>(mtcars, disp, <span class="dv">1</span><span class="op">/</span>mpg, <span class="dt">y.lab =</span> <span class="st">"gal/mi"</span>)</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-22-1.png" width="307.2"></p>
 <p>This is an improvement, however the two half slopes still differ significantly. We will therefore opt to re-express the <code>disp</code> variable. One possibility is to take the inverse of 1/3 since displacement is a measure of volume (e.g. length<sup>3</sup>) which gives us:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/eda_3pt.html">eda_3pt</a></span>(mtcars, disp<span class="op">^</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>), <span class="dv">1</span><span class="op">/</span>mpg, 
         <span class="dt">y.lab =</span> <span class="st">"gal/mi"</span>,
         <span class="dt">x.lab =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="st">"Displacement"</span><span class="op">^</span>{<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>}))</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-23-1.png" width="307.2"></p>
 <p>Now that we have identified re-expressions that linearise the relationship, we can fit the resistant line. (Note that the grey line generated by the <code>eda_3pt</code> function is not the same as the resistant line generated with <code>eda_rline</code>.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">M &lt;-<span class="st"> </span><span class="kw"><a href="../reference/eda_rline.html">eda_rline</a></span>(mtcars, disp<span class="op">^</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>), <span class="dv">1</span><span class="op">/</span>mpg)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="dv">1</span><span class="op">/</span>mpg <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/eval">eval</a></span>(disp<span class="op">^</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)), mtcars, <span class="dt">pch=</span><span class="dv">20</span>,
      <span class="dt">ylab =</span> <span class="st">"gal/mi"</span>,
      <span class="dt">xlab =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expression">expression</a></span>(<span class="st">"Displacement"</span><span class="op">^</span>{<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">3</span>}))
 <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/abline">abline</a></span>(<span class="dt">a=</span>M<span class="op">$</span>a, <span class="dt">b=</span>M<span class="op">$</span>b, <span class="dt">col=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/rgb">rgb</a></span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.5</span>))</code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-25-1.png" width="307.2"></p>
 </div>
 <div id="computing-a-confidence-interval" class="section level2">
 <h2 class="hasAnchor">
@@ -260,9 +260,9 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Intercept =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">1</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) ),
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
-<span class="co">#&gt;                    5%      95%</span>
-<span class="co">#&gt;  Intercept -77.222289 9.774996</span>
-<span class="co">#&gt;  Slope       1.696688 3.564112</span></code></pre></div>
+<span class="co">#&gt;                    5%       95%</span>
+<span class="co">#&gt;  Intercept -74.235849 11.813919</span>
+<span class="co">#&gt;  Slope       1.656318  3.530916</span></code></pre></div>
 </div>
 <div id="resampling-the-x-y-paired-values" class="section level3">
 <h3 class="hasAnchor">
@@ -285,8 +285,8 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
 <span class="co">#&gt;                     5%       95%</span>
-<span class="co">#&gt;  Intercept -112.736066 14.938629</span>
-<span class="co">#&gt;  Slope        1.643678  4.254098</span></code></pre></div>
+<span class="co">#&gt;  Intercept -104.603182 13.150498</span>
+<span class="co">#&gt;  Slope        1.643678  4.090909</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1">
