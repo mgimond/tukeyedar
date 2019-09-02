@@ -237,9 +237,9 @@ eda_re(x, p = 0, tukey = FALSE)
 
 $$
 \begin{equation} T_{Tukey} = 
-\begin{cases} x^p , & p > 0 \\
+\begin{cases} x^p , & p \neq 0 \\
               log(x), & p = 0 \\
-              -x^{p}, & p < 0
+              
 \end{cases}
 \end{equation}
 $$
