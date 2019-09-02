@@ -2,10 +2,14 @@ Package: tukeyedar
 Type: Package
 Title: Tukey inspired exploratory data analysis functions
 Version: 0.1.0
-Authors@R: person("Manuel", "Gimond", email = "mgimond@gmail.com",
-           role = c("aut", "cre"))
+Authors@R: 
+  person(given = "Manuel", 
+         family = "Gimond", 
+         email = "mgimond@colby.edu",
+         role = c("aut", "cre"),
+         comment = c(ORCID = "0000-0002-3687-2316"))
 Description: This packages hosts a small set of Tukey inspired functions for use in exploring datasets in a robust manner.
-License: GPL-3
+License: MIT + file LICENSE
 URL: https://mgimond.github.io/, https://github.com/mgimond/tukeyedar
 BugReports: https://github.com/mgimond/tukeyedar/issues
 Encoding: UTF-8
