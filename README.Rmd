@@ -71,15 +71,17 @@ If you chose to have the vignettes locally created when you installed the packag
 All functions start with `eda_`. For example, to generate a three point summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
 
 
-```{r fig.width=3, fig.height=2}
+```{r fig.width=3, fig.height=2, echo=2:3}
+OP <- par(mar = c(3,3,1,1))
 library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
+par(OP)
 ```
 
 Note that most functions are *pipe* friendly. For example the following will work:
 
-```{r eval=FALSE, fig.width=3, fig.height=2}
+```{r eval=FALSE}
 library(dplyr)
-mtcars %>% eda_3pt(disp,mpg)
+mtcars %>% eda_3pt(disp, mpg)
 ```
 

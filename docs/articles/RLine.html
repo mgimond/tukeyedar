@@ -260,9 +260,9 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Intercept =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">1</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) ),
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
-<span class="co">#&gt;                    5%       95%</span>
-<span class="co">#&gt;  Intercept -80.444014 11.713678</span>
-<span class="co">#&gt;  Slope       1.653356  3.650552</span></code></pre></div>
+<span class="co">#&gt;                    5%      95%</span>
+<span class="co">#&gt;  Intercept -77.222289 9.774996</span>
+<span class="co">#&gt;  Slope       1.696688 3.564112</span></code></pre></div>
 </div>
 <div id="resampling-the-x-y-paired-values" class="section level3">
 <h3 class="hasAnchor">
@@ -285,8 +285,8 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
 <span class="co">#&gt;                     5%       95%</span>
-<span class="co">#&gt;  Intercept -116.523077 12.942529</span>
-<span class="co">#&gt;  Slope        1.643678  4.338462</span></code></pre></div>
+<span class="co">#&gt;  Intercept -112.736066 14.938629</span>
+<span class="co">#&gt;  Slope        1.643678  4.254098</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1">
