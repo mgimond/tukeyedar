@@ -4,6 +4,9 @@ output:
     variant: markdown_github
 ---
 
+  <!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/mgimond/tukeyedar.svg?branch=master)](https://travis-ci.org/mgimond/tukeyedar)
+  <!-- badges: end -->
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(

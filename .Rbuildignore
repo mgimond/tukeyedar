@@ -3,3 +3,4 @@
 ^README\.Rmd$
 ^README-.*\.png$
 Readme_prep.txt
+^\.travis\.yml$
