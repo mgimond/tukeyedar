@@ -533,5 +533,4 @@ For a detailed discussion on the resistant line, see the [accompanying vignette]
 * _Understanding robust and exploratory data analysis_,  D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.
 * _Exploratory Data Analysis_, John Tukey, 1977.
 
--------
-![Copyleft](http://i.creativecommons.org/l/by-sa/4.0/88x31.png) Manuel Gimond, 2017
+

@@ -71,6 +71,7 @@ Delta.r <- function(x,y,d,xmed,b){
   D  <-  rr - rl
   return(D)
 }
+library(tukeyedar)
 ```
 
 <link href="http://fonts.googleapis.com/css?family=Open+Sans%7CSource+Code+Pro" rel="stylesheet">
@@ -85,7 +86,7 @@ An example of the iteration follows using data from Velleman et. al's book. The 
 
 ```{r, fig.height=2.3, echo=FALSE}
 OP <- par(mar=c(4,4,1,1))
-plot(Mortality~Temp,neoplasms, pch=20)
+plot(Mortality ~ Temp, neoplasms, pch=20)
 par(OP)
 ```
 
@@ -93,7 +94,7 @@ The three batches are divided as follows:
 
 ```{r, fig.height=2.3, echo=FALSE}
 df    <- neoplasms[order(neoplasms$Temp),]
-brk   <- with(df, thirds(y=Mortality, x=Temp))$index
+brk   <- with(df, thirds(y = Mortality, x = Temp))$index
 brk.x <- (df$Temp[brk[1:2]] + df$Temp[brk[1:2]+1]) /2
 OP    <- par(mar=c(4,4,1,1))
 plot(Mortality~Temp, df, pch=20)
@@ -452,6 +453,3 @@ conf
 * _Applications, Basics and Computing of Exploratory Data Analysis_, P.F. Velleman and D.C. Hoaglin, 1981.  
 * _Understanding robust and exploratory data analysis_,  D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.
 
-
--------
-![Copyleft](http://i.creativecommons.org/l/by-sa/4.0/88x31.png) Manuel Gimond, 2017
