@@ -5,10 +5,9 @@
 #'  \code{eda_sl} The spread-level function generates a spread-level
 #'    table from a univariate dataset
 #'
+#' @param dat Dataframe
 #' @param x Categorical variable
 #' @param y Continuous variable
-#' @param all generate upper, lower and mid summaries if TRUE or
-#             only generate mid summaries if FALSE
 #'
 #' @details
 #'  \itemize{
@@ -24,7 +23,7 @@
 #' sl <- eda_sl(iris, Species, Sepal.Length)
 #' plot(sprd ~ med, sl, pch=16)
 
-eda_sl <- function(dat,x,y) {
+eda_sl <- function(dat, x, y) {
   if (!requireNamespace("dplyr", quietly = TRUE)) {
     stop("Pkg needed for this function to work. Please install it.",
          call. = FALSE)}

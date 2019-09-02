@@ -7,11 +7,11 @@
 eda_sl(dat, x, y)
 }
 \arguments{
+\item{dat}{Dataframe}
+
 \item{x}{Categorical variable}
 
 \item{y}{Continuous variable}
-
-\item{all}{generate upper, lower and mid summaries if TRUE or}
 }
 \description{
 \code{eda_sl} The spread-level function generates a spread-level
