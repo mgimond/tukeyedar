@@ -1,5 +1,6 @@
 ---
 title: "Introduction to EDA functions"
+Version: 0.1.0
 author: "Manuel Gimond"
 date: "`r Sys.Date()`"
 output: 

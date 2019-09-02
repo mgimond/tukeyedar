@@ -260,9 +260,9 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Intercept =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">1</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) ),
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
-<span class="co">#&gt;                    5%       95%</span>
-<span class="co">#&gt;  Intercept -74.457436 11.270689</span>
-<span class="co">#&gt;  Slope       1.667355  3.513335</span></code></pre></div>
+<span class="co">#&gt;                    5%      95%</span>
+<span class="co">#&gt;  Intercept -79.152263 9.411835</span>
+<span class="co">#&gt;  Slope       1.739261 3.606369</span></code></pre></div>
 </div>
 <div id="resampling-the-x-y-paired-values" class="section level3">
 <h3 class="hasAnchor">
@@ -285,8 +285,8 @@ bt &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
                      <span class="dt">Slope =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/quantile">quantile</a></span>(bt[,<span class="dv">2</span>], <span class="dt">p=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>) )))
 conf
 <span class="co">#&gt;                     5%       95%</span>
-<span class="co">#&gt;  Intercept -116.523077 13.058944</span>
-<span class="co">#&gt;  Slope        1.643678  4.338462</span></code></pre></div>
+<span class="co">#&gt;  Intercept -117.173461 13.175844</span>
+<span class="co">#&gt;  Slope        1.643678  4.339945</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1">
@@ -299,8 +299,6 @@ conf
 <li>
 <em>Understanding robust and exploratory data analysis</em>, D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.</li>
 </ul>
-<hr>
-<p><img src="http://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Copyleft"> Manuel Gimond, 2017</p>
 </div>
   </div>
 
