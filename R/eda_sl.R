@@ -34,12 +34,12 @@ eda_sl <- function(dat,x,y) {
   df1 <- data.frame(grp=xx,y=yy)
   df2 <- dplyr::arrange(df1, grp , y)
   df2 <- dplyr::group_by(df2, grp)
-  df3 <- dplyr::summarize(df2, n = n(),
+  df3 <- dplyr::summarize(df2, n = dplyr::n(),
                 M = (n - 1) / 2 ,
                 H = ( floor(M) - 1 ) / 2,
                 med = log(dplyr::nth(y,M)),
                 Hlo = dplyr::nth(y,floor(H)),
-                Hhi = dplyr::nth(y,ceiling(n() + 1 - H)),
+                Hhi = dplyr::nth(y,ceiling(dplyr::n() + 1 - H)),
                 sprd = log(Hhi - Hlo) )
   df4 <- dplyr::select(df3, grp, med, sprd)
   return(data.frame(df4))
