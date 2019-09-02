@@ -33,7 +33,8 @@ eda_sl <- function(dat, x, y) {
   df1 <- data.frame(grp=xx,y=yy)
   df2 <- dplyr::arrange(df1, grp , y)
   df2 <- dplyr::group_by(df2, grp)
-  df3 <- dplyr::summarize(df2, n = dplyr::n(),
+  df3 <- dplyr::summarize(df2,
+                n = dplyr::n(),
                 M = (n - 1) / 2 ,
                 H = ( floor(M) - 1 ) / 2,
                 med = log(dplyr::nth(y,M)),
