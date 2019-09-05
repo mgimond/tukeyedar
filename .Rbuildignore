@@ -4,3 +4,6 @@
 ^README-.*\.png$
 Readme_prep.txt
 ^\.travis\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

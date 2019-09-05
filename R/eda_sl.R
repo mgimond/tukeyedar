@@ -8,39 +8,47 @@
 #' @param dat Dataframe
 #' @param x Categorical variable
 #' @param y Continuous variable
+#' @param sprd Choice of spreads. Either interquartile, `sprd = "IQR"` or
+#'    fourth-spread, `sprd = "frth"` (default).
 #'
 #' @details
 #'  \itemize{
-#'   \item This function depends on the dplyr package.
 #'   \item Note that this function is not to be confused with Bill Cleveland's
 #'   spread-location function.\cr
 #'   \item If x is not categorical, the output will produce many or all NA's.
+#'   \item On page 59, Hoaglan et. al define the fourth-spread as the the range
+#'   defined by the upper fourth and lower fourth. The `eda_lsum` function is used
+#'   to compute the upper/lower fourths.
 #'   }
 #'
 #' @references
-#'    Exploratory Data Analysis, John Tukey, 1973.
+#'    Understanding Robust and Exploratory Data Analysis, Hoaglin, David C., Frederick Mosteller, and John W. Tukey, 1983.
 #' @examples
 #' sl <- eda_sl(iris, Species, Sepal.Length)
-#' plot(sprd ~ med, sl, pch=16)
+#' plot(spread ~ level, sl, pch=16)
 
-eda_sl <- function(dat, x, y) {
-  if (!requireNamespace("dplyr", quietly = TRUE)) {
-    stop("Pkg needed for this function to work. Please install it.",
-         call. = FALSE)}
+eda_sl <- function(dat, x, y, sprd = "frth") {
   xx <- eval(substitute(x), dat)
   yy <- eval(substitute(y), dat)
 
-  df1 <- data.frame(grp=xx,y=yy)
-  df2 <- dplyr::arrange(df1, grp , y)
-  df2 <- dplyr::group_by(df2, grp)
-  df3 <- dplyr::summarize(df2,
-                n = dplyr::n(),
-                M = (n - 1) / 2 ,
-                H = ( floor(M) - 1 ) / 2,
-                med = log(dplyr::nth(y,M)),
-                Hlo = dplyr::nth(y,floor(H)),
-                Hhi = dplyr::nth(y,ceiling(dplyr::n() + 1 - H)),
-                sprd = log(Hhi - Hlo) )
-  df4 <- dplyr::select(df3, grp, med, sprd)
-  return(data.frame(df4))
+  y_x <- split(yy, xx)
+
+  frth_sprd <- function(x) {
+    lsum <- eda_lsum(x, l=2)
+    return(lsum[2,5] - lsum[2,3])
+  }
+
+  level <- log(unlist(lapply(y_x, median)))
+
+  if( sprd == "frth"){
+    spread <- log(unlist(lapply(y_x, frth_sprd)))
+  } else if(sprd == "IQR") {
+    spread <- log(unlist(lapply(y_x, IQR)))
+  } else {
+    stop(paste(sprd, " is an invalid argument to sprd. Choose \"IQR\" or \"frth\"."),
+         call. = FALSE)
+  }
+
+  df4 <- data.frame(level, spread)
+  return(df4)
 }
