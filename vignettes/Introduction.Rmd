@@ -316,14 +316,15 @@ eda_sl(dat, x, y)
 `dat`        data frame
 `x`          Categorical variable
 `y`          Continuous variable
+`sprd`       Choice of spreads. Either interquartile, `sprd = "IQR"`, or  fourth-spread, `sprd = "frth"` (default)
 
-The spread-level function generates a spread-level table from a univariate dataset. It pits the log of the inter-quartile spread vs. the log of the median values across all groups. The function is useful in assessing if there is a monotonically increasing or decreasing spread as a function of median. Note that this function will require that values be postive. 
+The spread-level function generates a spread-level table from a univariate dataset. It pits the log of the spread (range between upper and lower fourths by default) vs. the log of the median values across all groups. The function is useful in assessing if there is a monotonically increasing or decreasing spread as a function of median. Note that this function will require that values be postive. 
 
 The following example shows that sepal length spread increases with increasing sepal length
 
 ```{r}
 sl <- eda_sl(iris, Species, Sepal.Length)
-plot(sprd ~ med, sl, pch=16)
+plot(spread ~ level, sl, pch=16)
 ```
 
 ## eda_lm 

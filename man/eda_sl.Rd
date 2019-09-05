@@ -4,7 +4,7 @@
 \alias{eda_sl}
 \title{Tukey's spread-level function}
 \usage{
-eda_sl(dat, x, y)
+eda_sl(dat, x, y, sprd = "frth")
 }
 \arguments{
 \item{dat}{Dataframe}
@@ -12,6 +12,9 @@ eda_sl(dat, x, y)
 \item{x}{Categorical variable}
 
 \item{y}{Continuous variable}
+
+\item{sprd}{Choice of spreads. Either interquartile, `sprd = "IQR"` or
+fourth-spread, `sprd = "frth"` (default).}
 }
 \description{
 \code{eda_sl} The spread-level function generates a spread-level
@@ -19,16 +22,18 @@ eda_sl(dat, x, y)
 }
 \details{
 \itemize{
-  \item This function depends on the dplyr package.
   \item Note that this function is not to be confused with Bill Cleveland's
   spread-location function.\cr
   \item If x is not categorical, the output will produce many or all NA's.
+  \item On page 59, Hoaglan et. al define the fourth-spread as the the range
+  defined by the upper fourth and lower fourth. The `eda_lsum` function is used
+  to compute the upper/lower fourths.
   }
 }
 \examples{
 sl <- eda_sl(iris, Species, Sepal.Length)
-plot(sprd ~ med, sl, pch=16)
+plot(spread ~ level, sl, pch=16)
 }
 \references{
-Exploratory Data Analysis, John Tukey, 1973.
+Understanding Robust and Exploratory Data Analysis, Hoaglin, David C., Frederick Mosteller, and John W. Tukey, 1983.
 }
