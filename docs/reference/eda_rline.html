@@ -8,23 +8,29 @@
 
 <title>Tukey's resistant line — eda_rline • tukeyedar</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,12 +38,12 @@
 
 
 
-<meta property="og:title" content="Tukey's resistant line — eda_rline" />
 
+<meta property="og:title" content="Tukey's resistant line — eda_rline" />
 <meta property="og:description" content="eda_rline is an R implementation of Hoaglin, Mosteller and Tukey's
  resistant line technique outlined in chapter 5 of &quot;Understanding Robust
  and Exploratory Data Analysis&quot; (Wiley, 1983)." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -54,7 +60,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +82,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,11 +105,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/mgimond/tukeyedar">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/mgimond/tukeyedar/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,15 +131,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p><code>eda_rline</code> is an R implementation of Hoaglin, Mosteller and Tukey's
  resistant line technique outlined in chapter 5 of "Understanding Robust
  and Exploratory Data Analysis" (Wiley, 1983).</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>eda_rline</span>(<span class='no'>dat</span>, <span class='no'>x</span>, <span class='no'>y</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -151,7 +154,7 @@
       <td><p>column name assigned the y axis</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Outputs a plot showing the three point summary as well as a list of
@@ -169,7 +172,6 @@ parameters:</p>
                      each thirds</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Bits and pieces of the RLIN.F FORTRAN code in Velleman et. al's book were
@@ -184,15 +186,15 @@ being fully vetted. So use with caution!</p>
 <li><p>Understanding robust and exploratory data analysis, by D.C. Hoaglin,
    F. Mosteller and J.W. Tukey</p></li>
 </ul></em></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># This first test is with breast cancer data from "ABC's of EDA" page 127.</span>
 <span class='co'># The final model should look like:  Y = -46.19 + 2.89X</span>
 
-<span class='no'>r.lm</span> <span class='kw'>&lt;-</span> <span class='fu'>eda_rline</span>(<span class='no'>neoplasms</span>, <span class='no'>Temp</span>, <span class='no'>Mortality</span>)
-<span class='no'>r.lm</span></div><div class='output co'>#&gt; $b
+<span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span>
+<span class='va'>r.lm</span>
+</div><div class='output co'>#&gt; $b
 #&gt; [1] 2.890173
 #&gt; 
 #&gt; $a
@@ -221,52 +223,52 @@ being fully vetted. So use with caution!</p>
 #&gt; [1]  5 11 16
 #&gt; </div><div class='input'>
 <span class='co'># Check output</span>
-<span class='no'>OP</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>( <span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>))
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Mortality</span> ~ <span class='no'>Temp</span>, <span class='no'>neoplasms</span>)
-  <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"y = %f + (%f)x"</span>, <span class='no'>r.lm</span>$<span class='no'>a</span>, <span class='no'>r.lm</span>$<span class='no'>b</span> ))
-  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>b</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>( <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>Mortality</span> ~ <span class='no'>Temp</span>, <span class='no'>neoplasms</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"grey"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)
-  <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>r.lm</span>$<span class='no'>xmed</span>,<span class='no'>r.lm</span>$<span class='no'>ymed</span>), <span class='kw'>pch</span> <span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span><span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>x</span>[<span class='no'>r.lm</span>$<span class='no'>index</span>],<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>r.lm</span>$<span class='no'>res</span> ~ <span class='no'>r.lm</span>$<span class='no'>x</span>)</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>( <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)</div><div class='img'><img src='eda_rline-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>OP</span>)
+<span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Mortality</span> <span class='op'>~</span> <span class='va'>Temp</span>, <span class='va'>neoplasms</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Mortality</span> <span class='op'>~</span> <span class='va'>Temp</span>, <span class='va'>neoplasms</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
 
 <span class='co'># This next example compares children height to age</span>
-<span class='no'>r.lm</span>    <span class='kw'>&lt;-</span> <span class='fu'>eda_rline</span>(<span class='no'>age_height</span>, <span class='no'>Months</span>, <span class='no'>Height</span>)
+<span class='va'>r.lm</span>    <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>age_height</span>, <span class='va'>Months</span>, <span class='va'>Height</span><span class='op'>)</span>
 
-<span class='no'>OP</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>( <span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>))
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Height</span> ~ <span class='no'>Months</span>, <span class='no'>age_height</span>, <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"Age (months)"</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"Height (cm)"</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"y = %f + (%f)x"</span>, <span class='no'>r.lm</span>$<span class='no'>a</span>, <span class='no'>r.lm</span>$<span class='no'>b</span> ))
- <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>b</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>( <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>Height</span> ~ <span class='no'>Months</span>, <span class='no'>age_height</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"grey"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>r.lm</span>$<span class='no'>xmed</span>,<span class='no'>r.lm</span>$<span class='no'>ymed</span>), <span class='kw'>pch</span> <span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span><span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>x</span>[<span class='no'>r.lm</span>$<span class='no'>index</span>],<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>r.lm</span>$<span class='no'>res</span> ~ <span class='no'>r.lm</span>$<span class='no'>x</span>)</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>( <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)</div><div class='img'><img src='eda_rline-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>OP</span>)
+<span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Height</span> <span class='op'>~</span> <span class='va'>Months</span>, <span class='va'>age_height</span>, xlab<span class='op'>=</span><span class='st'>"Age (months)"</span>, ylab<span class='op'>=</span><span class='st'>"Height (cm)"</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Height</span> <span class='op'>~</span> <span class='va'>Months</span>, <span class='va'>age_height</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
 
 <span class='co'># Andrew Siegel's pathological 9-point data set</span>
 
-<span class='no'>r.lm</span> <span class='kw'>&lt;-</span> <span class='fu'>eda_rline</span>(<span class='no'>nine_point</span>, <span class='no'>X</span>, <span class='no'>Y</span>)
+<span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>nine_point</span>, <span class='va'>X</span>, <span class='va'>Y</span><span class='op'>)</span>
 
-<span class='no'>OP</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>( <span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Y</span> ~ <span class='no'>X</span>, <span class='no'>nine_point</span>, <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"Age (months)"</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"Height (cm)"</span>)
-   <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"y = %f + (%f)x"</span>, <span class='no'>r.lm</span>$<span class='no'>a</span>, <span class='no'>r.lm</span>$<span class='no'>b</span> ))
-   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>a</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>b</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>( <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>X</span>, <span class='no'>nine_point</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"grey"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)
-   <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>r.lm</span>$<span class='no'>xmed</span>,<span class='no'>r.lm</span>$<span class='no'>ymed</span>), <span class='kw'>pch</span> <span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span><span class='kw'>=</span> <span class='no'>r.lm</span>$<span class='no'>x</span>[<span class='no'>r.lm</span>$<span class='no'>index</span>],<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)
-   <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>r.lm</span>$<span class='no'>res</span> ~ <span class='no'>r.lm</span>$<span class='no'>x</span>)</div><div class='input'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>( <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>3</span>)</div><div class='img'><img src='eda_rline-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>OP</span>)</div></pre>
+<span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>X</span>, <span class='va'>nine_point</span>, xlab<span class='op'>=</span><span class='st'>"Age (months)"</span>, ylab<span class='op'>=</span><span class='st'>"Height (cm)"</span><span class='op'>)</span>
+   <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span>
+   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>X</span>, <span class='va'>nine_point</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+   <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+   <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='input'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
+
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -277,7 +279,7 @@ being fully vetted. So use with caution!</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

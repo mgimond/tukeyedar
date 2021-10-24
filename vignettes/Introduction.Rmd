@@ -134,6 +134,7 @@ eda_trim(x, prop = 0.1)
 ```
 
 ### eda_ltrim 
+
 Usage:
 ```{r eval=FALSE}
 eda_ltrim(x, prop=.05, num = 0) 
@@ -152,6 +153,7 @@ eda_ltrim(x, num = 3)
 ```
 
 ### eda_rtrim 
+
 Usage:
 ```{r eval=FALSE}
 eda_rtrim(x, prop=.05, num = 0) 
@@ -169,6 +171,7 @@ eda_rtrim(x, num = 2)
 ```
 
 ### eda_trim_df 
+
 Usage:
 ```{r eval=FALSE}
 eda_trim_df(dat, x, prop=.05, num = 0) 
@@ -183,6 +186,7 @@ eda_trim_df(dat=trees, x=Height, prop = 0.10)
 Note that the output dataframe is sorted on the `x` column.
 
 ### eda_ltrim_df
+
 Usage:
 ```{r eval=FALSE}
 eda_ltrim_df(dat, x, prop=.05, num = 0)
@@ -202,6 +206,7 @@ eda_ltrim_df(dat=trees, x=Volume, num = 15)
 
 
 ### eda_rtrim_df 
+
 Usage:
 ```{r eval=FALSE}
 eda_rtrim_df(dat,prop=.05, x, num = 0)
@@ -415,6 +420,7 @@ The function also returns a list. The ratio between both half-slopes is stored i
 By default, the function displays the suggested _direction_ of re-expression along the _ladder of powers_ (the blue text above the plot). An **UP** direction suggests that the variable be transformed using higher powers such as $x^2$ or $x^3$. A **DOWN** direction suggests that the variable be transformed using lower powers such as $\sqrt{x}$ or $log(x)$. If suggested directions of re-expression is not desired, then set the parameter `dir=FALSE`.
 
 Continuing with this example, we may choose to square the speed. Here, we'll use the `eda_re()` function which will apply a Tukey power transformation to the speed values. We'll also customize the x-axis label by indicating that the x-values are squared.
+
 
 ```{r fig.width=5, fig.height=5.5, warning=FALSE,tidy=FALSE }
 pt3b <- eda_3pt(dat=cars, x=eda_re(speed,2), y=dist,

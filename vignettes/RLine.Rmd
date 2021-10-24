@@ -133,6 +133,7 @@ $$
 where the subscripts $r$ and $l$ reference the median values for the right-most and left-most batches.
 
 Once the slope is computed, the intercept can be computed as follows:
+
 $$
 median(y_{l,m,r} - b * x_{l,m,r})
 $$
