@@ -4,12 +4,14 @@
 \name{age_height}
 \alias{age_height}
 \title{Age vs. height for private and rural school children}
-\format{A data frame with 18 rows and 2 variables:
+\format{
+A data frame with 18 rows and 2 variables:
 \describe{
   \item{Months}{Child's age in months}
   \item{Height}{Child's height in cm}
   ...
-}}
+}
+}
 \source{
 Understanding robust and exploratory data analysis, by D.C. Hoaglin,
    F. Mosteller and J.W. Tukey. (page 135)

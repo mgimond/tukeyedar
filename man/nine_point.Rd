@@ -4,12 +4,14 @@
 \name{nine_point}
 \alias{nine_point}
 \title{Andrew Siegel's pathological 9-point dataset}
-\format{A data frame with 9 rows and 2 variables:
+\format{
+A data frame with 9 rows and 2 variables:
 \describe{
   \item{X}{X values}
   \item{Y}{Y values}
   ...
-}}
+}
+}
 \source{
 Robust regression using repeated medians, Andrew F. Siegel, Biometrika,
    vol 69, n 1, 1982.

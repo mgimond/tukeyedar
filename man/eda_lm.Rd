@@ -4,10 +4,21 @@
 \alias{eda_lm}
 \title{Least Squares regression plot (with optional LOESS line)}
 \usage{
-eda_lm(dat, x, y, x.lab = NULL, y.lab = NULL, reg = TRUE,
-  loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8), loe.col = rgb(0.73,
-  0.73, 1, 1), stats = FALSE, plot.d = list(pch = 20, col = "grey40"),
-  ..., loess.d = NULL)
+eda_lm(
+  dat,
+  x,
+  y,
+  x.lab = NULL,
+  y.lab = NULL,
+  reg = TRUE,
+  loe = FALSE,
+  lm.col = rgb(1, 0.5, 0.5, 0.8),
+  loe.col = rgb(0.73, 0.73, 1, 1),
+  stats = FALSE,
+  plot.d = list(pch = 20, col = "grey40"),
+  ...,
+  loess.d = NULL
+)
 }
 \arguments{
 \item{dat}{data frame}

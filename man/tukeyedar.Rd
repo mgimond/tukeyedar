@@ -3,7 +3,6 @@
 \docType{package}
 \name{tukeyedar}
 \alias{tukeyedar}
-\alias{tukeyedar-package}
 \title{Tukey inspired exploratory data analysis functions}
 \description{
 This packages hosts a small set of Tukey inspired functions for use

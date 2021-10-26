@@ -4,12 +4,14 @@
 \name{neoplasms}
 \alias{neoplasms}
 \title{Breast cancer mortality vs. temperature}
-\format{A data frame with 16 rows and 2 variables:
+\format{
+A data frame with 16 rows and 2 variables:
 \describe{
   \item{Temp}{Temperature in degrees Fahrenheit.}
   \item{Mortality}{Mortality rate presented as an index.}
   ...
-}}
+}
+}
 \source{
 Applications, Basics and Computing of Exploratory Data Analysis,
       P.F. Velleman and D.C. Hoaglin, 1981. (page 127)

@@ -4,8 +4,16 @@
 \alias{eda_boxls}
 \title{Create boxplots equalized by level and spread}
 \usage{
-eda_boxls(dat, x, fac, outlier = TRUE, out.txt, type = "l",
-  horiz = FALSE, outliers = TRUE)
+eda_boxls(
+  dat,
+  x,
+  fac,
+  outlier = TRUE,
+  out.txt,
+  type = "l",
+  horiz = FALSE,
+  outliers = TRUE
+)
 }
 \arguments{
 \item{dat}{Data frame name}

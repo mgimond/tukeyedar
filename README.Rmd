@@ -1,7 +1,7 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
   <!-- badges: start -->
@@ -74,14 +74,14 @@ If you chose to have the vignettes locally created when you installed the packag
 All functions start with `eda_`. For example, to generate a three point summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
 
 
-```{r fig.width=3, fig.height=2, echo=2:3}
-OP <- par(mar = c(3,3,1,1))
+```{r fig.width=2.5, fig.height=2, echo=2:3}
+OP <- par(mar = c(2,2,1,1))
 library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 par(OP)
 ```
 
-Note that most functions are *pipe* friendly. For example the following will work:
+Note that most functions are *pipe* friendly. For example:
 
 ```{r eval=FALSE}
 library(dplyr)
