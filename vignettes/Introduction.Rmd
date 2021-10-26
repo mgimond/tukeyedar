@@ -121,6 +121,7 @@ This is a family of trimming functions that trim a vector or dataframe by *sorte
 `prop`       Fraction of values to trim on each side
 
 ### eda_trim 
+
 Usage:
 ```{r eval=FALSE}
 eda_trim(x, prop=.05, num = 0) 

@@ -121,7 +121,6 @@ plot(Mortality~Temp,df, pch=20)
 abline(v=brk.x,lty=3, col="grey")
 points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
 par(OP)
-
 ```
 
 The two end medians are used to compute the slope as:

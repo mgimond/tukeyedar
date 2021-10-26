@@ -7,3 +7,4 @@ Readme_prep.txt
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+ref.bib

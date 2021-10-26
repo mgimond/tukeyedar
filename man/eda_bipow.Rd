@@ -22,7 +22,7 @@ adopt Box-Cox transformation technique}
 }
 \description{
 To re-express a vector on the ladder of powers.
- Requires sum3pt() function.
+ Requires eda_3pt() function.
 }
 \details{
 References

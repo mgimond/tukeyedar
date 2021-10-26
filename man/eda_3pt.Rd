@@ -41,11 +41,15 @@ be displayed}
 }
 \description{
 \code{eda_3pt} splits the data into 3 groups (whose summary locations are
- defined by their respective medians) and two half slopes linking the groups.
+ defined by their respective medians), and two half slopes linking the groups.
  The function will return a scatter plot showing the half-slopes in red
- dashed lines. The solid grey slope linking both tail-end groups shows the
- desired shape for both half-slopes. The function will also return the
- half-slopes ratio '\code{hsrtio} and the direction of re-expression
+ solid lines. The solid grey slope linking both tail-end groups shows the
+ desired shape for both half-slopes. The goal is to have the two halve slopes
+ line up as closely as possible to the solid grey slope via re-expression techniques
+ when seeking a linear relationship between both variables.
+
+ The function will also return the
+ half-slopes ratio \code{hsrtio} and the direction of re-expression
  for both X and Y values on the ladder of powers.
 }
 \details{

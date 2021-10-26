@@ -4,11 +4,15 @@
 #'
 #' @description
 #'  \code{eda_3pt} splits the data into 3 groups (whose summary locations are
-#'  defined by their respective medians) and two half slopes linking the groups.
+#'  defined by their respective medians), and two half slopes linking the groups.
 #'  The function will return a scatter plot showing the half-slopes in red
-#'  dashed lines. The solid grey slope linking both tail-end groups shows the
-#'  desired shape for both half-slopes. The function will also return the
-#'  half-slopes ratio '\code{hsrtio} and the direction of re-expression
+#'  solid lines. The solid grey slope linking both tail-end groups shows the
+#'  desired shape for both half-slopes. The goal is to have the two halve slopes
+#'  line up as closely as possible to the solid grey slope via re-expression techniques
+#'  when seeking a linear relationship between both variables.
+#'
+#'  The function will also return the
+#'  half-slopes ratio \code{hsrtio} and the direction of re-expression
 #'  for both X and Y values on the ladder of powers.
 #'
 #' @param dat data frame
@@ -24,7 +28,6 @@
 #' @param ... other parameters passed to the graphics::plot function.
 #'
 #' @details
-#'
 #' Outputs a plot showing the three point summary as well as a list of
 #' parameters:
 #' \itemize{
@@ -99,7 +102,7 @@ eda_3pt <- function(dat, x, y, x.lab = NULL, y.lab = NULL, adj = -.12, dir = TRU
   #  axis(1,col="grey80", col.axis="grey80", labels=TRUE)
   #  axis(2,col="grey80", col.axis="grey80", labels=TRUE, las=1)
   mtext(y.lab, side=3, adj = adj, col="grey65")
-  points(cbind(xmed,ymed), pch=16,col=rgb(1,0,0,0.5), cex=1.5)
+  points(cbind(xmed,ymed), pch=16,col=rgb(1,0,0,0.5), cex=1.2)
   # Draw batch boundaries
   abline(v = dat2$x[ dat2$order== d[1] ], lty=3, col="grey")
   abline(v = dat2$x[ dat2$order== d[2] ], lty=3, col="grey")

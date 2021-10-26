@@ -1,0 +1,11 @@
+citHeader("tukeyedar: A package of Tukey inspired EDA functions")
+
+citEntry(
+  entry    = "Misc",
+  title    = "tukeyedar: A package of Tukey inspired EDA functions",
+  author   = as.person("Manuel Gimond"),
+  url      = "https://mgimond.github.io/tukeyedar/",
+  year     = "2021",
+  textVersion = "text"
+
+)
