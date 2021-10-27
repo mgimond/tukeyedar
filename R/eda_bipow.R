@@ -13,8 +13,7 @@
 #' adopt Box-Cox transformation technique
 #' @param ... other parameters passed to the graphics::plot function.
 #'
-#' @details
-#' References
+#' @references
 #'   Applications, Basics and Computing of Exploratory Data Analysis,
 #'    by P.F. Velleman and D.C. Hoaglin
 #'   Understanding robust and exploratory data analysis, by D.C. Hoaglin,

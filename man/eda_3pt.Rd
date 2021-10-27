@@ -60,17 +60,17 @@ parameters:
   suggests that no transformation is needed.
   \item \code{xmed}: The x-coordinate values for the three summary points.
   \item \code{ymed}: The y-coordinate values for the three summary points.}
-
-\emph{References:
-  \itemize{
-   \item Applications, Basics and Computing of Exploratory Data Analysis,
-   by P.F. Velleman and D.C. Hoaglin
-   \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey
-   \item Exploratory Data Analysis, by John Tukey}}
 }
 \examples{
 
 hsratio <- eda_3pt(cars, speed, dist)
 hsratio <- eda_3pt(cars, speed, dist^(1/3), y.lab=expression("Dist"^{1/3}), adj=-0.1)
+}
+\references{
+\itemize{
+   \item Applications, Basics and Computing of Exploratory Data Analysis,
+   by P.F. Velleman and D.C. Hoaglin
+   \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
+   F. Mosteller and J.W. Tukey
+   \item Exploratory Data Analysis, by John Tukey}
 }

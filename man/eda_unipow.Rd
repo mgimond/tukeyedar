@@ -44,11 +44,11 @@ adopt Box-Cox transformation.}
 \details{
 The output is a lattice of descriptive plots showing the transformed data
  across different powers.\cr
-
-Reference \cr
-  Exploratory Data Analysis, by John Tukey
 }
 \examples{
 data(mtcars)
 eda_unipow(mtcars$mpg, bins=6)
+}
+\references{
+Exploratory Data Analysis, by John Tukey
 }

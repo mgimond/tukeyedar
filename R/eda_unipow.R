@@ -21,7 +21,7 @@
 #'  The output is a lattice of descriptive plots showing the transformed data
 #'  across different powers.\cr
 #'
-#' Reference \cr
+#' @references
 #'   Exploratory Data Analysis, by John Tukey
 #'
 #' @examples

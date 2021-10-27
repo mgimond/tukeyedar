@@ -39,14 +39,6 @@ Bits and pieces of the RLIN.F FORTRAN code in Velleman et. al's book were
 used in helping implement some of the subroutines.\cr
 Note that this function has only been tested with a subset of datasets. It is far from
 being fully vetted. So use with caution!
-
-\emph{References:
-  \itemize{
-   \item Applications, Basics and Computing of Exploratory Data Analysis,
-   by P.F. Velleman and D.C. Hoaglin
-   (available at http://dspace.library.cornell.edu/handle/1813/78)
-   \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey}}
 }
 \examples{
 
@@ -97,4 +89,12 @@ plot(Y ~ X, nine_point, xlab="Age (months)", ylab="Height (cm)")
    abline( h = 0, lty=3)
 par(OP)
 
+}
+\references{
+\itemize{
+   \item Applications, Basics and Computing of Exploratory Data Analysis,
+   by P.F. Velleman and D.C. Hoaglin
+   (available at http://dspace.library.cornell.edu/handle/1813/78)
+   \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
+   F. Mosteller and J.W. Tukey}
 }

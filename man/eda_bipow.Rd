@@ -24,9 +24,8 @@ adopt Box-Cox transformation technique}
 To re-express a vector on the ladder of powers.
  Requires eda_3pt() function.
 }
-\details{
-References
-  Applications, Basics and Computing of Exploratory Data Analysis,
+\references{
+Applications, Basics and Computing of Exploratory Data Analysis,
    by P.F. Velleman and D.C. Hoaglin
   Understanding robust and exploratory data analysis, by D.C. Hoaglin,
    F. Mosteller and J.W. Tukey

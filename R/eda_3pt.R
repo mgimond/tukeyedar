@@ -36,13 +36,13 @@
 #'   \item \code{xmed}: The x-coordinate values for the three summary points.
 #'   \item \code{ymed}: The y-coordinate values for the three summary points.}
 #'
-#' \emph{References:
+#' @references
 #'   \itemize{
 #'    \item Applications, Basics and Computing of Exploratory Data Analysis,
 #'    by P.F. Velleman and D.C. Hoaglin
 #'    \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
 #'    F. Mosteller and J.W. Tukey
-#'    \item Exploratory Data Analysis, by John Tukey}}
+#'    \item Exploratory Data Analysis, by John Tukey}
 #'
 #' @examples
 #'
