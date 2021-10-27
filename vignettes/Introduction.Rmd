@@ -287,10 +287,12 @@ eda_lsum((x, l = 5, all = TRUE))
 
 The letter value summary was introduced by John Tukey and extends the boxplot’s 5 number summary by exploring the symmetry of the batch for depth levels other than the half (median) or the fourth (quartiles). It can be helfpul in fine-tuning re-expression parameters. For example, applying the letter value summary to the `hp` variable shows a consistent skew across all letter levels.
 
-```{r}
+```{r fig.height=2.5,fig.width=3, echo=2:4}
+OP <- par(mar=c(3,3,0.5,1))
 lsum <- eda_lsum(mtcars$hp,l=5)
 lsum
 with(lsum, dotchart(x=mid, labels=letter,pch=20, pt.cex=1.5) )
+par(OP)
 ```
 
 We can make use of the letter summaries to fine-tune a re-expression power that symmetrizes the data:
@@ -326,11 +328,13 @@ eda_sl(dat, x, y)
 
 The spread-level function generates a spread-level table from a univariate dataset. It pits the log of the spread (range between upper and lower fourths by default) vs. the log of the median values across all groups. The function is useful in assessing if there is a monotonically increasing or decreasing spread as a function of median. Note that this function will require that values be postive. 
 
-The following example shows that sepal length spread increases with increasing sepal length
+The following example shows that sepal length spread increases with increasing sepal length.
 
-```{r}
+```{r fig.height=2,fig.width=3, echo=2:3}
+OP <- par(mar=c(3,3,0.5,1))
 sl <- eda_sl(iris, Species, Sepal.Length)
 plot(spread ~ level, sl, pch=16)
+par(OP)
 ```
 
 ## eda_lm 

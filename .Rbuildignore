@@ -8,3 +8,4 @@ Readme_prep.txt
 ^docs$
 ^pkgdown$
 ref.bib
+^\.github$
