@@ -1,0 +1,117 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans%7CSource+Code+Pro")
+
+body {
+  font-family: 'Open Sans', "Helvetica Neue", Arial;
+}
+
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f9dfbc;
+line-height: 16px;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul li {  /* bullet */
+list-style: circle outside;
+}
+
+s1 {
+border-bottom: 2px solid #ccc;
+width: 100%;
+padding-top: 3px;
+font-size: 30px;
+color: black !important;
+}
+
+
+
+h2 {
+border-bottom: 2px solid #ccc;
+width: 85%;
+padding-top: 10px;
+font-size: 22px;
+}
+
+h3 {
+border-bottom: 2px solid #ccc;
+width: 75%;
+padding-top: 10px;
+font-size: 18px;
+}
+
+h4 {
+padding-top: 2px;
+font-size: 18px;
+line-height: 1;
+}
+
+
+pre.r {
+background-color: #F3F5F7;
+padding: 4px 10px;
+border: 1px solid #AEBDCC;
+border-radius: 5px;
+margin: 5px 5px 10px 20px;
+}
+
+
+code{
+ font-family: 'Source Code Pro',Consolas, Monaco,'Courier New',monospace;
+  padding: 0px;
+  color: black;
+}
+
+code > span.kw {   /* Keyword color */
+    color: #900 !important;
+    font-weight: normal;
+}
+
+code > span.dt { /* parameter names */
+color: #252525 !important;
+}
+
+code > span.co {
+ font-style: italic;
+ font-family: 'Courier New';
+ font-size: 1em;
+}
+
+p > code, li > code, td > code {
+color: #333 !important;
+border: 1px solid #ddd;
+border-radius: 3px;
+background-color: #f8f8f8 !important; /* needed if code is in table */
+font-size: 90%;
+padding: 0px 2px;
+}
+
+code > span.dv { /* part of the code output */
+color: #888888 !important;
+}
+
+table {
+  margin: 20px;
+  background-color: #FFF2DB ;
+  border-bottom: 1.5px solid #8A8A8A;
+  border-top: 1.5px solid #8A8A8A;
+  border-spacing: 10px 0;
+/*  color: black !important;*/
+}
+
+th {
+    border-bottom: 1px solid #8A8A8A;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+
