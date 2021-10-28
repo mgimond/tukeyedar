@@ -1,5 +1,9 @@
 <!-- badges: start --> [![Travis build
-status](https://travis-ci.org/mgimond/tukeyedar.svg?branch=master)](https://travis-ci.org/mgimond/tukeyedar)
+status](https://travis-ci.com/mgimond/tukeyedar.svg?branch=master)](https://travis-ci.com/mgimond/tukeyedar)
+<!-- badges: end -->
+
+<!-- badges: start --> [![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 # tukeyedar
