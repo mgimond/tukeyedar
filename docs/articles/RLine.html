@@ -279,9 +279,9 @@ median(y_{l,m,r} - b * x_{l,m,r})
 <code class="sourceCode R"><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,
                      Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conf</span>
-<span class="co">#&gt;                   5%       95%</span>
-<span class="co">#&gt;  Intercept -76.73243 12.749424</span>
-<span class="co">#&gt;  Slope       1.64827  3.571186</span></code></pre></div>
+<span class="co">#&gt;                    5%      95%</span>
+<span class="co">#&gt;  Intercept -78.372020 11.98067</span>
+<span class="co">#&gt;  Slope       1.652857  3.59244</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="resampling-the-x-y-paired-values">Resampling the x-y paired values<a class="anchor" aria-label="anchor" href="#resampling-the-x-y-paired-values"></a>
@@ -307,8 +307,8 @@ median(y_{l,m,r} - b * x_{l,m,r})
                      Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conf</span>
 <span class="co">#&gt;                     5%       95%</span>
-<span class="co">#&gt;  Intercept -114.552008 15.031034</span>
-<span class="co">#&gt;  Slope        1.643678  4.336136</span></code></pre></div>
+<span class="co">#&gt;  Intercept -109.755537 10.305180</span>
+<span class="co">#&gt;  Slope        1.643678  4.184233</span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
