@@ -9,8 +9,8 @@ output:
     css: style.css
 vignette: >
   %\VignetteIndexEntry{Introduction to EDA functions}
-  %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 editor_options: 
   chunk_output_type: console
 ---

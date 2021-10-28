@@ -9,3 +9,5 @@ Readme_prep.txt
 ^pkgdown$
 ref.bib
 ^\.github$
+^doc$
+^Meta$
