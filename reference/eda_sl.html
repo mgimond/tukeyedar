@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Tukey's spread-level function — eda_sl" />
-<meta property="og:description" content="eda_sl The spread-level function generates a spread-level
-   table from a univariate dataset" />
+<meta property="og:description" content="The eda_sl function generates a spread-level
+   table from a univariate dataset." />
 
 
 
@@ -133,8 +133,8 @@
     </div>
 
     <div class="ref-description">
-    <p><code>eda_sl</code> The spread-level function generates a spread-level
-   table from a univariate dataset</p>
+    <p>The <code>eda_sl</code> function generates a spread-level
+   table from a univariate dataset.</p>
     </div>
 
     <pre class="usage"><span class='fu'>eda_sl</span><span class='op'>(</span><span class='va'>dat</span>, <span class='va'>x</span>, <span class='va'>y</span>, sprd <span class='op'>=</span> <span class='st'>"frth"</span><span class='op'>)</span></pre>
@@ -148,16 +148,16 @@
     </tr>
     <tr>
       <th>x</th>
-      <td><p>Categorical variable</p></td>
+      <td><p>Categorical variable column</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>Continuous variable</p></td>
+      <td><p>Continuous variable column</p></td>
     </tr>
     <tr>
       <th>sprd</th>
-      <td><p>Choice of spreads. Either interquartile, `sprd = "IQR"` or
-fourth-spread, `sprd = "frth"` (default).</p></td>
+      <td><p>Choice of spreads. Either interquartile, <code>sprd = "IQR"</code> or
+fourth-spread, <code>sprd = "frth"</code> (default).</p></td>
     </tr>
     </table>
 
@@ -169,7 +169,7 @@ fourth-spread, `sprd = "frth"` (default).</p></td>
   spread-location function.<br /></p></li>
 <li><p>If x is not categorical, the output will produce many or all NA's.</p></li>
 <li><p>On page 59, Hoaglan et. al define the fourth-spread as the the range
-  defined by the upper fourth and lower fourth. The `eda_lsum` function is used
+  defined by the upper fourth and lower fourth. The <code>eda_lsum</code> function is used
   to compute the upper/lower fourths.</p></li>
 </ul>
 

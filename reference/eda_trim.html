@@ -43,12 +43,12 @@
 <meta property="og:description" content="Removes records from either tail-ends of a sorted dataset. Trimming can be
  performed by number of records (specify the num = option) or by
  quantiles (specify the prop= option). 
- eda_trim trims a vector 
- eda_trim_df trims a data frame 
- eda_ltrim left-trims a vector 
- eda_rtrim right-trims a vector 
- eda_ltrim_df left-trims a dataframe 
- eda_rtrim_df right-trims a dataframe " />
+ eda_trim Trims a vector 
+ eda_trim_df Trims a data frame 
+ eda_ltrim Left-trims a vector 
+ eda_rtrim Right-trims a vector 
+ eda_ltrim_df Left-trims a dataframe 
+ eda_rtrim_df Right-trims a dataframe " />
 
 
 
@@ -143,12 +143,12 @@
     <p>Removes records from either tail-ends of a sorted dataset. Trimming can be
  performed by number of records (specify the <code>num =</code> option) or by
  quantiles (specify the <code>prop=</code> option). <br /><br />
- <code>eda_trim</code> trims a vector <br />
- <code>eda_trim_df</code> trims a data frame <br />
- <code>eda_ltrim</code> left-trims a vector <br />
- <code>eda_rtrim</code> right-trims a vector <br />
- <code>eda_ltrim_df</code> left-trims a dataframe <br />
- <code>eda_rtrim_df</code> right-trims a dataframe <br /></p>
+ <code>eda_trim</code> Trims a vector <br />
+ <code>eda_trim_df</code> Trims a data frame <br />
+ <code>eda_ltrim</code> Left-trims a vector <br />
+ <code>eda_rtrim</code> Right-trims a vector <br />
+ <code>eda_ltrim_df</code> Left-trims a dataframe <br />
+ <code>eda_rtrim_df</code> Right-trims a dataframe <br /></p>
     </div>
 
     <pre class="usage"><span class='fu'>eda_trim</span><span class='op'>(</span><span class='va'>x</span>, prop <span class='op'>=</span> <span class='fl'>0.05</span>, num <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
@@ -168,21 +168,21 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>= vector of values (if trimming a vector) or the column whose
-values are used to trim a dataframe (applies to *_df
+      <td><p>Vector of values (if trimming a vector) or the column whose
+values are used to trim a dataframe (applies to <code>*_df</code>
 functions only)</p></td>
     </tr>
     <tr>
       <th>prop</th>
-      <td><p>= fraction of values to trim</p></td>
+      <td><p>Fraction of values to trim</p></td>
     </tr>
     <tr>
       <th>num</th>
-      <td><p>= number of values to trim</p></td>
+      <td><p>Number of values to trim</p></td>
     </tr>
     <tr>
       <th>dat</th>
-      <td><p>= dataframe (applies to *_df functions only)</p></td>
+      <td><p>Dataframe (applies to <code>*_df</code> functions only)</p></td>
     </tr>
     </table>
 
@@ -198,9 +198,9 @@ functions only)</p></td>
  <code>num</code> and <code>prop</code> values apply to each tail. For example, if
  <code>num = 5</code> then the 5 smallest AND 5 largest values are removed from the
  data.</p></li>
-<li><p><code>NA</code> values must be stripped from the to-be-trimmed vector or
+<li><p><code>NA</code> values must be stripped from the input vector or
  column elements before running the trim functions.</p></li>
-<li><p>Elements are return sorted on the trimmed element.</p></li>
+<li><p>Elements are returned sorted on the trimmed elements.</p></li>
 </ul>
 
 

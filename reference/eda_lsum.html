@@ -43,7 +43,7 @@
 <meta property="og:description" content="eda_lsum The letter value summary was introduced by John Tukey
  and extends the boxplot's 5 number summary by exploring the symmetry
  of the batch for depth levels other than the half (median) or the
- fourth (quartiles)" />
+ fourth (quartiles)." />
 
 
 
@@ -138,7 +138,7 @@
     <p><code>eda_lsum</code> The letter value summary was introduced by John Tukey
  and extends the boxplot's 5 number summary by exploring the symmetry
  of the batch for depth levels other than the half (median) or the
- fourth (quartiles)</p>
+ fourth (quartiles).</p>
     </div>
 
     <pre class="usage"><span class='fu'>eda_lsum</span><span class='op'>(</span><span class='va'>x</span>, l <span class='op'>=</span> <span class='fl'>5</span>, all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -152,22 +152,24 @@
     </tr>
     <tr>
       <th>l</th>
-      <td><p>Number of levels</p></td>
+      <td><p>Number of levels (max = 9)</p></td>
     </tr>
     <tr>
       <th>all</th>
-      <td><p>generate upper, lower and mid summaries if TRUE or
+      <td><p>Generate upper, lower and mid summaries if TRUE or
 just generate mid summaries if FALSE</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Visit this  [link](https://mgimond.github.io/ES218/Week08b.html) for
-  more information on the letter values summaries.</p>
+    <p>Outputs a data frame of letter value summaries.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Exploratory Data Analysis, John Tukey, 1973.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='https://mgimond.github.io/ES218/Week08b.html'>https://mgimond.github.io/ES218/Week08b.html</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>22</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>3</span>, <span class='fl'>26</span>, <span class='fl'>1</span>, <span class='fl'>14</span>, <span class='fl'>18</span>, <span class='fl'>20</span>, <span class='fl'>25</span>, <span class='fl'>24</span><span class='op'>)</span>
