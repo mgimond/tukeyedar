@@ -6,23 +6,24 @@
 #'  the results using a histogram and a density function. Either the Tukey or Box-Cox
 #'  transformation is used in computing the re-expressed values.
 #'
-#' @param x  vector
-#' @param p  vector of powers
-#' @param tukey if TRUE (default), apply Tukey's power transformation, if FALSE
-#' adopt Box-Cox transformation.
-#' @param bins number of bins in the histogram
-#' @param cex.main histogram title size (assigned to each histogram plot)
-#' @param col histogram fill color
-#' @param border histogram border color
+#' @param x  Vector
+#' @param p  Vector of powers
+#' @param tukey If TRUE (default), apply Tukey's power transformation, if FALSE
+#' adopt Box-Cox transformation
+#' @param bins Number of histogram bins
+#' @param cex.main Histogram title size (assigned to each histogram plot)
+#' @param col Histogram fill color
+#' @param border Histogram border color
 #' @param title Overall plot title (set to NULL for no title)
-#' @param ... other parameters passed to the graphics::hist function.
+#' @param ... Other parameters passed to the graphics::hist function.
 #' @details
 #'
 #'  The output is a lattice of descriptive plots showing the transformed data
 #'  across different powers.\cr
 #'
 #' @references
-#'   Exploratory Data Analysis, by John Tukey
+#'   \itemize{
+#'     \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 #'
 #' @examples
 #' data(mtcars)

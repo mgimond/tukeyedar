@@ -5,16 +5,18 @@
 #'  \code{eda_lsum} The letter value summary was introduced by John Tukey
 #'  and extends the boxplot's 5 number summary by exploring the symmetry
 #'  of the batch for depth levels other than the half (median) or the
-#'  fourth (quartiles)
+#'  fourth (quartiles).
 #'
 #' @param x Vector
-#' @param l Number of levels
-#' @param all generate upper, lower and mid summaries if TRUE or
+#' @param l Number of levels (max = 9)
+#' @param all Generate upper, lower and mid summaries if TRUE or
 #'             just generate mid summaries if FALSE
 #'
 #' @details
-#'   Visit this  [link](https://mgimond.github.io/ES218/Week08b.html) for
-#'   more information on the letter values summaries.
+#'   Outputs a data frame of letter value summaries.
+#'
+#' @seealso
+#'   \url{https://mgimond.github.io/ES218/Week08b.html}
 #'
 #' @references
 #'    Exploratory Data Analysis, John Tukey, 1973.

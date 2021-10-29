@@ -16,7 +16,7 @@ eda_boxls(
 )
 }
 \arguments{
-\item{dat}{Data frame name}
+\item{dat}{Data frame}
 
 \item{x}{Column name assigned to the values}
 

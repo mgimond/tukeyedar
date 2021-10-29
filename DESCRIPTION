@@ -12,7 +12,7 @@ Author: Manuel Gimond [aut, cre]
 Maintainer: Manuel Gimond <mgimond@gmail.com>
 Description: This packages hosts a small set of Tukey inspired functions for use in exploring datasets in a robust manner.
 License: MIT + file LICENSE
-URL: https://mgimond.github.io/, https://github.com/mgimond/tukeyedar
+URL: https://mgimond.github.io/tukeyedar
 BugReports: https://github.com/mgimond/tukeyedar/issues
 Encoding: UTF-8
 LazyData: true

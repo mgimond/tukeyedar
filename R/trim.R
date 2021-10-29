@@ -7,12 +7,12 @@
 #'  Removes records from either tail-ends of a sorted dataset. Trimming can be
 #'  performed by number of records (specify the \code{num =} option) or by
 #'  quantiles (specify the \code{prop=} option). \cr\cr
-#'  \code{eda_trim} trims a vector \cr
-#'  \code{eda_trim_df} trims a data frame \cr
-#'  \code{eda_ltrim} left-trims a vector \cr
-#'  \code{eda_rtrim} right-trims a vector \cr
-#'  \code{eda_ltrim_df} left-trims a dataframe \cr
-#'  \code{eda_rtrim_df} right-trims a dataframe \cr
+#'  \code{eda_trim} Trims a vector \cr
+#'  \code{eda_trim_df} Trims a data frame \cr
+#'  \code{eda_ltrim} Left-trims a vector \cr
+#'  \code{eda_rtrim} Right-trims a vector \cr
+#'  \code{eda_ltrim_df} Left-trims a dataframe \cr
+#'  \code{eda_rtrim_df} Right-trims a dataframe \cr
 #'
 #' @details
 #'  \itemize{
@@ -24,17 +24,17 @@
 #'  \code{num} and \code{prop} values apply to each tail. For example, if
 #'  \code{num = 5} then the 5 smallest AND 5 largest values are removed from the
 #'  data.
-#'  \item \code{NA} values must be stripped from the to-be-trimmed vector or
+#'  \item \code{NA} values must be stripped from the input vector or
 #'  column elements before running the trim functions.
-#'  \item Elements are return sorted on the trimmed element.
+#'  \item Elements are returned sorted on the trimmed elements.
 #'  }
 #'
-#' @param  dat   = dataframe (applies to *_df functions only)
-#' @param  x     = vector of values (if trimming a vector) or the column whose
-#'                 values are used to trim a dataframe (applies to *_df
+#' @param  dat   Dataframe (applies to \code{*_df} functions only)
+#' @param  x     Vector of values (if trimming a vector) or the column whose
+#'                 values are used to trim a dataframe (applies to \code{*_df}
 #'                 functions only)
-#' @param  prop  = fraction of values to trim
-#' @param  num   = number of values to trim
+#' @param  prop  Fraction of values to trim
+#' @param  num   Number of values to trim
 #'
 #' @keywords trim
 #'

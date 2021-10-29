@@ -18,11 +18,11 @@ eda_3pt(
 )
 }
 \arguments{
-\item{dat}{data frame}
+\item{dat}{Data frame}
 
-\item{x}{column name assigned the x axis}
+\item{x}{Column name assigned the x axis}
 
-\item{y}{column name assigned the y axis}
+\item{y}{Column name assigned the y axis}
 
 \item{x.lab}{X label for output plot}
 
@@ -30,14 +30,14 @@ eda_3pt(
 
 \item{adj}{Adjustment parameter for y label}
 
-\item{dir}{boolean indicating if suggested ladder of power direction should
+\item{dir}{Boolean indicating if suggested ladder of power direction should
 be displayed}
 
 \item{pch}{Plot point size as a fraction (can be larger than 1.0)}
 
 \item{col}{Plot point color}
 
-\item{...}{other parameters passed to the graphics::plot function.}
+\item{...}{Other parameters passed to the graphics::plot function.}
 }
 \description{
 \code{eda_3pt} splits the data into 3 groups (whose summary locations are
@@ -68,9 +68,7 @@ hsratio <- eda_3pt(cars, speed, dist^(1/3), y.lab=expression("Dist"^{1/3}), adj=
 }
 \references{
 \itemize{
-   \item Applications, Basics and Computing of Exploratory Data Analysis,
-   by P.F. Velleman and D.C. Hoaglin
-   \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey
-   \item Exploratory Data Analysis, by John Tukey}
+   \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
+   \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.
+   \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 }

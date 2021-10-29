@@ -4,30 +4,40 @@
 \alias{eda_bipow}
 \title{Ladder of powers transformation on bivariate data with three-point summary plot}
 \usage{
-eda_bipow(x, y, dat, p = c(3, 2, 1, 0.5, 0), tukey = TRUE, ...)
+eda_bipow(dat, x, y, p = c(3, 2, 1, 0.5, 0), tukey = TRUE, ...)
 }
 \arguments{
-\item{x}{column name assigned the x axis}
+\item{dat}{Data frame}
 
-\item{y}{column name assigned the y axis}
+\item{x}{Column name assigned the x axis}
 
-\item{dat}{data frame}
+\item{y}{Column name assigned the y axis}
 
-\item{p}{vector of powers}
+\item{p}{Vector of powers}
 
-\item{tukey}{if set to TRUE then adopt Tukey's power transformation, if FALSE,
-adopt Box-Cox transformation technique}
+\item{tukey}{If set to TRUE, then adopt Tukey's power transformation. If FALSE,
+adopt Box-Cox transformation.}
 
-\item{...}{other parameters passed to the graphics::plot function.}
+\item{...}{Other parameters passed to the graphics::plot function.}
 }
 \description{
-To re-express a vector on the ladder of powers.
- Requires eda_3pt() function.
+Re-expresses a vector on the ladder of powers.
+ Requires \code{eda_3pt()} function.
+}
+\details{
+Generates a matrix of scatter plots and boxplots of various
+re-expressions of both x and y values. The 3-point summary and
+associated half-slopes are also plotted (this function makes use
+of the eda_3pt function). The values are re-expressed using either
+the Tukey power transformation (default) or the Box-Cox transformation
+(see eda_re for more information on these transformation techniques). Axes
+labels are omitted to reduce plot clutter.
+}
+\examples{
+
+ eda_bipow(dat = cars, x = speed, y = dist)
 }
 \references{
-Applications, Basics and Computing of Exploratory Data Analysis,
-   by P.F. Velleman and D.C. Hoaglin
-  Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey
-  Exploratory Data Analysis, by John Tukey
+\itemize{
+   \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 }

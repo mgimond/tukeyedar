@@ -2,26 +2,35 @@
 #' @title Ladder of powers transformation on bivariate data with three-point summary plot
 #'
 #' @description
-#'  To re-express a vector on the ladder of powers.
-#'  Requires eda_3pt() function.
+#'  Re-expresses a vector on the ladder of powers.
+#'  Requires \code{eda_3pt()} function.
 #'
-#' @param dat data frame
-#' @param x   column name assigned the x axis
-#' @param y   column name assigned the y axis
-#' @param p   vector of powers
-#' @param tukey if set to TRUE then adopt Tukey's power transformation, if FALSE,
-#' adopt Box-Cox transformation technique
-#' @param ... other parameters passed to the graphics::plot function.
+#' @param dat Data frame
+#' @param x   Column name assigned the x axis
+#' @param y   Column name assigned the y axis
+#' @param p   Vector of powers
+#' @param tukey If set to TRUE, then adopt Tukey's power transformation. If FALSE,
+#' adopt Box-Cox transformation.
+#' @param ... Other parameters passed to the graphics::plot function.
+#'
+#' @details
+#' Generates a matrix of scatter plots and boxplots of various
+#' re-expressions of both x and y values. The 3-point summary and
+#' associated half-slopes are also plotted (this function makes use
+#' of the eda_3pt function). The values are re-expressed using either
+#' the Tukey power transformation (default) or the Box-Cox transformation
+#' (see eda_re for more information on these transformation techniques). Axes
+#' labels are omitted to reduce plot clutter.
 #'
 #' @references
-#'   Applications, Basics and Computing of Exploratory Data Analysis,
-#'    by P.F. Velleman and D.C. Hoaglin
-#'   Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-#'    F. Mosteller and J.W. Tukey
-#'   Exploratory Data Analysis, by John Tukey
+#'   \itemize{
+#'    \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 #'
+#' @examples
+#'
+#'  eda_bipow(dat = cars, x = speed, y = dist)
 
-eda_bipow <- function(x,y,dat, p = c(3, 2, 1, .5, 0),tukey=TRUE, ...) {
+eda_bipow <- function(dat, x, y, p = c(3, 2, 1, .5, 0), tukey=TRUE, ...) {
 
   if(!missing(dat))
   {

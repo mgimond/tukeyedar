@@ -2,14 +2,14 @@
 #' @title Tukey's spread-level function
 #'
 #' @description
-#'  \code{eda_sl} The spread-level function generates a spread-level
-#'    table from a univariate dataset
+#'  The \code{eda_sl} function generates a spread-level
+#'    table from a univariate dataset.
 #'
 #' @param dat Dataframe
-#' @param x Categorical variable
-#' @param y Continuous variable
-#' @param sprd Choice of spreads. Either interquartile, `sprd = "IQR"` or
-#'    fourth-spread, `sprd = "frth"` (default).
+#' @param x Categorical variable column
+#' @param y Continuous variable column
+#' @param sprd Choice of spreads. Either interquartile, \code{sprd = "IQR"} or
+#'    fourth-spread, \code{sprd = "frth"} (default).
 #'
 #' @details
 #'  \itemize{
@@ -17,7 +17,7 @@
 #'   spread-location function.\cr
 #'   \item If x is not categorical, the output will produce many or all NA's.
 #'   \item On page 59, Hoaglan et. al define the fourth-spread as the the range
-#'   defined by the upper fourth and lower fourth. The `eda_lsum` function is used
+#'   defined by the upper fourth and lower fourth. The \code{eda_lsum} function is used
 #'   to compute the upper/lower fourths.
 #'   }
 #'

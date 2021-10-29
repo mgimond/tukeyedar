@@ -1,6 +1,6 @@
 #' @export
 #' @import grDevices
-#' @title Least Squares regression plot (with optional LOESS line)
+#' @title Least Squares regression plot (with optional LOESS fit)
 #'
 #' @description
 #'  \code{eda_lm} generates a scatter plot with a fitted regression line.
@@ -8,30 +8,35 @@
 #'  for model comparison. The axes are scaled such that their respective
 #'  standard  deviations match axes unit length.
 #'
-#' @param dat data frame
-#' @param x   column name assigned the x axis
-#' @param y   column name assigned the y axis
-#' @param reg boolean indicating whether a least squares regression line
+#' @param dat Data frame
+#' @param x   Column assigned to the x axis
+#' @param y   Column assigned to the y axis
+#' @param reg Boolean indicating whether a least squares regression line
 #'            should be plotted
-#' @param loe boolean indicating if a loess curve should be fitted
-#' @param lm.col regression line color
+#' @param loe Boolean indicating if a loess curve should be fitted
+#' @param lm.col Regression line color
 #' @param loe.col LOESS curve color
-#' @param stats boolean indicating if regression summary statistics should be
+#' @param stats Boolean indicating if regression summary statistics should be
 #'              displayed
-#' @param plot.d Additional parameters passed to the plot function
-#' @param loess.d  Additional parameters passed to the loess.smooth function
+#' @param plot.d A list of parameters passed to the plot function
+#' @param loess.d  A list of parameters passed to the loess.smooth function
 #' @param x.lab X label for output plot
 #' @param y.lab Y label for output plot
-#' @param ... not used
+#' @param ... Not used
 #'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}} functions
 #'
 #' @examples
 #'
+#' # Add a regular (OLS) regression model and loess smooth to the data
+#' eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="blue"), loe=TRUE)
+#'
+#' # Modify the loess smooth by adopting a robust fit and adjusting its
+#' # span and polynomial order
 #' eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="black"), loe=TRUE,
 #'       loess.d=list(family = "symmetric", span=0.5, degree=2))
 #'
-#' eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="blue"), loe=TRUE)
+
 
 eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, reg = TRUE,
                    loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8),

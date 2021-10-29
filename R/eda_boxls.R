@@ -5,7 +5,7 @@
 #' \code{eda_boxls} creates boxplots conditioned on one variable while providing the
 #' option to equalize levels and/or spreads.
 #'
-#' @param dat   Data frame name
+#' @param dat  Data frame
 #' @param x    Column name assigned to the values
 #' @param fac  Column name assigned to the factor the values are to be
 #'              conditioned on

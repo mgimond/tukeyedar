@@ -7,23 +7,22 @@
 eda_rline(dat, x, y)
 }
 \arguments{
-\item{dat}{data frame}
+\item{dat}{Data frame}
 
-\item{x}{column name assigned the x axis}
+\item{x}{Column assigned to the x axis}
 
-\item{y}{column name assigned the y axis}
+\item{y}{Column assigned to the y axis}
 }
 \value{
-Outputs a plot showing the three point summary as well as a list of
-parameters:
+Outputs a list of parameters:
 
 
 \itemize{
   \item \code{a}: Intercept
   \item \code{b}: Slope
-  \item \code{res}: Residuals sorted on x-values order
+  \item \code{res}: Residuals sorted on x-values
   \item \code{x}: Sorted x values
-  \item \code{y}: y values following sorted x-values order
+  \item \code{y}: y values following sorted x-values
   \item \code{xmed}: Median x values for each third
   \item \code{ymed}: Median y values for each third
   \item \code{index}: Index of sorted x values defining upper boundaries of
@@ -35,15 +34,24 @@ parameters:
  and Exploratory Data Analysis" (Wiley, 1983).
 }
 \details{
-Bits and pieces of the RLIN.F FORTRAN code in Velleman et. al's book were
-used in helping implement some of the subroutines.\cr
-Note that this function has only been tested with a subset of datasets. It is far from
-being fully vetted. So use with caution!
+Bits and pieces of the \code{RLIN.F} FORTRAN code in Velleman et. al's book were
+used in helping implement some of the R subroutines.\cr
+See the accompanying vignette \code{Resistant Line} for a detailed breakdown
+of the resistant line technique.
 }
 \examples{
 
-# This first test is with breast cancer data from "ABC's of EDA" page 127.
-# The final model should look like:  Y = -46.19 + 2.89X
+# This first example fits a resistant line to the neoplasms data
+
+M <- eda_rline(neoplasms, Temp, Mortality)
+plot(Mortality~Temp, neoplasms, pch=20)
+abline(a=M$a, b=M$b, col=rgb(1,0,0,0.5))
+
+# This second example uses breast cancer data from "ABC's of EDA" page 127.
+# The output model's  parameters should closely match:  Y = -46.19 + 2.89X
+# The plots shows the original data with a fitted resistant line (red)
+# and a regular lm fitted line (dashed grey), and the modeled residuals.
+# The 3-point summary dots are shown in red.
 
 r.lm <- eda_rline(neoplasms, Temp, Mortality)
 r.lm
@@ -60,7 +68,10 @@ OP <- par( mfrow = c(2,1))
   abline( h = 0, lty=3)
 par(OP)
 
-# This next example compares children height to age
+# This next example compares children height to age.
+# The plots shows the original data with a fitted resistant line (red)
+# and a regular lm fitted line (dashed grey), and the modeled residuals.
+# The 3-point summary dots are shown in red.
 r.lm    <- eda_rline(age_height, Months, Height)
 
 OP <- par( mfrow = c(2,1))
@@ -75,7 +86,6 @@ OP <- par( mfrow = c(2,1))
 par(OP)
 
 # Andrew Siegel's pathological 9-point data set
-
 r.lm <- eda_rline(nine_point, X, Y)
 
 OP <- par( mfrow = c(2,1))
@@ -92,9 +102,6 @@ par(OP)
 }
 \references{
 \itemize{
-   \item Applications, Basics and Computing of Exploratory Data Analysis,
-   by P.F. Velleman and D.C. Hoaglin
-   (available at http://dspace.library.cornell.edu/handle/1813/78)
-   \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey}
+   \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
+   \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
 }

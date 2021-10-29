@@ -15,17 +15,17 @@
 #'  half-slopes ratio \code{hsrtio} and the direction of re-expression
 #'  for both X and Y values on the ladder of powers.
 #'
-#' @param dat data frame
-#' @param x   column name assigned the x axis
-#' @param y   column name assigned the y axis
-#' @param dir boolean indicating if suggested ladder of power direction should
+#' @param dat Data frame
+#' @param x   Column name assigned the x axis
+#' @param y   Column name assigned the y axis
+#' @param dir Boolean indicating if suggested ladder of power direction should
 #'           be displayed
 #' @param adj Adjustment parameter for y label
 #' @param x.lab X label for output plot
 #' @param y.lab Y label for output plot
 #' @param pch Plot point size as a fraction (can be larger than 1.0)
 #' @param col Plot point color
-#' @param ... other parameters passed to the graphics::plot function.
+#' @param ... Other parameters passed to the graphics::plot function.
 #'
 #' @details
 #' Outputs a plot showing the three point summary as well as a list of
@@ -38,11 +38,9 @@
 #'
 #' @references
 #'   \itemize{
-#'    \item Applications, Basics and Computing of Exploratory Data Analysis,
-#'    by P.F. Velleman and D.C. Hoaglin
-#'    \item Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-#'    F. Mosteller and J.W. Tukey
-#'    \item Exploratory Data Analysis, by John Tukey}
+#'    \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
+#'    \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.
+#'    \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 #'
 #' @examples
 #'

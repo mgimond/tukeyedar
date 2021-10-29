@@ -11,16 +11,16 @@ eda_re(x, p = 0, tukey = TRUE)
 
 \item{p}{Power transformation}
 
-\item{tukey}{If set to TRUE then adopt Tukey's power transformation, if FALSE,
-adopt Box-Cox transformation technique}
+\item{tukey}{If set to TRUE, then adopt Tukey's power transformation, if FALSE,
+adopt Box-Cox transformation}
 }
 \description{
 \code{eda_re} re-expresses a vector following the Tukey or box-cox transformation.
 }
 \details{
-The `eda_re` function is used to re-express data using one of two
- transformation techniques: Box-Cox transformation (tukey=FALSE)or
- Tukey's power transformation (tukey=TRUE).
+The function returns a vector. It is used to re-express data using one of two
+ transformation techniques: Box-Cox transformation (\code{tukey = FALSE})or
+ Tukey's power transformation (\code{tukey = TRUE}).
 }
 \examples{
 x <- c(15, 28, 17, 73,  8, 83,  2)

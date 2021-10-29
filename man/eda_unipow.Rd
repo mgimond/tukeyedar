@@ -17,24 +17,24 @@ eda_unipow(
 )
 }
 \arguments{
-\item{x}{vector}
+\item{x}{Vector}
 
-\item{p}{vector of powers}
+\item{p}{Vector of powers}
 
-\item{tukey}{if TRUE (default), apply Tukey's power transformation, if FALSE
-adopt Box-Cox transformation.}
+\item{tukey}{If TRUE (default), apply Tukey's power transformation, if FALSE
+adopt Box-Cox transformation}
 
-\item{bins}{number of bins in the histogram}
+\item{bins}{Number of histogram bins}
 
-\item{cex.main}{histogram title size (assigned to each histogram plot)}
+\item{cex.main}{Histogram title size (assigned to each histogram plot)}
 
-\item{col}{histogram fill color}
+\item{col}{Histogram fill color}
 
-\item{border}{histogram border color}
+\item{border}{Histogram border color}
 
 \item{title}{Overall plot title (set to NULL for no title)}
 
-\item{...}{other parameters passed to the graphics::hist function.}
+\item{...}{Other parameters passed to the graphics::hist function.}
 }
 \description{
 \code{eda_unipow} re-expresses a vector on the ladder of powers and plots
@@ -50,5 +50,6 @@ data(mtcars)
 eda_unipow(mtcars$mpg, bins=6)
 }
 \references{
-Exploratory Data Analysis, by John Tukey
+\itemize{
+    \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_lm.R
 \name{eda_lm}
 \alias{eda_lm}
-\title{Least Squares regression plot (with optional LOESS line)}
+\title{Least Squares regression plot (with optional LOESS fit)}
 \usage{
 eda_lm(
   dat,
@@ -21,33 +21,33 @@ eda_lm(
 )
 }
 \arguments{
-\item{dat}{data frame}
+\item{dat}{Data frame}
 
-\item{x}{column name assigned the x axis}
+\item{x}{Column assigned to the x axis}
 
-\item{y}{column name assigned the y axis}
+\item{y}{Column assigned to the y axis}
 
 \item{x.lab}{X label for output plot}
 
 \item{y.lab}{Y label for output plot}
 
-\item{reg}{boolean indicating whether a least squares regression line
+\item{reg}{Boolean indicating whether a least squares regression line
 should be plotted}
 
-\item{loe}{boolean indicating if a loess curve should be fitted}
+\item{loe}{Boolean indicating if a loess curve should be fitted}
 
-\item{lm.col}{regression line color}
+\item{lm.col}{Regression line color}
 
 \item{loe.col}{LOESS curve color}
 
-\item{stats}{boolean indicating if regression summary statistics should be
+\item{stats}{Boolean indicating if regression summary statistics should be
 displayed}
 
-\item{plot.d}{Additional parameters passed to the plot function}
+\item{plot.d}{A list of parameters passed to the plot function}
 
-\item{...}{not used}
+\item{...}{Not used}
 
-\item{loess.d}{Additional parameters passed to the loess.smooth function}
+\item{loess.d}{A list of parameters passed to the loess.smooth function}
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression line.
@@ -57,10 +57,14 @@ displayed}
 }
 \examples{
 
+# Add a regular (OLS) regression model and loess smooth to the data
+eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="blue"), loe=TRUE)
+
+# Modify the loess smooth by adopting a robust fit and adjusting its
+# span and polynomial order
 eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="black"), loe=TRUE,
       loess.d=list(family = "symmetric", span=0.5, degree=2))
 
-eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="blue"), loe=TRUE)
 }
 \seealso{
 \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}} functions
