@@ -61,6 +61,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -283,9 +286,9 @@ median(y_{l,m,r} - b * x_{l,m,r})
 <code class="sourceCode R"><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,
                      Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conf</span>
-<span class="co">#&gt;                    5%      95%</span>
-<span class="co">#&gt;  Intercept -72.785156 8.255498</span>
-<span class="co">#&gt;  Slope       1.744406 3.511143</span></code></pre></div>
+<span class="co">#&gt;                    5%       95%</span>
+<span class="co">#&gt;  Intercept -74.805129 12.488300</span>
+<span class="co">#&gt;  Slope       1.662971  3.512323</span></code></pre></div>
 </div>
 <div id="resampling-the-x-y-paired-values" class="section level3">
 <h3 class="hasAnchor">
@@ -311,8 +314,8 @@ median(y_{l,m,r} - b * x_{l,m,r})
                      Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conf</span>
 <span class="co">#&gt;                     5%       95%</span>
-<span class="co">#&gt;  Intercept -108.763246 15.031034</span>
-<span class="co">#&gt;  Slope        1.634146  4.180328</span></code></pre></div>
+<span class="co">#&gt;  Intercept -108.668421 12.393192</span>
+<span class="co">#&gt;  Slope        1.643678  4.157895</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1">
