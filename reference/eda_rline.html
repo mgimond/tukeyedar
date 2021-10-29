@@ -146,29 +146,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dat</th>
-      <td><p>data frame</p></td>
+      <td><p>Data frame</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>column name assigned the x axis</p></td>
+      <td><p>Column assigned to the x axis</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>column name assigned the y axis</p></td>
+      <td><p>Column assigned to the y axis</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Outputs a plot showing the three point summary as well as a list of
-parameters:</p>
+    <p>Outputs a list of parameters:</p>
 
 <ul>
 <li><p><code>a</code>: Intercept</p></li>
 <li><p><code>b</code>: Slope</p></li>
-<li><p><code>res</code>: Residuals sorted on x-values order</p></li>
+<li><p><code>res</code>: Residuals sorted on x-values</p></li>
 <li><p><code>x</code>: Sorted x values</p></li>
-<li><p><code>y</code>: y values following sorted x-values order</p></li>
+<li><p><code>y</code>: y values following sorted x-values</p></li>
 <li><p><code>xmed</code>: Median x values for each third</p></li>
 <li><p><code>ymed</code>: Median y values for each third</p></li>
 <li><p><code>index</code>: Index of sorted x values defining upper boundaries of
@@ -177,26 +176,32 @@ parameters:</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Bits and pieces of the RLIN.F FORTRAN code in Velleman et. al's book were
-used in helping implement some of the subroutines.<br />
-Note that this function has only been tested with a subset of datasets. It is far from
-being fully vetted. So use with caution!</p>
+    <p>Bits and pieces of the <code>RLIN.F</code> FORTRAN code in Velleman et. al's book were
+used in helping implement some of the R subroutines.<br />
+See the accompanying vignette <code>Resistant Line</code> for a detailed breakdown
+of the resistant line technique.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
 <ul>
-<li><p>Applications, Basics and Computing of Exploratory Data Analysis,
-   by P.F. Velleman and D.C. Hoaglin
-   (available at http://dspace.library.cornell.edu/handle/1813/78)</p></li>
-<li><p>Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey</p></li>
+<li><p>Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.</p></li>
+<li><p>D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.</p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># This first test is with breast cancer data from "ABC's of EDA" page 127.</span>
-<span class='co'># The final model should look like:  Y = -46.19 + 2.89X</span>
+<span class='co'># This first example fits a resistant line to the neoplasms data</span>
+
+<span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Mortality</span><span class='op'>~</span><span class='va'>Temp</span>, <span class='va'>neoplasms</span>, pch<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='va'>M</span><span class='op'>$</span><span class='va'>a</span>, b<span class='op'>=</span><span class='va'>M</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-1.png' alt='' width='700' height='1133' /></div><div class='input'>
+<span class='co'># This second example uses breast cancer data from "ABC's of EDA" page 127.</span>
+<span class='co'># The output model's  parameters should closely match:  Y = -46.19 + 2.89X</span>
+<span class='co'># The plots shows the original data with a fitted resistant line (red)</span>
+<span class='co'># and a regular lm fitted line (dashed grey), and the modeled residuals.</span>
+<span class='co'># The 3-point summary dots are shown in red.</span>
 
 <span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span>
 <span class='va'>r.lm</span>
@@ -238,9 +243,12 @@ being fully vetted. So use with caution!</p>
   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-1.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-2.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
 
-<span class='co'># This next example compares children height to age</span>
+<span class='co'># This next example compares children height to age.</span>
+<span class='co'># The plots shows the original data with a fitted resistant line (red)</span>
+<span class='co'># and a regular lm fitted line (dashed grey), and the modeled residuals.</span>
+<span class='co'># The 3-point summary dots are shown in red.</span>
 <span class='va'>r.lm</span>    <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>age_height</span>, <span class='va'>Months</span>, <span class='va'>Height</span><span class='op'>)</span>
 
 <span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
@@ -252,10 +260,9 @@ being fully vetted. So use with caution!</p>
  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-2.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-3.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
 
 <span class='co'># Andrew Siegel's pathological 9-point data set</span>
-
 <span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>nine_point</span>, <span class='va'>X</span>, <span class='va'>Y</span><span class='op'>)</span>
 
 <span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
@@ -267,7 +274,7 @@ being fully vetted. So use with caution!</p>
    <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='input'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-3.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_rline-4.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
 
 </div></pre>
   </div>

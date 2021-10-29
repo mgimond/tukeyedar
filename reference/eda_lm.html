@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Least Squares regression plot (with optional LOESS line) — eda_lm • tukeyedar</title>
+<title>Least Squares regression plot (with optional LOESS fit) — eda_lm • tukeyedar</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Least Squares regression plot (with optional LOESS line) — eda_lm" />
+<meta property="og:title" content="Least Squares regression plot (with optional LOESS fit) — eda_lm" />
 <meta property="og:description" content="eda_lm generates a scatter plot with a fitted regression line.
  A loess line can  also be added to the plot
  for model comparison. The axes are scaled such that their respective
@@ -129,7 +129,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Least Squares regression plot (with optional LOESS line)</h1>
+    <h1>Least Squares regression plot (with optional LOESS fit)</h1>
     <small class="dont-index">Source: <a href='https://github.com/mgimond/tukeyedar/blob/master/R/eda_lm.R'><code>R/eda_lm.R</code></a></small>
     <div class="hidden name"><code>eda_lm.Rd</code></div>
     </div>
@@ -162,15 +162,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dat</th>
-      <td><p>data frame</p></td>
+      <td><p>Data frame</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>column name assigned the x axis</p></td>
+      <td><p>Column assigned to the x axis</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>column name assigned the y axis</p></td>
+      <td><p>Column assigned to the y axis</p></td>
     </tr>
     <tr>
       <th>x.lab</th>
@@ -182,16 +182,16 @@
     </tr>
     <tr>
       <th>reg</th>
-      <td><p>boolean indicating whether a least squares regression line
+      <td><p>Boolean indicating whether a least squares regression line
 should be plotted</p></td>
     </tr>
     <tr>
       <th>loe</th>
-      <td><p>boolean indicating if a loess curve should be fitted</p></td>
+      <td><p>Boolean indicating if a loess curve should be fitted</p></td>
     </tr>
     <tr>
       <th>lm.col</th>
-      <td><p>regression line color</p></td>
+      <td><p>Regression line color</p></td>
     </tr>
     <tr>
       <th>loe.col</th>
@@ -199,20 +199,20 @@ should be plotted</p></td>
     </tr>
     <tr>
       <th>stats</th>
-      <td><p>boolean indicating if regression summary statistics should be
+      <td><p>Boolean indicating if regression summary statistics should be
 displayed</p></td>
     </tr>
     <tr>
       <th>plot.d</th>
-      <td><p>Additional parameters passed to the plot function</p></td>
+      <td><p>A list of parameters passed to the plot function</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>not used</p></td>
+      <td><p>Not used</p></td>
     </tr>
     <tr>
       <th>loess.d</th>
-      <td><p>Additional parameters passed to the loess.smooth function</p></td>
+      <td><p>A list of parameters passed to the loess.smooth function</p></td>
     </tr>
     </table>
 
@@ -222,11 +222,15 @@ displayed</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='co'># Add a regular (OLS) regression model and loess smooth to the data</span>
+<span class='fu'>eda_lm</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>wt</span>, <span class='va'>mpg</span>, plot.d <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>pch<span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>, loe<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='img'><img src='eda_lm-1.png' alt='' width='700' height='1133' /></div><div class='input'>
+<span class='co'># Modify the loess smooth by adopting a robust fit and adjusting its</span>
+<span class='co'># span and polynomial order</span>
 <span class='fu'>eda_lm</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>wt</span>, <span class='va'>mpg</span>, plot.d <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>pch<span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"black"</span><span class='op'>)</span>, loe<span class='op'>=</span><span class='cn'>TRUE</span>,
       loess.d<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>family <span class='op'>=</span> <span class='st'>"symmetric"</span>, span<span class='op'>=</span><span class='fl'>0.5</span>, degree<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_lm-1.png' alt='' width='700' height='1133' /></div><div class='input'>
-<span class='fu'>eda_lm</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>wt</span>, <span class='va'>mpg</span>, plot.d <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>pch<span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>, loe<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_lm-2.png' alt='' width='700' height='1133' /></div></pre>
+</div><div class='img'><img src='eda_lm-2.png' alt='' width='700' height='1133' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
