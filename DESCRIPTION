@@ -5,7 +5,7 @@ Title: Tukey Inspired Exploratory Data Analysis Functions
 Authors@R: 
   person(given = "Manuel", 
          family = "Gimond", 
-         email = "mgimond@gmail.edu",
+         email = "mgimond@gmail.com",
          role = c("aut", "cre"),
          comment = c(ORCID = "0000-0002-3687-2316"))
 Description: A set of Tukey inspired functions for use in exploring datasets in a robust manner.
