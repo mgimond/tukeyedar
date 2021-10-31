@@ -116,7 +116,7 @@ of the resistant line technique.</p>
 <span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu">eda_rline</span><span class="op">(</span><span class="va">neoplasms</span>, <span class="va">Temp</span>, <span class="va">Mortality</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt"><img src="eda_rline-1.png" alt="" width="700" height="1133"></span>
+<span class="r-plt img"><img src="eda_rline-1.png" alt="" width="700" height="1133"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># This second example uses breast cancer data from "ABC's of EDA" page 127.</span></span>
 <span class="r-in"><span class="co"># The output model's  parameters should closely match:  Y = -46.19 + 2.89X</span></span>
@@ -165,7 +165,7 @@ of the resistant line technique.</p>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span> <span class="va">r.lm</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="va">r.lm</span><span class="op">$</span><span class="va">index</span><span class="op">]</span>,lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span><span class="op">$</span><span class="va">res</span> <span class="op">~</span> <span class="va">r.lm</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span> h <span class="op">=</span> <span class="fl">0</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
-<span class="r-plt"><img src="eda_rline-2.png" alt="" width="700" height="1133"></span>
+<span class="r-plt img"><img src="eda_rline-2.png" alt="" width="700" height="1133"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">OP</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># This next example compares children height to age.</span></span>
@@ -183,7 +183,7 @@ of the resistant line technique.</p>
 <span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span> <span class="va">r.lm</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="va">r.lm</span><span class="op">$</span><span class="va">index</span><span class="op">]</span>,lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span><span class="op">$</span><span class="va">res</span> <span class="op">~</span> <span class="va">r.lm</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span> h <span class="op">=</span> <span class="fl">0</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
-<span class="r-plt"><img src="eda_rline-3.png" alt="" width="700" height="1133"></span>
+<span class="r-plt img"><img src="eda_rline-3.png" alt="" width="700" height="1133"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">OP</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Andrew Siegel's pathological 9-point data set</span></span>
@@ -198,7 +198,7 @@ of the resistant line technique.</p>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v<span class="op">=</span> <span class="va">r.lm</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="va">r.lm</span><span class="op">$</span><span class="va">index</span><span class="op">]</span>,lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span><span class="op">$</span><span class="va">res</span> <span class="op">~</span> <span class="va">r.lm</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span> h <span class="op">=</span> <span class="fl">0</span>, lty<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
-<span class="r-plt"><img src="eda_rline-4.png" alt="" width="700" height="1133"></span>
+<span class="r-plt img"><img src="eda_rline-4.png" alt="" width="700" height="1133"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">OP</span><span class="op">)</span></span>
 <span class="r-in"></span>
 </code></pre></div>

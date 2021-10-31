@@ -1,8 +1,8 @@
-pandoc: 2.11.4
+pandoc: 2.14.0.3
 pkgdown: 1.9000.9000.9000
-pkgdown_sha: e5d7021afd269a0252dd427db7148b734af962fa
+pkgdown_sha: 987a046cc853235ecd0083b3d6152e74094d7728
 articles:
   Introduction: Introduction.html
   RLine: RLine.html
-last_built: 2021-10-29T17:21Z
+last_built: 2021-10-30T01:40Z
 
