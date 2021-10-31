@@ -84,7 +84,7 @@
       <h1 data-toc-skip>Resistant Line</h1>
                         <h4 data-toc-skip class="author">Manuel Gimond</h4>
             
-            <h4 data-toc-skip class="date">2021-10-29</h4>
+            <h4 data-toc-skip class="date">2021-10-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/RLine.Rmd" class="external-link"><code>vignettes/RLine.Rmd</code></a></small>
       <div class="hidden name"><code>RLine.Rmd</code></div>
@@ -282,9 +282,9 @@ median(y_{l,m,r} - b * x_{l,m,r})
 <code class="sourceCode R"><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,
                      Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conf</span>
-<span class="co">#&gt;                   5%      95%</span>
-<span class="co">#&gt;  Intercept -75.95018 8.749713</span>
-<span class="co">#&gt;  Slope       1.71214 3.540118</span></code></pre></div>
+<span class="co">#&gt;                    5%       95%</span>
+<span class="co">#&gt;  Intercept -74.612601 13.226140</span>
+<span class="co">#&gt;  Slope       1.671648  3.514979</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="resampling-the-x-y-paired-values">Resampling the x-y paired values<a class="anchor" aria-label="anchor" href="#resampling-the-x-y-paired-values"></a>
@@ -309,9 +309,9 @@ median(y_{l,m,r} - b * x_{l,m,r})
 <code class="sourceCode R"><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,
                      Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conf</span>
-<span class="co">#&gt;                    5%      95%</span>
-<span class="co">#&gt;  Intercept -114.64456 9.551086</span>
-<span class="co">#&gt;  Slope        1.69817 4.338462</span></code></pre></div>
+<span class="co">#&gt;                     5%       95%</span>
+<span class="co">#&gt;  Intercept -108.353664 12.110826</span>
+<span class="co">#&gt;  Slope        1.643678  4.157895</span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
