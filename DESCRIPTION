@@ -2,8 +2,7 @@ Package: tukeyedar
 Version: 0.1.0
 Type: Package
 Title: Tukey Inspired Exploratory Data Analysis Functions
-Authors@R: 
-  person(given = "Manuel", 
+Authors@R: person(given = "Manuel", 
          family = "Gimond", 
          email = "mgimond@gmail.com",
          role = c("aut", "cre"),
