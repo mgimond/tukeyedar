@@ -88,7 +88,7 @@
       <h1 data-toc-skip>Introduction to EDA functions</h1>
                         <h4 class="author">Manuel Gimond</h4>
             
-            <h4 class="date">2021-10-31</h4>
+            <h4 class="date">2021-11-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/master/vignettes/Introduction.Rmd"><code>vignettes/Introduction.Rmd</code></a></small>
       <div class="hidden name"><code>Introduction.Rmd</code></div>
@@ -749,7 +749,7 @@
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/eda_unipow.html">eda_unipow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span>, bins<span class="op">=</span><span class="fl">6</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_files/figure-html/unnamed-chunk-42-1.png" width="672"></p>
-<p>Be mindful of your input values since some re-expressions may not work such as <code><a href="https://rdrr.io/r/base/Log.html">log(0)</a></code>. For example, re-expressing the yearly number of sunspots using the default ladder of powers generates the following error.</p>
+<p>Be mindful of your input values since some re-expressions may not work such as <code>log(0)</code>. For example, re-expressing the yearly number of sunspots using the default ladder of powers generates the following error.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/eda_unipow.html">eda_unipow</a></span><span class="op">(</span><span class="va">sunspot.year</span><span class="op">)</span>
 <span class="co">#&gt;  Error in eda_unipow(sunspot.year): </span>

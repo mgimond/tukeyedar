@@ -172,14 +172,15 @@ just generate mid summaries if FALSE</p></td>
     <div class='dont-index'><p><a href='https://mgimond.github.io/ES218/Week08b.html'>https://mgimond.github.io/ES218/Week08b.html</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>22</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>3</span>, <span class='fl'>26</span>, <span class='fl'>1</span>, <span class='fl'>14</span>, <span class='fl'>18</span>, <span class='fl'>20</span>, <span class='fl'>25</span>, <span class='fl'>24</span><span class='op'>)</span>
-<span class='fu'>eda_lsum</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   letter depth lower   mid upper spread
-#&gt; 1      M   6.0  18.0 18.00  18.0    0.0
-#&gt; 2      H   3.5   9.5 16.25  23.0   13.5
-#&gt; 3      E   2.0   3.0 14.00  25.0   22.0
-#&gt; 4      D   1.5   2.0 13.75  25.5   23.5
-#&gt; 5      C   1.0   1.0 13.50  26.0   25.0</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>22</span>, <span class='fl'>8</span>, <span class='fl'>11</span>, <span class='fl'>3</span>, <span class='fl'>26</span>, <span class='fl'>1</span>, <span class='fl'>14</span>, <span class='fl'>18</span>, <span class='fl'>20</span>, <span class='fl'>25</span>, <span class='fl'>24</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>eda_lsum</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   letter depth lower   mid upper spread</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      M   6.0  18.0 18.00  18.0    0.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2      H   3.5   9.5 16.25  23.0   13.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3      E   2.0   3.0 14.00  25.0   22.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4      D   1.5   2.0 13.75  25.5   23.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5      C   1.0   1.0 13.50  26.0   25.0</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

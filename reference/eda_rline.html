@@ -190,93 +190,98 @@ of the resistant line technique.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># This first example fits a resistant line to the neoplasms data</span>
-
-<span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Mortality</span><span class='op'>~</span><span class='va'>Temp</span>, <span class='va'>neoplasms</span>, pch<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='va'>M</span><span class='op'>$</span><span class='va'>a</span>, b<span class='op'>=</span><span class='va'>M</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-1.png' alt='' width='700' height='1133' /></div><div class='input'>
-<span class='co'># This second example uses breast cancer data from "ABC's of EDA" page 127.</span>
-<span class='co'># The output model's  parameters should closely match:  Y = -46.19 + 2.89X</span>
-<span class='co'># The plots shows the original data with a fitted resistant line (red)</span>
-<span class='co'># and a regular lm fitted line (dashed grey), and the modeled residuals.</span>
-<span class='co'># The 3-point summary dots are shown in red.</span>
-
-<span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span>
-<span class='va'>r.lm</span>
-</div><div class='output co'>#&gt; $b
-#&gt; [1] 2.890173
-#&gt; 
-#&gt; $a
-#&gt; [1] -45.90578
-#&gt; 
-#&gt; $res
-#&gt;  [1]  21.2982659   0.1398844  -2.1791908   8.8294798 -11.2485549  -7.6167630
-#&gt;  [7]  -0.1398844   4.7589595  -9.0092486  -2.1994220   2.7554913  -7.2676301
-#&gt; [13]  -0.3907514   6.1861272   1.7971098   0.1398844
-#&gt; 
-#&gt; $x
-#&gt;  [1] 31.8 34.0 40.2 42.1 42.3 43.5 44.2 45.1 46.3 47.3 47.8 48.5 49.2 49.9 50.0
-#&gt; [16] 51.3
-#&gt; 
-#&gt; $y
-#&gt;  [1]  67.3  52.5  68.1  84.6  65.1  72.2  81.7  89.2  78.9  88.6  95.0  87.0
-#&gt; [13]  95.9 104.5 100.4 102.5
-#&gt; 
-#&gt; $xmed
-#&gt; [1] 40.2 45.7 49.9
-#&gt; 
-#&gt; $ymed
-#&gt; [1]  67.30  85.15 100.40
-#&gt; 
-#&gt; $index
-#&gt; [1]  5 11 16
-#&gt; </div><div class='input'>
-<span class='co'># Check output</span>
-<span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Mortality</span> <span class='op'>~</span> <span class='va'>Temp</span>, <span class='va'>neoplasms</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Mortality</span> <span class='op'>~</span> <span class='va'>Temp</span>, <span class='va'>neoplasms</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='input'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-2.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
-
-<span class='co'># This next example compares children height to age.</span>
-<span class='co'># The plots shows the original data with a fitted resistant line (red)</span>
-<span class='co'># and a regular lm fitted line (dashed grey), and the modeled residuals.</span>
-<span class='co'># The 3-point summary dots are shown in red.</span>
-<span class='va'>r.lm</span>    <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>age_height</span>, <span class='va'>Months</span>, <span class='va'>Height</span><span class='op'>)</span>
-
-<span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Height</span> <span class='op'>~</span> <span class='va'>Months</span>, <span class='va'>age_height</span>, xlab<span class='op'>=</span><span class='st'>"Age (months)"</span>, ylab<span class='op'>=</span><span class='st'>"Height (cm)"</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Height</span> <span class='op'>~</span> <span class='va'>Months</span>, <span class='va'>age_height</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-3.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
-
-<span class='co'># Andrew Siegel's pathological 9-point data set</span>
-<span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>nine_point</span>, <span class='va'>X</span>, <span class='va'>Y</span><span class='op'>)</span>
-
-<span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>X</span>, <span class='va'>nine_point</span>, xlab<span class='op'>=</span><span class='st'>"Age (months)"</span>, ylab<span class='op'>=</span><span class='st'>"Height (cm)"</span><span class='op'>)</span>
-   <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span>
-   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
-   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>X</span>, <span class='va'>nine_point</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-   <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
-   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-   <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='input'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-</div><div class='img'><img src='eda_rline-4.png' alt='' width='700' height='1133' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># This first example fits a resistant line to the neoplasms data</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Mortality</span><span class='op'>~</span><span class='va'>Temp</span>, <span class='va'>neoplasms</span>, pch<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a<span class='op'>=</span><span class='va'>M</span><span class='op'>$</span><span class='va'>a</span>, b<span class='op'>=</span><span class='va'>M</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/rgb.html'>rgb</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='eda_rline-1.png' alt='' width='700' height='1133' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># This second example uses breast cancer data from "ABC's of EDA" page 127.</span></span>
+<span class='r-in'><span class='co'># The output model's  parameters should closely match:  Y = -46.19 + 2.89X</span></span>
+<span class='r-in'><span class='co'># The plots shows the original data with a fitted resistant line (red)</span></span>
+<span class='r-in'><span class='co'># and a regular lm fitted line (dashed grey), and the modeled residuals.</span></span>
+<span class='r-in'><span class='co'># The 3-point summary dots are shown in red.</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>neoplasms</span>, <span class='va'>Temp</span>, <span class='va'>Mortality</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>r.lm</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $b</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.890173</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $a</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] -45.90578</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $res</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  21.2982659   0.1398844  -2.1791908   8.8294798 -11.2485549  -7.6167630</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  -0.1398844   4.7589595  -9.0092486  -2.1994220   2.7554913  -7.2676301</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]  -0.3907514   6.1861272   1.7971098   0.1398844</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $x</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 31.8 34.0 40.2 42.1 42.3 43.5 44.2 45.1 46.3 47.3 47.8 48.5 49.2 49.9 50.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] 51.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  67.3  52.5  68.1  84.6  65.1  72.2  81.7  89.2  78.9  88.6  95.0  87.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]  95.9 104.5 100.4 102.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $xmed</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 40.2 45.7 49.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $ymed</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  67.30  85.15 100.40</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $index</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  5 11 16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Check output</span></span>
+<span class='r-in'><span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Mortality</span> <span class='op'>~</span> <span class='va'>Temp</span>, <span class='va'>neoplasms</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Mortality</span> <span class='op'>~</span> <span class='va'>Temp</span>, <span class='va'>neoplasms</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='eda_rline-2.png' alt='' width='700' height='1133' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># This next example compares children height to age.</span></span>
+<span class='r-in'><span class='co'># The plots shows the original data with a fitted resistant line (red)</span></span>
+<span class='r-in'><span class='co'># and a regular lm fitted line (dashed grey), and the modeled residuals.</span></span>
+<span class='r-in'><span class='co'># The 3-point summary dots are shown in red.</span></span>
+<span class='r-in'><span class='va'>r.lm</span>    <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>age_height</span>, <span class='va'>Months</span>, <span class='va'>Height</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Height</span> <span class='op'>~</span> <span class='va'>Months</span>, <span class='va'>age_height</span>, xlab<span class='op'>=</span><span class='st'>"Age (months)"</span>, ylab<span class='op'>=</span><span class='st'>"Height (cm)"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Height</span> <span class='op'>~</span> <span class='va'>Months</span>, <span class='va'>age_height</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='eda_rline-3.png' alt='' width='700' height='1133' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Andrew Siegel's pathological 9-point data set</span></span>
+<span class='r-in'><span class='va'>r.lm</span> <span class='op'>&lt;-</span> <span class='fu'>eda_rline</span><span class='op'>(</span><span class='va'>nine_point</span>, <span class='va'>X</span>, <span class='va'>Y</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>OP</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span> mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>X</span>, <span class='va'>nine_point</span>, xlab<span class='op'>=</span><span class='st'>"Age (months)"</span>, ylab<span class='op'>=</span><span class='st'>"Height (cm)"</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/mtext.html'>mtext</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"y = %f + (%f)x"</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span> <span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>a</span>, b <span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>b</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Y</span> <span class='op'>~</span> <span class='va'>X</span>, <span class='va'>nine_point</span><span class='op'>)</span>, col<span class='op'>=</span><span class='st'>"grey"</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>xmed</span>,<span class='va'>r.lm</span><span class='op'>$</span><span class='va'>ymed</span><span class='op'>)</span>, pch <span class='op'>=</span><span class='fl'>16</span>, col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v<span class='op'>=</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>[</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>index</span><span class='op'>]</span>,lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>r.lm</span><span class='op'>$</span><span class='va'>res</span> <span class='op'>~</span> <span class='va'>r.lm</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'>   <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span> h <span class='op'>=</span> <span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='eda_rline-4.png' alt='' width='700' height='1133' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>OP</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
