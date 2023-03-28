@@ -43,6 +43,9 @@
     <loc>/reference/eda_lsum.html</loc>
   </url>
   <url>
+    <loc>/reference/eda_pol.html</loc>
+  </url>
+  <url>
     <loc>/reference/eda_re.html</loc>
   </url>
   <url>
@@ -65,6 +68,9 @@
   </url>
   <url>
     <loc>/reference/nine_point.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.eda_polish.html</loc>
   </url>
   <url>
     <loc>/reference/tukeyedar.html</loc>

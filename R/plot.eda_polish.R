@@ -1,0 +1,80 @@
+#' @export
+#' @title Plot eda_polish tables or diagnostic plots
+#'
+#' @description
+#'  \code{eda_pol} A plot method for lists of eda_polish class.
+#'
+#' @param x A list of class eda_polish
+#' @param type Plot type. One of three: "residuals", "cv" or "diagnostic".
+#' @param k If cv values are to be plotted, define the k parameter
+#' @param col.quant Boolean determining if a quantile classification scheme should be used
+#' @param colpal Color palette to adopt
+#' @param adj.mar Boolean determining if margin width needs to accomodate labels
+#' @param res.size Size of residual values in plot [0-1]
+#' @param row.size Size of row effect values in plot [0-1]
+#' @param col.size Size of column effect values in plot [0-1]
+#' @param res.txt Boolean determining if values should be added to plot
+#' @param label.txt Boolean determining if margin and column labels should be plotted
+#' @param ... Arguments to be passed to subsequent methods
+#'
+#' @details
+#'  The function plots a polish table of residuals or CV values. I will also generate
+#'  a diagnostic plot if \code{type} is set to \code{diagnostic}
+
+plot.eda_polish <- function(x, type = "residuals", k = 1,
+                            col.quant = FALSE, colpal = "RdYlBu", adj.mar = FALSE,
+                            res.size = 1, row.size = 1, col.size = 1,
+                            res.txt = TRUE, label.txt = TRUE, ...){
+  if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
+
+  mat <- x$wide
+
+  if(type == "diagnostic"){
+    cv <- x$cv[,4]
+    residuals <- x$cv[,1]
+    fit <- MASS::rlm(residuals~cv)
+    plot(cv,residuals, pch=16, col = rgb(0,0,0,0.5))
+    abline(h = median(residuals), lty=2, col = "grey")
+    abline(v = median(cv), lty=2, col = "grey")
+    abline(fit, col = rgb(0,0,1,0.3))
+    return(list(slope = fit$coefficients[2]))
+  }
+
+  if(type == "cv") {
+    row <- x$row$effect
+    col <- x$col$effect
+    mat[-1,-1] <- mat[-1,-1] + k * matrix(apply(expand.grid(row, col),1, sum), ncol = length(col)) / x$global
+  }
+
+  if (adj.mar == FALSE){
+    OP <- par(mar = c(1.5,1.5,1.5,1.5))
+  } else {
+    OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/1.6 ,1.5,1.5))
+  }
+  max <- max(abs(range(mat))) # Get max upper or lower bound value
+  len <- prod(dim(mat))       # Get number of values
+
+  if(col.quant == TRUE){
+    colbrk <- quantile(unlist(mat), prob = 0:len/len)
+  } else {
+    colbrk <- c( -max, seq(-max, max, length.out = len))
+  }
+
+  colMap <- hcl.colors(len, palette = colpal, rev = TRUE, alpha = 0.5)
+  image(t(mat[nrow(mat):1, ]), axes = FALSE, col = colMap, breaks = colbrk)
+  grid(nx = ncol(mat), ny = nrow(mat), col = 'grey', lty = 1)
+  U <- par("usr")
+  abline( v = diff(U[1:2]) / dim(mat)[2]  + U[1] , lw = 2)
+  abline( h =  U[4] - diff(U[3:4]) / dim(mat)[1]    , lw = 2)
+  col.ctr <- seq(0,1,length.out = ncol(mat))
+  row.ctr <- seq(1,0,length.out = nrow(mat))
+  if(label.txt == TRUE){
+    mtext(colnames(mat), at = col.ctr, side = 3, cex = col.size)
+    mtext(rownames(mat), at = row.ctr, side = 2, las = 2, cex = row.size)
+  }
+  text.crd <- expand.grid(y = row.ctr, x = col.ctr)
+  if(res.txt == TRUE) {
+    text(x=text.crd[,"x"], y=text.crd[,"y"], labels = round(unlist(mat),2), cex=res.size)
+  }
+  par(OP)
+}

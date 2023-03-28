@@ -29,7 +29,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -71,73 +71,98 @@
  standard  deviations match axes unit length.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">eda_lm</span><span class="op">(</span>
-  <span class="va">dat</span>,
-  <span class="va">x</span>,
-  <span class="va">y</span>,
-  x.lab <span class="op">=</span> <span class="cn">NULL</span>,
-  y.lab <span class="op">=</span> <span class="cn">NULL</span>,
-  reg <span class="op">=</span> <span class="cn">TRUE</span>,
-  loe <span class="op">=</span> <span class="cn">FALSE</span>,
-  lm.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span><span class="op">)</span>,
-  loe.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.73</span>, <span class="fl">0.73</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
-  stats <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"grey40"</span><span class="op">)</span>,
-  <span class="va">...</span>,
-  loess.d <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">eda_lm</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  x.lab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  y.lab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  reg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  loe <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  lm.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span><span class="op">)</span>,</span>
+<span>  loe.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.73</span>, <span class="fl">0.73</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">20</span>, col <span class="op">=</span> <span class="st">"grey40"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  loess.d <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat</dt>
 <dd><p>Data frame</p></dd>
+
+
 <dt>x</dt>
 <dd><p>Column assigned to the x axis</p></dd>
+
+
 <dt>y</dt>
 <dd><p>Column assigned to the y axis</p></dd>
+
+
 <dt>x.lab</dt>
 <dd><p>X label for output plot</p></dd>
+
+
 <dt>y.lab</dt>
 <dd><p>Y label for output plot</p></dd>
+
+
 <dt>reg</dt>
 <dd><p>Boolean indicating whether a least squares regression line
 should be plotted</p></dd>
+
+
 <dt>loe</dt>
 <dd><p>Boolean indicating if a loess curve should be fitted</p></dd>
+
+
 <dt>lm.col</dt>
 <dd><p>Regression line color</p></dd>
+
+
 <dt>loe.col</dt>
 <dd><p>LOESS curve color</p></dd>
+
+
 <dt>stats</dt>
 <dd><p>Boolean indicating if regression summary statistics should be
 displayed</p></dd>
+
+
 <dt>plot.d</dt>
 <dd><p>A list of parameters passed to the plot function</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Not used</p></dd>
+
+
 <dt>loess.d</dt>
 <dd><p>A list of parameters passed to the loess.smooth function</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></code> and <code><a href="https://rdrr.io/r/stats/scatter.smooth.html" class="external-link">loess.smooth</a></code> functions</p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># Add a regular (OLS) regression model and loess smooth to the data</span></span>
-<span class="r-in"><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, plot.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch<span class="op">=</span><span class="fl">16</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span>, loe<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a regular (OLS) regression model and loess smooth to the data</span></span></span>
+<span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, plot.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch<span class="op">=</span><span class="fl">16</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span>, loe<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_lm-1.png" alt="" width="700" height="1133"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Modify the loess smooth by adopting a robust fit and adjusting its</span></span>
-<span class="r-in"><span class="co"># span and polynomial order</span></span>
-<span class="r-in"><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, plot.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch<span class="op">=</span><span class="fl">16</span>, col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span>, loe<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in">      loess.d<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"symmetric"</span>, span<span class="op">=</span><span class="fl">0.5</span>, degree<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Modify the loess smooth by adopting a robust fit and adjusting its</span></span></span>
+<span class="r-in"><span><span class="co"># span and polynomial order</span></span></span>
+<span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, plot.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pch<span class="op">=</span><span class="fl">16</span>, col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span>, loe<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>      loess.d<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"symmetric"</span>, span<span class="op">=</span><span class="fl">0.5</span>, degree<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_lm-2.png" alt="" width="700" height="1133"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -152,7 +177,7 @@ displayed</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -1,4 +1,4 @@
-### This is a first submission to CRAN
+### This is a second submission to CRAN
 
 ### R CMD check results
 

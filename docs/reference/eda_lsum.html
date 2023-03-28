@@ -29,7 +29,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -71,18 +71,24 @@
  fourth (quartiles).</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">eda_lsum</span><span class="op">(</span><span class="va">x</span>, l <span class="op">=</span> <span class="fl">5</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">eda_lsum</span><span class="op">(</span><span class="va">x</span>, l <span class="op">=</span> <span class="fl">5</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>Vector</p></dd>
+
+
 <dt>l</dt>
 <dd><p>Number of levels (max = 9)</p></dd>
+
+
 <dt>all</dt>
 <dd><p>Generate upper, lower and mid summaries if TRUE or
 just generate mid summaries if FALSE</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -96,12 +102,11 @@ just generate mid summaries if FALSE</p></dd>
     <h2>See also</h2>
     <div class="dont-index"><p><a href="https://mgimond.github.io/ES218/Week08b.html" class="external-link">https://mgimond.github.io/ES218/Week08b.html</a></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">8</span>, <span class="fl">11</span>, <span class="fl">3</span>, <span class="fl">26</span>, <span class="fl">1</span>, <span class="fl">14</span>, <span class="fl">18</span>, <span class="fl">20</span>, <span class="fl">25</span>, <span class="fl">24</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">eda_lsum</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">8</span>, <span class="fl">11</span>, <span class="fl">3</span>, <span class="fl">26</span>, <span class="fl">1</span>, <span class="fl">14</span>, <span class="fl">18</span>, <span class="fl">20</span>, <span class="fl">25</span>, <span class="fl">24</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eda_lsum</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   letter depth lower   mid upper spread</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      M   6.0  18.0 18.00  18.0    0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      H   3.5   9.5 16.25  23.0   13.5</span>
@@ -122,7 +127,7 @@ just generate mid summaries if FALSE</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
