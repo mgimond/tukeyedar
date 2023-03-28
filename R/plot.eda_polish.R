@@ -20,6 +20,25 @@
 #' @details
 #'  The function plots a polish table of residuals or CV values. I will also generate
 #'  a diagnostic plot if \code{type} is set to \code{diagnostic}
+#' @examples
+#' # Create dataset
+#' df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
+#' edu = rep( c("ed8", "ed9to11", "ed12", "ed13to15", "ed16"), 4),
+#' perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
+#'         24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
+#'
+#' # Generate median polish output
+#' out <- eda_pol(df, row = "region", col = "edu", plot = FALSE)
+#'
+#' # Plot table
+#' plot(out, type = "residuals")
+#'
+#'
+#' # Plot table using CV values
+#' plot(out, type = "cv")
+#'
+#' # Generate diagnostic plot
+#' plot(out, type = "diagnostic")
 
 plot.eda_polish <- function(x, type = "residuals", k = 1,
                             col.quant = FALSE, colpal = "RdYlBu", adj.mar = FALSE,
