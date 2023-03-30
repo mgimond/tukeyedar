@@ -70,10 +70,14 @@
 <span>  <span class="va">x</span>,</span>
 <span>  row <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  val <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stat <span class="op">=</span> <span class="va">median</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  eps <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  maxiter <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  sort <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  tukey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  col.quant <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  colpal <span class="op">=</span> <span class="st">"RdYlBu"</span>,</span>
 <span>  adj.mar <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -99,6 +103,10 @@
 <dd><p>Name of column assigned to the column effect</p></dd>
 
 
+<dt>val</dt>
+<dd><p>Name of column assigned to the response variable</p></dd>
+
+
 <dt>stat</dt>
 <dd><p>Polishing statistic (default is median)</p></dd>
 
@@ -113,6 +121,19 @@
 
 <dt>maxiter</dt>
 <dd><p>Maximum number of iterations</p></dd>
+
+
+<dt>sort</dt>
+<dd><p>Boolean determining if the effects row/columns should be sorted</p></dd>
+
+
+<dt>p</dt>
+<dd><p>Re-expression power parameter</p></dd>
+
+
+<dt>tukey</dt>
+<dd><p>Boolean determining if Tukey's power transformation should used. If FALSE,
+the Box-Cox transformation is adopted.</p></dd>
 
 
 <dt>col.quant</dt>
@@ -150,7 +171,7 @@
     <div id="details">
     <h2>Details</h2>
     <p>The function performs a polish on a two way table. By default, it applies a
- median polish, but other statitcs such as the mean can be passed to the function
+ median polish, but other statistic such as the mean can be passed to the function
  via the <code>stat = </code> parameter.
  The function returns a list of row/column effects along with global and residual values.
  It will also generate a colored table if <code>plot = TRUE</code>.
@@ -164,8 +185,7 @@
 <span class="r-in"><span>perc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25.3</span>, <span class="fl">25.3</span>, <span class="fl">18.2</span>, <span class="fl">18.3</span>, <span class="fl">16.3</span>, <span class="fl">32.1</span>, <span class="fl">29</span>, <span class="fl">18.8</span>,</span></span>
 <span class="r-in"><span>        <span class="fl">24.3</span>, <span class="fl">19</span>, <span class="fl">38.8</span>, <span class="fl">31</span>, <span class="fl">19.3</span>, <span class="fl">15.7</span>, <span class="fl">16.8</span>, <span class="fl">25.4</span>, <span class="fl">21.1</span>, <span class="fl">20.3</span>, <span class="fl">24</span>, <span class="fl">17.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">eda_pol</span><span class="op">(</span><span class="va">df</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_pol-1.png" alt="" width="700" height="1133"></span>
+<span class="r-in"><span><span class="fu">eda_pol</span><span class="op">(</span><span class="va">df</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $long</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         edu region     perc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      ed12     NC -3.15625</span>
@@ -240,6 +260,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18  0.03125 -1.4625  5.88125 -0.4125337230</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19  4.61875 -0.3500  5.88125 -0.0987260192</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20 -5.98125  0.3500  5.88125  0.0987260192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $power</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $IQ_row</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4177057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $IQ_col</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.016388</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "eda_polish"</span>

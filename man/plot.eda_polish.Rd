@@ -59,7 +59,7 @@ perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
         24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
 
 # Generate median polish output
-out <- eda_pol(df, row = "region", col = "edu", plot = FALSE)
+out <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE)
 
 # Plot table
 plot(out, type = "residuals")

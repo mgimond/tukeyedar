@@ -28,7 +28,7 @@
 #'         24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
 #'
 #' # Generate median polish output
-#' out <- eda_pol(df, row = "region", col = "edu", plot = FALSE)
+#' out <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE)
 #'
 #' # Plot table
 #' plot(out, type = "residuals")
@@ -45,6 +45,8 @@ plot.eda_polish <- function(x, type = "residuals", k = 1,
                             res.size = 1, row.size = 1, col.size = 1,
                             res.txt = TRUE, label.txt = TRUE, ...){
   if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
+  if (! type %in% c("residuals", "cv", "diagnostic" ))
+    stop("Paramater \"type=\" must be of \"residuals\", \"cv\" or \"diagnostic\" ")
 
   mat <- x$wide
 
@@ -68,7 +70,7 @@ plot.eda_polish <- function(x, type = "residuals", k = 1,
   if (adj.mar == FALSE){
     OP <- par(mar = c(1.5,1.5,1.5,1.5))
   } else {
-    OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/1.6 ,1.5,1.5))
+    OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/2.5 * row.size ,1.5,1.5) )
   }
   max <- max(abs(range(mat))) # Get max upper or lower bound value
   len <- prod(dim(mat))       # Get number of values

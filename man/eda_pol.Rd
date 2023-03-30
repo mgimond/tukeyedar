@@ -8,10 +8,14 @@ eda_pol(
   x,
   row = NULL,
   col = NULL,
+  val = NULL,
   stat = median,
   plot = TRUE,
   eps = 0.01,
   maxiter = 5,
+  sort = FALSE,
+  p = 1,
+  tukey = FALSE,
   col.quant = FALSE,
   colpal = "RdYlBu",
   adj.mar = FALSE,
@@ -29,6 +33,8 @@ eda_pol(
 
 \item{col}{Name of column assigned to the column effect}
 
+\item{val}{Name of column assigned to the response variable}
+
 \item{stat}{Polishing statistic (default is median)}
 
 \item{plot}{Boolean determining if an output plot should be generated}
@@ -36,6 +42,13 @@ eda_pol(
 \item{eps}{Convergence tolerance parameter}
 
 \item{maxiter}{Maximum number of iterations}
+
+\item{sort}{Boolean determining if the effects row/columns should be sorted}
+
+\item{p}{Re-expression power parameter}
+
+\item{tukey}{Boolean determining if Tukey's power transformation should used. If FALSE,
+the Box-Cox transformation is adopted.}
 
 \item{col.quant}{Boolean determining if a quantile classification scheme should be used}
 
@@ -58,7 +71,7 @@ eda_pol(
 }
 \details{
 The function performs a polish on a two way table. By default, it applies a
- median polish, but other statitcs such as the mean can be passed to the function
+ median polish, but other statistic such as the mean can be passed to the function
  via the \code{stat = } parameter.
  The function returns a list of row/column effects along with global and residual values.
  It will also generate a colored table if \code{plot = TRUE}.
@@ -70,5 +83,5 @@ edu = rep( c("ed8", "ed9to11", "ed12", "ed13to15", "ed16"), 4),
 perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
         24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
 
-eda_pol(df, row = "region", col = "edu")
+eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE)
 }
