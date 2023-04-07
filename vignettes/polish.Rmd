@@ -1,0 +1,54 @@
+---
+title: "Median polish"
+author: "Manuel Gimond"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: TRUE
+    css: style.css
+vignette: >
+  %\VignetteIndexEntry{Median polish}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#> ",
+  message = FALSE,
+  tidy = FALSE,
+  cache = FALSE,
+  warning = FALSE,
+  encoding = "UTF-8"
+)
+```
+
+## The median polish basics
+
+The median polish is an exploratory technique used to extract effects from a two-way table. It does so by iteratively extracting the effects associated with the row and column factors via medians. 
+
+```{r echo = FALSE, fig.width = 10, fig.height=2.5}
+library(tukeyedar)
+df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
+edu = rep( c("ed8", "ed9to11", "ed12", "ed13to15", "ed16"), 4),
+perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
+        24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
+
+out0 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 0)
+
+out1 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 1)
+
+out2 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 2)
+
+out3 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 3)
+
+OP <- par(mfrow = c(1,4))
+ plot(out0, row.size = 0.6, col.size = 0.6)
+ plot(out1, row.size = 0.6, col.size = 0.6)
+ plot(out2, row.size = 0.6, col.size = 0.6)
+ plot(out3, row.size = 0.6, col.size = 0.6)
+par(OP)
+```
