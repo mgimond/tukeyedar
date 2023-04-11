@@ -10,6 +10,7 @@
   k = 1,
   col.quant = FALSE,
   colpal = "RdYlBu",
+  col.eff = TRUE,
   adj.mar = FALSE,
   res.size = 1,
   row.size = 1,
@@ -26,11 +27,13 @@
 
 \item{k}{If cv values are to be plotted, define the k parameter}
 
-\item{col.quant}{Boolean determining if a quantile classification scheme should be used}
+\item{col.quant}{Boolean indicating if a quantile classification scheme should be used}
 
 \item{colpal}{Color palette to adopt}
 
-\item{adj.mar}{Boolean determining if margin width needs to accomodate labels}
+\item{col.eff}{Boolean indicating if effects should contribute to color gradient}
+
+\item{adj.mar}{Boolean indicating if margin width needs to accommodate labels}
 
 \item{res.size}{Size of residual values in plot [0-1]}
 
@@ -38,9 +41,9 @@
 
 \item{col.size}{Size of column effect values in plot [0-1]}
 
-\item{res.txt}{Boolean determining if values should be added to plot}
+\item{res.txt}{Boolean indicating if values should be added to plot}
 
-\item{label.txt}{Boolean determining if margin and column labels should be plotted}
+\item{label.txt}{Boolean indicating if margin and column labels should be plotted}
 
 \item{...}{Arguments to be passed to subsequent methods}
 }
