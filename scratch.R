@@ -20,6 +20,18 @@ df3 <- data.frame(year = rep(2016:2021, each=6),
                            5, 2.67, 1.82, 5.17, 74.92, 8.85, 4.58, 2.57, 1.81, 7.26, 73.24,
                            8.59, 4.17, 2.48, 1.83, 9.7) )
 
+df4 <- data.frame(Education = c("Less than High School Graduate",
+                                "High School Graduate (Includes Equivalency)",
+                                "Some College or Associate's Degree",
+                                "Bachelor's Degree", "Graduate or Professional Degree",
+                                "Less than High School Graduate",
+                                "High School Graduate (Includes Equivalency)",
+                                "Some College or Associate's Degree",
+                                "Bachelor's Degree",
+                                "Graduate or Professional Degree"),
+                  Sex = c(rep("Male", 5), rep("Female",5)),
+                  Earnings_2021 = c(31722, 40514, 49288, 73128,98840,20448,
+                                    26967, 33430, 50554, 67202))
 
 ## test IQRoQ on gene expression data
 f1 <- function(x){
@@ -83,3 +95,10 @@ par(OP)
 
 out <- eda_pol(df3, row = "type", col = "year", val = "perc", p = 0, adj.mar = TRUE, row.size = 0.8, sort = TRUE)
 plot(out, row.size = 1, adj.mar = TRUE)
+
+
+## Earnings by education and sex (2021 data for US)
+out <- eda_pol(df4, row = "Education", col = "Sex", val = "Earnings_2021", adj.mar = TRUE, sort = TRUE)
+plot(out, type = "diagnostic")
+out2 <- eda_pol(df4, row = "Education", col = "Sex", val = "Earnings_2021", adj.mar = TRUE, sort = TRUE, p =.11)
+plot(out2, type = "diagnostic")
