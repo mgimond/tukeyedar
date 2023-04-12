@@ -98,7 +98,28 @@ plot(out, row.size = 1, adj.mar = TRUE)
 
 
 ## Earnings by education and sex (2021 data for US)
-out <- eda_pol(df4, row = "Education", col = "Sex", val = "Earnings_2021", adj.mar = TRUE, sort = TRUE)
+out <- eda_pol(df4, row = "Education", col = "Sex",
+               val = "Earnings_2021", adj.mar = TRUE,
+               sort = TRUE, row.size = 0.6)
 plot(out, type = "diagnostic")
-out2 <- eda_pol(df4, row = "Education", col = "Sex", val = "Earnings_2021", adj.mar = TRUE, sort = TRUE, p =.11)
+out2 <- eda_pol(df4, row = "Education", col = "Sex",
+                val = "Earnings_2021", adj.mar = TRUE,
+                sort = TRUE, row.size = 0.6, p = 0.11)
 plot(out2, type = "diagnostic")
+plot(out2,  col.eff = FALSE, colpal = "Blue-Red")
+plot(out,  col.eff = FALSE, colpal = "Blue-Red")
+
+f4 <- function(x){
+  out <- eda_pol(df4, row = "Education", col = "Sex", val = "Earnings_2021",
+                 p = x, plot=FALSE, tukey = FALSE)
+  c(p=out$power, IQrow = out$IQ_row, IQcol = out$IQ_col)
+}
+
+IQ <- t(sapply(0:25/10,  FUN = f4 ))
+
+OP <- par(mfrow = c(1,2))
+plot(IQrow ~ p, IQ)
+grid()
+plot(IQcol ~ p, IQ)
+grid()
+par(OP)
