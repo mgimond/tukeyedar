@@ -9,3 +9,5 @@ figures:
   fig.retina: 2
   fig.asp: 1.618
   bg: NA
+template:
+  bootstrap: 5

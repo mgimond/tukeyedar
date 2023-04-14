@@ -11,6 +11,7 @@
   col.quant = FALSE,
   colpal = "RdYlBu",
   col.eff = TRUE,
+  col.com = TRUE,
   adj.mar = FALSE,
   res.size = 1,
   row.size = 1,
@@ -31,7 +32,9 @@
 
 \item{colpal}{Color palette to adopt}
 
-\item{col.eff}{Boolean indicating if effects should contribute to color gradient}
+\item{col.eff}{Boolean indicating if effects and common value should contribute to color gradient}
+
+\item{col.com}{Boolean indicating if common value should contribute to color gradient}
 
 \item{adj.mar}{Boolean indicating if margin width needs to accommodate labels}
 

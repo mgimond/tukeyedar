@@ -9,7 +9,8 @@
 #' @param k If cv values are to be plotted, define the k parameter
 #' @param col.quant Boolean indicating if a quantile classification scheme should be used
 #' @param colpal Color palette to adopt
-#' @param col.eff Boolean indicating if effects should contribute to color gradient
+#' @param col.eff Boolean indicating if effects and common value should contribute to color gradient
+#' @param col.com Boolean indicating if common value should contribute to color gradient
 #' @param adj.mar Boolean indicating if margin width needs to accommodate labels
 #' @param res.size Size of residual values in plot [0-1]
 #' @param row.size Size of row effect values in plot [0-1]
@@ -42,8 +43,8 @@
 #' plot(out, type = "diagnostic")
 
 plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
-                            colpal = "RdYlBu", col.eff = TRUE, adj.mar = FALSE,
-                            res.size = 1, row.size = 1, col.size = 1,
+                            colpal = "RdYlBu", col.eff = TRUE, col.com = TRUE,
+                            adj.mar = FALSE, res.size = 1, row.size = 1, col.size = 1,
                             res.txt = TRUE, label.txt = TRUE, ...){
   if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
   if (! type %in% c("residuals", "cv", "diagnostic" ))
@@ -78,7 +79,10 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
   len <- prod(dim(mat))
 
   # Get min/max range to be mapped to color gradient
-  if(col.eff == TRUE){
+  if(col.com == FALSE){
+    max <- max(abs(range(mat[-1]))) # exclude common value
+    quant.range <- mat[-1]
+  } else if(col.eff == TRUE){
     max <- max(abs(range(mat))) # Get max upper or lower bound value
     quant.range <- mat
   } else {

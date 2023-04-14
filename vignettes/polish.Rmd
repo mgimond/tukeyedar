@@ -17,7 +17,7 @@ editor_options:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#> ",
+  comment =  " ",
   message = FALSE,
   tidy = FALSE,
   cache = FALSE,
@@ -28,21 +28,22 @@ knitr::opts_chunk$set(
 
 ## The median polish basics
 
-The median polish is an exploratory technique used to extract effects from a two-way table. It does so by iteratively extracting the effects associated with the row and column factors via medians. 
+The median polish is an exploratory technique used to extract effects from a two-way table. As such, a median polish can be thought of as a robust version of a [two-way ANOVA](https://mgimond.github.io/Stats-in-R/ANOVA.html#two-way-anova); the goal being to characterize the role each factor has in contributing towards the expected value. It does so by iteratively extracting the effects associated with the row and column factors via medians.
 
-```{r echo = FALSE, fig.width = 10, fig.height=2.5}
+For example, given a two-way table where 1964 through 1966 infant mortality rates[^1] (reported as count per 1000 live births) is computed for each combination of geographic region (`NE`, `NC`, `S`, `W`) and each level of the father's educational attainment (`ed8`, `ed9-11`, `ed12`, `ed13-15`, `ed16`), the median polish will first extract the overall median value, then it will *smooth* out the residual rates by first extracting the median values along each column (thus contributing to the column factor), then it will *smooth* out the remaining residual rates by extracting the median values along each row (thus contributing to the row factor). The smoothing operation is iterated until the residuals stabilize. The workflow is highlighted in the following figure.
+
+
+```{r echo = FALSE, fig.width = 11, fig.height=2.5}
 library(tukeyedar)
+grd <- c("ed8", "ed9-11", "ed12", "ed13-15", "ed16")
 df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
-edu = rep( c("ed8", "ed9to11", "ed12", "ed13to15", "ed16"), 4),
+edu = factor(rep( grd , 4), levels = grd),
 perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
         24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
 
 out0 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 0)
-
 out1 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 1)
-
 out2 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 2)
-
 out3 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 3)
 
 OP <- par(mfrow = c(1,4))
@@ -52,3 +53,128 @@ OP <- par(mfrow = c(1,4))
  plot(out3, row.size = 0.6, col.size = 0.6)
 par(OP)
 ```
+
+The left-most table is the original data showing death rates. The second table shows the outcome of the first round of polishing (including the initial overall median value of `r out1$global`). The third and forth table show the second and third iterations of the smoothing operations. Additional iterations are not deemed necessary given that little more can be extracted from the residuals. For a detailed step-by-step explanation of the workflow see [here](https://mgimond.github.io/ES218/two_way.html#median-polish).
+
+The resulting model is additive in the form of:
+
+$$
+y_{ij} = \mu + \alpha_{i} + \beta_{j} +\epsilon_{ij}
+$$
+where $y_{ij}$ is the **response variable** for row $i$ and column $j$, $\mu$ is the overall typical value (hereafter referred to as the **common value**),$\alpha_{i}$ is the **row effect**, $\beta_{j}$ is the **column effect** and $\epsilon_{ij}$ is the **residual** or value left over after all effects are taken into account.
+
+Each factor's effect is displayed in the top row and left-most column. In the above example, the region is assigned to the rows and the father's educational attainment is assigned to the columns. The father's educational attainment can explain about `11` units of variability (`7.58` - `(-3.45)`) in death rates vs `4` units of variability for the region (`2.55` - `(-1.5)`). As such, the father's educational attainment is a larger contributor to the expected infant mortality than the regional effect.
+
+
+## Implementing the median polish
+
+This package's `eda_polish` is an augmented version of the built-in `medpolish` available via the `stats` package. A key difference is that `eda_polish` takes the input dataset in long form as opposed to `medpolish` which takes the dataset in the form of a matrix. For example, the infant mortality dataset needs to consist of at least three columns: one for each variable (the two factors and the expected value).
+
+```{r}
+grd <- c("ed8", "ed9-11", "ed12", "ed13-15", "ed16")
+dat <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
+edu = factor(rep( grd , 4), levels = grd),
+perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
+        24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
+head(dat)
+```
+
+The median polish can then be executed as follows:
+
+```{r eval = FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc")
+```
+
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", row.size = 0.7, col.size = 0.7, res.size = 0.7)
+```
+
+The function will output the table as a plot along with a list of components that are stored in the `M1` object. If you want to suppress the plot, you can set the parameter `plot = FALSE`.
+
+The `M1` object is of class ``r class(M1)``. You can extract the common values, and the row and column effects as follows:
+
+```{r}
+M1$global
+```
+
+```{r}
+M1$row
+```
+
+```{r}
+M1$col
+```
+
+###  Ordering rows and columns by effect values
+
+To order the row and column effects by effect values, set the `sort` parameter to `TRUE`.
+
+```{r fig.width=3, fig.height=3, echo=FALSE, results='hide'}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", sort = TRUE)
+```
+
+### Applying a transformation to the data
+
+You can have the function re-express the values prior to performing the polish. For example, to log transform the data, pass the value `0` to `p`.
+
+```{r fig.width=3, fig.height=3, echo=FALSE, results='hide'}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0)
+```
+
+If you are re-expressing the data using a negative power, you have the choice of adopting a Tukey transformation (`tukey = TRUE`) or a Box-Cox transformation (`tukey = FALSE`). For example, to apply a power transfromation of -0.1 using a Box-Cox transformation, type:
+
+```{r fig.width=3, fig.height=3, echo=FALSE, results='hide'}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = -0.1, tukey = FALSE)
+```
+
+### Defining the statistic
+
+By default, the polishing routine adopts the median statistic. You can adopt any other statistic via the `stat` parameter. For example, to apply a **mean polish**, type:
+
+```{r eval = FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", stat = mean)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", stat = mean, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
+```
+
+If you are familiar with a two-way ANOVA, you'll note that the computed effects from a mean polish match those computed from a two-way ANOVA:
+
+```{r}
+aov(perc ~ region + edu, dat) |> model.tables()
+```
+
+
+
+## The `eda_polish` plot method
+
+The list opbject created by the `eda_pol` function is of class `eda_polish`. As such, there is a plot method created for that class. The plot method will either output the original polished table (`type = "residuals"`), the diagnostic plot (`type = "diagnostic"`), or the CV values (`cv`).
+
+## Plot the median polish table
+
+Working off of the median_polish object created in the last section, you can plot the median polish table as follows:
+
+```{r eval = FALSE}
+plot(M1)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
+```
+
+## Adjusting color schemes
+
+By default, the range of color palettes are defined by the range of *all* values in the table. This includes the common value. To prevent the common value from affecting the distribution of color palettes, set `col.com` to `FALSE`.
+
+```{r eval = FALSE}
+plot(M1, col.com = FALSE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, col.com = FALSE, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
+```
+
+
+[^1]: *Understanding Robust and Exploratory Data Analysis*, D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.
