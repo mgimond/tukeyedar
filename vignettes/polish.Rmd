@@ -82,12 +82,13 @@ head(dat)
 The median polish can then be executed as follows:
 
 ```{r eval = FALSE}
+library(tukeyedar)
 M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc")
 ```
 
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", row.size = 0.7, col.size = 0.7, res.size = 0.7)
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
 The function will output the table as a plot along with a list of components that are stored in the `M1` object. If you want to suppress the plot, you can set the parameter `plot = FALSE`.
@@ -110,22 +111,34 @@ M1$col
 
 To order the row and column effects by effect values, set the `sort` parameter to `TRUE`.
 
-```{r fig.width=3, fig.height=3, echo=FALSE, results='hide'}
+```{r fig.width=3, fig.height=3, eval=FALSE}
 M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", sort = TRUE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", sort = TRUE, row.size = 0.8, col.size = 0.8, res.size = 0.8) 
 ```
 
 ### Applying a transformation to the data
 
 You can have the function re-express the values prior to performing the polish. For example, to log transform the data, pass the value `0` to `p`.
 
-```{r fig.width=3, fig.height=3, echo=FALSE, results='hide'}
+```{r fig.width=3, fig.height=3, eval=FALSE}
 M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0, row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
 If you are re-expressing the data using a negative power, you have the choice of adopting a Tukey transformation (`tukey = TRUE`) or a Box-Cox transformation (`tukey = FALSE`). For example, to apply a power transfromation of -0.1 using a Box-Cox transformation, type:
 
-```{r fig.width=3, fig.height=3, echo=FALSE, results='hide'}
+```{r fig.width=3, fig.height=3, eval=FALSE}
 M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = -0.1, tukey = FALSE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc",  p = -0.1, tukey = FALSE, row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
 ### Defining the statistic
@@ -143,7 +156,7 @@ M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", stat = mean, res.s
 If you are familiar with a two-way ANOVA, you'll note that the computed effects from a mean polish match those computed from a two-way ANOVA:
 
 ```{r}
-aov(perc ~ region + edu, dat) |> model.tables()
+model.tables(aov(perc ~ region + edu, dat))
 ```
 
 
@@ -166,6 +179,8 @@ plot(M1, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 
 ## Adjusting color schemes
 
+### Removing common effect from color palette range 
+
 By default, the range of color palettes are defined by the range of *all* values in the table. This includes the common value. To prevent the common value from affecting the distribution of color palettes, set `col.com` to `FALSE`.
 
 ```{r eval = FALSE}
@@ -175,6 +190,107 @@ plot(M1, col.com = FALSE)
 ```{r fig.width=3, fig.height=3, echo=FALSE}
 plot(M1, col.com = FALSE, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
+
+Note how the distribution of colors is maximized to help improve our view of the effects. This view makes it clear that the father's educational attainment has a greate effect than the region.
+
+### Removing row/column effects from color palette range
+
+If you want the plot to focus on the residuals by maximizing the range of colors to fit the range of residual values, set `col.eff = FALSE`.
+
+```{r eval = FALSE}
+plot(M1, col.eff = FALSE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, col.eff = FALSE, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
+```
+
+Note that setting `col.eff` to `FALSE` does not prevent the effects cells from being colored. It simply ensures that the range of colors are maximized to match the full range of residual values. Any effect value that falls within the residual range will be assigned a color.
+
+### changing color schemes
+
+By default, the color scheme is symmetrical centered on `0`. It adopts R (version 4.1 and above) built-in `"RdYlBu"` color palettes. You can assign different built-in color palettes via the `colpal` parameter.
+
+You can list available colors via the `hcl.pals()` function.
+
+If you want to limit the output to divergent color palettes, type:
+
+```{r }
+hcl.pals(type = "diverging")
+```
+
+For example, we can assign the `"Green-Brown"` color palette as follows. (We'll remove the common value from the range of input values to maximize the displayed set of colors).
+
+```{r eval = FALSE}
+plot(M1, colpal = "Green-Brown", col.com = FALSE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, colpal = "Green-Brown", res.size = 0.8,  row.size = 0.8, col.size = 0.8)
+```
+
+The default classification scheme is symmetrical and linear, centered on `0`. If you want to maximize the use of colors, reagrdless of the range of values, you can set `col.quant` to `TRUE`.
+
+```{r eval = FALSE}
+plot(M1, col.quant = TRUE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, col.quant = TRUE,  row.size = 0.8, col.size = 0.8, res.size = 0.8,)
+```
+
+You'll note that regardless of the asymmetrical distribution of values about `0`, each cell is assigned a unique color swatch.
+
+When adopting a quantitative color classification scheme, you might want to adopt a color palette that generates fewer unique hues and more variation in lightness values. For example,
+
+```{r eval = FALSE}
+plot(M1, col.quant = TRUE, colpal = "Green-Orange")
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, col.quant = TRUE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8, colpal = "Green-Orange")
+```
+
+## Adjusting text
+
+You can omit all labeled values from the output by setting `res.txt` to `FALSE`. 
+
+```{r eval = FALSE}
+plot(M1, res.txt = FALSE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, res.txt = FALSE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8)
+```
+
+Likewise you can omit all axes labels by setting `label.txt` to `FALSE`. This may prove useful when applying a median polish to a large grid file.
+
+```{r eval = FALSE}
+plot(M1, res.txt = FALSE, label.txt = FALSE)
+```
+
+```{r fig.width=3, fig.height=3, echo=FALSE}
+plot(M1, res.txt = FALSE, label.txt = FALSE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8)
+```
+
+You can adjust the text size via the `res.size`, `row.size` and col.size parameters for the value labels (effects and residuals), the row names, and the column names respectively. For example, to set their sizes to 50% of there default value type:
+
+```{r fig.width=3, fig.height=3}
+plot(M1, row.size = 0.6, col.size = 0.6 , res.size = 0.6)
+```
+
+## Exploring diagnostic plots
+
+The `plot` method will also generate a diagnostic plot.
+
+```{r fig.width=3, fig.height=3}
+OP <- par(mar=c(4,4,1,1))
+plot(M1, type = "diagnostic")
+par(OP)
+```
+
+This plot shows the relationship between the CV values and the residuals. A robust line is fitted to the data.
+
 
 
 [^1]: *Understanding Robust and Exploratory Data Analysis*, D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.
