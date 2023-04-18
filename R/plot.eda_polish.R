@@ -53,24 +53,29 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
   mat <- x$wide
 
   if(type == "diagnostic"){
-    cv <- x$cv[,4]
-    residuals <- x$cv[,1]
-    plot(cv,residuals, pch=16, col = rgb(0,0,0,0.5))
-    abline(h = median(residuals), lty=2, col = "grey")
-    abline(v = median(cv), lty=2, col = "grey")
-    tryCatch(
-      { fit.r <- MASS::rlm(residuals~cv, psi = MASS::psi.bisquare)
+    if(sum(is.finite(x$cv[,4])) > 1){
+      cv <- x$cv[,4]
+      residuals <- x$cv[,1]
+      plot(cv,residuals, pch=16, col = rgb(0,0,0,0.5))
+      abline(h = median(residuals), lty=2, col = "grey")
+      abline(v = median(cv), lty=2, col = "grey")
+      fit.r <- MASS::rlm(residuals~cv, psi = MASS::psi.bisquare)
+      abline(fit.r, col = rgb(1,0,0,0.35))
+      tryCatch(
+        {
         fit.l <- loess(residuals~cv, family = "symmetric")
-        abline(fit.r, col = rgb(1,0,0,0.35))
         lines(sort(cv), predict( fit.l , sort(cv)), col = rgb(0,0,1,0.5), lty = 2)
-        return(list(slope = fit.r$coefficients[2]))
-      },
-      error=function(cond) {
-        message("Fits could not be generated. Is it possible that the residuals and/or CVs are close to 0?")
-       # suppressMessages(message(cond))
-        return("No slope")}
-    )
-    return()
+        },
+        error=function(cond) {
+          message("Loess fit could not be generated.")
+          # suppressMessages(message(cond))
+          return("No slope")}
+      )
+      return(list(slope = fit.r$coefficients[2]))
+    } else {
+      return("CV values are not finite")
+    }
+
   }
 
   if(type == "cv") {
