@@ -62,13 +62,15 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
       { fit.r <- MASS::rlm(residuals~cv, psi = MASS::psi.bisquare)
         fit.l <- loess(residuals~cv, family = "symmetric")
         abline(fit.r, col = rgb(1,0,0,0.35))
-        lines(sort(cv), predict( fit.l , sort(cv)), col = rgb(0,0,1,0.5), lty = 2)},
+        lines(sort(cv), predict( fit.l , sort(cv)), col = rgb(0,0,1,0.5), lty = 2)
+        return(list(slope = fit.r$coefficients[2]))
+      },
       error=function(cond) {
-        message(paste("Fits could not be generated", cond))
-        message("Here's the original error message:")
-        message(cond)}
+        message("Fits could not be generated. Is it possible that the residuals and/or CVs are close to 0?")
+       # suppressMessages(message(cond))
+        return("No slope")}
     )
-    return(list(slope = fit.r$coefficients[2]))
+    return()
   }
 
   if(type == "cv") {
