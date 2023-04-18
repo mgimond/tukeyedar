@@ -157,10 +157,11 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
 
   # Compute comparison value
   cv <- merge(x2, row.eff)
-  names(cv)[4] <- "row"
+  names(cv)[4] <- paste0(row,".eff")
   cv <- merge(cv, col.eff)
-  names(cv)[5] <- "col"
-  cv$cv <-  cv$row * cv$col / global
+  names(cv)[5] <- paste0(col,".eff")
+  cv = cv[ ,-(1:2)]
+  cv$cv <-  cv[,2] * cv[,3] / global
 
   # Compute IQRoQ
   IQRrow <- IQR(row.eff$effect)
@@ -171,9 +172,10 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
 
   # Generate list
   out <- list(long = x2, wide = x2w, row = row.eff, col = col.eff,
-              global = global, iter = i, cv = cv[ ,-(1:2)],
+              global = global, iter = i, cv = cv,
               power = p, IQ_row = IQ_row, IQ_col=IQ_col)
   class(out) <- "eda_polish"
+
 
   # Generate plot ----
   if(plot == TRUE){
@@ -185,3 +187,4 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
 
   return(out)
 }
+
