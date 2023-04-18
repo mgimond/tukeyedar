@@ -55,12 +55,20 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
   if(type == "diagnostic"){
     cv <- x$cv[,4]
     residuals <- x$cv[,1]
-    fit <- MASS::rlm(residuals~cv)
     plot(cv,residuals, pch=16, col = rgb(0,0,0,0.5))
     abline(h = median(residuals), lty=2, col = "grey")
     abline(v = median(cv), lty=2, col = "grey")
-    abline(fit, col = rgb(0,0,1,0.3))
-    return(list(slope = fit$coefficients[2]))
+    tryCatch(
+      { fit.r <- MASS::rlm(residuals~cv, psi = MASS::psi.bisquare)
+        fit.l <- loess(residuals~cv, family = "symmetric")
+        abline(fit.r, col = rgb(1,0,0,0.35))
+        lines(sort(cv), predict( fit.l , sort(cv)), col = rgb(0,0,1,0.5), lty = 2)},
+      error=function(cond) {
+        message(paste("Fits could not be generated", cond))
+        message("Here's the original error message:")
+        message(cond)}
+    )
+    return(list(slope = fit.r$coefficients[2]))
   }
 
   if(type == "cv") {
@@ -115,3 +123,4 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
   }
   par(OP)
 }
+
