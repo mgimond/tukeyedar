@@ -16,6 +16,7 @@
 #' @param p Re-expression power parameter
 #' @param tukey Boolean determining if Tukey's power transformation should used. If FALSE,
 #'              the Box-Cox transformation is adopted.
+#' @param offset Offset to add to values if at leat one value is 0 and the power is negative
 #' @param col.quant Boolean determining if a quantile classification scheme should be used
 #' @param colpal Color palette to adopt
 #' @param adj.mar Boolean determining if margin width needs to accomodate labels
@@ -45,7 +46,7 @@
 
 eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot = TRUE,
                         eps = 0.01, maxiter = 5, sort = FALSE, p = 1, tukey = FALSE,
-                        col.quant = FALSE, colpal = "RdYlBu", adj.mar = FALSE,
+                        offset = 0.00001, col.quant = FALSE, colpal = "RdYlBu", adj.mar = FALSE,
                         res.size = 1, row.size = 1, col.size = 1,
                         res.txt = TRUE, label.txt = TRUE){
   if(is.data.frame(x)){
@@ -60,6 +61,18 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
 
   x2 <- data.frame(x[[col]], x[[row]], x[[val]])
   colnames(x2) <- c(col, row, val)
+
+  if( (any(x2[[val]] < 0)) & (p < 1 )) {
+    stop(paste("You are applying a power of ",p," to negative values."))
+  }
+
+    if( (any(x2[[val]] == 0)) & (p < 0 )) {
+    x2[[val]] <-  x2[[val]] + offset
+    print("Warning: zeros were found in the data. Given a negative power, an offset was added")
+    print("This may lead to large residuals")
+  }
+
+
 
   # Check re-expression is desired
   if(p !=1){
@@ -111,7 +124,6 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
       x2[[paste0(val,".fun")]] <- NULL
 
       res.sum2 <- sum(abs(x2[[val]]))
-
       if(res.sum2 == 0 | abs(res.sum2 - res.sum1) < eps){
         break
       } else{
