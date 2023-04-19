@@ -15,6 +15,7 @@ editor_options:
 ---
 
 ```{r setup, include = FALSE}
+options(scipen = 99)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment =  " ",
@@ -24,6 +25,16 @@ knitr::opts_chunk$set(
   warning = FALSE,
   encoding = "UTF-8"
 )
+```
+
+
+```{css, echo=FALSE}
+.caption {
+  text-align: center;
+  font-weight: 600;
+  font-style: italic;
+  color: #999999;
+}
 ```
 
 ## The median polish basics
@@ -37,9 +48,10 @@ For example, given a two-way table where 1964 through 1966 infant mortality rate
 library(tukeyedar)
 grd <- c("ed8", "ed9-11", "ed12", "ed13-15", "ed16")
 df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
-edu = factor(rep( grd , 4), levels = grd),
-perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
-        24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
+                 edu = factor(rep( grd , 4), levels = grd),
+                 perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
+                          24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 
+                          21.1, 20.3, 24, 17.5))
 
 out0 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 0)
 out1 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 1)
@@ -73,9 +85,10 @@ This package's `eda_polish` is an augmented version of the built-in `medpolish` 
 ```{r}
 grd <- c("ed8", "ed9-11", "ed12", "ed13-15", "ed16")
 dat <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
-edu = factor(rep( grd , 4), levels = grd),
-perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
-        24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
+                  edu = factor(rep( grd , 4), levels = grd),
+                  perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
+                           24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 
+                           21.1, 20.3, 24, 17.5))
 head(dat)
 ```
 
@@ -131,7 +144,7 @@ M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0)
 M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0, row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
-If you are re-expressing the data using a negative power, you have the choice of adopting a Tukey transformation (`tukey = TRUE`) or a Box-Cox transformation (`tukey = FALSE`). For example, to apply a power transfromation of -0.1 using a Box-Cox transformation, type:
+If you are re-expressing the data using a negative power, you have the choice of adopting a Tukey transformation (`tukey = TRUE`) or a Box-Cox transformation (`tukey = FALSE`). For example, to apply a power transformation of -0.1 using a Box-Cox transformation, type:
 
 ```{r fig.width=3, fig.height=3, eval=FALSE}
 M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = -0.1, tukey = FALSE)
@@ -160,20 +173,21 @@ model.tables(aov(perc ~ region + edu, dat))
 ```
 
 
-
 ## The `eda_polish` plot method
 
-The list opbject created by the `eda_pol` function is of class `eda_polish`. As such, there is a plot method created for that class. The plot method will either output the original polished table (`type = "residuals"`), the diagnostic plot (`type = "diagnostic"`), or the CV values (`cv`).
+The list object created by the `eda_pol` function is of class `eda_polish`. As such, there is a plot method created for that class. The plot method will either output the original polished table (`type = "residuals"`), the diagnostic plot (`type = "diagnostic"`), or the CV values (`cv`).
 
 ## Plot the median polish table
 
-Working off of the median_polish object created in the last section, you can plot the median polish table as follows:
+You can generate the plot table from the median polish model as follows:
 
 ```{r eval = FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", plot = FALSE)
 plot(M1)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
+M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", plot = FALSE)
 plot(M1, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
 
@@ -191,7 +205,7 @@ plot(M1, col.com = FALSE)
 plot(M1, col.com = FALSE, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
 
-Note how the distribution of colors is maximized to help improve our view of the effects. This view makes it clear that the father's educational attainment has a greate effect than the region.
+Note how the distribution of colors is maximized to help improve our view of the effects. This view makes it clear that the father's educational attainment has a greater effect than the region.
 
 ### Removing row/column effects from color palette range
 
@@ -229,7 +243,7 @@ plot(M1, colpal = "Green-Brown", col.com = FALSE)
 plot(M1, colpal = "Green-Brown", res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
 
-The default classification scheme is symmetrical and linear, centered on `0`. If you want to maximize the use of colors, reagrdless of the range of values, you can set `col.quant` to `TRUE`.
+The default classification scheme is symmetrical and linear, centered on `0`. If you want to maximize the use of colors, regardless of the range of values, you can set `col.quant` to `TRUE`.
 
 ```{r eval = FALSE}
 plot(M1, col.quant = TRUE)
@@ -281,16 +295,150 @@ plot(M1, row.size = 0.6, col.size = 0.6 , res.size = 0.6)
 
 ## Exploring diagnostic plots
 
-The `plot` method will also generate a diagnostic plot.
+The `plot` method will also generate a diagnostic plot of the residuals vs comparison values (CV).
 
-```{r fig.width=3, fig.height=3}
+```{r fig.width=3, fig.height=3, echo=2}
 OP <- par(mar=c(4,4,1,1))
-plot(M1, type = "diagnostic")
+plot(M1, type = "diagnostic") 
 par(OP)
 ```
 
-This plot shows the relationship between the CV values and the residuals. A robust line is fitted to the data.
+This plot shows the relationship between the CV values and the residuals. A bisquare robust line is fitted to the data (light red line) along with a robust loess fit (dashed blue line). The function will also output the line's slope. This slope can be used to help estimate a transformation of the data, if needed.
+
+To generate your own plot, simply extract the `cv` component from the `M1` list. The `cv` component is a dataframe that stores the residuals (first column) and CV values (fourth column). The first few records of the data frame are shown next.
+
+```{r}
+head(M1$cv)
+```
 
 
+The diagnostic plot helps identify any interactions between both effects. If interaction is suspected, then the model is no longer a simple additive model; The model needs to be augmented with an interactive component of the form:
+
+$$
+y_{ij} = \mu + \alpha_{i} + \beta_{j} + kCV +\epsilon_{ij}
+$$
+
+where $CV$ = $\alpha_{i}\beta_{j}/\mu$ and $k$ is a constant that can be estimated from the slope generated in the diagnostic plot.
+
+A truly additive model is one where the changes in the response variable from one level to another level remain constant. For example, given the bottom-left matrix of initial response values, changes in the response variable from level `a` to level `b` are constant regardless of the row effect. For example. going from `a` to `b` at level `z` elicits a change in response of `6 - 3 = 3`. This is the same observed change in values from `a` to `b` at levels `x` and `y` (`4-1` and `5-2` respectively). At all three row levels, the change in expected values from `a` to `b` is the same: in increase of `3` units. Likewise, changes in response values between rows `x` and `y` or `y` and `z` are constant across all levels of the column effect (`1` respectively). The additive effect can be observed in an interaction plot as shown on the right. The column effect is plotted along the x-axis, the row effect is mapped to each line segment.
+
+```{r fig.width=5.5, fig.height=2.5, echo = FALSE, fig.cap="Original dataset. No interaction between effects"}
+ex1 <-data.frame( col = rep(c("a","b","c"), each=3),
+                  row = rep(c("x","y","z"), 3),
+                  val = c(1:3, 4:6, 7:9))
+
+OP <- par(mfrow = c(1,2), mar = c(2,2,1,2))
+Mex1 <- eda_pol(ex1, row = "row", col = "col", val = "val", maxiter = 0)
+with(ex1, interaction.plot(col, row, val, fun = median, type = "b", pch=1:3))
+par(OP)
+```
+
+**Parallel** lines indicate **no interaction** between the effects. A median polish generates the following table and diagnostic plot:
+
+```{r fig.width=5.5, fig.height=2.5, echo = FALSE,message=FALSE, warning=FALSE, error = FALSE, results='hide', fig.cap="Median polished data showing no interaction between effects"}
+OP <- par(mfrow = c(1,2), mar = c(2,2,1,1))
+Mex1 <- eda_pol(ex1, row = "row", col = "col", val = "val", maxiter = 4, plot=FALSE)
+plot(Mex1)
+plot(Mex1, "diagnostic")
+par(OP)
+```
+
+You'll note the lack of pattern (other than a flat one) in the accompanying diagnostic plot.
+
+Now, let's see what happens when an interaction is in fact present in the two way table.
+
+
+```{r fig.width=5.5, fig.height=2.5, echo = FALSE, fig.cap="Original data. Interaction between effects"}
+ex2 <-data.frame( col = rep(c("a","b","c"), each=3),
+                  row = rep(c("x","y","z"), 3),
+                  val = c(6,2,1,4,5,6,4,8,12))
+
+OP <- par(mfrow = c(1,2), mar = c(2,2,1,2))
+Mex2 <- eda_pol(ex2, row = "row", col = "col", val = "val", maxiter = 0)
+with(ex2, interaction.plot(col, row, val, fun = median, type = "b", pch=1:3))
+par(OP)
+```
+
+Note how the lines are no longer parallel to one another in the interaction plot. Now let's run the median polish and generate the diagnostic plot.
+
+
+```{r fig.width=5.5, fig.height=2.5, echo = FALSE, message=FALSE, warning=FALSE, error = FALSE, results='hide', fig.cap="Median polished data showing interaction between effects"}
+OP <- par(mfrow = c(1,2), mar = c(2,2,1,1))
+Mex2 <- eda_pol(ex2, row = "row", col = "col", val = "val", plot=FALSE, p = 1)
+plot(Mex2)
+plot(Mex2, "diagnostic")
+par(OP)
+```
+
+You'll note the upward trend in residuals with increasing comparison values. This is usually a good indication of interacting in the effects. Another tell-tell sign is the pattern observed in the residuals with low residuals and high residuals in opposing corners in the table.
+
+If an interaction is observed, you should either include the interaction term in the additive model, or you should seek a re-expression that might help alleviate any interaction between the effects. 
+
+If you choose to include the interaction term in your model, the coefficient $k$ can be extracted from the slope generated in the diagnostic plot.
+
+If you choose to re-express the data in the hopes of removing any interaction in the data, you can try using a power transformation equal to  $1 - slope$ (slope being derived from the diagnostic plot).
+
+The infant mortality dataset does not suggest interaction between effects in the diagnostic plot. Next, we'll look at another dataset that may exhibit interaction between its effects.
+
+### Another example: Earnings by sex for 2021
+
+The dataset consists of earnings by sex and levels of educational attainment for 2021 (src: US Census Bureau).
+
++ `NoHS`: Less than High School Graduate
++ `HS`:  High School Graduate (Includes Equivalency)
++ `AD`: Some College or Associate's Degree
++ `Grad`: Bachelor's Degree
+
+```{r}
+edu <- c("NoHS", "HS", "HS+2", "HS+4", "HS+6")
+df1 <- data.frame(Education = factor(rep(edu,2), levels = edu),
+                  Sex = c(rep("Male", 5), rep("Female",5)),
+                  Earnings = c(31722, 40514, 49288, 73128,98840,20448,
+                                    26967, 33430, 50554, 67202))
+```
+
+The original table (prior to running the median polish), looks like this:
+
+```{r fig.width=2.8, fig.height=2.8, results='hide', fig.cap = "2021 Average earnings for the US."}
+eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , maxiter = 0, adj.mar = TRUE)
+```
+
+Next, we'll run the median polish.
+
+```{r}
+M2 <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , plot = FALSE)
+```
+
+Next, we plot the final table and the diagnostic plot.
+
+```{r fig.width=5.5, fig.height=2.8, echo = 2:3}
+OP <- par(mfrow = c(1,2), mar = c(2,2,2,1))
+plot(M2, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) # reduce font size
+plot(M2, "diagnostic")
+par(OP)
+```
+
+Here's what we can glean from the output:
+
++ Overall, the median earnings is  $`r  formatC(M2$global, format="f", big.mark=",", digits = 0)`
++ Discrepancy in earnings due to different levels in education attainment covers a range of $`r formatC(sum(abs(M2$row$effect)), format="f", big.mark=",", digits = 0) ` while that for different sexes covers a range of $`r  formatC(sum(abs(M2$col$effect)), format="f", big.mark=",", digits = 0)`.
++ Some of the residuals are quite large suggesting that there may be much of the earnings data that may not be explained by the row and column effects. The residuals explain $`r  formatC(sum(abs(M2$long$Earnings)), format="f", big.mark=",", digits = 0)` of the variability in the data.
++ The diagnostic plot suggests a strong interaction between the sex effect and the education effect. For example, this means that differences in earnings between sexes *depends* on the level of educational attainment.
++ The slope between residuals and CV values is around 0.94.
+
+#### Re-expressing earnings
+
+```{r}
+M3 <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , plot = FALSE, p=0.1)
+```
+
+Next, we plot the final table and the diagnostic plot.
+
+```{r fig.width=5.5, fig.height=2.8, echo = 2:3}
+OP <- par(mfrow = c(1,2), mar = c(2,2,2,1))
+plot(M3, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) # reduce font size
+plot(M3, "diagnostic")
+par(OP)
+```
 
 [^1]: *Understanding Robust and Exploratory Data Analysis*, D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.

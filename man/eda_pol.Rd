@@ -16,6 +16,7 @@ eda_pol(
   sort = FALSE,
   p = 1,
   tukey = FALSE,
+  offset = 1e-05,
   col.quant = FALSE,
   colpal = "RdYlBu",
   adj.mar = FALSE,
@@ -49,6 +50,8 @@ eda_pol(
 
 \item{tukey}{Boolean determining if Tukey's power transformation should used. If FALSE,
 the Box-Cox transformation is adopted.}
+
+\item{offset}{Offset to add to values if at leat one value is 0 and the power is negative}
 
 \item{col.quant}{Boolean determining if a quantile classification scheme should be used}
 
