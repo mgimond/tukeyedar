@@ -87,7 +87,7 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
   if (adj.mar == FALSE){
     OP <- par(mar = c(1.5,1.5,1.5,1.5))
   } else {
-    OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/2.5 * row.size ,1.5,1.5) )
+    OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/1.8 * row.size ,1.5,1.5) )
   }
 
   # Extract total number of values
