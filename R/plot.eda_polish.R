@@ -114,6 +114,9 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
   } else if(col.com == FALSE){
     max <- max(abs(range(unlist(mat)[-1]))) # exclude common value
     quant.range <- unlist(mat)[-1]
+  } else if(col.eff == FALSE){
+    max <- max(abs(range(mat[-1,-1]))) # exclude effects
+    quant.range <- mat[-1,-1]
   } else {
     max <- max(abs(range(mat))) # Get max upper or lower bound value
     quant.range <- mat

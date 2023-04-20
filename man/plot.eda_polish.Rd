@@ -7,7 +7,8 @@
 \method{plot}{eda_polish}(
   x,
   type = "residuals",
-  k = 1,
+  add.cv = FALSE,
+  k = NULL,
   col.quant = FALSE,
   colpal = "RdYlBu",
   col.eff = TRUE,
@@ -26,7 +27,9 @@
 
 \item{type}{Plot type. One of three: "residuals", "cv" or "diagnostic".}
 
-\item{k}{If cv values are to be plotted, define the k parameter}
+\item{add.cv}{Whether to add kCV to the model when plotting "residuals"}
+
+\item{k}{Custom k to use if kCV is to be added to model. A value of NULL makes us of slope.}
 
 \item{col.quant}{Boolean indicating if a quantile classification scheme should be used}
 

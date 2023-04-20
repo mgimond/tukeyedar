@@ -1,5 +1,5 @@
 Package: tukeyedar
-Version: 0.1.0
+Version: 0.1.1
 Type: Package
 Title: Tukey Inspired Exploratory Data Analysis Functions
 Authors@R: person(given = "Manuel", 
@@ -13,7 +13,7 @@ URL: https://mgimond.github.io/tukeyedar/
 BugReports: https://github.com/mgimond/tukeyedar/issues/
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 2.10)
+Depends: R (>= 4.1)
 Imports:
     graphics,
     grDevices,

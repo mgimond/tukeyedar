@@ -33,6 +33,14 @@ df4 <- data.frame(Education = c("Less than High School Graduate",
                   Earnings_2021 = c(31722, 40514, 49288, 73128,98840,20448,
                                     26967, 33430, 50554, 67202))
 
+# Tukey's p.354 data
+df5 <- data.frame(loc = rep( c("Laredo", "Washington", "Caribou"), 7),
+                  month = rep(month.abb[1:7], each = 3),
+                  val = c(57.6, 36.2, 8.7,61.9,37.1,9.8,68.4, 45.3, 21.7,
+                          75.9, 54.4,34.7, 81.2,64.7,48.5,85.8, 73.4, 58.4,
+                          87.7, 77.3, 64))
+
+
 ## test IQRoQ on gene expression data
 f1 <- function(x){
   out <- eda_pol(df2, row = "grp", col = "rep", val = "val",
@@ -123,3 +131,10 @@ grid()
 plot(IQcol ~ p, IQ)
 grid()
 par(OP)
+
+# Tukey's p 354 data
+out <- eda_pol(df5, row = "month", col = "loc", val = "val", sort = TRUE)
+plot(out)
+plot(out, "diagnostic")
+plot(out, "cv")
+plot(out, add.cv = TRUE, k = -1)
