@@ -6,6 +6,8 @@
 #'
 #' @param x A list of class eda_polish
 #' @param type Plot type. One of three: "residuals", "cv" or "diagnostic".
+#' @param add.cv Whether to add kCV to the model when plotting "residuals"
+#' @param k Custom k to use if kCV is to be added to model. A value of NULL makes us of slope.
 #' @param col.quant Boolean indicating if a quantile classification scheme should be used
 #' @param colpal Color palette to adopt
 #' @param col.eff Boolean indicating if effects and common value should contribute to color gradient
@@ -41,15 +43,22 @@
 #' # Generate diagnostic plot
 #' plot(out, type = "diagnostic")
 
-plot.eda_polish <- function(x, type = "residuals", col.quant = FALSE,
+plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col.quant = FALSE,
                             colpal = "RdYlBu", col.eff = TRUE, col.com = TRUE,
                             adj.mar = FALSE, res.size = 1, row.size = 1, col.size = 1,
                             res.txt = TRUE, label.txt = TRUE, ...){
   if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
   if (! type %in% c("residuals", "cv", "diagnostic" ))
     stop("Paramater \"type=\" must be of \"residuals\", \"cv\" or \"diagnostic\" ")
+  if (add.cv == TRUE & is.null(k)) stop("You are adding kCV to model, but you don't specify k.")
 
+  # Extract wide table
   mat <- x$wide
+
+  # Compute CV matrix
+  row <- mat[-1,1]
+  col <- unlist(mat[1,-1])
+  cv.mat <- matrix(apply(expand.grid(row, col),1, prod), ncol = length(col)) / x$global
 
   if(type == "diagnostic"){
     if(sum(is.finite(x$cv[,4])) > 1){
@@ -67,8 +76,7 @@ plot.eda_polish <- function(x, type = "residuals", col.quant = FALSE,
         },
         error=function(cond) {
           message("Loess fit could not be generated.")
-          # suppressMessages(message(cond))
-          return("No slope")}
+          }
       )
       return(list(slope = fit.r$coefficients[2]))
     } else {
@@ -78,11 +86,18 @@ plot.eda_polish <- function(x, type = "residuals", col.quant = FALSE,
   }
 
   if(type == "cv") {
-    row <- x$row$effect
-    col <- x$col$effect
-    mat[-1,-1] <- matrix(apply(expand.grid(row, col),1, prod), ncol = length(col)) / x$global
+    # row <- mat[-1,1]
+    # col <- unlist(mat[1,-1])
+    # mat[-1,-1] <- matrix(apply(expand.grid(row, col),1, prod), ncol = length(col)) / x$global
+    mat[-1,-1] <- cv.mat
   }
 
+  # If CV is to be added to the model before computing the residuals
+  if(type == "residuals" & add.cv == TRUE){
+    mat[-1,-1] <- mat[-1,-1] - k * cv.mat
+  }
+
+  # Expand margin to accommodate row names if requested
   if (adj.mar == FALSE){
     OP <- par(mar = c(1.5,1.5,1.5,1.5))
   } else {
@@ -93,15 +108,15 @@ plot.eda_polish <- function(x, type = "residuals", col.quant = FALSE,
   len <- prod(dim(mat))
 
   # Get min/max range to be mapped to color gradient
-  if(col.com == FALSE){
-    max <- max(abs(range(mat[-1]))) # exclude common value
-    quant.range <- mat[-1]
-  } else if(col.eff == TRUE){
-    max <- max(abs(range(mat))) # Get max upper or lower bound value
-    quant.range <- mat
-  } else {
+  if (col.eff == FALSE & col.com == FALSE){
     max <- max(abs(range(mat[-1,-1]))) # exclude effects
     quant.range <- mat[-1,-1]
+  } else if(col.com == FALSE){
+    max <- max(abs(range(unlist(mat)[-1]))) # exclude common value
+    quant.range <- unlist(mat)[-1]
+  } else {
+    max <- max(abs(range(mat))) # Get max upper or lower bound value
+    quant.range <- mat
   }
 
   if(col.quant == TRUE){
