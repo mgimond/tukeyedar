@@ -6,7 +6,6 @@
 #'
 #' @param x A list of class eda_polish
 #' @param type Plot type. One of three: "residuals", "cv" or "diagnostic".
-#' @param k If cv values are to be plotted, define the k parameter
 #' @param col.quant Boolean indicating if a quantile classification scheme should be used
 #' @param colpal Color palette to adopt
 #' @param col.eff Boolean indicating if effects and common value should contribute to color gradient
@@ -42,7 +41,7 @@
 #' # Generate diagnostic plot
 #' plot(out, type = "diagnostic")
 
-plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
+plot.eda_polish <- function(x, type = "residuals", col.quant = FALSE,
                             colpal = "RdYlBu", col.eff = TRUE, col.com = TRUE,
                             adj.mar = FALSE, res.size = 1, row.size = 1, col.size = 1,
                             res.txt = TRUE, label.txt = TRUE, ...){
@@ -81,7 +80,7 @@ plot.eda_polish <- function(x, type = "residuals", k = 1, col.quant = FALSE,
   if(type == "cv") {
     row <- x$row$effect
     col <- x$col$effect
-    mat[-1,-1] <- mat[-1,-1] + k * matrix(apply(expand.grid(row, col),1, sum), ncol = length(col)) / x$global
+    mat[-1,-1] <- matrix(apply(expand.grid(row, col),1, prod), ncol = length(col)) / x$global
   }
 
   if (adj.mar == FALSE){
