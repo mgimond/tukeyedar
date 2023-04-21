@@ -1,8 +1,8 @@
 #' @export
 #' @title Polish two-way tables
 #'
-#' @description
-#'  \code{eda_pol} Polishes two-way tables using median, means, or any customizable functions.
+#' @description \code{eda_pol} Polishes two-way tables using median, means, or
+#'   any customizable functions.
 #'
 #' @param x A three column data frame
 #' @param row Name of column assigned to the row effect
@@ -14,26 +14,43 @@
 #' @param maxiter Maximum number of iterations
 #' @param sort Boolean determining if the effects row/columns should be sorted
 #' @param p Re-expression power parameter
-#' @param tukey Boolean determining if Tukey's power transformation should used. If FALSE,
-#'              the Box-Cox transformation is adopted.
-#' @param offset Offset to add to values if at leat one value is 0 and the power is negative
-#' @param col.quant Boolean determining if a quantile classification scheme should be used
+#' @param tukey Boolean determining if Tukey's power transformation should used.
+#'   If FALSE, the Box-Cox transformation is adopted.
+#' @param offset Offset to add to values if at leat one value is 0 and the power
+#'   is negative
+#' @param col.quant Boolean determining if a quantile classification scheme
+#'   should be used
 #' @param colpal Color palette to adopt
 #' @param adj.mar Boolean determining if margin width needs to accomodate labels
 #' @param res.size Size of residual values in plot [0-1]
 #' @param row.size Size of row effect values in plot [0-1]
 #' @param col.size Size of column effect values in plot [0-1]
 #' @param res.txt Boolean determining if values should be added to plot
-#' @param label.txt Boolean determining if margin and column labels should be plotted
+#' @param label.txt Boolean determining if margin and column labels should be
+#'   plotted
 #'
-#' @details
-#'  The function performs a polish on a two way table. By default, it applies a
-#'  median polish, but other statistic such as the mean can be passed to the function
-#'  via the \code{stat = } parameter.
-#'  The function returns a list of row/column effects along with global and residual values.
-#'  It will also generate a colored table if \code{plot = TRUE}.
-#'  Returns a list of class \code{eda_polish}
-
+#' @return A list of class \code{eda_polish} with the following named
+#'   components:
+#'
+#' \itemize{
+#' \item \code{long} The median polish residuals with three columns: Column levels,
+#'   row levels and residual values.
+#' \item \code{wide} The median polish residuals table in wide form.
+#' \item \code{row}  Row effects table
+#' \item \code{col}  Column effects table
+#' \item \code{global}  Overall value (common value)
+#' \item \code{iter}  Number of iterations before polish stabilizes.
+#' \item \code{cv}  Table of residuals, row effects, column effects and CV values in long form.
+#' \item \code{power}  Transformation power applied to values prior to polishing.
+#' \item \code{IQ_row}  Ratio between interquartile row effect values and 80th quantile of residuals.
+#' \item \code{IQ_col}  Ratio between interquartile column effect values and 80th quantile of residuals.}
+#'
+#' @details The function performs a polish on a two way table. By default, it
+#'   applies a median polish, but other statistical summaries such as the mean
+#'   can be passed to the function via the \code{stat = } parameter. The
+#'   function returns a list of row/column effects along with global and
+#'   residual values. It will also generate a colored table if \code{plot =
+#'   TRUE}.
 #'
 #' @examples
 #' df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
