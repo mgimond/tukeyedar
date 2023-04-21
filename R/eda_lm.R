@@ -62,7 +62,9 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, reg = TRUE,
   M <- lm(y ~ x)
 
   # Plot data
-  OP <- par(pty = "s")
+  .pardef <- par(pty = "s")
+  on.exit(par(.pardef))
+
   sd.x = sd(x,na.rm=T); sd.y = sd(y,na.rm=T)
   do.call( "plot", c( list( x=x, y=y , asp=sd.x/sd.y, ylab=NA, las=1,
                             xlab=x.lab, col.lab="grey50"),plot.l) )
@@ -82,5 +84,5 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, reg = TRUE,
     mtext( sprintf("R-sq = %0.2f  Beta= %g P(beta) = %0.3f", st$r.sq,
                    st$coef[2,1] , st$coef[2,4] ), side=3, col="blue"  )
   }
-  par(OP)
+  par(.pardef)
 }

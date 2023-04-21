@@ -99,11 +99,11 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
 
   # Expand margin to accommodate row names if requested
   if (adj.mar == FALSE){
-    OP <- par(mar = c(1.5,1.5,1.5,1.5))
+    .pardef <- par(mar = c(1.5,1.5,1.5,1.5))
   } else {
-    OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/1.8 * row.size ,1.5,1.5) )
+    .pardef <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/1.8 * row.size ,1.5,1.5) )
   }
-   on.exit(par(OP))
+  on.exit(par(.pardef))
 
   # Extract total number of values
   len <- prod(dim(mat))
@@ -146,6 +146,6 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
   if(res.txt == TRUE) {
     text(x=text.crd[,"x"], y=text.crd[,"y"], labels = round(unlist(mat),2), cex=res.size)
   }
-  par(OP)
+  par(.pardef)
 }
 

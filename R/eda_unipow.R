@@ -51,6 +51,7 @@ eda_unipow <- function(x, p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2),
     M <- rbind(M,Mi)
   }
   .pardef <- par(no.readonly = T)
+  on.exit(par(.pardef))
   OP <- par(mar = c(0,0,0,0))
   lHeight <- c(0.2, rep( c(1,0.3),nRows))
   layout(mat=M, heights= lHeight)
