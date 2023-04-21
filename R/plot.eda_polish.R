@@ -103,6 +103,7 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
   } else {
     OP <- par(mar = c(1.5, max(nchar(rownames(x$wide) ))/1.8 * row.size ,1.5,1.5) )
   }
+   on.exit(par(OP))
 
   # Extract total number of values
   len <- prod(dim(mat))

@@ -102,7 +102,7 @@ OP <- par(mfrow = c(1,2))
 par(OP)
 
 out <- eda_pol(df3, row = "type", col = "year", val = "perc", p = 0, adj.mar = TRUE, row.size = 0.8, sort = TRUE)
-plot(out, row.size = 1, adj.mar = TRUE)
+plot(out, adj.mar = TRUE,  row.size = 0.5)
 
 
 ## Earnings by education and sex (2021 data for US)
