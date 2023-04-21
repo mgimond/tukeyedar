@@ -1,25 +1,28 @@
 #' @export
 #' @title  Ladder of powers transformation on a single vector
 #'
-#' @description
-#'  \code{eda_unipow} re-expresses a vector on the ladder of powers and plots
-#'  the results using a histogram and a density function. Either the Tukey or Box-Cox
-#'  transformation is used in computing the re-expressed values.
+#' @description \code{eda_unipow} re-expresses a vector on the ladder of powers
+#'   and plots the results using a histogram and a density function. Either the
+#'   Tukey or Box-Cox transformation is used in computing the re-expressed
+#'   values.
 #'
 #' @param x  Vector
 #' @param p  Vector of powers
 #' @param tukey If TRUE (default), apply Tukey's power transformation, if FALSE
-#' adopt Box-Cox transformation
+#'   adopt Box-Cox transformation
 #' @param bins Number of histogram bins
 #' @param cex.main Histogram title size (assigned to each histogram plot)
 #' @param col Histogram fill color
 #' @param border Histogram border color
 #' @param title Overall plot title (set to NULL for no title)
 #' @param ... Other parameters passed to the graphics::hist function.
+#'
+#' @return {No return value}
+#'
 #' @details
 #'
-#'  The output is a lattice of descriptive plots showing the transformed data
-#'  across different powers.\cr
+#' The output is a lattice of descriptive plots showing the transformed data
+#' across different powers.\cr
 #'
 #' @references
 #'   \itemize{

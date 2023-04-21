@@ -22,6 +22,8 @@
 #' (see eda_re for more information on these transformation techniques). Axes
 #' labels are omitted to reduce plot clutter.
 #'
+#' @return {No return value}
+#'
 #' @references
 #'   \itemize{
 #'    \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}

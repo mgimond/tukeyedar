@@ -1,15 +1,16 @@
 #' @export
 #' @title Tukey's spread-level function
 #'
-#' @description
-#'  The \code{eda_sl} function generates a spread-level
-#'    table from a univariate dataset.
+#' @description The \code{eda_sl} function generates a spread-level table from a
+#' univariate dataset.
 #'
 #' @param dat Dataframe
 #' @param x Categorical variable column
 #' @param y Continuous variable column
 #' @param sprd Choice of spreads. Either interquartile, \code{sprd = "IQR"} or
-#'    fourth-spread, \code{sprd = "frth"} (default).
+#'   fourth-spread, \code{sprd = "frth"} (default).
+#'
+#' @return Returns a dataframe of level and spreads.
 #'
 #' @details
 #'  \itemize{
@@ -21,8 +22,8 @@
 #'   to compute the upper/lower fourths.
 #'   }
 #'
-#' @references
-#'    Understanding Robust and Exploratory Data Analysis, Hoaglin, David C., Frederick Mosteller, and John W. Tukey, 1983.
+#' @references Understanding Robust and Exploratory Data Analysis, Hoaglin,
+#' David C., Frederick Mosteller, and John W. Tukey, 1983.
 #' @examples
 #' sl <- eda_sl(iris, Species, Sepal.Length)
 #' plot(spread ~ level, sl, pch=16)

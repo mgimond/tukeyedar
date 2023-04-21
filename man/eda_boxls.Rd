@@ -34,6 +34,9 @@ conditioned on}
 
 \item{outliers}{plot outliers (TRUE) or not (FALSE)}
 }
+\value{
+{No return value}
+}
 \description{
 \code{eda_boxls} creates boxplots conditioned on one variable while providing the
 option to equalize levels and/or spreads.
@@ -53,6 +56,3 @@ eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg )
 eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg , outlier=FALSE)
 
 }
-\keyword{boxplot}
-\keyword{level}
-\keyword{spread}

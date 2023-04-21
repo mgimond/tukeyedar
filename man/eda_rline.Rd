@@ -14,8 +14,7 @@ eda_rline(dat, x, y)
 \item{y}{Column assigned to the y axis}
 }
 \value{
-Outputs a list of parameters:
-
+Returns a list with the following named components:
 
 \itemize{
   \item \code{a}: Intercept
@@ -29,15 +28,15 @@ Outputs a list of parameters:
                      each thirds}
 }
 \description{
-\code{eda_rline} is an R implementation of Hoaglin, Mosteller and Tukey's
- resistant line technique outlined in chapter 5 of "Understanding Robust
- and Exploratory Data Analysis" (Wiley, 1983).
+\code{eda_rline} is an R implementation of Hoaglin, Mosteller
+and Tukey's resistant line technique outlined in chapter 5 of "Understanding
+Robust and Exploratory Data Analysis" (Wiley, 1983).
 }
 \details{
-Bits and pieces of the \code{RLIN.F} FORTRAN code in Velleman et. al's book were
-used in helping implement some of the R subroutines.\cr
-See the accompanying vignette \code{Resistant Line} for a detailed breakdown
-of the resistant line technique.
+Bits and pieces of the \code{RLIN.F} FORTRAN code in Velleman et.
+al's book were used in helping implement some of the R subroutines.\cr See
+the accompanying vignette \code{Resistant Line} for a detailed breakdown of
+the resistant line technique.
 }
 \examples{
 

@@ -2,18 +2,15 @@
 #' @import stats
 #' @title Tukey's resistant line
 #'
-#' @description
-#'  \code{eda_rline} is an R implementation of Hoaglin, Mosteller and Tukey's
-#'  resistant line technique outlined in chapter 5 of "Understanding Robust
-#'  and Exploratory Data Analysis" (Wiley, 1983).
+#' @description \code{eda_rline} is an R implementation of Hoaglin, Mosteller
+#' and Tukey's resistant line technique outlined in chapter 5 of "Understanding
+#' Robust and Exploratory Data Analysis" (Wiley, 1983).
 #'
 #' @param dat Data frame
 #' @param x   Column assigned to the x axis
 #' @param y   Column assigned to the y axis
 #'
-#' @return
-#' Outputs a list of parameters:
-#'
+#' @return Returns a list with the following named components:
 #'
 #' \itemize{
 #'   \item \code{a}: Intercept
@@ -26,11 +23,10 @@
 #'   \item \code{index}: Index of sorted x values defining upper boundaries of
 #'                      each thirds}
 #'
-#' @details
-#' Bits and pieces of the \code{RLIN.F} FORTRAN code in Velleman et. al's book were
-#' used in helping implement some of the R subroutines.\cr
-#' See the accompanying vignette \code{Resistant Line} for a detailed breakdown
-#' of the resistant line technique.
+#' @details Bits and pieces of the \code{RLIN.F} FORTRAN code in Velleman et.
+#' al's book were used in helping implement some of the R subroutines.\cr See
+#' the accompanying vignette \code{Resistant Line} for a detailed breakdown of
+#' the resistant line technique.
 #'
 #' @references
 #'   \itemize{

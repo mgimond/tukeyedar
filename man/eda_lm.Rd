@@ -49,6 +49,9 @@ displayed}
 
 \item{loess.d}{A list of parameters passed to the loess.smooth function}
 }
+\value{
+{No return value}
+}
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression line.
  A loess line can  also be added to the plot

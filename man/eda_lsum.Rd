@@ -11,14 +11,17 @@ eda_lsum(x, l = 5, all = TRUE)
 
 \item{l}{Number of levels (max = 9)}
 
-\item{all}{Generate upper, lower and mid summaries if TRUE or
-just generate mid summaries if FALSE}
+\item{all}{Generate upper, lower and mid summaries if TRUE or just generate
+mid summaries if FALSE}
+}
+\value{
+Returns a dataframe of letter value summaries.
 }
 \description{
-\code{eda_lsum} The letter value summary was introduced by John Tukey
- and extends the boxplot's 5 number summary by exploring the symmetry
- of the batch for depth levels other than the half (median) or the
- fourth (quartiles).
+\code{eda_lsum} The letter value summary was introduced by John
+Tukey and extends the boxplot's 5 number summary by exploring the symmetry of
+the batch for depth levels other than the half (median) or the fourth
+(quartiles).
 }
 \details{
 Outputs a data frame of letter value summaries.
@@ -31,5 +34,5 @@ eda_lsum(x)
 Exploratory Data Analysis, John Tukey, 1973.
 }
 \seealso{
-\url{https://mgimond.github.io/ES218/Week08b.html}
+\url{https://mgimond.github.io/ES218/letter_values.html}
 }

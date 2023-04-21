@@ -36,14 +36,18 @@ adopt Box-Cox transformation}
 
 \item{...}{Other parameters passed to the graphics::hist function.}
 }
+\value{
+{No return value}
+}
 \description{
-\code{eda_unipow} re-expresses a vector on the ladder of powers and plots
- the results using a histogram and a density function. Either the Tukey or Box-Cox
- transformation is used in computing the re-expressed values.
+\code{eda_unipow} re-expresses a vector on the ladder of powers
+  and plots the results using a histogram and a density function. Either the
+  Tukey or Box-Cox transformation is used in computing the re-expressed
+  values.
 }
 \details{
 The output is a lattice of descriptive plots showing the transformed data
- across different powers.\cr
+across different powers.\cr
 }
 \examples{
 data(mtcars)

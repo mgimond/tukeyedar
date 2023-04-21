@@ -23,8 +23,7 @@ eda_rtrim_df(dat, x, prop = 0.05, num = 0)
 }
 \arguments{
 \item{x}{Vector of values (if trimming a vector) or the column whose
-values are used to trim a dataframe (applies to \code{*_df}
-functions only)}
+values are used to trim a dataframe (applies to \code{*_df} functions only)}
 
 \item{prop}{Fraction of values to trim}
 
@@ -32,16 +31,17 @@ functions only)}
 
 \item{dat}{Dataframe (applies to \code{*_df} functions only)}
 }
+\value{
+Returns the same data type as the input (i.e. vector or dataframe)
+}
 \description{
-Removes records from either tail-ends of a sorted dataset. Trimming can be
- performed by number of records (specify the \code{num =} option) or by
- quantiles (specify the \code{prop=} option). \cr\cr
- \code{eda_trim} Trims a vector \cr
- \code{eda_trim_df} Trims a data frame \cr
- \code{eda_ltrim} Left-trims a vector \cr
- \code{eda_rtrim} Right-trims a vector \cr
- \code{eda_ltrim_df} Left-trims a dataframe \cr
- \code{eda_rtrim_df} Right-trims a dataframe \cr
+Removes records from either tail-ends of a sorted dataset.
+Trimming can be performed by number of records (specify the \code{num =}
+option) or by quantiles (specify the \code{prop=} option). \cr\cr
+\code{eda_trim} Trims a vector \cr \code{eda_trim_df} Trims a data frame \cr
+\code{eda_ltrim} Left-trims a vector \cr \code{eda_rtrim} Right-trims a
+vector \cr \code{eda_ltrim_df} Left-trims a dataframe \cr \code{eda_rtrim_df}
+Right-trims a dataframe \cr
 }
 \details{
 \itemize{

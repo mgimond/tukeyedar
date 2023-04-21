@@ -1,28 +1,35 @@
 #' @export
 #' @title Plot eda_polish tables or diagnostic plots
 #'
-#' @description
-#'  \code{eda_pol} A plot method for lists of eda_polish class.
+#' @description \code{eda_pol} A plot method for lists of eda_polish class.
 #'
 #' @param x A list of class eda_polish
 #' @param type Plot type. One of three: "residuals", "cv" or "diagnostic".
 #' @param add.cv Whether to add kCV to the model when plotting "residuals"
-#' @param k Custom k to use if kCV is to be added to model. A value of NULL makes us of slope.
-#' @param col.quant Boolean indicating if a quantile classification scheme should be used
+#' @param k Custom k to use if kCV is to be added to model. A value of NULL
+#'   makes us of slope.
+#' @param col.quant Boolean indicating if a quantile classification scheme
+#'   should be used
 #' @param colpal Color palette to adopt
-#' @param col.eff Boolean indicating if effects and common value should contribute to color gradient
-#' @param col.com Boolean indicating if common value should contribute to color gradient
+#' @param col.eff Boolean indicating if effects and common value should
+#'   contribute to color gradient
+#' @param col.com Boolean indicating if common value should contribute to color
+#'   gradient
 #' @param adj.mar Boolean indicating if margin width needs to accommodate labels
 #' @param res.size Size of residual values in plot [0-1]
 #' @param row.size Size of row effect values in plot [0-1]
 #' @param col.size Size of column effect values in plot [0-1]
 #' @param res.txt Boolean indicating if values should be added to plot
-#' @param label.txt Boolean indicating if margin and column labels should be plotted
+#' @param label.txt Boolean indicating if margin and column labels should be
+#'   plotted
 #' @param ... Arguments to be passed to subsequent methods
 #'
-#' @details
-#'  The function plots a polish table of residuals or CV values. I will also generate
-#'  a diagnostic plot if \code{type} is set to \code{diagnostic}
+#' @return Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value
+#'   otherwise.
+#'
+#' @details The function plots a polish table of residuals or CV values. I will
+#' also generate a diagnostic plot if \code{type} is set to \code{diagnostic}
+#'
 #' @examples
 #' # Create dataset
 #' df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),

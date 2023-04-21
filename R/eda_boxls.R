@@ -16,7 +16,7 @@
 #' @param  horiz  plot horizontally (TRUE) or vertically (FALSE)
 #' @param  outliers  plot outliers (TRUE) or not (FALSE)
 #'
-#' @keywords boxplot spread level
+#' @return {No return value}
 #'
 #' @examples
 #'

@@ -24,6 +24,8 @@
 #' @param y.lab Y label for output plot
 #' @param ... Not used
 #'
+#' @return {No return value}
+#'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}} functions
 #'
 #' @examples

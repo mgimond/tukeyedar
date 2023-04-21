@@ -16,9 +16,12 @@ eda_sl(dat, x, y, sprd = "frth")
 \item{sprd}{Choice of spreads. Either interquartile, \code{sprd = "IQR"} or
 fourth-spread, \code{sprd = "frth"} (default).}
 }
+\value{
+Returns a dataframe of level and spreads.
+}
 \description{
-The \code{eda_sl} function generates a spread-level
-   table from a univariate dataset.
+The \code{eda_sl} function generates a spread-level table from a
+univariate dataset.
 }
 \details{
 \itemize{
@@ -35,5 +38,6 @@ sl <- eda_sl(iris, Species, Sepal.Length)
 plot(spread ~ level, sl, pch=16)
 }
 \references{
-Understanding Robust and Exploratory Data Analysis, Hoaglin, David C., Frederick Mosteller, and John W. Tukey, 1983.
+Understanding Robust and Exploratory Data Analysis, Hoaglin,
+David C., Frederick Mosteller, and John W. Tukey, 1983.
 }

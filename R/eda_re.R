@@ -1,18 +1,19 @@
 #' @export
 #' @title Re-expression function
 #'
-#' @description
-#'  \code{eda_re} re-expresses a vector following the Tukey or box-cox transformation.
+#' @description \code{eda_re} re-expresses a vector following the Tukey or
+#' box-cox transformation.
 #'
 #' @param x Vector
 #' @param p Power transformation
-#' @param tukey If set to TRUE, then adopt Tukey's power transformation, if FALSE,
-#' adopt Box-Cox transformation
+#' @param tukey If set to TRUE, then adopt Tukey's power transformation, if
+#'   FALSE, adopt Box-Cox transformation
 #'
-#' @details
-#'  The function returns a vector. It is used to re-express data using one of two
-#'  transformation techniques: Box-Cox transformation (\code{tukey = FALSE})or
-#'  Tukey's power transformation (\code{tukey = TRUE}).
+#' @return Returns a vector of same length as input \code{x}
+#'
+#' @details The function is used to re-express data using one of two
+#' transformation techniques: Box-Cox transformation (\code{tukey = FALSE})or
+#' Tukey's power transformation (\code{tukey = TRUE}).
 #'
 #' @examples
 #' x <- c(15, 28, 17, 73,  8, 83,  2)

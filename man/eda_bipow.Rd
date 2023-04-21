@@ -20,6 +20,9 @@ adopt Box-Cox transformation.}
 
 \item{...}{Other parameters passed to the graphics::plot function.}
 }
+\value{
+{No return value}
+}
 \description{
 Re-expresses a vector on the ladder of powers.
  Requires \code{eda_3pt()} function.

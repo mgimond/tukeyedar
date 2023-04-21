@@ -2,24 +2,23 @@
 #' @import graphics
 #' @title 3-point summary plot
 #'
-#' @description
-#'  \code{eda_3pt} splits the data into 3 groups (whose summary locations are
-#'  defined by their respective medians), and two half slopes linking the groups.
-#'  The function will return a scatter plot showing the half-slopes in red
-#'  solid lines. The solid grey slope linking both tail-end groups shows the
-#'  desired shape for both half-slopes. The goal is to have the two halve slopes
-#'  line up as closely as possible to the solid grey slope via re-expression techniques
-#'  when seeking a linear relationship between both variables.
+#' @description \code{eda_3pt} splits the data into 3 groups (whose summary
+#' locations are defined by their respective medians), and two half slopes
+#' linking the groups. The function will return a scatter plot showing the
+#' half-slopes in red solid lines. The solid grey slope linking both tail-end
+#' groups shows the desired shape for both half-slopes. The goal is to have the
+#' two halve slopes line up as closely as possible to the solid grey slope via
+#' re-expression techniques when seeking a linear relationship between both
+#' variables.
 #'
-#'  The function will also return the
-#'  half-slopes ratio \code{hsrtio} and the direction of re-expression
-#'  for both X and Y values on the ladder of powers.
+#' The function will also return the half-slopes ratio \code{hsrtio} and the
+#' direction of re-expression for both X and Y values on the ladder of powers.
 #'
 #' @param dat Data frame
 #' @param x   Column name assigned the x axis
 #' @param y   Column name assigned the y axis
 #' @param dir Boolean indicating if suggested ladder of power direction should
-#'           be displayed
+#'   be displayed
 #' @param adj Adjustment parameter for y label
 #' @param x.lab X label for output plot
 #' @param y.lab Y label for output plot
@@ -27,14 +26,17 @@
 #' @param col Plot point color
 #' @param ... Other parameters passed to the graphics::plot function.
 #'
-#' @details
-#' Outputs a plot showing the three point summary as well as a list of
-#' parameters:
+#' @return Generates a plot and returns a list with the following named
+#'   components:
+#'
 #' \itemize{
 #'   \item \code{hsrtio}: The ratio between both slopes. A value close to one
 #'   suggests that no transformation is needed.
 #'   \item \code{xmed}: The x-coordinate values for the three summary points.
 #'   \item \code{ymed}: The y-coordinate values for the three summary points.}
+#'
+#' @details Computes the three-point summary originally defined in Tukey's EDA
+#' book (see reference).
 #'
 #' @references
 #'   \itemize{

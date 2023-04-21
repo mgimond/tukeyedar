@@ -29,15 +29,19 @@
 
 \item{add.cv}{Whether to add kCV to the model when plotting "residuals"}
 
-\item{k}{Custom k to use if kCV is to be added to model. A value of NULL makes us of slope.}
+\item{k}{Custom k to use if kCV is to be added to model. A value of NULL
+makes us of slope.}
 
-\item{col.quant}{Boolean indicating if a quantile classification scheme should be used}
+\item{col.quant}{Boolean indicating if a quantile classification scheme
+should be used}
 
 \item{colpal}{Color palette to adopt}
 
-\item{col.eff}{Boolean indicating if effects and common value should contribute to color gradient}
+\item{col.eff}{Boolean indicating if effects and common value should
+contribute to color gradient}
 
-\item{col.com}{Boolean indicating if common value should contribute to color gradient}
+\item{col.com}{Boolean indicating if common value should contribute to color
+gradient}
 
 \item{adj.mar}{Boolean indicating if margin width needs to accommodate labels}
 
@@ -49,16 +53,21 @@
 
 \item{res.txt}{Boolean indicating if values should be added to plot}
 
-\item{label.txt}{Boolean indicating if margin and column labels should be plotted}
+\item{label.txt}{Boolean indicating if margin and column labels should be
+plotted}
 
 \item{...}{Arguments to be passed to subsequent methods}
+}
+\value{
+Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value
+  otherwise.
 }
 \description{
 \code{eda_pol} A plot method for lists of eda_polish class.
 }
 \details{
-The function plots a polish table of residuals or CV values. I will also generate
- a diagnostic plot if \code{type} is set to \code{diagnostic}
+The function plots a polish table of residuals or CV values. I will
+also generate a diagnostic plot if \code{type} is set to \code{diagnostic}
 }
 \examples{
 # Create dataset
