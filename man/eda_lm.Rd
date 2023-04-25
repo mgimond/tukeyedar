@@ -10,14 +10,18 @@ eda_lm(
   y,
   x.lab = NULL,
   y.lab = NULL,
+  px = 1,
+  py = 1,
+  tukey = FALSE,
   reg = TRUE,
+  w = NULL,
   loe = FALSE,
   lm.col = rgb(1, 0.5, 0.5, 0.8),
   loe.col = rgb(0.73, 0.73, 1, 1),
   stats = FALSE,
-  plot.d = list(pch = 20, col = "grey40"),
+  plot.d = list(pch = 20, col = rgb(0, 0, 0, 0.4)),
   ...,
-  loess.d = NULL
+  loess.d = list(span = 0.5)
 )
 }
 \arguments{
@@ -31,8 +35,17 @@ eda_lm(
 
 \item{y.lab}{Y label for output plot}
 
-\item{reg}{Boolean indicating whether a least squares regression line
-should be plotted}
+\item{px}{Power transformation to apply to the x-variable}
+
+\item{py}{Power transformation to apply to the y-variable}
+
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+(FALSE adopts a Box-Cox transformation)}
+
+\item{reg}{Boolean indicating whether a least squares regression line should
+be plotted}
+
+\item{w}{Weight to pass to regression model}
 
 \item{loe}{Boolean indicating if a loess curve should be fitted}
 
@@ -50,13 +63,13 @@ displayed}
 \item{loess.d}{A list of parameters passed to the loess.smooth function}
 }
 \value{
-{No return value}
+Returns the intercept and the slope of the fitted `lm` model.
 }
 \description{
-\code{eda_lm} generates a scatter plot with a fitted regression line.
- A loess line can  also be added to the plot
- for model comparison. The axes are scaled such that their respective
- standard  deviations match axes unit length.
+\code{eda_lm} generates a scatter plot with a fitted regression
+line. A loess line can  also be added to the plot for model comparison. The
+axes are scaled such that their respective standard  deviations match axes
+unit length.
 }
 \examples{
 
@@ -68,7 +81,12 @@ eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="blue"), loe=TRUE)
 eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="black"), loe=TRUE,
       loess.d=list(family = "symmetric", span=0.5, degree=2))
 
+# Apply a log transformation to the x an y axes
+df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
+eda_lm(df2, x=B20004013, y=B20004007, plot.d = list(col=rgb(0,0,0,0.1)),
+            loe = TRUE, px = 1/3, py = 0)
 }
 \seealso{
-\code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}} functions
+\code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
+  functions
 }
