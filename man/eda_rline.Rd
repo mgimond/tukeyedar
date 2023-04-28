@@ -14,7 +14,8 @@ eda_rline(dat, x, y)
 \item{y}{Column assigned to the y axis}
 }
 \value{
-Returns a list with the following named components:
+Returns a list of class \code{eda_rline}with the following named
+  components:
 
 \itemize{
   \item \code{a}: Intercept
@@ -25,18 +26,27 @@ Returns a list with the following named components:
   \item \code{xmed}: Median x values for each third
   \item \code{ymed}: Median y values for each third
   \item \code{index}: Index of sorted x values defining upper boundaries of
-                     each thirds}
+                     each thirds
+  \item \code{xlab}: X label name
+  \item \code{ylab}: Y label name
+  \item \code{iter}: Number of iterations}
 }
 \description{
 \code{eda_rline} is an R implementation of Hoaglin, Mosteller
-and Tukey's resistant line technique outlined in chapter 5 of "Understanding
-Robust and Exploratory Data Analysis" (Wiley, 1983).
+  and Tukey's resistant line technique outlined in chapter 5 of
+  "Understanding Robust and Exploratory Data Analysis" (Wiley, 1983).
 }
 \details{
-Bits and pieces of the \code{RLIN.F} FORTRAN code in Velleman et.
-al's book were used in helping implement some of the R subroutines.\cr See
-the accompanying vignette \code{Resistant Line} for a detailed breakdown of
-the resistant line technique.
+This is an R implementation of the \code{RLIN.F} FORTRAN code in
+  Velleman et. al's book. This function fits a robust line using a
+  three-point summary strategy whereby the data are split into three equal
+  length groups along the x-axis and a line is fitted to the medians defining
+  each group via an iterative process. This function should mirror the
+  built-in \code{stat::line} function in its fitting strategy but it outputs
+  additional parameters.
+
+  \cr See the accompanying vignette \code{Resistant Line} for a detailed
+  breakdown of the resistant line technique.
 }
 \examples{
 

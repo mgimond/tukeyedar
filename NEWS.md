@@ -4,6 +4,7 @@
 * Adds re-expression parameters to `eda_lm` via the params `px` and `py`
 * Adds `sd` labels to SD dashed lines in `eda_lm`
 * `eda_lm` will now output `lm` intercept and slope.
+* Adds plot method for `eda_rline` object.
 
 
 # tukeyedar 0.1.0

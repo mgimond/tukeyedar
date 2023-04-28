@@ -10,7 +10,8 @@
 #' @param x   Column assigned to the x axis
 #' @param y   Column assigned to the y axis
 #'
-#' @return Returns a list of class \code{eda_rline}with the following named components:
+#' @return Returns a list of class \code{eda_rline}with the following named
+#'   components:
 #'
 #' \itemize{
 #'   \item \code{a}: Intercept
@@ -21,13 +22,18 @@
 #'   \item \code{xmed}: Median x values for each third
 #'   \item \code{ymed}: Median y values for each third
 #'   \item \code{index}: Index of sorted x values defining upper boundaries of
-#'                      each thirds}
+#'                      each thirds
+#'   \item \code{xlab}: X label name
+#'   \item \code{ylab}: Y label name
+#'   \item \code{iter}: Number of iterations}
 #'
 #' @details  This is an R implementation of the \code{RLIN.F} FORTRAN code in
 #'   Velleman et. al's book. This function fits a robust line using a
 #'   three-point summary strategy whereby the data are split into three equal
 #'   length groups along the x-axis and a line is fitted to the medians defining
-#'   each group via an iterative process.
+#'   each group via an iterative process. This function should mirror the
+#'   built-in \code{stat::line} function in its fitting strategy but it outputs
+#'   additional parameters.
 #'
 #'   \cr See the accompanying vignette \code{Resistant Line} for a detailed
 #'   breakdown of the resistant line technique.
@@ -103,6 +109,8 @@ eda_rline <- function(dat,x,y){
 
   if(!missing(dat))
   {
+    xlab <- deparse(substitute(x))
+    ylab <- deparse(substitute(y))
     x <- eval(substitute(x), dat)
     y <- eval(substitute(y), dat)
   }
@@ -138,7 +146,7 @@ eda_rline <- function(dat,x,y){
 
   #print(sprintf("b0=%f, b1=%f",b0,b1)) # For debugging
   #print(sprintf("D0=%f, D1=%f",D0,D1)) # For debugging
-
+  count <- 0
   # If D0 or D1 are 0, then we already have a robust line, if not, proceed
   if (D1 !=0) {
     # D0 and D1 should have opposite signs, if not, add another delta r
@@ -188,13 +196,12 @@ eda_rline <- function(dat,x,y){
   # on page 158 of ABC of EDA)
    a   <- median( y - b2 * x )
 
-
   # Compute final residuals
   res <- y - (a + b2 * x)
 
   # Output (include sorted y's and x's)
-  out <- list(b2, a, res,x,y,xmed,ymed,index)
-  names(out) <- c("b", "a", "res", "x", "y","xmed","ymed","index")
+  out <- list(b=b2, a=a, res=res, x=x, y=y, xmed=xmed, ymed=ymed,
+              index = index, xlab = xlab, ylab=ylab, iter = count + 1)
   class(out) <- "eda_rline"
   return(out)
 }

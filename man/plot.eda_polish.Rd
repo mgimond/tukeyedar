@@ -63,7 +63,7 @@ Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no v
   otherwise.
 }
 \description{
-\code{eda_pol} A plot method for lists of eda_polish class.
+\code{plot.eda_pol} A plot method for lists of eda_polish class.
 }
 \details{
 The function plots a polish table of residuals or CV values. I will
