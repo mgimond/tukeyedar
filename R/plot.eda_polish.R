@@ -1,7 +1,7 @@
 #' @export
 #' @title Plot eda_polish tables or diagnostic plots
 #'
-#' @description \code{eda_pol} A plot method for lists of eda_polish class.
+#' @description \code{plot.eda_pol} A plot method for lists of eda_polish class.
 #'
 #' @param x A list of class eda_polish
 #' @param type Plot type. One of three: "residuals", "cv" or "diagnostic".

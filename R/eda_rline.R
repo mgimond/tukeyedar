@@ -195,6 +195,7 @@ eda_rline <- function(dat,x,y){
   # Output (include sorted y's and x's)
   out <- list(b2, a, res,x,y,xmed,ymed,index)
   names(out) <- c("b", "a", "res", "x", "y","xmed","ymed","index")
+  class(out) <- "eda_rline"
   return(out)
 }
 
@@ -231,7 +232,6 @@ thirds <- function(x,y){
   # Output x medians, y medians, x indices and y indices
   out <- list(xmed, ymed, xb, dat2$x, dat2$y)
   names(out) <- c("xmed", "ymed", "index", "x","y")
-  class(out) <- "eda_rline"
   return(out)
 }
 
