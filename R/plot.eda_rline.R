@@ -4,7 +4,7 @@
 #'@description \code{plot.eda_rline} A plot method for lists of \code{eda_rline}
 #'  class.
 #'
-#'@param rline Object of class \code{eda_rline}
+#'@param x Object of class \code{eda_rline}
 #'@param type Plot type. One of two: "model", "residuals".
 #'@param xlab Custom x-axislabel. Defaults to column name
 #'@param ylab Custom y-axis label. Defaults to column name.
@@ -25,13 +25,13 @@
 #' plot(r.lm)
 #' plot(r.lm, type = "residuals")
 
-plot.eda_rline <- function(rline, type = "model", xlab = NULL, ylab = NULL,
+plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL,
                            col = rgb(.2,.2,.2,0.5), model = TRUE, pt3 = TRUE, ...){
-  if (!inherits(rline,"eda_rline")) stop("The input object must of class eda_rline")
+  if (!inherits(x,"eda_rline")) stop("The input object must of class eda_rline")
   if (! type %in% c("residuals", "model" ))
     stop("Paramater \"type=\" must be of \"residuals\", or \"model\" ")
 
-  df <- data.frame(x = rline$x, y = rline$y, res = rline$res)
+  df <- data.frame(x = x$x, y = x$y, res = x$res)
 
   .pardef <- par(mar = c(2.8,3.2,1.5,1.5))
 
@@ -41,24 +41,24 @@ plot.eda_rline <- function(rline, type = "model", xlab = NULL, ylab = NULL,
          pch = 16, col = col)
     axis(1,col="grey60", col.axis="grey60", labels=TRUE, padj = -0.5)
     axis(2,col="grey60", col.axis="grey60", labels=TRUE, las=1, hadj = 0.7)
-    mtext(rline$ylab, side=3, adj= -0.05 , col="grey60", padj = -1)
-    title(xlab = rline$xlab, line =1.7, col.lab="grey60")
+    mtext(x$ylab, side=3, adj= -0.05 , col="grey60", padj = -1)
+    title(xlab = x$xlab, line =1.7, col.lab="grey60")
     if (model == TRUE){
-      mtext(sprintf("y = %f + (%f)x",rline$a, rline$b ), col = "grey60")
+      mtext(sprintf("y = %f + (%f)x",x$a, x$b ), col = "grey60")
     }
-    abline(a = rline$a, b = rline$b, col="red")
+    abline(a = x$a, b = x$b, col="red")
     if (pt3 == TRUE){
-      points(cbind(rline$xmed, rline$ymed), pch =21, bg="red", cex = 1.2)
+      points(cbind(x$xmed, x$ymed), pch =21, bg="red", cex = 1.2)
     }
-    abline(v= rline$x[rline$index],lty=3, col = "grey")
+    abline(v= x$x[x$index],lty=3, col = "grey")
   } else {
     plot(res ~ x, df, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, col.lab="grey60",
          pch = 16, col = rgb(.2,.2,.2,0.5))
     axis(1,col="grey60", col.axis="grey60", labels=TRUE, padj = -0.5)
     axis(2,col="grey60", col.axis="grey60", labels=TRUE, las=1, hadj = 0.7)
     mtext("Residuals", side=3, adj= -0.05 , col="grey60", padj = -1)
-    title(xlab = rline$xlab, line =1.7, col.lab="grey60")
-    abline(v= rline$x[rline$index],lty=3, col = "grey")
+    title(xlab = x$xlab, line =1.7, col.lab="grey60")
+    abline(v= x$x[x$index],lty=3, col = "grey")
     abline(h= 0,lty=3, col = "grey")
   }
 

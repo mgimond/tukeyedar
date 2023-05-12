@@ -5,7 +5,7 @@
 \title{Plot eda_rline model}
 \usage{
 \method{plot}{eda_rline}(
-  rline,
+  x,
   type = "model",
   xlab = NULL,
   ylab = NULL,
@@ -16,7 +16,7 @@
 )
 }
 \arguments{
-\item{rline}{Object of class \code{eda_rline}}
+\item{x}{Object of class \code{eda_rline}}
 
 \item{type}{Plot type. One of two: "model", "residuals".}
 
