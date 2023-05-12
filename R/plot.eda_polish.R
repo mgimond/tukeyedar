@@ -10,7 +10,8 @@
 #'   makes us of slope.
 #' @param col.quant Boolean indicating if a quantile classification scheme
 #'   should be used
-#' @param colpal Color palette to adopt
+#' @param colpal Color palette to adopt (should be one listed in hcl.pals())
+#' @param colrev Should color palette be reversed? (default TRUE)
 #' @param col.eff Boolean indicating if effects and common value should
 #'   contribute to color gradient
 #' @param col.com Boolean indicating if common value should contribute to color
@@ -51,13 +52,14 @@
 #' plot(out, type = "diagnostic")
 
 plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col.quant = FALSE,
-                            colpal = "RdYlBu", col.eff = TRUE, col.com = TRUE,
+                            colpal = "RdYlBu", colrev = TRUE, col.eff = TRUE, col.com = TRUE,
                             adj.mar = FALSE, res.size = 1, row.size = 1, col.size = 1,
                             res.txt = TRUE, label.txt = TRUE, ...){
   if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
   if (! type %in% c("residuals", "cv", "diagnostic" ))
     stop("Paramater \"type=\" must be of \"residuals\", \"cv\" or \"diagnostic\" ")
   if (add.cv == TRUE & is.null(k)) stop("You are adding kCV to model, but you don't specify k.")
+  if (!colpal %in% hcl.pals()) stop("Color palette (colpal) should be one listed in hcl.pals().")
 
   # Extract wide table
   mat <- x$wide
@@ -136,7 +138,7 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
     colbrk <- c( -max, seq(-max, max, length.out = len))
   }
 
-  colMap <- hcl.colors(len, palette = colpal, rev = TRUE, alpha = 0.5)
+  colMap <- hcl.colors(len, palette = colpal, rev = colrev, alpha = 0.5)
   image(t(mat[nrow(mat):1, ]), axes = FALSE, col = colMap, breaks = colbrk)
   grid(nx = ncol(mat), ny = nrow(mat), col = 'grey', lty = 1)
 

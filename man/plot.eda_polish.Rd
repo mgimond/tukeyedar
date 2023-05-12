@@ -11,6 +11,7 @@
   k = NULL,
   col.quant = FALSE,
   colpal = "RdYlBu",
+  colrev = TRUE,
   col.eff = TRUE,
   col.com = TRUE,
   adj.mar = FALSE,
@@ -35,7 +36,9 @@ makes us of slope.}
 \item{col.quant}{Boolean indicating if a quantile classification scheme
 should be used}
 
-\item{colpal}{Color palette to adopt}
+\item{colpal}{Color palette to adopt (should be one listed in hcl.pals())}
+
+\item{colrev}{Should color palette be reversed? (default TRUE)}
 
 \item{col.eff}{Boolean indicating if effects and common value should
 contribute to color gradient}
