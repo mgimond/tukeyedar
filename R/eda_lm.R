@@ -67,8 +67,8 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
 
     if(!missing(dat))
   {
-    x <- eda_re(eval(substitute(x), dat), p = px, tukey = tukey)
-    y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
+    x <- eda_re(eval(substitute(x), dat), p = px, tukey = TRUE)
+    y <- eda_re(eval(substitute(y), dat), p = py, tukey = TRUE)
   }
 
   # Set plot elements color
@@ -87,14 +87,14 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
 
   sd.x = sd(x,na.rm=T); sd.y = sd(y,na.rm=T)
   do.call( "plot", c( list( x=x, y=y , asp=sd.x/sd.y, ylab=NA, las=1, yaxt='n',
-                           xaxt='n', xlab=NA, col.lab=plotcol),plot.l) )
+                           xaxt='n', xlab=NA, col.lab=plotcol), plot.l) )
   box(col=plotcol)
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
   mtext(y.lab, side=3, adj= -0.1 , col=plotcol, padj = -1)
-  sq = par("usr") # get plot corners
-  ysd1 = (mean(y) + sd(y))
-  ysd2 = (mean(y) - sd(y))
+  sq <- par("usr") # get plot corners
+  ysd1 <- (mean(y) + sd(y))
+  ysd2 <- (mean(y) - sd(y))
   text( label="+1sd", x= sq[2] - diff(sq[1:2]) * 0.03, y= ysd1 + diff(sq[3:4])*0.02,
         srt=0, col="grey70",  cex=0.7)
   text( label="-1sd", x= sq[2] - diff(sq[1:2]) * 0.03, y= ysd2 + diff(sq[3:4])*0.02,

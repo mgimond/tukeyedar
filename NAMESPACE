@@ -3,6 +3,7 @@
 S3method(plot,eda_polish)
 S3method(plot,eda_rline)
 export(eda_3pt)
+export(eda_add)
 export(eda_bipow)
 export(eda_boxls)
 export(eda_lm)
