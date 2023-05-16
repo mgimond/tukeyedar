@@ -141,10 +141,10 @@ plot(out, add.cv = TRUE, k = -1)
 
 
 ## lm ----
-eda_lm(mtcars, x = wt, y = mpg)
+eda_lm(mtcars, x = wt, y = mpg, grey = 0.8)
 Mr <- eda_rline(mtcars, x=wt, y=mpg)
 eda_add(Mr)
 
 eda_lm(dat=cars, x=dist, y=speed)
-Mr <- eda_rline(cars, x=dist, y=speed, )
+Mr <- eda_rline(cars, x=dist, y=speed )
 eda_add(Mr)

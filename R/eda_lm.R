@@ -30,7 +30,12 @@
 #' @param y.lab Y label for output plot
 #' @param ... Not used
 #'
-#' @return Returns the intercept and the slope of the fitted `lm` model.
+#' @return Returns a list from the  `lm` output.
+#'
+#' \itemize{
+#'   \item \code{a}: Intercept
+#'   \item \code{b}: Slope
+#'   \item \code{residuals}: Regression model residuals}
 #'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
 #'   functions
@@ -117,5 +122,6 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
                    st$coef[2,1] , st$coef[2,4] ), side=3, col="blue"  )
   }
   par(.pardef)
-  return(coef(M))
+  print(coef(M))
+  invisible(list(residuals = residuals(M), a = coef(M)[1], b = coef(M)[2]))
 }

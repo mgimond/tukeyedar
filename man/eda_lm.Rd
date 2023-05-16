@@ -66,7 +66,12 @@ displayed}
 \item{loess.d}{A list of parameters passed to the loess.smooth function}
 }
 \value{
-Returns the intercept and the slope of the fitted `lm` model.
+Returns a list from the  `lm` output.
+
+\itemize{
+  \item \code{a}: Intercept
+  \item \code{b}: Slope
+  \item \code{residuals}: Regression model residuals}
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression
