@@ -18,6 +18,7 @@
 #' @param reg Boolean indicating whether a least squares regression line should
 #'   be plotted
 #' @param w Weight to pass to regression model
+#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
 #' @param loe Boolean indicating if a loess curve should be fitted
 #' @param lm.col Regression line color
 #' @param loe.col LOESS curve color
@@ -51,7 +52,7 @@
 
 
 eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
-                   tukey = FALSE, reg = TRUE, w=NULL,
+                   tukey = FALSE, reg = TRUE, w=NULL, grey = 0.5,
                    loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8),
                    loe.col = rgb(.73, .73, 1, 1), stats=FALSE,
                    plot.d=list(pch=20, col=rgb(0,0,0,0.4)), ...,
@@ -70,6 +71,9 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
     y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
   }
 
+  # Set plot elements color
+  plotcol <- rgb(1-grey, 1-grey, 1-grey)
+
   # Add to default plot list parameters
   plot.l   <- modifyList(list(pch=20, col=rgb(0,0,0,0.4)), plot.d)
   loess.l  <- modifyList(list(span = 0.5), loess.d)
@@ -83,11 +87,11 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
 
   sd.x = sd(x,na.rm=T); sd.y = sd(y,na.rm=T)
   do.call( "plot", c( list( x=x, y=y , asp=sd.x/sd.y, ylab=NA, las=1, yaxt='n',
-                           xaxt='n', xlab=NA, col.lab="grey60"),plot.l) )
-  box(col="grey60")
-  axis(1,col="grey60", col.axis="grey60", labels=TRUE, padj = -0.5)
-  axis(2,col="grey60", col.axis="grey60", labels=TRUE, las=1, hadj = 0.7)
-  mtext(y.lab, side=3, adj= -0.1 , col="grey60", padj = -1)
+                           xaxt='n', xlab=NA, col.lab=plotcol),plot.l) )
+  box(col=plotcol)
+  axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
+  axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
+  mtext(y.lab, side=3, adj= -0.1 , col=plotcol, padj = -1)
   sq = par("usr") # get plot corners
   ysd1 = (mean(y) + sd(y))
   ysd2 = (mean(y) - sd(y))
@@ -99,7 +103,7 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
         srt=0, col="grey70",  cex=0.7)
   text( label="-1sd", y= sq[4] - diff(sq[3:4]) * 0.01, x= (mean(x) - sd(x)) ,
         srt=0, col="grey70",  cex=0.7)
-  title(xlab = x.lab, line =1.7, col.lab="grey60")
+  title(xlab = x.lab, line =1.7, col.lab=plotcol)
   if(reg == TRUE)  abline(M, lw = 2, col = lm.col )
   abline(v=mean(x),lty=1,col="grey70")
   abline(h=mean(y), lty=1, col="grey70")

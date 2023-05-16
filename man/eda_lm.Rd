@@ -15,6 +15,7 @@ eda_lm(
   tukey = FALSE,
   reg = TRUE,
   w = NULL,
+  grey = 0.5,
   loe = FALSE,
   lm.col = rgb(1, 0.5, 0.5, 0.8),
   loe.col = rgb(0.73, 0.73, 1, 1),
@@ -46,6 +47,8 @@ eda_lm(
 be plotted}
 
 \item{w}{Weight to pass to regression model}
+
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 
 \item{loe}{Boolean indicating if a loess curve should be fitted}
 

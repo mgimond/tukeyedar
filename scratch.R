@@ -43,7 +43,7 @@ df5 <- data.frame(loc = rep( c("Laredo", "Washington", "Caribou"), 7),
 
 ## test IQRoQ on gene expression data
 f1 <- function(x){
-  out <- eda_pol(df2, row = "grp", col = "rep", val = "val",
+  out <- eda_pol(df2, row = grp, col = rep, val = val,
                  p = x, plot=FALSE, tukey = FALSE)
   c(p=out$power, IQrow = out$IQ_row, IQcol = out$IQ_col)
 }
@@ -59,7 +59,7 @@ par(OP)
 
 ## test infant mortality data
 f1 <- function(x){
-  out <- eda_pol(df1, row = "region", col = "edu", val = "perc",
+  out <- eda_pol(df1, row = region, col = edu, val = perc,
                  p = x, plot=FALSE, tukey = FALSE)
   c(p=out$power, IQrow = out$IQ_row, IQcol = out$IQ_col)
 }
@@ -75,13 +75,13 @@ par(OP)
 
 ## Side by side plot sort vs unsorted
 OP <- par(mfrow = c(1,2))
- eda_pol(df1, row = "region", col = "edu", val = "perc", sort = FALSE)
- eda_pol(df1, row = "region", col = "edu", val = "perc", sort = TRUE)
+ eda_pol(df1, row = region, col = edu, val = perc, sort = FALSE)
+ eda_pol(df1, row = region, col = edu, val = perc, sort = TRUE)
 par(OP)
 
 ## test commute data
 f1 <- function(x){
-  out <- eda_pol(df3, row = "type", col = "year", val = "perc",
+  out <- eda_pol(df3, row = type, col = year, val = perc,
                  p = x, plot=FALSE, tukey = FALSE)
   c(p=out$power, IQrow = out$IQ_row, IQcol = out$IQ_col)
 }
@@ -97,28 +97,28 @@ par(OP)
 
 ## Side by side plot raw vs log
 OP <- par(mfrow = c(1,2))
- eda_pol(df3, row = "type", col = "year", val = "perc", p = 0.25, adj.mar = T, row.size = 0.4)
- eda_pol(df3, row = "type", col = "year", val = "perc", p = 0, adj.mar = T, row.size = 0.4)
+ eda_pol(df3, row = type, col = year, val = perc, p = 0.25, adj.mar = T, row.size = 0.4)
+ eda_pol(df3, row = type, col = year, val = perc, p = 0, adj.mar = T, row.size = 0.4)
 par(OP)
 
-out <- eda_pol(df3, row = "type", col = "year", val = "perc", p = 0, adj.mar = TRUE, row.size = 0.8, sort = TRUE)
+out <- eda_pol(df3, row = type, col = year, val = perc, p = 0, adj.mar = TRUE, row.size = 0.8, sort = TRUE)
 plot(out, adj.mar = TRUE,  row.size = 0.5)
 
 
 ## Earnings by education and sex (2021 data for US)
-out <- eda_pol(df4, row = "Education", col = "Sex",
-               val = "Earnings_2021", adj.mar = TRUE,
+out <- eda_pol(df4, row = Education, col = Sex,
+               val = Earnings_2021, adj.mar = TRUE,
                sort = TRUE, row.size = 0.6)
 plot(out, type = "diagnostic")
-out2 <- eda_pol(df4, row = "Education", col = "Sex",
-                val = "Earnings_2021", adj.mar = TRUE,
+out2 <- eda_pol(df4, row = Education, col = Sex,
+                val = Earnings_2021, adj.mar = TRUE,
                 sort = TRUE, row.size = 0.6, p = 0.11)
 plot(out2, type = "diagnostic")
 plot(out2,  col.eff = FALSE, colpal = "Blue-Red")
 plot(out,  col.eff = FALSE, colpal = "Blue-Red")
 
 f4 <- function(x){
-  out <- eda_pol(df4, row = "Education", col = "Sex", val = "Earnings_2021",
+  out <- eda_pol(df4, row = Education, col = Sex, val = Earnings_2021,
                  p = x, plot=FALSE, tukey = FALSE)
   c(p=out$power, IQrow = out$IQ_row, IQcol = out$IQ_col)
 }
@@ -133,7 +133,7 @@ grid()
 par(OP)
 
 # Tukey's p 354 data
-out <- eda_pol(df5, row = "month", col = "loc", val = "val", sort = TRUE)
+out <- eda_pol(df5, row = month, col = loc, val = val, sort = TRUE)
 plot(out)
 plot(out, "diagnostic")
 plot(out, "cv")
