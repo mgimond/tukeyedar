@@ -35,8 +35,7 @@ eda_add <- function(x, pch = 24, p.col = "darkred", p.fill = "yellow",
                     lty = 1, l.col = "darkred"){
   if (!inherits(x,"eda_rline")) stop("The input object must of class eda_rline.")
   if(is.null(dev.list())) stop("A plot window is not present")
-
-  points(x$xmed, x$ymed, col = p.col , bg = p.fill, pch = 24)
   abline(a = x$a, b = x$b, col = l.col)
-  return(list(a = x$a, b = x$b))
+  points(x$xmed, x$ymed, col = p.col , bg = p.fill, pch = 24)
+    return(list(a = x$a, b = x$b))
 }
