@@ -58,7 +58,7 @@
 #' perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
 #'         24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
 #'
-#' eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE)
+#' eda_pol(df, row = region, col = edu, val = perc, plot = FALSE)
 
 
 eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot = TRUE,
@@ -66,7 +66,15 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
                         offset = 0.00001, col.quant = FALSE, colpal = "RdYlBu", adj.mar = FALSE,
                         res.size = 1, row.size = 1, col.size = 1,
                         res.txt = TRUE, label.txt = TRUE){
-  if(is.data.frame(x)){
+
+  if(!missing(x))
+  {
+    row <- deparse(substitute(row))
+    col <- deparse(substitute(col))
+    val <- deparse(substitute(val))
+  }
+
+    if(is.data.frame(x)){
     # Check that table is properly formatted ----
     if(dim(x)[2] < 3) stop("The data frame must be in long form with at least 3 columns.")
     if(is.null(row)) stop("You need to define the row name column.")
@@ -75,6 +83,7 @@ eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot =
   } else {
     stop("Table must be a three column dataframe.")
   }
+
 
   x2 <- data.frame(x[[col]], x[[row]], x[[val]])
   colnames(x2) <- c(col, row, val)

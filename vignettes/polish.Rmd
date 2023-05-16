@@ -53,10 +53,10 @@ df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
                           24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 
                           21.1, 20.3, 24, 17.5))
 
-out0 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 0)
-out1 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 1)
-out2 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 2)
-out3 <- eda_pol(df, row = "region", col = "edu", val = "perc", plot = FALSE, maxiter = 3)
+out0 <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE, maxiter = 0)
+out1 <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE, maxiter = 1)
+out2 <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE, maxiter = 2)
+out3 <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE, maxiter = 3)
 
 OP <- par(mfrow = c(1,4))
  plot(out0, row.size = 0.7, col.size = 0.7)
@@ -96,12 +96,12 @@ The median polish can then be executed as follows:
 
 ```{r eval = FALSE}
 library(tukeyedar)
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc")
+M1 <- eda_pol(dat, row = region, col = edu, val = "perc")
 ```
 
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", row.size = 0.8, col.size = 0.8, res.size = 0.8)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
 The function will output the table as a plot along with a list of components that are stored in the `M1` object. If you want to suppress the plot, you can set the parameter `plot = FALSE`.
@@ -125,11 +125,11 @@ M1$col
 To order the row and column effects by effect values, set the `sort` parameter to `TRUE`.
 
 ```{r fig.width=3, fig.height=3, eval=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", sort = TRUE)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, sort = TRUE)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", sort = TRUE, row.size = 0.8, col.size = 0.8, res.size = 0.8) 
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, sort = TRUE, row.size = 0.8, col.size = 0.8, res.size = 0.8) 
 ```
 
 ### Applying a transformation to the data
@@ -137,21 +137,21 @@ M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", sort = TRUE, row.s
 You can have the function re-express the values prior to performing the polish. For example, to log transform the data, pass the value `0` to `p`.
 
 ```{r fig.width=3, fig.height=3, eval=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, p = 0)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = 0, row.size = 0.8, col.size = 0.8, res.size = 0.8)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, p = 0, row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
 If you are re-expressing the data using a negative power, you have the choice of adopting a Tukey transformation (`tukey = TRUE`) or a Box-Cox transformation (`tukey = FALSE`). For example, to apply a power transformation of -0.1 using a Box-Cox transformation, type:
 
 ```{r fig.width=3, fig.height=3, eval=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", p = -0.1, tukey = FALSE)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, p = -0.1, tukey = FALSE)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc",  p = -0.1, tukey = FALSE, row.size = 0.8, col.size = 0.8, res.size = 0.8)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc,  p = -0.1, tukey = FALSE, row.size = 0.8, col.size = 0.8, res.size = 0.8)
 ```
 
 ### Defining the statistic
@@ -159,11 +159,11 @@ M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc",  p = -0.1, tukey =
 By default, the polishing routine adopts the median statistic. You can adopt any other statistic via the `stat` parameter. For example, to apply a **mean polish**, type:
 
 ```{r eval = FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", stat = mean)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, stat = mean)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", stat = mean, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, stat = mean, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
 
 ## The `eda_polish` plot method
@@ -175,12 +175,12 @@ The list object created by the `eda_pol` function is of class `eda_polish`. As s
 You can generate the plot table from the median polish model as follows:
 
 ```{r eval = FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", plot = FALSE)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, plot = FALSE)
 plot(M1)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-M1 <- eda_pol(dat, row = "region", col = "edu", val = "perc", plot = FALSE)
+M1 <- eda_pol(dat, row = region, col = edu, val = perc, plot = FALSE)
 plot(M1, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
 
@@ -321,7 +321,7 @@ ex1 <-data.frame( col = rep(c("a","b","c"), each=3),
                   val = c(1:3, 4:6, 7:9))
 
 OP <- par(mfrow = c(1,2), mar = c(2,2,1,2))
-Mex1 <- eda_pol(ex1, row = "row", col = "col", val = "val", maxiter = 0)
+Mex1 <- eda_pol(ex1, row = row, col = col, val = val, maxiter = 0)
 with(ex1, interaction.plot(col, row, val, fun = median, type = "b", pch=1:3))
 par(OP)
 ```
@@ -330,7 +330,7 @@ par(OP)
 
 ```{r fig.width=5.5, fig.height=2.5, echo = FALSE,message=FALSE, warning=FALSE, error = FALSE, results='hide', fig.cap="Median polished data showing no interaction between effects"}
 OP <- par(mfrow = c(1,2), mar = c(4,4,1,1))
-Mex1 <- eda_pol(ex1, row = "row", col = "col", val = "val", maxiter = 4, plot=FALSE)
+Mex1 <- eda_pol(ex1, row = row, col = col, val = val, maxiter = 4, plot=FALSE)
 plot(Mex1)
 plot(Mex1, "diagnostic")
 par(OP)
@@ -347,7 +347,7 @@ ex2 <-data.frame( col = rep(c("a","b","c"), each=3),
                   val = c(6,2,1,4,5,6,4,8,12))
 
 OP <- par(mfrow = c(1,2), mar = c(2,2,1,2))
-Mex2 <- eda_pol(ex2, row = "row", col = "col", val = "val", maxiter = 0)
+Mex2 <- eda_pol(ex2, row = row, col = col, val = val, maxiter = 0)
 with(ex2, interaction.plot(col, row, val, fun = median, type = "b", pch=1:3))
 par(OP)
 ```
@@ -357,7 +357,7 @@ Note how the lines are no longer parallel to one another in the interaction plot
 
 ```{r fig.width=5.5, fig.height=2.5, echo = FALSE, message=FALSE, warning=FALSE, error = FALSE, results='hide', fig.cap="Median polished data showing interaction between effects"}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-Mex2 <- eda_pol(ex2, row = "row", col = "col", val = "val", plot=FALSE, p = 1)
+Mex2 <- eda_pol(ex2, row = row, col = col, val = val, plot=FALSE, p = 1)
 plot(Mex2)
 plot(Mex2, "diagnostic")
 par(OP)
@@ -394,13 +394,13 @@ Where the `Education` levels are defined as follows:
 The original table (prior to running the median polish), can be viewed by setting `maxiter` to `0` in the call to `eda_pol`.
 
 ```{r fig.width=2.8, fig.height=2.8, results='hide', fig.cap = "2021 Average earnings for the US."}
-eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , maxiter = 0, adj.mar = TRUE)
+eda_pol(df1, row = Education, col = Sex, val = Earnings , maxiter = 0, adj.mar = TRUE)
 ```
 
 Next, we'll run the median polish.
 
 ```{r}
-M2 <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , plot = FALSE)
+M2 <- eda_pol(df1, row = Education, col = Sex, val = Earnings , plot = FALSE)
 ```
 
 Next, we plot the final table and the diagnostic plot.
@@ -465,7 +465,7 @@ $$
 It's possible that the earnings as presented to us are in a scale not best suited for the analysis. Subtracting the slope value (derived from the diagnostic plot) from the value of 1 offers a suggested transformation that may provide us with a scale of measure best suited for the data. We'll rerun the median polish using a power transformation of `1 - 0.94 = 0.06`.
 
 ```{r}
-M3 <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , 
+M3 <- eda_pol(df1, row = Education, col = Sex, val = Earnings , 
               plot = FALSE, p = 0.06)
 ```
 
@@ -489,7 +489,7 @@ The following code chunk computes this ratio for different power transformations
 ```{r fig.width=5.5, fig.height=2.8, echo=2:9, fig.cap="Row (left) and column (right) effect IQRs to residuals ratio vs power."}
 OP <- par(mfrow = c(1,2), mar = c(4,4,1,1))
 f1 <- function(x){
-  out <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings",
+  out <- eda_pol(df1, row = Education, col = Sex, val = Earnings,
                  p = x, plot=FALSE, tukey = FALSE)
   c(p=out$power, IQrow = out$IQ_row, IQcol = out$IQ_col)
 }
@@ -507,7 +507,7 @@ The plot suggests a power transformation of 0.1. We'll re-run the median polish 
 
 ```{r fig.width=5.5, fig.height=2.8, echo = 2:4, results='hide'}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-M4 <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , 
+M4 <- eda_pol(df1, row = Education, col = Sex, val = Earnings, 
               plot = FALSE, p = 0.1)
 plot(M4, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 plot(M4, "diagnostic")
@@ -536,7 +536,7 @@ Here's what we can glean from the output:
 The `eda_pol` function accepts any statistical summary function. By default, it uses the median. For example, the *mean* polish generated from the earnings dataset looks like this:
 
 ```{r fig.width=2.8, fig.height=2.8}
-M5 <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , 
+M5 <- eda_pol(df1, row = Education, col = Sex, val = Earnings , 
               stat = mean, plot = FALSE)
 plot(M5, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8)
 ```
@@ -559,7 +559,7 @@ There is strong evidence of interaction. The slope of 0.92 can be used to estima
 
 ```{r fig.width=5.5, fig.height=2.8, echo = 2:4, results = 'hide', fig.cap="Results of a mean polish (left) and its diagnositc plot (right)."}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-M4b <- eda_pol(df1, row = "Education", col = "Sex", val = "Earnings" , stat = mean,
+M4b <- eda_pol(df1, row = Education, col = Sex, val = Earnings , stat = mean,
                plot = FALSE, p = 0.1, maxiter = 1)
 plot(M4b, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 plot(M4b, "diagnostic")
