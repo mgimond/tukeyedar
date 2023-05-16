@@ -16,6 +16,9 @@ eda_lm(
   reg = TRUE,
   w = NULL,
   grey = 0.5,
+  q = FALSE,
+  q.val = c(0.16, 0.84),
+  q.type = 5,
   loe = FALSE,
   lm.col = rgb(1, 0.5, 0.5, 0.8),
   loe.col = rgb(0.73, 0.73, 1, 1),
@@ -50,6 +53,14 @@ be plotted}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 
+\item{q}{Boolean determining if grey quantile boxes should be plotted}
+
+\item{q.val}{F-values to use to define the quantile box parameters. Defaults
+to mid 68% of values. If more than 2 f-values are defined, the first two
+are used to generate the box.}
+
+\item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile definition)}
+
 \item{loe}{Boolean indicating if a loess curve should be fitted}
 
 \item{lm.col}{Regression line color}
@@ -75,9 +86,9 @@ Returns a list from the  `lm` output.
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression
-line. A loess line can  also be added to the plot for model comparison. The
-axes are scaled such that their respective standard  deviations match axes
-unit length.
+  line. A loess line can  also be added to the plot for model comparison. The
+  axes are scaled such that their respective standard  deviations match axes
+  unit length.
 }
 \examples{
 

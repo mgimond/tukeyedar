@@ -4,9 +4,9 @@
 #' @title Least Squares regression plot (with optional LOESS fit)
 #'
 #' @description \code{eda_lm} generates a scatter plot with a fitted regression
-#' line. A loess line can  also be added to the plot for model comparison. The
-#' axes are scaled such that their respective standard  deviations match axes
-#' unit length.
+#'   line. A loess line can  also be added to the plot for model comparison. The
+#'   axes are scaled such that their respective standard  deviations match axes
+#'   unit length.
 #'
 #' @param dat Data frame
 #' @param x   Column assigned to the x axis
@@ -19,6 +19,11 @@
 #'   be plotted
 #' @param w Weight to pass to regression model
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
+#' @param q Boolean determining if grey quantile boxes should be plotted
+#' @param q.val F-values to use to define the quantile box parameters. Defaults
+#'   to mid 68% of values. If more than 2 f-values are defined, the first two
+#'   are used to generate the box.
+#' @param q.type Quantile type. Defaults to 5 (Cleveland's f-quantile definition)
 #' @param loe Boolean indicating if a loess curve should be fitted
 #' @param lm.col Regression line color
 #' @param loe.col LOESS curve color
@@ -58,6 +63,7 @@
 
 eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
                    tukey = FALSE, reg = TRUE, w=NULL, grey = 0.5,
+                   q = FALSE, q.val = c(0.16,0.84), q.type = 5,
                    loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8),
                    loe.col = rgb(.73, .73, 1, 1), stats=FALSE,
                    plot.d=list(pch=20, col=rgb(0,0,0,0.4)), ...,
@@ -121,6 +127,17 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
     mtext( sprintf("R-sq = %0.2f  Beta= %g P(beta) = %0.3f", st$r.sq,
                    st$coef[2,1] , st$coef[2,4] ), side=3, col="blue"  )
   }
+
+  if(q == TRUE){
+    st <- summary(M)
+    qy <- quantile(y, q.val, type = q.type)
+    qx <- quantile(x, q.val, type = q.type)
+    rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
+         col = rgb(0,0,0,0.1), border = NA)
+    rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
+         col = rgb(0,0,0,0.1), border = NA)
+  }
+
   par(.pardef)
   print(coef(M))
   invisible(list(residuals = residuals(M), a = coef(M)[1], b = coef(M)[2]))

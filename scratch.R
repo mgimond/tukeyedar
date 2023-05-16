@@ -145,6 +145,28 @@ eda_lm(mtcars, x = wt, y = mpg, grey = 0.8)
 Mr <- eda_rline(mtcars, x=wt, y=mpg)
 eda_add(Mr)
 
-eda_lm(dat=cars, x=dist, y=speed)
+eda_lm(dat=cars, x=log(dist), y=log(speed), q = T)
 Mr <- eda_rline(cars, x=dist, y=speed )
+eda_add(Mr)
+
+qy <- quantile(cars$speed, c(0.34,0.84))
+qx <- quantile(cars$dist, c(0.34,0.84))
+rect(xleft = qx[1], xright = qx[2], ybottom = qy[1], ytop = qy[2], col = rgb(0,0,0,0.2), border = "grey")
+
+## Random bivariate data
+n = 10
+r = 0.7
+set.seed(1234)
+x1 = rnorm(n)
+x2 = rnorm(n)
+y1 = scale(x2) * r  +  scale(residuals(lm(x1~x2))) * sqrt(1-r*r) # https://stats.stackexchange.com/a/112160
+df <- data.frame(x=x2, y = y1)
+eda_lm(dat=df, x=x, y=y, q = T)
+eda_lm(dat=df, x=x, y=y, q = T, q.val = c(0.25,0.75))
+Mr <- eda_rline(dat=df, x=x, y=y)
+eda_add(Mr)
+
+# Neoplasms
+eda_lm(dat=neoplasms, x=Temp, y=Mortality, q = T, q.type = 9)
+Mr <- eda_rline(dat=neoplasms, x=Temp, y=Mortality)
 eda_add(Mr)
