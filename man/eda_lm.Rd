@@ -15,17 +15,22 @@ eda_lm(
   tukey = FALSE,
   reg = TRUE,
   w = NULL,
-  grey = 0.5,
+  sd = TRUE,
+  grey = 0.6,
+  pch = 21,
+  p.col = "grey50",
+  p.fill = "grey80",
+  size = 0.8,
+  alpha = 0.8,
   q = FALSE,
   q.val = c(0.16, 0.84),
   q.type = 5,
   loe = FALSE,
   lm.col = rgb(1, 0.5, 0.5, 0.8),
-  loe.col = rgb(0.73, 0.73, 1, 1),
+  loe.col = rgb(0.3, 0.3, 1, 1),
   stats = FALSE,
-  plot.d = list(pch = 20, col = rgb(0, 0, 0, 0.4)),
-  ...,
-  loess.d = list(span = 0.5)
+  loess.d = list(family = "symmetric", span = 0.7, degree = 1),
+  ...
 )
 }
 \arguments{
@@ -51,7 +56,21 @@ be plotted}
 
 \item{w}{Weight to pass to regression model}
 
+\item{sd}{Boolean determining if standard deviation lines should be plotted}
+
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
+
+\item{pch}{Point symbol type}
+
+\item{p.col}{Color for point symbol.}
+
+\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
+ranging from 21-25).}
+
+\item{size}{Point size (0-1)}
+
+\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
+applicable if \code{rgb()} is not used to define point colors.}
 
 \item{q}{Boolean determining if grey quantile boxes should be plotted}
 
@@ -59,7 +78,8 @@ be plotted}
 to mid 68% of values. If more than 2 f-values are defined, the first two
 are used to generate the box.}
 
-\item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile definition)}
+\item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
+definition)}
 
 \item{loe}{Boolean indicating if a loess curve should be fitted}
 
@@ -70,11 +90,10 @@ are used to generate the box.}
 \item{stats}{Boolean indicating if regression summary statistics should be
 displayed}
 
-\item{plot.d}{A list of parameters passed to the plot function}
+\item{loess.d}{A list of parameters passed to the \code{loess.smooth}
+function. A robust loess is used by default.}
 
 \item{...}{Not used}
-
-\item{loess.d}{A list of parameters passed to the loess.smooth function}
 }
 \value{
 Returns a list from the  `lm` output.
@@ -93,17 +112,27 @@ Returns a list from the  `lm` output.
 \examples{
 
 # Add a regular (OLS) regression model and loess smooth to the data
-eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="blue"), loe=TRUE)
+eda_lm(mtcars, wt, mpg, loe = TRUE)
 
-# Modify the loess smooth by adopting a robust fit and adjusting its
-# span and polynomial order
-eda_lm(mtcars, wt, mpg, plot.d = list(pch=16, col="black"), loe=TRUE,
-      loess.d=list(family = "symmetric", span=0.5, degree=2))
+# Add the inner 68\% quantile to compare the true 68\% of data to the SD
+eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE)
 
-# Apply a log transformation to the x an y axes
+# Show the IQR box
+eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, q.val = c(0.25,0.75))
+
+# Fit an OLS to the Income for Female vs Male
 df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
-eda_lm(df2, x=B20004013, y=B20004007, plot.d = list(col=rgb(0,0,0,0.1)),
-            loe = TRUE, px = 1/3, py = 0)
+eda_lm(df2, x=B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+            loe = TRUE)
+
+# Add the inner 68\% quantile to compare the true 68\% of data to the SD
+eda_lm(df2, x = B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+            q = TRUE)
+
+# Apply a transformation to x and y axes: x -> 1/3 and y -> log
+eda_lm(df2, x = B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+            px = 1/3, py = 0, q = TRUE, loe = TRUE)
+
 }
 \seealso{
 \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
