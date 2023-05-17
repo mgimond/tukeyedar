@@ -95,10 +95,11 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
     y.lab = as.character(substitute(y))
   }
 
+  # Re-express data if required
     if(!missing(dat))
   {
-    x <- eda_re(eval(substitute(x), dat), p = px, tukey = TRUE)
-    y <- eda_re(eval(substitute(y), dat), p = py, tukey = TRUE)
+    x <- eda_re(eval(substitute(x), dat), p = px, tukey = tukey)
+    y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
   }
 
   # Set plot elements color

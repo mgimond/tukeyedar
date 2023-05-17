@@ -9,6 +9,10 @@
 #' @param dat Data frame
 #' @param x   Column assigned to the x axis
 #' @param y   Column assigned to the y axis
+#' @param px  Power transformation to apply to the x-variable
+#' @param py  Power transformation to apply to the y-variable
+#' @param tukey Boolean determining if a Tukey transformation should be adopted
+#'   (FALSE adopts a Box-Cox transformation)
 #'
 #' @return Returns a list of class \code{eda_rline}with the following named
 #'   components:
@@ -105,7 +109,7 @@
 #'    abline( h = 0, lty=3)
 #' par(OP)
 #'
-eda_rline <- function(dat,x,y){
+eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = FALSE){
 
   if(!missing(dat))
   {
@@ -114,6 +118,11 @@ eda_rline <- function(dat,x,y){
     x <- eval(substitute(x), dat)
     y <- eval(substitute(y), dat)
   }
+
+  # Re-express data if required
+  x <- eda_re(x, p = px, tukey = tukey)
+  y <- eda_re(y, p = py, tukey = tukey)
+
   # Get medians and sorted dataset
   m     <- thirds(x,y)
   xmed  <- m$xmed
@@ -144,20 +153,21 @@ eda_rline <- function(dat,x,y){
   # Compute Delta r and del r for second iteration
   D1 <-  Delta.r(x,y,index,xmed,b1)
 
-  #print(sprintf("b0=%f, b1=%f",b0,b1)) # For debugging
+  #print(sprintf("D0=%f, D1=%f, b0=%f, b1=%f",D0, D1, b0,b1)) # For debugging
   #print(sprintf("D0=%f, D1=%f",D0,D1)) # For debugging
   count <- 0
+
   # If D0 or D1 are 0, then we already have a robust line, if not, proceed
-  if (D1 !=0) {
+  if (round(D1,8) != 0 ) {
     # D0 and D1 should have opposite signs, if not, add another delta r
     control <- 0
     while ( sign(D0) == sign(D1) && (control < 20)) {
+      print(sprintf("D0=%f, D1=%f, b0=%f, b0=%f, b1=%f",D0,D1,b1,b1) )# For debugging
       b0 <- b1
       D0 <- D1
       b1 <- b1 + del
       del <- del + del
       D1  <-  Delta.r(x,y,index,xmed,b1)
-      #print(sprintf("D's with equal sign: b0=%f, b1=%f, D1=%f",b0,b1,D1)) # For debugging
       control <- control +1
     }
 
@@ -167,12 +177,12 @@ eda_rline <- function(dat,x,y){
     # Compute Delta r and del r for 3rd iteration
     D2 <-  Delta.r(x,y,index,xmed,b2)
     del <- D2 / deltax
-    #print(sprintf("b2=%f, D2=%f",b2,D2)) # For debugging
+    # print(sprintf("del=%f, b2=%f, D2=%f",del,b2,D2)) # For debugging
 
-    # Now repeat the last iteration until Delta r is less than 1% of b0
+    # Now repeat the last iteration until Delta r is less than 0.1% of b0
     count <- 0
-    while ( (abs(del) > cutoff) && (count < 20)){
 
+    while ( (abs(del) > cutoff) && (count < 20)){
       # Narrow the interval, assign b2 to b0 or b1 depending on sign of D2
       if( sign(D2) == sign(D1)) {
         b1 <- b2
@@ -201,10 +211,12 @@ eda_rline <- function(dat,x,y){
 
   # Output (include sorted y's and x's)
   out <- list(b=b2, a=a, res=res, x=x, y=y, xmed=xmed, ymed=ymed,
-              index = index, xlab = xlab, ylab=ylab, iter = count + 1)
+              index = index, xlab = xlab, ylab=ylab, px= px, py=py,
+              iter = count + 3)
   class(out) <- "eda_rline"
   return(out)
 }
+
 
 thirds <- function(x,y){
   # find unique values and add index to dataframe
@@ -237,18 +249,19 @@ thirds <- function(x,y){
   xb[2] <- max( which( dat2$index %in% ( (d[1] + 1) : d[2]) ) )
   xb[3] <- max( which( dat2$index %in% ( (d[2] + 1) : d[3]) ))
   # Output x medians, y medians, x indices and y indices
-  out <- list(xmed, ymed, xb, dat2$x, dat2$y)
-  names(out) <- c("xmed", "ymed", "index", "x","y")
+  out <- list(xmed = xmed, ymed = ymed, index = xb,
+              x = dat2$x, y = dat2$y)
   return(out)
 }
 
 # See page 132 of ABC of EDA for approach to computing
 # delta R
 
-Delta.r <- function(x,y,d,xmed,b){
+Delta.r <- function(x, y, d, xmed, b){
   rl <- median(y[1:d[1]] - b * (x[1:d[1]] - xmed[2]) )
   rr <- median(y[(d[2]+1):d[3]] - b * (x[(d[2]+1):d[3]] - xmed[2]) )
   D  <-  rr - rl
+  # print(sprintf("b=%f,  rl=%f, rr=%f",b,rl,rr)) # For debugging
   return(D)
 }
 

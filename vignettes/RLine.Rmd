@@ -202,13 +202,8 @@ par(OP)
 The updated slope is now `r round(b0,3)` + (`r round(res.b0,3)`) = `r round(b1,3)`.  The iteration continues until the slope residuals stabilize. The final line for this working example is,
 
 ```{r, fig.height=2.3, fig.width = 3.2, echo=FALSE}
-M <- eda_rline(neoplasms,Temp, Mortality)
-OP <- par(mar=c(4,4,1,1))
-  plot(Mortality~Temp,neoplasms, pch=20)
-  abline(a=M$a, b=M$b, col=rgb(1,0,0,0.5))
-  points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
-par(OP)
-
+M <- eda_rline(neoplasms, Temp, Mortality)
+plot(M)
 ```
 
 where the final slope and intercept are `r round(M$b,2)` and `r round(M$a,2)`, respectively.
@@ -224,7 +219,7 @@ M
 
 The elements `a` and `b` are the model's intercept and slope. The vectors `x` and `y` are the input values sorted on `x`. `res` is a vector of the final residuals sorted on `x`. `xmed` and `ymed` are vectors of the medians for each of the three batches. 
 
-You can use the output values to generate the following plot.
+
 
 ```{r fig.height=2.3, fig.width = 3.2, echo=2:3}
 OP <- par(mar=c(4,4,1,1))

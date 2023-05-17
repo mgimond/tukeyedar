@@ -4,7 +4,7 @@
 \alias{eda_rline}
 \title{Tukey's resistant line}
 \usage{
-eda_rline(dat, x, y)
+eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE)
 }
 \arguments{
 \item{dat}{Data frame}
@@ -12,6 +12,13 @@ eda_rline(dat, x, y)
 \item{x}{Column assigned to the x axis}
 
 \item{y}{Column assigned to the y axis}
+
+\item{px}{Power transformation to apply to the x-variable}
+
+\item{py}{Power transformation to apply to the y-variable}
+
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+(FALSE adopts a Box-Cox transformation)}
 }
 \value{
 Returns a list of class \code{eda_rline}with the following named
