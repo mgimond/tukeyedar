@@ -155,7 +155,7 @@ rect(xleft = qx[1], xright = qx[2], ybottom = qy[1], ytop = qy[2], col = rgb(0,0
 
 ## Random bivariate data
 n = 1000
-r = 0.9
+r = 0.5
 set.seed(321)
 x1 = rnorm(n)
 x2 = rnorm(n)
@@ -165,6 +165,7 @@ eda_lm(dat=df, x=x, y=y, q = T)
 #eda_lm(dat=df, x=x, y=y, q = T, q.val = c(0.25,0.75))
 Mr <- eda_rline(dat=df, x=x, y=y)
 eda_add(Mr)
+plot(Mr, equal = TRUE)
 
 # Neoplasms
 eda_lm(dat=neoplasms, x=Temp, y=Mortality, q = T, q.type = 9)

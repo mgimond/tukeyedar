@@ -9,8 +9,13 @@
   type = "model",
   xlab = NULL,
   ylab = NULL,
-  grey = 0.5,
-  col = rgb(0.2, 0.2, 0.2, 0.5),
+  grey = 0.6,
+  pch = 21,
+  equal = TRUE,
+  p.col = "grey50",
+  p.fill = "grey80",
+  size = 0.8,
+  alpha = 0.7,
   model = TRUE,
   pt3 = TRUE,
   ...
@@ -21,13 +26,26 @@
 
 \item{type}{Plot type. One of two: "model", "residuals".}
 
-\item{xlab}{Custom x-axislabel. Defaults to column name}
+\item{xlab}{Custom x-axis label. Defaults to column name}
 
 \item{ylab}{Custom y-axis label. Defaults to column name.}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 
-\item{col}{Color for point symbol. Currently set to \code{rgb(.2,.2,.2,0.5)}.}
+\item{pch}{Point symbol type}
+
+\item{equal}{Boolean determining if axes lengths should match (i.e. squate
+plot).}
+
+\item{p.col}{Color for point symbol.}
+
+\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
+ranging from 21-25).}
+
+\item{size}{Point size (0-1)}
+
+\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only applicable
+if \code{rgb()} is not used to define point colors.}
 
 \item{model}{Boolean indicating if the resulting model should be added above
 plot. Only applies to \code{type = "model"}}
@@ -45,7 +63,8 @@ Does not return a value.
  class.
 }
 \details{
-The function generates a scatter plot with the fitted model from an \code{eda_rline} object.
+The function generates a scatter plot with the fitted model from an
+ \code{eda_rline} object.
 }
 \examples{
 r.lm    <- eda_rline(age_height, Months, Height)
