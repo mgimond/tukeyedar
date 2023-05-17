@@ -22,7 +22,7 @@
 eda_re <- function(x, p=0, tukey=TRUE){
   if(p == 0) {
     z <- ifelse(!is.na(x), log(x), NA)
-  } else if(tukey == FALSE) {
+  } else if(tukey == FALSE & p != 1) {
     z <- ifelse(!is.na(x), (x^p - 1)/p , NA)
   } else {
     z <- ifelse(!is.na(x), x^p , NA)
