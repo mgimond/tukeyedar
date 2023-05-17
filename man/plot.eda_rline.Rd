@@ -9,6 +9,7 @@
   type = "model",
   xlab = NULL,
   ylab = NULL,
+  grey = 0.5,
   col = rgb(0.2, 0.2, 0.2, 0.5),
   model = TRUE,
   pt3 = TRUE,
@@ -23,6 +24,8 @@
 \item{xlab}{Custom x-axislabel. Defaults to column name}
 
 \item{ylab}{Custom y-axis label. Defaults to column name.}
+
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 
 \item{col}{Color for point symbol. Currently set to \code{rgb(.2,.2,.2,0.5)}.}
 

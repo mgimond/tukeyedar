@@ -154,19 +154,24 @@ qx <- quantile(cars$dist, c(0.34,0.84))
 rect(xleft = qx[1], xright = qx[2], ybottom = qy[1], ytop = qy[2], col = rgb(0,0,0,0.2), border = "grey")
 
 ## Random bivariate data
-n = 10
-r = 0.7
-set.seed(1234)
+n = 1000
+r = 0.9
+set.seed(321)
 x1 = rnorm(n)
 x2 = rnorm(n)
 y1 = scale(x2) * r  +  scale(residuals(lm(x1~x2))) * sqrt(1-r*r) # https://stats.stackexchange.com/a/112160
 df <- data.frame(x=x2, y = y1)
 eda_lm(dat=df, x=x, y=y, q = T)
-eda_lm(dat=df, x=x, y=y, q = T, q.val = c(0.25,0.75))
+#eda_lm(dat=df, x=x, y=y, q = T, q.val = c(0.25,0.75))
 Mr <- eda_rline(dat=df, x=x, y=y)
 eda_add(Mr)
 
 # Neoplasms
 eda_lm(dat=neoplasms, x=Temp, y=Mortality, q = T, q.type = 9)
 Mr <- eda_rline(dat=neoplasms, x=Temp, y=Mortality)
+eda_add(Mr)
+
+# Age Height
+eda_lm(dat=age_height, x=Months, y=Height, q = T, q.type = 9)
+Mr <- eda_rline(dat=age_height, x=Months, y=Height)
 eda_add(Mr)
