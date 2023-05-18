@@ -5,6 +5,7 @@
 * Adds `sd` labels to SD dashed lines in `eda_lm`
 * `eda_lm` will now output `lm` intercept and slope.
 * Adds plot method for `eda_rline` object.
+* in `eda_re` if p = 1, box-cox option is ignored.
 
 
 # tukeyedar 0.1.0

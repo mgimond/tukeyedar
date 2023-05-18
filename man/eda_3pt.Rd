@@ -8,12 +8,20 @@ eda_3pt(
   dat,
   x,
   y,
-  x.lab = NULL,
-  y.lab = NULL,
-  adj = -0.12,
+  px = 1,
+  py = 1,
+  tukey = TRUE,
+  axes = TRUE,
+  pch = 21,
+  equal = TRUE,
+  p.col = "grey50",
+  p.fill = "grey80",
+  size = 0.8,
+  alpha = 0.7,
+  xlab = NULL,
+  ylab = NULL,
   dir = TRUE,
-  pch = 20,
-  col = "grey40",
+  grey = 0.6,
   ...
 )
 }
@@ -24,18 +32,38 @@ eda_3pt(
 
 \item{y}{Column name assigned the y axis}
 
-\item{x.lab}{X label for output plot}
+\item{px}{Power transformation to apply to the x-variable}
 
-\item{y.lab}{Y label for output plot}
+\item{py}{Power transformation to apply to the y-variable}
 
-\item{adj}{Adjustment parameter for y label}
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+(FALSE adopts a Box-Cox transformation)}
+
+\item{axes}{Boolean determining if axes are to be drawn.}
+
+\item{pch}{Point symbol type}
+
+\item{equal}{Boolean determining if axes lengths should match (i.e. squate
+plot).}
+
+\item{p.col}{Color for point symbol.}
+
+\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
+ranging from 21-25).}
+
+\item{size}{Point size (0-1)}
+
+\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only applicable
+if \code{rgb()} is not used to define point colors.}
+
+\item{xlab}{X label for output plot}
+
+\item{ylab}{Y label for output plot}
 
 \item{dir}{Boolean indicating if suggested ladder of power direction should
 be displayed}
 
-\item{pch}{Plot point size as a fraction (can be larger than 1.0)}
-
-\item{col}{Plot point color}
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 
 \item{...}{Other parameters passed to the graphics::plot function.}
 }
@@ -69,7 +97,7 @@ book (see reference).
 \examples{
 
 hsratio <- eda_3pt(cars, speed, dist)
-hsratio <- eda_3pt(cars, speed, dist^(1/3), y.lab=expression("Dist"^{1/3}), adj=-0.1)
+hsratio <- eda_3pt(cars, speed, dist, py = 1/3, ylab=expression("Dist"^{1/3}))
 }
 \references{
 \itemize{

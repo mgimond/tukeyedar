@@ -40,8 +40,8 @@
 #'   displayed
 #' @param loess.d  A list of parameters passed to the \code{loess.smooth}
 #'   function. A robust loess is used by default.
-#' @param x.lab X label for output plot
-#' @param y.lab Y label for output plot
+#' @param xlab X label for output plot
+#' @param ylab Y label for output plot
 #' @param ... Not used
 #'
 #' @return Returns a list from the  `lm` output.
@@ -67,20 +67,20 @@
 #'
 #' # Fit an OLS to the Income for Female vs Male
 #' df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
-#' eda_lm(df2, x=B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+#' eda_lm(df2, x=B20004013, y = B20004007, xlab = "Female", ylab = "Male",
 #'             loe = TRUE)
 #'
 #' # Add the inner 68% quantile to compare the true 68% of data to the SD
-#' eda_lm(df2, x = B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+#' eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
 #'             q = TRUE)
 #'
 #' # Apply a transformation to x and y axes: x -> 1/3 and y -> log
-#' eda_lm(df2, x = B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+#' eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
 #'             px = 1/3, py = 0, q = TRUE, loe = TRUE)
 #'
 
 
-eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
+eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                    tukey = FALSE, reg = TRUE, w=NULL, sd = TRUE, grey = 0.6,
                    pch = 21, p.col = "grey50", p.fill = "grey80", size = 0.8,
                    alpha = 0.8, q = FALSE, q.val = c(0.16,0.84), q.type = 5,
@@ -88,11 +88,11 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
                    loe.col = rgb(.3, .3, 1, 1), stats=FALSE,
                    loess.d=list(family = "symmetric", span=0.7, degree=1), ...) {
 
-  if(is.null(x.lab)){
-    x.lab = as.character(substitute(x))
+  if(is.null(xlab)){
+    xlab = as.character(substitute(x))
   }
-  if(is.null(y.lab)){
-    y.lab = as.character(substitute(y))
+  if(is.null(ylab)){
+    ylab = as.character(substitute(y))
   }
 
   # Re-express data if required
@@ -129,7 +129,7 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
   box(col=plotcol)
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-  mtext(y.lab, side=3, adj= -0.1 , col=plotcol, padj = -1)
+  mtext(ylab, side=3, adj= -0.1 , col=plotcol, padj = -1)
   sq <- par("usr") # get plot corners
   if (sd == TRUE){
     ysd1 <- (mean(y) + sd(y))
@@ -143,7 +143,7 @@ eda_lm <- function(dat, x, y, x.lab = NULL, y.lab = NULL, px = 1, py = 1,
     text( label="-1sd", y= sq[4] - diff(sq[3:4]) * 0.01, x= (mean(x) - sd(x)) ,
           srt=0, col="grey70",  cex=0.7)
   }
-  title(xlab = x.lab, line =1.7, col.lab=plotcol)
+  title(xlab = xlab, line =1.8, col.lab=plotcol)
   if(reg == TRUE)  abline(M, lw = 2, col = lm.col )
   abline(v=mean(x),lty=1,col="grey70")
   abline(h=mean(y), lty=1, col="grey70")

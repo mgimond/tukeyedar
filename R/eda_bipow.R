@@ -47,8 +47,10 @@ eda_bipow <- function(dat, x, y, p = c(3, 2, 1, .5, 0), tukey=TRUE, ...) {
 
   # Plot data for each transformation
   M <- matrix( 1: ((nRows + 2)*(nCols + 2)),nrow=nRows + 2, ncol = nCols + 2, byrow=TRUE)
+
   .pardef <- par(no.readonly = T)
   on.exit(par(.pardef), add = TRUE)
+
   par(mar = c(0,0,0,0))
   lHeight <- c(0.3, rep(1, nCols),0.3 )
   lWidth <- c(0.3, rep(1, nCols),0.3 )
@@ -64,7 +66,7 @@ eda_bipow <- function(dat, x, y, p = c(3, 2, 1, .5, 0), tukey=TRUE, ...) {
     plot(NA,NA,axes=FALSE,xlim=c(0,1),ylim=c(0,1))
     text(.5,.5,labels=as.character(j), cex=1.5,col="#888888")
     # Transform the y variable
-    yj <- eda_re(y,j,tukey=tukey)
+    yj <- eda_re(y, j, tukey=tukey)
     for (i in p) {
       # Transform the x variable
       xi <-  eda_re(x,i,tukey=tukey)
@@ -80,11 +82,11 @@ chosen.")
 
       datij <- data.frame(x = xi,y = yj)
       par( mar = c(0.5,0.5,0.5,0.5))
-      eda_3pt(datij,x,y, dir=FALSE,axes=FALSE,x.lab=NA, y.lab=NA,
-             col="#999999",cex=0.5,...)
-      axis(1,labels=NA,tick = 0.01)
-      axis(2,labels=NA,tick = 0.01)
-      box(col="grey65")
+      eda_3pt(datij, x, y, dir = FALSE, axes=FALSE, xlab=NA, ylab=NA,
+             p.col="#999999", size = 0.5, pch = 20, grey = 0.65,...)
+   #   axis(1,labels=NA,tick = 0.01)
+   #   axis(2,labels=NA,tick = 0.01)
+   #   box(col="grey65")
     }
     # Plot y histogram
     #par( mar = c(0.5,0.5,0.5,0.5))
@@ -116,3 +118,4 @@ chosen.")
   }
   par(.pardef)
 }
+

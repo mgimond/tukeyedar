@@ -8,8 +8,8 @@ eda_lm(
   dat,
   x,
   y,
-  x.lab = NULL,
-  y.lab = NULL,
+  xlab = NULL,
+  ylab = NULL,
   px = 1,
   py = 1,
   tukey = FALSE,
@@ -40,9 +40,9 @@ eda_lm(
 
 \item{y}{Column assigned to the y axis}
 
-\item{x.lab}{X label for output plot}
+\item{xlab}{X label for output plot}
 
-\item{y.lab}{Y label for output plot}
+\item{ylab}{Y label for output plot}
 
 \item{px}{Power transformation to apply to the x-variable}
 
@@ -122,15 +122,15 @@ eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, q.val = c(0.25,0.75))
 
 # Fit an OLS to the Income for Female vs Male
 df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
-eda_lm(df2, x=B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+eda_lm(df2, x=B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             loe = TRUE)
 
 # Add the inner 68\% quantile to compare the true 68\% of data to the SD
-eda_lm(df2, x = B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             q = TRUE)
 
 # Apply a transformation to x and y axes: x -> 1/3 and y -> log
-eda_lm(df2, x = B20004013, y = B20004007, x.lab = "Female", y.lab = "Male",
+eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             px = 1/3, py = 0, q = TRUE, loe = TRUE)
 
 }

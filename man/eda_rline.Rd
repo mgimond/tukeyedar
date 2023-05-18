@@ -4,7 +4,7 @@
 \alias{eda_rline}
 \title{Tukey's resistant line}
 \usage{
-eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE)
+eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE)
 }
 \arguments{
 \item{dat}{Data frame}
@@ -57,63 +57,32 @@ This is an R implementation of the \code{RLIN.F} FORTRAN code in
 }
 \examples{
 
-# This first example fits a resistant line to the neoplasms data
-
-M <- eda_rline(neoplasms, Temp, Mortality)
-plot(Mortality~Temp, neoplasms, pch=20)
-abline(a=M$a, b=M$b, col=rgb(1,0,0,0.5))
-
-# This second example uses breast cancer data from "ABC's of EDA" page 127.
+# This first example uses breast cancer data from "ABC's of EDA" page 127.
 # The output model's  parameters should closely match:  Y = -46.19 + 2.89X
 # The plots shows the original data with a fitted resistant line (red)
-# and a regular lm fitted line (dashed grey), and the modeled residuals.
+# and a regular lm fitted line (dashed line), and the modeled residuals.
 # The 3-point summary dots are shown in red.
 
-r.lm <- eda_rline(neoplasms, Temp, Mortality)
-r.lm
+M <- eda_rline(neoplasms, Temp, Mortality)
+M
 
-# Check output
-OP <- par( mfrow = c(2,1))
-  plot(Mortality ~ Temp, neoplasms)
-  mtext(sprintf("y = \%f + (\%f)x", r.lm$a, r.lm$b ))
-  abline(a = r.lm$a, b = r.lm$b, col="red")
-  abline( lm(Mortality ~ Temp, neoplasms), col="grey", lty=3)
-  points(cbind(r.lm$xmed,r.lm$ymed), pch =16, col="red")
-  abline(v= r.lm$x[r.lm$index],lty=3)
-  plot(r.lm$res ~ r.lm$x)
-  abline( h = 0, lty=3)
-par(OP)
+# Plot the output
+plot(M)
+abline(lm(Mortality ~ Temp, neoplasms), lty = 3)
 
-# This next example compares children height to age.
-# The plots shows the original data with a fitted resistant line (red)
-# and a regular lm fitted line (dashed grey), and the modeled residuals.
-# The 3-point summary dots are shown in red.
-r.lm    <- eda_rline(age_height, Months, Height)
+# Plot the residuals
+plot(M, type = "residuals")
 
-OP <- par( mfrow = c(2,1))
- plot(Height ~ Months, age_height, xlab="Age (months)", ylab="Height (cm)")
- mtext(sprintf("y = \%f + (\%f)x", r.lm$a, r.lm$b ))
- abline(a = r.lm$a, b = r.lm$b, col="red")
- abline( lm(Height ~ Months, age_height), col="grey", lty=3)
- points(cbind(r.lm$xmed,r.lm$ymed), pch =16, col="red")
- abline(v= r.lm$x[r.lm$index],lty=3)
- plot(r.lm$res ~ r.lm$x)
- abline( h = 0, lty=3)
-par(OP)
+# This next example models gas consumption as a function of engine displacement.
+# It applies a transformation to both variables via the px and py arguments.
+eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
+       ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
 
-# Andrew Siegel's pathological 9-point data set
-r.lm <- eda_rline(nine_point, X, Y)
+# This next example uses Andrew Siegel's pathological 9-point dataset to test
+# for model stability when convergence cannot be reached.
+M <- eda_rline(nine_point, X, Y)
+plot(M)
 
-OP <- par( mfrow = c(2,1))
-plot(Y ~ X, nine_point, xlab="Age (months)", ylab="Height (cm)")
-   mtext(sprintf("y = \%f + (\%f)x", r.lm$a, r.lm$b ))
-   abline(a = r.lm$a, b = r.lm$b, col="red")
-   abline( lm(Y ~ X, nine_point), col="grey", lty=3)
-   points(cbind(r.lm$xmed,r.lm$ymed), pch =16, col="red")
-   abline(v= r.lm$x[r.lm$index],lty=3)
-   plot(r.lm$res ~ r.lm$x)
-   abline( h = 0, lty=3)
-par(OP)
 
 }
 \references{

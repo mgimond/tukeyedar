@@ -41,7 +41,6 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Introduction.html">Introduction to EDA functions</a>
     <a class="dropdown-item" href="../articles/polish.html">Median polish</a>
     <a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a>
   </div>
@@ -77,7 +76,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2023-04-25</h4>
+            <h4 data-toc-skip class="date">2023-05-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/RLine.Rmd" class="external-link"><code>vignettes/RLine.Rmd</code></a></small>
       <div class="d-none name"><code>RLine.Rmd</code></div>
@@ -149,8 +148,10 @@ respectively.</p>
 <p>The <code>eda_rline</code> takes just three arguments: data frame, x
 variable and y variable. The function output is a list.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">neoplasms</span>, <span class="va">Temp</span>, <span class="va">Mortality</span><span class="op">)</span></span>
-<span><span class="va">M</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/" class="external-link">tukeyedar</a></span><span class="op">)</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">neoplasms</span>, <span class="va">Temp</span>, <span class="va">Mortality</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">M</span></span>
 <span><span class="co">#&gt;  $b</span></span>
 <span><span class="co">#&gt;  [1] 2.890173</span></span>
 <span><span class="co">#&gt;  </span></span>
@@ -177,31 +178,42 @@ variable and y variable. The function output is a list.</p>
 <span><span class="co">#&gt;  [1]  67.30  85.15 100.40</span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;  $index</span></span>
-<span><span class="co">#&gt;  [1]  5 11 16</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1]  5 11 16</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;  $xlab</span></span>
+<span><span class="co">#&gt;  [1] "Temp"</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;  $ylab</span></span>
+<span><span class="co">#&gt;  [1] "Mortality"</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;  $px</span></span>
+<span><span class="co">#&gt;  [1] 1</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;  $py</span></span>
+<span><span class="co">#&gt;  [1] 1</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;  $iter</span></span>
+<span><span class="co">#&gt;  [1] 4</span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;  attr(,"class")</span></span>
+<span><span class="co">#&gt;  [1] "eda_rline"</span></span></code></pre></div>
 <p>The elements <code>a</code> and <code>b</code> are the model’s
 intercept and slope. The vectors <code>x</code> and <code>y</code> are
 the input values sorted on <code>x</code>. <code>res</code> is a vector
 of the final residuals sorted on <code>x</code>. <code>xmed</code> and
 <code>ymed</code> are vectors of the medians for each of the three
-batches.</p>
-<p>You can use the output values to generate the following plot.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-9-1.png" width="307.2"></p>
-<p>If you wish to add the median values to all three batches for
-reference, modify the code as follows:</p>
+batches. <code>px</code> and <code>py</code> are power transformations
+applied to the variables.</p>
+<p>The output is a list of class <code>eda_rline</code>. A
+<code>plot</code> method is available for this class.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">xmed</span>, y<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">ymed</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">20</span>,cex<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RLine_files/figure-html/unnamed-chunk-10-1.png" width="307.2"></p>
 <p>To see how this resistant line compares to an ordinary least-squares
-(OLS) regression slope, type:</p>
+(OLS) regression slope, add the output of the <code>lm</code> model to
+the plot via <code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span><span class="op">)</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="co"># Regression model</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Mortality</span> <span class="op">~</span> <span class="va">Temp</span>, <span class="va">neoplasms</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="RLine_files/figure-html/unnamed-chunk-11-1.png" width="307.2"></p>
 <p>The regression model computes a slope of <code>2.36</code> whereas
 the resistant line function generates a slope of <code>2.89</code>. From
@@ -209,10 +221,7 @@ the scatter plot, we can spot a point that may have undo influence on
 the regression line (this point is highlighted in green in the following
 plot).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span><span class="op">)</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="co"># Regression model</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">neoplasms</span><span class="op">[</span><span class="fl">15</span>,<span class="op">]</span>, col<span class="op">=</span><span class="st">"#43CD80"</span>,cex<span class="op">=</span><span class="fl">2</span> ,pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">neoplasms</span><span class="op">[</span><span class="fl">15</span>,<span class="op">]</span>, col<span class="op">=</span><span class="st">"#43CD80"</span>,cex<span class="op">=</span><span class="fl">1.5</span> ,pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RLine_files/figure-html/unnamed-chunk-12-1.png" width="307.2"></p>
 <p>Removing that point from the data generates an OLS regression line
 more inline with our resistant model. The point of interest is the
@@ -220,11 +229,17 @@ more inline with our resistant model. The point of interest is the
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">neoplasms.sub</span> <span class="op">&lt;-</span> <span class="va">neoplasms</span><span class="op">[</span><span class="op">-</span><span class="fl">15</span>,<span class="op">]</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Mortality</span><span class="op">~</span><span class="va">Temp</span>, <span class="va">neoplasms.sub</span><span class="op">)</span>,lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="co"># Regression model with data subset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">neoplasms</span><span class="op">[</span><span class="fl">15</span>,<span class="op">]</span>, col<span class="op">=</span><span class="st">"#43CD80"</span>,cex<span class="op">=</span><span class="fl">2</span> ,pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">M.sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">neoplasms.sub</span>, <span class="va">Temp</span>, <span class="va">Mortality</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M.sub</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Mortality</span> <span class="op">~</span> <span class="va">Temp</span>, <span class="va">neoplasms.sub</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># Regression model with data subset</span></span></code></pre></div>
 <p><img src="RLine_files/figure-html/unnamed-chunk-14-1.png" width="307.2"></p>
+<p>Note how the OLS slope is inline with that generated from the
+resistant line. You’ll also note that the resistant line slope has also
+changed. Despite the resistant nature of the line, the removal of this
+point changed the makeup of the first tier of values (note the leftward
+shift in the vertical dashed line). This changed the makeup of this
+batch thus changing the median values for the first and second tier
+batches.</p>
 </div>
 <div class="section level3">
 <h3 id="other-examples">Other examples<a class="anchor" aria-label="anchor" href="#other-examples"></a>
@@ -236,26 +251,22 @@ more inline with our resistant model. The point of interest is the
 (p. 139) to test the resistant line function’s ability to stabilize wild
 oscillations in the computed slopes across iterations.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">nine_point</span>, <span class="va">X</span>,<span class="va">Y</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Y</span><span class="op">~</span><span class="va">X</span>, <span class="va">nine_point</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-16-1.png" width="307.2"></p>
+<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">nine_point</span>, <span class="va">X</span>,<span class="va">Y</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RLine_files/figure-html/unnamed-chunk-15-1.png" width="307.2"></p>
 <p>Here, slope and intercept are 0.067 and 0.133 respectively matching
 the 1/15 and 2/15 values computed by Hoaglin et. al.</p>
 </div>
 <div class="section level4">
 <h4 id="age-vs--height-data">Age vs. height data<a class="anchor" aria-label="anchor" href="#age-vs--height-data"></a>
 </h4>
-<p><code>age_height</code> is another dataset pulled from Hoaglin et. al
+<p><code>age_height</code> is another dataset found in Hoaglin et. al
 (p. 135). It gives the ages and heights of children from a private urban
 school.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">age_height</span>, <span class="va">Months</span>,<span class="va">Height</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Height</span> <span class="op">~</span> <span class="va">Months</span>, <span class="va">age_height</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-18-1.png" width="307.2"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">age_height</span>, <span class="va">Months</span>,<span class="va">Height</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RLine_files/figure-html/unnamed-chunk-16-1.png" width="307.2"></p>
 <p>Here, slope and intercept are 0.429 and 91.007 respectively matching
 the 0.426 slope and closely matching the 90.366 intercept values
 computed by Hoaglin et. al on page 137.</p>
@@ -269,49 +280,42 @@ valid if the bivariate relationship is linear. Here, we’ll step through
 the example highlighted by Velleman et. al (p. 138) using the R built-in
 <code>mtcars</code> dataset.</p>
 <p>First, we’ll fit the resistant line to the data.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, <span class="va">mtcars</span>, pch<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-20-1.png" width="307.2"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RLine_files/figure-html/unnamed-chunk-17-1.png" width="307.2"></p>
 <p>It’s important to note that just because a resistant line can be fit
 does not necessarily imply that the relationship is linear. To assess
 linearity of the <code>mtcars</code> dataset, we’ll make use of the
 <code>eda_3pt</code> function (see the <a href="Introduction.html#eda_3pt">accompanying vignette</a> for details
 on interpreting the 3-point summary function).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_3pt.html">eda_3pt</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-21-1.png" width="307.2"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-18-1.png" width="307.2"></p>
 <p>It’s clear from the two half slopes that the relationship is not
 linear. Velleman et. al first suggest re-expressing <code>mpg</code> to
-<code>1/mpg</code> giving us number of gallons consumed per mile
+<code>1/mpg</code> (i.e. applying a power transformation of
+<code>-1</code>) giving us number of gallons consumed per mile
 driven.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_3pt.html">eda_3pt</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="fl">1</span><span class="op">/</span><span class="va">mpg</span>, y.lab <span class="op">=</span> <span class="st">"gal/mi"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-22-1.png" width="307.2"></p>
-<p>This is an improvement, however the two half slopes still differ
-significantly. We will therefore opt to re-express the <code>disp</code>
-variable. One possibility is to take the inverse of 1/3 since
-displacement is a measure of volume (e.g. length<sup>3</sup>) which
-gives us:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_3pt.html">eda_3pt</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>, <span class="fl">1</span><span class="op">/</span><span class="va">mpg</span>, </span>
-<span>        y.lab <span class="op">=</span> <span class="st">"gal/mi"</span>,</span>
-<span>        x.lab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Displacement"</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-23-1.png" width="307.2"></p>
-<p>Now that we have identified re-expressions that linearise the
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_3pt.html">eda_3pt</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span>, py <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, ylab <span class="op">=</span> <span class="st">"gal/mi"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RLine_files/figure-html/unnamed-chunk-19-1.png" width="307.2"></p>
+<p>The two half slopes still differ. We will therefore opt to re-express
+the <code>disp</code> variable. One possibility is to take the inverse
+of 1/3 since displacement is a measure of volume
+(e.g. length<sup>3</sup>) which gives us:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_3pt.html">eda_3pt</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span>,  px <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, py <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>        ylab <span class="op">=</span> <span class="st">"gal/mi"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Displacement"</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RLine_files/figure-html/unnamed-chunk-20-1.png" width="307.2"></p>
+<p>Now that we have identified re-expressions that linearises the
 relationship, we can fit the resistant line. (Note that the grey line
 generated by the <code>eda_3pt</code> function is not the same as the
 resistant line generated with <code>eda_rline</code>.)</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>, <span class="fl">1</span><span class="op">/</span><span class="va">mpg</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="va">disp</span><span class="op">^</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span>, <span class="va">mtcars</span>, pch<span class="op">=</span><span class="fl">20</span>,</span>
-<span>     ylab <span class="op">=</span> <span class="st">"gal/mi"</span>,</span>
-<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Displacement"</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">a</span>, b<span class="op">=</span><span class="va">M</span><span class="op">$</span><span class="va">b</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-25-1.png" width="307.2"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span>,  px <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, py <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M</span>, ylab <span class="op">=</span> <span class="st">"gal/mi"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Displacement"</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RLine_files/figure-html/r-1.png" width="307.2"></p>
 </div>
 <div class="section level3">
 <h3 id="computing-a-confidence-interval">Computing a confidence interval<a class="anchor" aria-label="anchor" href="#computing-a-confidence-interval"></a>
@@ -326,7 +330,7 @@ and resampling x-y cases.</p>
 re-run the model many times by replacing the original y values with the
 <strong>modeled</strong> y values <strong>plus</strong> the resampled
 residuals to generate the confidence intervals.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span>  <span class="op">&lt;-</span> <span class="fl">599</span> <span class="co"># Set number of iterations</span></span>
 <span><span class="va">M</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">neoplasms</span>, <span class="va">Temp</span>, <span class="va">Mortality</span><span class="op">)</span> <span class="co"># Fit the resistant line</span></span>
 <span><span class="va">bt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fl">0</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Create empty bootstrap array</span></span>
@@ -336,25 +340,25 @@ residuals to generate the confidence intervals.</p>
 <span>  <span class="va">bt</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">df.bt</span>,<span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">$</span><span class="va">b</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Now plot the distributions,</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, main<span class="op">=</span><span class="st">"Intercept distribution"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, main<span class="op">=</span><span class="st">"Slope distribution"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-27-1.png" width="576"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-22-1.png" width="576"></p>
 <p>and tabulate the 95% confidence interval.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,</span>
 <span>                     Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">conf</span></span>
 <span><span class="co">#&gt;                    5%       95%</span></span>
-<span><span class="co">#&gt;  Intercept -74.167541 11.728121</span></span>
-<span><span class="co">#&gt;  Slope       1.661702  3.536461</span></span></code></pre></div>
+<span><span class="co">#&gt;  Intercept -76.192628 10.405794</span></span>
+<span><span class="co">#&gt;  Slope       1.705933  3.532606</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="resampling-the-x-y-paired-values">Resampling the x-y paired values<a class="anchor" aria-label="anchor" href="#resampling-the-x-y-paired-values"></a>
 </h4>
 <p>Here, we resample the x-y paired values (with replacement) then
 compute the resistant line each time.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span>  <span class="op">&lt;-</span> <span class="fl">599</span> <span class="co"># Set number of iterations</span></span>
 <span><span class="va">bt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fl">0</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Create empty bootstrap array</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span> <span class="co">#bootstrap loop</span></span>
@@ -364,18 +368,18 @@ compute the resistant line each time.</p>
 <span>  <span class="va">bt</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span><span class="op">=</span><span class="fu"><a href="../reference/eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">df.bt</span>,<span class="va">Temp</span>,<span class="va">Mortality</span><span class="op">)</span><span class="op">$</span><span class="va">b</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Now plot the distributions,</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, main<span class="op">=</span><span class="st">"Intercept distribution"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, main<span class="op">=</span><span class="st">"Slope distribution"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RLine_files/figure-html/unnamed-chunk-30-1.png" width="576"></p>
+<p><img src="RLine_files/figure-html/unnamed-chunk-25-1.png" width="576"></p>
 <p>and tabulate the 95% confidence interval.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,</span>
 <span>                     Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">conf</span></span>
 <span><span class="co">#&gt;                     5%       95%</span></span>
-<span><span class="co">#&gt;  Intercept -116.523077 12.788676</span></span>
-<span><span class="co">#&gt;  Slope        1.643678  4.338462</span></span></code></pre></div>
+<span><span class="co">#&gt;  Intercept -116.523077 15.031034</span></span>
+<span><span class="co">#&gt;  Slope        1.642167  4.338462</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

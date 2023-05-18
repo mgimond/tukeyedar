@@ -7,9 +7,6 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/Introduction.html</loc>
-  </url>
-  <url>
     <loc>/articles/polish.html</loc>
   </url>
   <url>
@@ -32,6 +29,9 @@
   </url>
   <url>
     <loc>/reference/eda_3pt.html</loc>
+  </url>
+  <url>
+    <loc>/reference/eda_add.html</loc>
   </url>
   <url>
     <loc>/reference/eda_bipow.html</loc>
@@ -74,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/plot.eda_polish.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot.eda_rline.html</loc>
   </url>
   <url>
     <loc>/reference/tukeyedar.html</loc>

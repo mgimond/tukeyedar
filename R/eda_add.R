@@ -2,7 +2,7 @@
 #' @import graphics
 #' @title Add graphical EDA elements to exsiting plot
 #'
-#' @description \code{eda_add} Adds graphical EDA elements to scatter plot.
+#' @description \code{eda_add}  adds graphical EDA elements to a scatter plot.
 #'   Currently only adds \code{eda_rline} fit and points.
 #'
 #' @param x Object of class \code{eda_rline}
@@ -29,7 +29,7 @@
 #'
 #' eda_lm(mtcars, x = wt, y = mpg)
 #' Mr <- eda_rline(mtcars, x=wt, y=mpg)
-#' eda_add(Mr)
+#' eda_add(Mr, l.col = "blue")
 
 eda_add <- function(x, pch = 24, p.col = "darkred", p.fill = "yellow",
                     lty = 1, l.col = "darkred"){

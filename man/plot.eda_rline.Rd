@@ -9,7 +9,7 @@
   type = "model",
   xlab = NULL,
   ylab = NULL,
-  grey = 0.6,
+  grey = 0.7,
   pch = 21,
   equal = TRUE,
   p.col = "grey50",

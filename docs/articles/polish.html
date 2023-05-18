@@ -41,7 +41,6 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Introduction.html">Introduction to EDA functions</a>
     <a class="dropdown-item" href="../articles/polish.html">Median polish</a>
     <a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a>
   </div>
@@ -77,7 +76,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2023-04-25</h4>
+            <h4 data-toc-skip class="date">2023-05-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
@@ -172,7 +171,7 @@ each variable (the two factors and the expected value).</p>
 <p>The median polish can then be executed as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/" class="external-link">tukeyedar</a></span><span class="op">)</span></span>
-<span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="st">"perc"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
 <p>The function will output the table as a plot along with a list of
 components that are stored in the <code>M1</code> object. If you want to
@@ -202,7 +201,7 @@ follows:</p>
 <p>To order the row and column effects by effect values, set the
 <code>sort</code> parameter to <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-10-1.png" width="288"></p>
 </div>
 <div class="section level3">
@@ -212,7 +211,7 @@ follows:</p>
 the polish. For example, to log transform the data, pass the value
 <code>0</code> to <code>p</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-12-1.png" width="288"></p>
 <p>If you are re-expressing the data using a negative power, you have
 the choice of adopting a Tukey transformation
@@ -220,7 +219,7 @@ the choice of adopting a Tukey transformation
 (<code>tukey = FALSE</code>). For example, to apply a power
 transformation of -0.1 using a Box-Cox transformation, type:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, tukey <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, tukey <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-14-1.png" width="288"></p>
 </div>
 <div class="section level3">
@@ -230,7 +229,7 @@ transformation of -0.1 using a Box-Cox transformation, type:</p>
 can adopt any other statistic via the <code>stat</code> parameter. For
 example, to apply a <strong>mean polish</strong>, type:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span>, stat <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, stat <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-16-1.png" width="288"></p>
 </div>
 </div>
@@ -250,7 +249,7 @@ table (<code>type = "residuals"</code>), the diagnostic plot
 <p>You can generate the plot table from the median polish model as
 follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="st">"region"</span>, col <span class="op">=</span> <span class="st">"edu"</span>, val <span class="op">=</span> <span class="st">"perc"</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-18-1.png" width="288"></p>
 </div>
@@ -472,7 +471,7 @@ College or Associate’s Degree + <code>Grad</code>: Bachelor’s Degree</p>
 viewed by setting <code>maxiter</code> to <code>0</code> in the call to
 <code>eda_pol</code>.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span> , maxiter <span class="op">=</span> <span class="fl">0</span>, adj.mar <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , maxiter <span class="op">=</span> <span class="fl">0</span>, adj.mar <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="polish_files/figure-html/unnamed-chunk-42-1.png" alt="2021 Average earnings for the US." width="268.8"><p class="caption">
 2021 Average earnings for the US.
@@ -480,7 +479,7 @@ viewed by setting <code>maxiter</code> to <code>0</code> in the call to
 </div>
 <p>Next, we’ll run the median polish.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span> , plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we plot the final table and the diagnostic plot.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, adj.mar <span class="op">=</span> <span class="cn">TRUE</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
@@ -568,7 +567,7 @@ transformation that may provide us with a scale of measure best suited
 for the data. We’ll rerun the median polish using a power transformation
 of <code>1 - 0.94 = 0.06</code>.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span> , </span>
+<code class="sourceCode R"><span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , </span>
 <span>              plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.06</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we plot the final table and the diagnostic plot.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
@@ -600,7 +599,7 @@ the 80% quantile of the residual’s absolute values.</p>
 transformations.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span>,</span>
+<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span>,</span>
 <span>                 p <span class="op">=</span> <span class="va">x</span>, plot<span class="op">=</span><span class="cn">FALSE</span>, tukey <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>p<span class="op">=</span><span class="va">out</span><span class="op">$</span><span class="va">power</span>, IQrow <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">IQ_row</span>, IQcol <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">IQ_col</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -619,7 +618,7 @@ Row (left) and column (right) effect IQRs to residuals ratio vs power.
 <p>The plot suggests a power transformation of 0.1. We’ll re-run the
 median polish using this power transformation.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span> , </span>
+<code class="sourceCode R"><span><span class="va">M4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span>, </span>
 <span>              plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4</span>, adj.mar <span class="op">=</span> <span class="cn">TRUE</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4</span>, <span class="st">"diagnostic"</span><span class="op">)</span></span></code></pre></div>
@@ -658,7 +657,7 @@ effects.</li>
 function. By default, it uses the median. For example, the <em>mean</em>
 polish generated from the earnings dataset looks like this:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span> , </span>
+<code class="sourceCode R"><span><span class="va">M5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , </span>
 <span>              stat <span class="op">=</span> <span class="va">mean</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M5</span>, adj.mar <span class="op">=</span> <span class="cn">TRUE</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-52-1.png" width="268.8"></p>
@@ -696,7 +695,7 @@ used to estimate a power transformation via <span class="math inline">\(1 - slop
 transformation of 0.1 we ended up adopting in the median polish
 exercise.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">M4b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="st">"Education"</span>, col <span class="op">=</span> <span class="st">"Sex"</span>, val <span class="op">=</span> <span class="st">"Earnings"</span> , stat <span class="op">=</span> <span class="va">mean</span>,</span>
+<code class="sourceCode R"><span><span class="va">M4b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , stat <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>               plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.1</span>, maxiter <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4b</span>, adj.mar <span class="op">=</span> <span class="cn">TRUE</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4b</span>, <span class="st">"diagnostic"</span><span class="op">)</span></span></code></pre></div>

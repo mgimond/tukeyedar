@@ -35,7 +35,7 @@
 #' plot(r.lm)
 #' plot(r.lm, type = "residuals")
 
-plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0.6,
+plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0.7,
                            pch = 21, equal = TRUE, p.col = "grey50",
                            p.fill = "grey80", size = 0.8, alpha = 0.7,
                            model = TRUE, pt3 = TRUE, ...){
@@ -45,6 +45,14 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
 
   # Build dataframe
   df <- data.frame(x = x$x, y = x$y, res = x$res)
+
+  # Get labels
+  if(is.null(xlab)){
+    xlab = x$xlab
+  }
+  if(is.null(ylab)){
+    ylab = x$ylab
+  }
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
@@ -58,7 +66,7 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
   }
 
   # Set plot parameters
-  if(equal == TRUE & type == "model"){
+  if(equal == TRUE ){
     .pardef <- par(mar = c(2.8,3.2,1.5,1.5), col = plotcol, pty = "s")
   } else {
     .pardef <- par(mar = c(2.8,3.2,1.5,1.5), col = plotcol)
@@ -73,8 +81,8 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
          pch = pch, col = p.col, bg = p.fill, cex = size)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(x$ylab, side=3, adj= -0.2 , col=plotcol, padj = -1)
-    title(xlab = x$xlab, line =1.7, col.lab=plotcol)
+    mtext(ylab, side=3, adj= -0.2 , col=plotcol, padj = -1)
+    title(xlab = xlab, line =1.8, col.lab=plotcol)
     if (model == TRUE){
       mtext(sprintf("y = %f + (%f)x",x$a, x$b ), col = plotcol, cex = 0.7)
     }
@@ -89,7 +97,7 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
     mtext("Residuals", side=3, adj= -0.05 , col=plotcol, padj = -1)
-    title(xlab = x$xlab, line =1.7, col.lab=plotcol)
+    title(xlab = xlab, line =1.7, col.lab=plotcol)
     abline(v= x$x[x$index],lty=3, col = "grey")
     abline(h= 0,lty=3, col = "grey")
   }

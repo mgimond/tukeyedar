@@ -35,7 +35,7 @@ Returns the \code{eda_rline} intercept and slope.
   \item \code{b}: Slope}
 }
 \description{
-\code{eda_add} Adds graphical EDA elements to scatter plot.
+\code{eda_add}  adds graphical EDA elements to a scatter plot.
   Currently only adds \code{eda_rline} fit and points.
 }
 \details{
@@ -49,5 +49,5 @@ This function adds an eda_rline slope and 3-pt summary points to an
 
 eda_lm(mtcars, x = wt, y = mpg)
 Mr <- eda_rline(mtcars, x=wt, y=mpg)
-eda_add(Mr)
+eda_add(Mr, l.col = "blue")
 }
