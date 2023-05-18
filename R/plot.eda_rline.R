@@ -73,10 +73,10 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
          pch = pch, col = p.col, bg = p.fill, cex = size)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(x$ylab, side=3, adj= -0.05 , col=plotcol, padj = -1)
+    mtext(x$ylab, side=3, adj= -0.2 , col=plotcol, padj = -1)
     title(xlab = x$xlab, line =1.7, col.lab=plotcol)
     if (model == TRUE){
-      mtext(sprintf("y = %f + (%f)x",x$a, x$b ), col = plotcol)
+      mtext(sprintf("y = %f + (%f)x",x$a, x$b ), col = plotcol, cex = 0.7)
     }
     abline(a = x$a, b = x$b, col="red")
     if (pt3 == TRUE){
