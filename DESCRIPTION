@@ -18,7 +18,8 @@ Imports:
     graphics,
     grDevices,
     MASS,
-    stats
+    stats,
+    lattice
 Suggests: 
     knitr,
     rmarkdown,

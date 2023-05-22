@@ -11,3 +11,5 @@ figures:
   bg: NA
 template:
   bootstrap: 5
+development:
+  mode: auto

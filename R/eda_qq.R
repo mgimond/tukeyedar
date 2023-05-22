@@ -2,9 +2,9 @@
 #' @import grDevices
 #' @import lattice
 #' @importFrom utils modifyList
-#' @title Least Squares regression plot (with optional LOESS fit)
+#' @title Generates empirical QQ plot and Tukey mean-difference plot
 #'
-#' @description \code{eda_qq} generates an empirical qq plot or a Tukey
+#' @description \code{eda_qq} generates an empirical QQ plot or a Tukey
 #'   mean-difference plot
 #'
 #' @param x   Column assigned to the x axis.
@@ -36,19 +36,20 @@
 #' @param ylab Y label for output plot
 #' @param ... Not used
 #'
-#' @return Returns a list from the  `lm` output.
+#' @value Returns a list with the following components:
 #'
 #' \itemize{
-#'   \item \code{a}: Intercept
-#'   \item \code{b}: Slope
-#'   \item \code{residuals}: Regression model residuals}
+#'   \item \code{x}: X values. May be interpolated to smallest quantile batch.
+#'   Values will reflect power transformation defined in \code{px}.
+#'   \item \code{b}: Yvalues. May be interpolated to smallest quantile batch.
+#'   Values will reflect power transformation defined in \code{py}.
+#'   \item \code{px}: Re-expression applied to original X values.
+#'   \item \code{py}: Re-expression applied to original Y values.
 #'
-#' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
-#'   functions
 #'
 #' @examples
 #'
-#' # Add a regular (OLS) regression model and loess smooth to the data
+#' # Compare "Tenor 1" and "Bass 2" singer height batches
 #'  singer <- lattice::singer
 #'  bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
 #'  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
@@ -63,8 +64,11 @@
 #'  # An offset of another 0.5 inches seems warranted
 #'  eda_qq(tenor1, bass2 - 2.5, xlab="bass 2", ylab="tenor 1", md = TRUE)
 #'
-#'  # We can also apply the offset to the y variable
+#'  # We can also apply the offset to the x variable
 #'  eda_qq(tenor1 + 2.5, bass2, xlab="bass 2", ylab="tenor 1", md = TRUE)
+#'
+#'  # Suppress plot and output values to object
+#'  out <- eda_qq(tenor1, bass2, plot = FALSE)
 
 eda_qq <- function(x, y, px = 1, py = 1,  q.type = 5, tukey = FALSE, md = FALSE, plot = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",

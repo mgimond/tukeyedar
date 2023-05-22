@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2023-05-18</h4>
+            <h4 data-toc-skip class="date">2023-05-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/RLine.Rmd" class="external-link"><code>vignettes/RLine.Rmd</code></a></small>
       <div class="d-none name"><code>RLine.Rmd</code></div>
@@ -350,8 +350,8 @@ residuals to generate the confidence intervals.</p>
 <span>                     Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">conf</span></span>
 <span><span class="co">#&gt;                    5%       95%</span></span>
-<span><span class="co">#&gt;  Intercept -76.192628 10.405794</span></span>
-<span><span class="co">#&gt;  Slope       1.705933  3.532606</span></span></code></pre></div>
+<span><span class="co">#&gt;  Intercept -75.399410 10.605693</span></span>
+<span><span class="co">#&gt;  Slope       1.643889  3.515459</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="resampling-the-x-y-paired-values">Resampling the x-y paired values<a class="anchor" aria-label="anchor" href="#resampling-the-x-y-paired-values"></a>
@@ -378,8 +378,8 @@ compute the resistant line each time.</p>
 <span>                     Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">conf</span></span>
 <span><span class="co">#&gt;                     5%       95%</span></span>
-<span><span class="co">#&gt;  Intercept -116.523077 15.031034</span></span>
-<span><span class="co">#&gt;  Slope        1.642167  4.338462</span></span></code></pre></div>
+<span><span class="co">#&gt;  Intercept -112.594795 15.031034</span></span>
+<span><span class="co">#&gt;  Slope        1.643678  4.254098</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
