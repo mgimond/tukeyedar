@@ -9,12 +9,16 @@
 #' @param x    Column name assigned to the values
 #' @param fac  Column name assigned to the factor the values are to be
 #'              conditioned on
+#' @param p  Power transformation to apply to variable
+#' @param tukey Boolean determining if a Tukey transformation should be adopted
+#'   (FALSE adopts a Box-Cox transformation)
 #' @param outlier Boolean indicating if outliers should be plotted
 #' @param out.txt Column whose values are to be used to label outliers
 #' @param type Plot type. "none" = no equalization ; "l" = equalize by level;
 #'              "ls" = equalize by both level and spread
 #' @param  horiz  plot horizontally (TRUE) or vertically (FALSE)
 #' @param  outliers  plot outliers (TRUE) or not (FALSE)
+#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
 #'
 #' @return {No return value}
 #'
@@ -32,9 +36,17 @@
 #' # Hide outlier
 #' eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg , outlier=FALSE)
 #'
+#' # For long factor level names, flip plot
+#' eda_boxls(iris, Sepal.Length, Species, out.txt=Sepal.Length , horiz = TRUE)
 
-eda_boxls <- function(dat, x, fac, outlier=TRUE, out.txt, type="l", horiz=FALSE,
-                      outliers=TRUE){
+eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE, out.txt, type="none", horiz=FALSE,
+                      outliers=TRUE, grey = 0.6){
+
+  # Parameters check
+  if (!type %in% c("none", "l" , "ls")) stop("Argument \"type\" must be one of \"none\", \"l\" or \"ls\".")
+
+  # Set plot elements color
+  plotcol <- rgb(1-grey, 1-grey, 1-grey)
 
   # Get values and factors
   x <- eval(substitute(x), dat)
@@ -42,6 +54,9 @@ eda_boxls <- function(dat, x, fac, outlier=TRUE, out.txt, type="l", horiz=FALSE,
 
   # If custom outlier label is desired, grab text
   if(!missing(out.txt)) {out.txt <- eval(substitute(out.txt), dat)}
+
+  # Re-express data if required
+  x <- eda_re(x, p = p, tukey = tukey)
 
   # EXtract boxplot parameters
   bx <- boxplot(x ~ fac, outline=outlier, plot=FALSE)
@@ -62,7 +77,7 @@ eda_boxls <- function(dat, x, fac, outlier=TRUE, out.txt, type="l", horiz=FALSE,
     bx$out <- bx$out - med[bx$group]
   }
 
-  # Equalize levels and spreads (standardize)
+  # Equalize levels and spreads (standardize using IQR)
   if (type == "ls"){
     sprd <- bx$stats[4,] - bx$stats[2,]
     bx$stats <- sweep(bx$stats, 2, sprd, FUN="/")
@@ -77,14 +92,24 @@ eda_boxls <- function(dat, x, fac, outlier=TRUE, out.txt, type="l", horiz=FALSE,
   bx$group <- match( bx$group, ord)
   bx$names <- bx$names[ord]
 
+  # Expand margin to accommodate row names if requested
+  if( horiz==TRUE){
+    .pardef <- par(mar = c(3, max(nchar(as.character(bx$names) ))/2.5 +2 ,3 , 1.5),
+                   col = plotcol)
+  } else {
+    .pardef <- par(mar = c(3, 3 ,1.5 , 1.5), col = plotcol )
+  }
+  on.exit(par(.pardef), add = TRUE)
+
+
   # Generate boxplot
-  bxp(bx, pch=20, outline=outlier, horizontal=horiz,border="white",
-      boxfill="bisque2", whiskcol="grey40", whisklty=1,staplecol="grey40",
+  bxp(bx, pch=20, outline=outlier, horizontal=horiz, border="white",
+      boxfill="grey70", whiskcol="grey40", whisklty=1, staplecol="grey40",
       medcol="white",medlwd=3,outcol="grey40",outpch=20,
-      pars=list(las=1, col.axis ="grey50",  col.lab="grey50"))
-  box(col="grey80")
-  axis(1,col="grey80",labels=FALSE)
-  axis(2,col="grey80",labels=FALSE)
+      pars=list(las=1, col.axis =plotcol,  col.lab="grey50"))
+  box(col=plotcol)
+#  axis(1,col=plotcol,labels=FALSE, at= bx$names)
+#  axis(2,col=plotcol,labels=FALSE)
 
   # Add 0 line
   if(type != "none"){
@@ -111,4 +136,6 @@ eda_boxls <- function(dat, x, fac, outlier=TRUE, out.txt, type="l", horiz=FALSE,
       }
     }
   }
+  par(.pardef)
 }
+
