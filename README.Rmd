@@ -78,12 +78,12 @@ All functions start with `eda_`. For example, to generate a three point
 summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
 
 
-```{r fig.height=2.6, fig.width = 3.2}
+```{r, fig.height=2.6, fig.width = 3.2}
 library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-Note that most functions are *pipe* friendly. For example, the following wrokd:
+Note that most functions are *pipe* friendly. For example, the following works:
 
 ```{r eval=FALSE}
 # Using R >= 4.1

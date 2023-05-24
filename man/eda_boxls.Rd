@@ -11,8 +11,9 @@ eda_boxls(
   p = 1,
   tukey = FALSE,
   outlier = TRUE,
-  out.txt,
+  out.txt = NULL,
   type = "none",
+  notch = FALSE,
   horiz = FALSE,
   outliers = TRUE,
   grey = 0.6
@@ -38,6 +39,8 @@ conditioned on}
 \item{type}{Plot type. "none" = no equalization ; "l" = equalize by level;
 "ls" = equalize by both level and spread}
 
+\item{notch}{Boolean determining if notches should be added.}
+
 \item{horiz}{plot horizontally (TRUE) or vertically (FALSE)}
 
 \item{outliers}{plot outliers (TRUE) or not (FALSE)}
@@ -46,10 +49,19 @@ conditioned on}
 }
 \value{
 {No return value}
+
+  #' @details
+ \itemize{
+  \item Note that the notch offers a 95% test of the null that the true
+  medians are equal assuming that the distribution of each batch is
+  approximately normal. If the notches do not overlap, we can assuming that
+  medians are significantly different at a 0.05 level. Note that the notches
+  do not correct for multiple comparison issues and three or more batches are
+   plotted.}
 }
 \description{
-\code{eda_boxls} creates boxplots conditioned on one variable while providing the
-option to equalize levels and/or spreads.
+\code{eda_boxls} creates boxplots conditioned on one variable
+  while providing the option to spreads levels and/or levels.
 }
 \examples{
 

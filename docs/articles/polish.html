@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2023-05-22</h4>
+            <h4 data-toc-skip class="date">2023-05-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
@@ -112,10 +112,10 @@ father’s educational attainment (<code>ed8</code>, <code>ed9-11</code>,
 polish will first extract the overall median value, then it will
 <em>smooth</em> out the residual rates by first extracting the median
 values along each column (thus contributing to the column factor), then
-it will <em>smooth</em> out the remaining residual rates by extracting
-the median values along each row (thus contributing to the row factor).
-The smoothing operation is iterated until the residuals stabilize. The
-workflow is highlighted in the following figure.</p>
+by <em>smoothing</em> out the remaining residual rates by extracting the
+median values along each row (thus contributing to the row factor). The
+smoothing operation is iterated until the residuals stabilize. An
+example of the workflow is highlighted in the following figure.</p>
 <p><img src="polish_files/figure-html/unnamed-chunk-2-1.png" width="1056"></p>
 <p>The left-most table is the original data showing death rates. The
 second table shows the outcome of the first round of polishing

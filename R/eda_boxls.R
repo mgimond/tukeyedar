@@ -1,26 +1,35 @@
 #' @export
 #' @title Create boxplots equalized by level and spread
 #'
-#' @description
-#' \code{eda_boxls} creates boxplots conditioned on one variable while providing the
-#' option to equalize levels and/or spreads.
+#' @description \code{eda_boxls} creates boxplots conditioned on one variable
+#'   while providing the option to spreads levels and/or levels.
 #'
 #' @param dat  Data frame
 #' @param x    Column name assigned to the values
 #' @param fac  Column name assigned to the factor the values are to be
-#'              conditioned on
+#'   conditioned on
 #' @param p  Power transformation to apply to variable
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
 #' @param outlier Boolean indicating if outliers should be plotted
 #' @param out.txt Column whose values are to be used to label outliers
 #' @param type Plot type. "none" = no equalization ; "l" = equalize by level;
-#'              "ls" = equalize by both level and spread
+#'   "ls" = equalize by both level and spread
+#' @param notch Boolean determining if notches should be added.
 #' @param  horiz  plot horizontally (TRUE) or vertically (FALSE)
 #' @param  outliers  plot outliers (TRUE) or not (FALSE)
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
 #'
 #' @return {No return value}
+#'
+#'   #' @details
+#'  \itemize{
+#'   \item Note that the notch offers a 95% test of the null that the true
+#'   medians are equal assuming that the distribution of each batch is
+#'   approximately normal. If the notches do not overlap, we can assuming that
+#'   medians are significantly different at a 0.05 level. Note that the notches
+#'   do not correct for multiple comparison issues and three or more batches are
+#'    plotted.}
 #'
 #' @examples
 #'
@@ -39,7 +48,8 @@
 #' # For long factor level names, flip plot
 #' eda_boxls(iris, Sepal.Length, Species, out.txt=Sepal.Length , horiz = TRUE)
 
-eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE, out.txt, type="none", horiz=FALSE,
+eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
+                      out.txt = NULL, type="none", notch = FALSE, horiz=FALSE,
                       outliers=TRUE, grey = 0.6){
 
   # Parameters check
@@ -58,11 +68,11 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE, out.txt, 
   # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
 
-  # EXtract boxplot parameters
-  bx <- boxplot(x ~ fac, outline=outlier, plot=FALSE)
+  # Extract boxplot parameters
+  bx  <- boxplot(x ~ fac, outline=outlier, plot=FALSE)
   ord <- order(bx$stats[3,])  # Grab median order for later use
 
-  # Wich rows have outliers
+  # Which rows have outliers
   if( outlier == TRUE){
     pst.dat <- paste(fac, x, sep=",")
     pst.out <- paste(bx$names[bx$group], bx$out, sep=",")
@@ -103,7 +113,7 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE, out.txt, 
 
 
   # Generate boxplot
-  bxp(bx, pch=20, outline=outlier, horizontal=horiz, border="white",
+  bxp(bx, pch=20, outline=outlier, horizontal=horiz, border="white", notch = notch,
       boxfill="grey70", whiskcol="grey40", whisklty=1, staplecol="grey40",
       medcol="white",medlwd=3,outcol="grey40",outpch=20,
       pars=list(las=1, col.axis =plotcol,  col.lab="grey50"))

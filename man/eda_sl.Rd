@@ -4,17 +4,52 @@
 \alias{eda_sl}
 \title{Tukey's spread-level function}
 \usage{
-eda_sl(dat, x, y, sprd = "frth")
+eda_sl(
+  dat,
+  x,
+  fac,
+  p = 1,
+  tukey = FALSE,
+  sprd = "frth",
+  plot = TRUE,
+  grey = 0.6,
+  pch = 21,
+  p.col = "grey50",
+  p.fill = "grey80",
+  size = 1,
+  alpha = 0.8
+)
 }
 \arguments{
 \item{dat}{Dataframe}
 
-\item{x}{Categorical variable column}
+\item{x}{Continuous variable column}
 
-\item{y}{Continuous variable column}
+\item{fac}{Categorical variable column}
+
+\item{p}{Power transformation to apply to variable}
+
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+(FALSE adopts a Box-Cox transformation)}
 
 \item{sprd}{Choice of spreads. Either interquartile, \code{sprd = "IQR"} or
 fourth-spread, \code{sprd = "frth"} (default).}
+
+\item{plot}{Boolean determining if plot should be generated.}
+
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
+
+\item{pch}{Point symbol type.}
+
+\item{p.col}{Color for point symbol.}
+
+\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
+ranging from 21-25).}
+
+\item{size}{Point size (0-1)}
+
+\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
+applicable if \code{rgb()} is not used to define point colors.}
 }
 \value{
 Returns a dataframe of level and spreads.
@@ -25,17 +60,16 @@ univariate dataset.
 }
 \details{
 \itemize{
-  \item Note that this function is not to be confused with Bill Cleveland's
+  \item Note that this function is not to be confused with William Cleveland's
   spread-location function.\cr
-  \item If x is not categorical, the output will produce many or all NA's.
+  \item If \code{fac} is not categorical, the output will produce many or all NA's.
   \item On page 59, Hoaglan et. al define the fourth-spread as the the range
   defined by the upper fourth and lower fourth. The \code{eda_lsum} function is used
   to compute the upper/lower fourths.
   }
 }
 \examples{
-sl <- eda_sl(iris, Species, Sepal.Length)
-plot(spread ~ level, sl, pch=16)
+eda_sl(iris, Sepal.Length, Species)
 }
 \references{
 Understanding Robust and Exploratory Data Analysis, Hoaglin,

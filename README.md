@@ -96,7 +96,7 @@ eda_3pt(mtcars, disp, mpg)
     #> [1] 27.30 19.20 14.95
 
 Note that most functions are *pipe* friendly. For example, the following
-wrokd:
+works:
 
 ``` r
 # Using R >= 4.1
