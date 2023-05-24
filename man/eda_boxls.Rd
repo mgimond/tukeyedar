@@ -8,11 +8,14 @@ eda_boxls(
   dat,
   x,
   fac,
+  p = 1,
+  tukey = FALSE,
   outlier = TRUE,
   out.txt,
-  type = "l",
+  type = "none",
   horiz = FALSE,
-  outliers = TRUE
+  outliers = TRUE,
+  grey = 0.6
 )
 }
 \arguments{
@@ -22,6 +25,11 @@ eda_boxls(
 
 \item{fac}{Column name assigned to the factor the values are to be
 conditioned on}
+
+\item{p}{Power transformation to apply to variable}
+
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+(FALSE adopts a Box-Cox transformation)}
 
 \item{outlier}{Boolean indicating if outliers should be plotted}
 
@@ -33,6 +41,8 @@ conditioned on}
 \item{horiz}{plot horizontally (TRUE) or vertically (FALSE)}
 
 \item{outliers}{plot outliers (TRUE) or not (FALSE)}
+
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 }
 \value{
 {No return value}
@@ -55,4 +65,6 @@ eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg )
 # Hide outlier
 eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg , outlier=FALSE)
 
+# For long factor level names, flip plot
+eda_boxls(iris, Sepal.Length, Species, out.txt=Sepal.Length , horiz = TRUE)
 }
