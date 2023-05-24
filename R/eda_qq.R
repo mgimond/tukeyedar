@@ -39,7 +39,7 @@
 #' @param ... Not used
 #'
 #' @details The QQ plot will displays the IQR via grey boxes for both x and y
-#' values. The box widths can be changed via the \code{b.val} argument. The plot
+#' values. The box widths can be changed via the  \code{b.val} argument. The plot
 #' will also display the mid 75\% of values via light colored dashed lines. The
 #' line positions can be changed via the \code{l.val} argument. The middle
 #' dashed line represents each batch's median value.
