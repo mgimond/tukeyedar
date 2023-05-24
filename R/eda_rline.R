@@ -46,8 +46,7 @@
 #'   \itemize{
 #'    \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
 #'    \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
-
-#
+#'
 #' @examples
 #'
 #' # This first example uses breast cancer data from "ABC's of EDA" page 127.

@@ -7,11 +7,12 @@
 eda_qq(
   x,
   y,
-  px = 1,
-  py = 1,
+  p = 1,
   q.type = 5,
   tukey = FALSE,
   md = FALSE,
+  fx = NULL,
+  fy = NULL,
   plot = TRUE,
   grey = 0.6,
   pch = 21,
@@ -20,7 +21,8 @@ eda_qq(
   size = 0.8,
   alpha = 0.8,
   q = TRUE,
-  q.val = c(0.25, 0.75),
+  b.val = c(0.25, 0.75),
+  l.val = c(0.125, 0.875),
   xlab = NULL,
   ylab = NULL,
   ...
@@ -31,18 +33,22 @@ eda_qq(
 
 \item{y}{Column assigned to the y axis.}
 
-\item{px}{Power transformation to apply to the x-variable.}
+\item{p}{Power transformation to apply to both sets of values.}
 
-\item{py}{Power transformation to apply to the y-variable.}
-
-\item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
-definition)}
+\item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
+algorithms. (See \code{quantile}tile function).}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
 
 \item{md}{Boolean determining if Tukey mean-difference plot should be
 generated.}
+
+\item{fx}{Formula to apply to x variable. This is computed after any
+transformation is applied to the x variable.}
+
+\item{fy}{Formula to apply to y variable. This is computed after any
+transformation is applied to the y variable.}
 
 \item{plot}{Boolean determining if plot should be generated.}
 
@@ -60,11 +66,13 @@ ranging from 21-25).}
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
 
-\item{q}{Boolean determining if grey quantile boxes should be plotted}
+\item{q}{Boolean determining if grey quantile boxes should be plotted.}
 
-\item{q.val}{F-values to use to define the quantile box parameters. Defaults
-to mid 68% of values. If more than 2 f-values are defined, the first two
-are used to generate the box.}
+\item{b.val}{Quantiles to define the quantile box parameters. Defaults to the
+IQR. Two values are needed.}
+
+\item{l.val}{Quantiles to define the quantile line parameters. Defaults to
+the mid 75\% of values. Two values are needed.}
 
 \item{xlab}{X label for output plot}
 
@@ -72,30 +80,66 @@ are used to generate the box.}
 
 \item{...}{Not used}
 }
+\value{
+Returns a list with the following components:
+
+\itemize{
+  \item \code{x}: X values. May be interpolated to smallest quantile batch.
+  Values will reflect power transformation defined in \code{p}.
+  \item \code{b}: Yvalues. May be interpolated to smallest quantile batch.
+  Values will reflect power transformation defined in \code{p}.
+  \item \code{p}: Re-expression applied to original values.
+  \item \code{fx}: Formula applied to x variable.
+  \item \code{fy}: Formula applied to y variable.}
+}
 \description{
 \code{eda_qq} generates an empirical QQ plot or a Tukey
   mean-difference plot
 }
+\details{
+The QQ plot will displays the IQR via grey boxes for both x and y
+values. The box widths can be changed via the \code{b.val} argument. The plot
+will also display the mid 75\% of values via light colored dashed lines. The
+line positions can be changed via the \code{l.val} argument. The middle
+dashed line represents each batch's median value.
+}
 \examples{
 
-# Compare "Tenor 1" and "Bass 2" singer height batches
+# Example 1: Comparing "Tenor 1" and "Bass 2" singer height values
  singer <- lattice::singer
  bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
- eda_qq(bass2, tenor1, xlab="bass 2", ylab="tenor 1")
+
+ eda_qq(bass2, tenor1)
 
  # There seems to be an additive offset of about 2 inches
- eda_qq(tenor1, bass2 - 2,  xlab="bass 2", ylab="tenor 1")
+ eda_qq(tenor1, bass2, fy = "y - 2")
 
  # We can fine-tune by generating the Tukey mean-difference plot
- eda_qq(tenor1, bass2 - 2, xlab="bass 2", ylab="tenor 1", md = TRUE)
+ eda_qq(tenor1, bass2, fy = "y - 2", md = TRUE)
 
  # An offset of another 0.5 inches seems warranted
- eda_qq(tenor1, bass2 - 2.5, xlab="bass 2", ylab="tenor 1", md = TRUE)
+ # We can sat that overall, bass2 singers are 2.5 inches taller than  tenor1.
+ # The offset is additive.
+ eda_qq(tenor1, bass2 , fy = "y - 2.5", md = TRUE)
 
- # We can also apply the offset to the x variable
- eda_qq(tenor1 + 2.5, bass2, xlab="bass 2", ylab="tenor 1", md = TRUE)
+ # Example 2: Sepal width
+ setosa <- subset(iris, Species == "setosa", select = Petal.Width, drop = TRUE)
+ virginica <- subset(iris, Species == "virginica", select = Petal.Width, drop = TRUE)
 
- # Suppress plot and output values to object
- out <- eda_qq(tenor1, bass2, plot = FALSE)
+ eda_qq(setosa, virginica)
+
+ # The points are not completely parallel to the  1:1 line suggesting a
+ # multiplicative offset. Playing around with a multplier gives us a
+ # value of about 0.4
+ eda_qq(setosa, virginica, fy = "y * 0.4")
+
+ # There is also an additive offset. Its values seems to be around
+ eda_qq(setosa, virginica, fy = "y * 0.4 - 0.56")
+
+ # We can confirm this value via the mean-difference plot
+ # Overall, we have both a multiplicative and additive offset between the
+ # species' petal widths.
+ eda_qq(setosa, virginica, fy = "y * 0.4 - 0.56", md = TRUE)
+
 }
