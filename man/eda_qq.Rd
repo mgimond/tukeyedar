@@ -102,6 +102,7 @@ values. The box widths can be changed via the  \code{b.val} argument. The plot
 will also display the mid 75\% of values via light colored dashed lines. The
 line positions can be changed via the \code{l.val} argument. The middle
 dashed line represents each batch's median value.
+Console output prints the suggested multiplicative and additive offsets.
 }
 \examples{
 
@@ -113,15 +114,15 @@ dashed line represents each batch's median value.
  eda_qq(bass2, tenor1)
 
  # There seems to be an additive offset of about 2 inches
- eda_qq(tenor1, bass2, fy = "y - 2")
+ eda_qq(bass2, tenor1, fx = "x - 2")
 
  # We can fine-tune by generating the Tukey mean-difference plot
- eda_qq(tenor1, bass2, fy = "y - 2", md = TRUE)
+ eda_qq(bass2, tenor1, fx = "x - 2", md = TRUE)
 
  # An offset of another 0.5 inches seems warranted
  # We can sat that overall, bass2 singers are 2.5 inches taller than  tenor1.
  # The offset is additive.
- eda_qq(tenor1, bass2 , fy = "y - 2.5", md = TRUE)
+ eda_qq(bass2, tenor1, fx = "x - 2.5", md = TRUE)
 
  # Example 2: Sepal width
  setosa <- subset(iris, Species == "setosa", select = Petal.Width, drop = TRUE)
@@ -130,16 +131,16 @@ dashed line represents each batch's median value.
  eda_qq(setosa, virginica)
 
  # The points are not completely parallel to the  1:1 line suggesting a
- # multiplicative offset. Playing around with a multplier gives us a
- # value of about 0.4
- eda_qq(setosa, virginica, fy = "y * 0.4")
+ # multiplicative offset. The slope may be difficult to eyeball. The function
+ # outputs a suggested slope and intercept. We can start with that
+ eda_qq(setosa, virginica, fx = "x *  1.7143")
 
- # There is also an additive offset. Its values seems to be around
- eda_qq(setosa, virginica, fy = "y * 0.4 - 0.56")
+ # Now let's add the suggested additive offset.
+ eda_qq(setosa, virginica, fx = "x *  1.7143  + 1.6286")
 
  # We can confirm this value via the mean-difference plot
  # Overall, we have both a multiplicative and additive offset between the
  # species' petal widths.
- eda_qq(setosa, virginica, fy = "y * 0.4 - 0.56", md = TRUE)
+ eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 
 }

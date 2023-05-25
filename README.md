@@ -78,7 +78,7 @@ library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="50%" />
 
     #> $slope1
     #> [1] -0.1117241

@@ -43,6 +43,7 @@
 #' will also display the mid 75\% of values via light colored dashed lines. The
 #' line positions can be changed via the \code{l.val} argument. The middle
 #' dashed line represents each batch's median value.
+#' Console output prints the suggested multiplicative and additive offsets.
 #'
 #'
 #' @returns Returns a list with the following components:
@@ -67,15 +68,15 @@
 #'  eda_qq(bass2, tenor1)
 #'
 #'  # There seems to be an additive offset of about 2 inches
-#'  eda_qq(tenor1, bass2, fy = "y - 2")
+#'  eda_qq(bass2, tenor1, fx = "x - 2")
 #'
 #'  # We can fine-tune by generating the Tukey mean-difference plot
-#'  eda_qq(tenor1, bass2, fy = "y - 2", md = TRUE)
+#'  eda_qq(bass2, tenor1, fx = "x - 2", md = TRUE)
 #'
 #'  # An offset of another 0.5 inches seems warranted
 #'  # We can sat that overall, bass2 singers are 2.5 inches taller than  tenor1.
 #'  # The offset is additive.
-#'  eda_qq(tenor1, bass2 , fy = "y - 2.5", md = TRUE)
+#'  eda_qq(bass2, tenor1, fx = "x - 2.5", md = TRUE)
 #'
 #'  # Example 2: Sepal width
 #'  setosa <- subset(iris, Species == "setosa", select = Petal.Width, drop = TRUE)
@@ -84,18 +85,19 @@
 #'  eda_qq(setosa, virginica)
 #'
 #'  # The points are not completely parallel to the  1:1 line suggesting a
-#'  # multiplicative offset. Playing around with a multplier gives us a
-#'  # value of about 0.4
-#'  eda_qq(setosa, virginica, fy = "y * 0.4")
+#'  # multiplicative offset. The slope may be difficult to eyeball. The function
+#'  # outputs a suggested slope and intercept. We can start with that
+#'  eda_qq(setosa, virginica, fx = "x *  1.7143")
 #'
-#'  # There is also an additive offset. Its values seems to be around
-#'  eda_qq(setosa, virginica, fy = "y * 0.4 - 0.56")
+#'  # Now let's add the suggested additive offset.
+#'  eda_qq(setosa, virginica, fx = "x *  1.7143  + 1.6286")
 #'
 #'  # We can confirm this value via the mean-difference plot
 #'  # Overall, we have both a multiplicative and additive offset between the
 #'  # species' petal widths.
-#'  eda_qq(setosa, virginica, fy = "y * 0.4 - 0.56", md = TRUE)
+#'  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 #'
+
 
 eda_qq <- function(x, y, p = 1,  q.type = 5, tukey = FALSE, md = FALSE,
                    fx = NULL, fy = NULL, plot = TRUE,
@@ -120,6 +122,15 @@ eda_qq <- function(x, y, p = 1,  q.type = 5, tukey = FALSE, md = FALSE,
   # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
   y <- eda_re(y, p = p, tukey = tukey)
+
+  # Get suggested multiplicative and additive offsets (off of original data)
+  zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type)
+ # zd <- data.frame(y = zl$y - zl$x, x = (zl$y + zl$x) / 2)
+  zd <- data.frame(y = zl$y - zl$x, x = zl$x)
+  zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
+  z <- eda_rline(zd,x,y)
+  x.multi <-  1 + z$b
+  x.add <- median(zl$y - sort(zl$x * x.multi))
 
   # Apply formula if present
   if(!is.null(fx) & !is.null(fy))
@@ -234,5 +245,8 @@ eda_qq <- function(x, y, p = 1,  q.type = 5, tukey = FALSE, md = FALSE,
 
   # Reset plot parameters and  output values
   par(.pardef)
+  print(paste0("Suggested offsets:", "y = ", "x * ", round(x.multi,4),
+              " + (", round(x.add,4),")"))
   invisible(list(x = x, y = y, p = p, fx = fx, fy = fy))
+
 }
