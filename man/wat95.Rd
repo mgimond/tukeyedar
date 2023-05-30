@@ -23,6 +23,6 @@ wat95
 }
 \description{
 NOAA/NCEI derived normal daily temperatures for the city of Waterville, Maine
-(USA) for the 1981 to 2010 period.
+(USA) for the 1981 to 2010 period. Units are in degrees Fahrenheit.
 }
 \keyword{datasets}

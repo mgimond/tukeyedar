@@ -51,7 +51,7 @@
 #' Legacy temperature normals for Waterville Maine (1981-2010)
 #'
 #' NOAA/NCEI derived normal daily temperatures for the city of Waterville, Maine
-#' (USA) for the 1981 to 2010 period.
+#' (USA) for the 1981 to 2010 period. Units are in degrees Fahrenheit.
 #'
 #' @format A data frame with 365 rows and 5 variables:
 #' \describe{
@@ -68,7 +68,7 @@
 #' Temperature normals for Waterville Maine (1991-2020)
 #'
 #' NOAA/NCEI derived normal daily temperatures for the city of Waterville, Maine
-#' (USA) for the 1991 to 2020 period.
+#' (USA) for the 1991 to 2020 period. Units are in degrees Fahrenheit.
 #'
 #' @format A data frame with 365 rows and 5 variables:
 #' \describe{
