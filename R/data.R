@@ -47,3 +47,37 @@
 #' @source Understanding robust and exploratory data analysis, by D.C. Hoaglin,
 #'    F. Mosteller and J.W. Tukey. 1983 (page 139)
 "nine_point"
+
+#' Legacy temperature normals for Waterville Maine (1981-2010)
+#'
+#' NOAA/NCEI derived normal daily temperatures for the city of Waterville, Maine
+#' (USA) for the 1981 to 2010 period.
+#'
+#' @format A data frame with 365 rows and 5 variables:
+#' \describe{
+#'   \item{date}{Date centered on the 1981-2010 period. Note that the year is purely symbolic.}
+#'   \item{doy}{Day of year}
+#'   \item{min}{Typical minimum temperature for the 1981-2010 period.}
+#'   \item{avg}{Typical average temperature for the 1981-2010 period.}
+#'   \item{max}{Typical maximum temperature for the 1981-2010 period.}
+#'   ...
+#' }
+#' @source https://www.ncei.noaa.gov/
+"wat95"
+
+#' Temperature normals for Waterville Maine (1991-2020)
+#'
+#' NOAA/NCEI derived normal daily temperatures for the city of Waterville, Maine
+#' (USA) for the 1991 to 2020 period.
+#'
+#' @format A data frame with 365 rows and 5 variables:
+#' \describe{
+#'   \item{date}{Date centered on the 11991-2020 period. Note that the year is purely symbolic.}
+#'   \item{doy}{Day of year.}
+#'   \item{min}{Typical minimum temperature for the 1991-2020 period.}
+#'   \item{avg}{Typical average temperature for the 1991-2020 period.}
+#'   \item{max}{Typical maximum temperature for the 1991-2020 period.}
+#'   ...
+#' }
+#' @source https://www.ncei.noaa.gov/
+"wat05"
