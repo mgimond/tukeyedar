@@ -30,9 +30,106 @@ knitr::opts_chunk$set(
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##Introduction
+## Introduction
 
 The *empirical quantile-quantile plot* (QQ plot) is probably one of the most underused and least appreciated plots in univariate analysis. 
+
+## Intrerpreting a QQ plot
+
+```{r}
+set.seed(543)
+x <- rnorm(100); dx <- density(x)
+y <- x + 2; dy <- density(y)
+
+OP <- par(mfrow=c(1,2))
+eda_qq(x,y)
+
+plot(dx)
+polygon(dx, col = rgb(0,0,0,0.3))
+polygon(dy, col = rgb(1,0,0,0.3))
+par(OP)
+
+```
+
+```{r fig.height=2.5, fig.width = 6}
+y <- x * 0.5; dy <- density(y)
+
+OP <- par(mfrow=c(1,2))
+eda_qq(x,y)
+
+plot(dx, xlim = range(dx$x,dy$x), ylim = range(dx$y, dy$y))
+polygon(dx, col = rgb(0,0,0,0.3))
+polygon(dy, col = rgb(1,0,0,0.3))
+par(OP)
+```
+
+```{r fig.height=2.5, fig.width = 6}
+y <- x * 0.5 + 2; dy <- density(y)
+
+OP <- par(mfrow=c(1,2))
+eda_qq(x,y)
+
+plot(dx, xlim = range(dx$x,dy$x), ylim = range(dx$y, dy$y), main=NULL)
+polygon(dx, col = rgb(0,0,0,0.3))
+polygon(dy, col = rgb(1,0,0,0.3))
+par(OP)
+```
+
+
+```{r fig.height=2.5, fig.width = 6}
+set.seed(540)
+x2 <- rbeta(100, 1,8); dx2 <- density(x2)
+y2 <- x2 + 0.2 ; dy2 <- density(y2)
+
+OP <- par(mfrow=c(1,2))
+eda_qq(x2,y2)
+
+plot(dx2, xlim = range(dx2$x,dy2$x), ylim = range(dx2$y, dy2$y), main=NULL)
+polygon(dx2, col = rgb(0,0,0,0.3))
+polygon(dy2, col = rgb(1,0,0,0.3))
+par(OP)
+```
+
+# Power transformation
+
+```{r}
+s1 <- subset(Indometh, Subject==1 , select=conc, drop = TRUE)
+s2 <- subset(Indometh, Subject == 2, select=conc, drop = TRUE)
+```
+
+```{r}
+eda_qq(s1, s2, p = 1)
+eda_qq(s1, s2, p = 0)
+eda_qq(s1,s2,p=0,fx="x * 0.8501 + 0.3902")
+```
+
+```{r}
+dqn <- density(s1); dmn <- density(s2)
+plot(dqn, xlim = range(dqn$x,dmn$x), ylim = range(dqn$y, dmn$y), main=NULL)
+polygon(dqn, col = rgb(0,0,0,0.3))
+polygon(dmn, col = rgb(1,0,0,0.3))
+```
+
+## The Tukey mean-difference plot
+
+This is simply an extension of the QQ plot whereby the plot is rotated such that the 45&deg; line (the 1:1 slope) becomes horizontal. This can be useful in helping identify subtle differences between batches. The plot is rotated 45&deg; by mapping the difference between both bacthes to the y-axis, and mapping the mean between both batches to the x-axis. For example, the following figure on the left (the QQ plot) shows the additive offset between both batches but it fails to show the multiplicative offset. The latter can be clearly seen in the Tukey mean-difference plot (on the right) which can be invoked by setting the argument `md = TRUE`.
+
+```{r fig.wdith = 6, fig.height=2.5, echo=3:4}
+OP <- par(mfrow=c(1,2))
+y <- x * 0.97 + 0.3; dy <- density(y)
+eda_qq(x,y)
+eda_qq(x,y, md = TRUE)
+par(OP)
+```
+
+## Anatomy of the `eda_qq` plot
+
+* Solid dashed lines represent the medians of each batch of values.
+* The shaded boxes represent the interquartile ranges (mid 50% of values) for each batch.
+* The lightly shaded dashed dots represent the 12.5^th^ and 87.5^th^ quantiles of each batch (i.e. they show the ends of the mid 80% of values).
+* Upper left hand text indicates the power parameter applied to the both batches (default is a power of `1`--original measurement scale).
+* If an offset is applied to one of the axes, this will also be shown in the upper right-hand text.
+
 
 
 ## A working example
@@ -47,19 +144,18 @@ out <- eda_qq(old, new, md = TRUE)
 labs <- c("low", "mid", "high")
 out$avg <- (out$x + out$y) / 2
 out <- as.data.frame(out[c(1:2,6)])
-out2 <- split(out, cut(avg, c(min(avg), 35, 50, max(avg)), labels = labs, include.lowest = TRUE))
-eda_qq(out2$mid$x, out2$mid$y, md = T)
+out2 <- split(out, cut(out$avg, c(min(out$avg), 35, 50, max(out$avg)), labels = labs, include.lowest = TRUE))
+# eda_qq(out2$mid$x, out2$mid$y, md = T)
 
 OP <- par(mfrow = c(1,3))
 sapply(labs, FUN = \(x) {eda_qq(out2[[x]]$x, out2[[x]]$y ,
-                               xlab = "old", ylab = "new", md = T); title(x)} )
+                               xlab = "old", ylab = "new", md = T); title(x, line = 3, col.main = "orange")} )
 par(OP)
 
 ```
 
 
-
-
+What not to do:
 ```{r}
 labs <- c("low", "mid", "high")
 old.split <- split(old, cut(old, c(min(old), 35, 50, max(old)), labels = labs, include.lowest = TRUE))
@@ -68,6 +164,48 @@ new.split <- split(new, cut(new, c(min(new), 35, 50, max(new)), labels = labs, i
 
 OP <- par(mfrow = c(1,3))
 sapply(labs, FUN = \(x) {eda_qq(old.split[[x]], new.split[[x]] ,
-                               xlab = "old", ylab = "new", md = T); title(x)} )
+                               xlab = "old", ylab = "new", md = T); title(x, line = 3, col.main = "orange")} )
 par(OP)
 ```
+
+
+```{r}
+xform <- c("x * 0.9636 + 1.4411", 
+           "x * 0.9838 + 0.7478",
+           "x * 1.0365 - 2.0333")
+names(xform) <- labs
+
+OP <- par(mfrow = c(1,3))
+sapply(labs, FUN = \(x) {eda_qq(old.split[[x]], new.split[[x]] , 
+                                fx = xform[x],
+                                xlab = "old", ylab = "new", md = T); title(x)} )
+par(OP)
+```
+
+```{r}
+xform <- c("x * 0.96 + 1.5", 
+           "x * 0.98 + 0.75",
+           "x * 1.04 - 2")
+names(xform) <- labs
+
+OP <- par(mfrow = c(1,3))
+sapply(labs, FUN = \(x) {eda_qq(old.split[[x]], new.split[[x]] , 
+                                fx = xform[x],
+                                xlab = "old", ylab = "new", md = T); title(x, line = 2, col.main = "bisque")} )
+par(OP)
+```
+
+The characterization of the differences in normal temperatures between the old and new set of normals can be formalized as follows: 
+
+$$
+new = \begin{cases}
+old * 0.96 + 1.4411, &  T_{avg} < 35 \\
+old * 0.98 + 0.7478 & 35 \le T_{avg} < 50  \\
+old  - 2, & T_{avg} \ge 50
+\end{cases}
+$$
+
+
+The key takeways from this analysis can be summarized as follows:
+* 
+
