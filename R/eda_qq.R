@@ -99,7 +99,7 @@
 #'
 
 
-eda_qq <- function(x, y, p = 1,  q.type = 5, tukey = FALSE, md = FALSE,
+eda_qq <- function(x, y, p = 1L,  q.type = 5, tukey = FALSE, md = FALSE,
                    fx = NULL, fy = NULL, plot = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
                    size = 0.8, alpha = 0.8, q = TRUE, b.val = c(0.25,0.75),
@@ -120,8 +120,10 @@ eda_qq <- function(x, y, p = 1,  q.type = 5, tukey = FALSE, md = FALSE,
   }
 
   # Re-express data if required
-  x <- eda_re(x, p = p, tukey = tukey)
-  y <- eda_re(y, p = p, tukey = tukey)
+  if (p != 1L){
+    x <- eda_re(x, p = p, tukey = tukey)
+    y <- eda_re(y, p = p, tukey = tukey)
+  }
 
   # Get suggested multiplicative and additive offsets (off of original data)
   zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type)
