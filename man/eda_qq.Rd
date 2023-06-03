@@ -7,7 +7,7 @@
 eda_qq(
   x,
   y,
-  p = 1,
+  p = 1L,
   q.type = 5,
   tukey = FALSE,
   md = FALSE,
