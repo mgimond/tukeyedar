@@ -41,7 +41,7 @@
 
 
 
-eda_dens <- function(x, y, p = 1L, q.type = 5, tukey = FALSE, fx = NULL,
+eda_dens <- function(x, y, p = 1L, tukey = FALSE, fx = NULL,
                      fy = NULL, grey = 0.7, col = "red", size = 0.8,
                      alpha = 0.4, xlab = NULL, ylab = NULL, legend = TRUE, ...) {
 
@@ -96,7 +96,7 @@ eda_dens <- function(x, y, p = 1L, q.type = 5, tukey = FALSE, fx = NULL,
   dy <- density(y, ...)
 
   # Plot data
-  .pardef <- par(pty = "s", col = plotcol)
+  .pardef <- par(pty = "s", col = plotcol, mar = c(3,3,3,1))
   on.exit(par(.pardef))
 
   # Generate plot

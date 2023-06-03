@@ -167,7 +167,7 @@ eda_qq <- function(x, y, p = 1L,  q.type = 5, tukey = FALSE, md = FALSE,
   y <- qq$y
 
   # Plot data
-  .pardef <- par(pty = "s", col = plotcol)
+  .pardef <- par(pty = "s", col = plotcol, mar = c(3,3,3,1))
   on.exit(par(.pardef))
 
   if(plot == TRUE & md == FALSE){

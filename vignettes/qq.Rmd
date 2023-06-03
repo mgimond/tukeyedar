@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, include=FALSE}
+```{r include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -34,59 +34,43 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The *empirical quantile-quantile plot* (QQ plot) is probably one of the most underused and least appreciated plots in univariate analysis. 
 
-## Intrerpreting a QQ plot
+## Interpreting a QQ plot
 
-```{r}
+```{r fig.height=3, fig.width = 6, echo=2:7, results='hide'}
+OP <- par(mfrow=c(1,2))
+library(tukeyedar)
 set.seed(543)
 x <- rnorm(100); dx <- density(x)
 y <- x + 2; dy <- density(y)
-
-OP <- par(mfrow=c(1,2))
-eda_qq(x,y)
-
-plot(dx)
-polygon(dx, col = rgb(0,0,0,0.3))
-polygon(dy, col = rgb(1,0,0,0.3))
+eda_qq(x, y)
+eda_dens(x,y)
 par(OP)
-
 ```
 
-```{r fig.height=2.5, fig.width = 6}
+```{r fig.height=3, fig.width = 6, echo=2:4, results='hide'}
+OP <- par(mfrow=c(1,2))
 y <- x * 0.5; dy <- density(y)
-
-OP <- par(mfrow=c(1,2))
 eda_qq(x,y)
-
-plot(dx, xlim = range(dx$x,dy$x), ylim = range(dx$y, dy$y))
-polygon(dx, col = rgb(0,0,0,0.3))
-polygon(dy, col = rgb(1,0,0,0.3))
+eda_dens(x,y)
 par(OP)
 ```
 
-```{r fig.height=2.5, fig.width = 6}
+```{r fig.height=3, fig.width = 6, echo=2:4, results='hide'}
+OP <- par(mfrow=c(1,2))
 y <- x * 0.5 + 2; dy <- density(y)
-
-OP <- par(mfrow=c(1,2))
 eda_qq(x,y)
-
-plot(dx, xlim = range(dx$x,dy$x), ylim = range(dx$y, dy$y), main=NULL)
-polygon(dx, col = rgb(0,0,0,0.3))
-polygon(dy, col = rgb(1,0,0,0.3))
+eda_dens(x,y)
 par(OP)
 ```
 
 
-```{r fig.height=2.5, fig.width = 6}
+```{r fig.height=3, fig.width = 6, echo=2:6, results='hide'}
+OP <- par(mfrow=c(1,2))
 set.seed(540)
 x2 <- rbeta(100, 1,8); dx2 <- density(x2)
 y2 <- x2 + 0.2 ; dy2 <- density(y2)
-
-OP <- par(mfrow=c(1,2))
 eda_qq(x2,y2)
-
-plot(dx2, xlim = range(dx2$x,dy2$x), ylim = range(dx2$y, dy2$y), main=NULL)
-polygon(dx2, col = rgb(0,0,0,0.3))
-polygon(dy2, col = rgb(1,0,0,0.3))
+eda_dens(x2,y2)
 par(OP)
 ```
 
@@ -97,17 +81,14 @@ s1 <- subset(Indometh, Subject==1 , select=conc, drop = TRUE)
 s2 <- subset(Indometh, Subject == 2, select=conc, drop = TRUE)
 ```
 
-```{r}
+```{r fig.width = 3, results='hide'}
 eda_qq(s1, s2, p = 1)
 eda_qq(s1, s2, p = 0)
 eda_qq(s1,s2,p=0,fx="x * 0.8501 + 0.3902")
 ```
 
-```{r}
-dqn <- density(s1); dmn <- density(s2)
-plot(dqn, xlim = range(dqn$x,dmn$x), ylim = range(dqn$y, dmn$y), main=NULL)
-polygon(dqn, col = rgb(0,0,0,0.3))
-polygon(dmn, col = rgb(1,0,0,0.3))
+```{r fig.height=3, fig.width = 3, results='hide'}
+eda_dens(s1, s2)
 ```
 
 ## The Tukey mean-difference plot

@@ -8,7 +8,6 @@ eda_dens(
   x,
   y,
   p = 1L,
-  q.type = 5,
   tukey = FALSE,
   fx = NULL,
   fy = NULL,
