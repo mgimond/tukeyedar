@@ -7,6 +7,7 @@
 eda_dens(
   x,
   y,
+  fac = NULL,
   p = 1L,
   tukey = FALSE,
   fx = NULL,
@@ -22,9 +23,12 @@ eda_dens(
 )
 }
 \arguments{
-\item{x}{Vector for first variable.}
+\item{x}{Vector for first variable or a dataframe.}
 
-\item{y}{Vector for second variable.}
+\item{y}{Vector for second variable or column defining the continuous
+variable if \code{x} is a dataframe.}
+
+\item{fac}{Column defining the grouping variable if \code{x} is a dataframe.}
 
 \item{p}{Power transformation to apply to both sets of values.}
 
@@ -46,9 +50,9 @@ transformation is applied to the y variable.}
 \item{alpha}{Fill transparency (0 = transparent, 1 = opaque). Only applicable
 if \code{rgb()} is not used to define fill colors.}
 
-\item{xlab}{X label for output plot.}
+\item{xlab}{X variable label. Ignored if \code{x} is a dataframe.}
 
-\item{ylab}{Y label for output plot.}
+\item{ylab}{Y variable label. Ignored if \code{x} is a dataframe.}
 
 \item{legend}{Boolean determining if a legend should be added to the plot.}
 
@@ -68,9 +72,14 @@ This function will generate overlapping density plots with the first
 }
 \examples{
 
- # Accepting data as two separate vector objects
+ # Passing data as two separate vector objects
  set.seed(207)
  x <- rbeta(1000,2,8)
  y <- x * 1.5 + 0.1
  eda_dens(x, y)
+
+ # Passing data as a dataframe
+ dat <- data.frame(val = c(x, y),
+                   grp = c(rep("x", length(x)), rep("y", length(y))))
+ eda_dens(dat, val, grp)
 }

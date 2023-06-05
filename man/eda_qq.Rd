@@ -7,13 +7,15 @@
 eda_qq(
   x,
   y,
+  fac = NULL,
   p = 1L,
-  q.type = 5,
   tukey = FALSE,
   md = FALSE,
+  q.type = 5,
   fx = NULL,
   fy = NULL,
   plot = TRUE,
+  show.par = TRUE,
   grey = 0.6,
   pch = 21,
   p.col = "grey50",
@@ -29,20 +31,23 @@ eda_qq(
 )
 }
 \arguments{
-\item{x}{Column assigned to the x axis.}
+\item{x}{Vector for first variable or a dataframe.}
 
-\item{y}{Column assigned to the y axis.}
+\item{y}{Vector for second variable or column defining the continuous
+variable if \code{x} is a dataframe.}
+
+\item{fac}{Column defining the grouping variable if \code{x} is a dataframe.}
 
 \item{p}{Power transformation to apply to both sets of values.}
-
-\item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
-algorithms. (See \code{quantile}tile function).}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
 
 \item{md}{Boolean determining if Tukey mean-difference plot should be
 generated.}
+
+\item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
+algorithms. (See \code{quantile}tile function).}
 
 \item{fx}{Formula to apply to x variable. This is computed after any
 transformation is applied to the x variable.}
@@ -51,6 +56,9 @@ transformation is applied to the x variable.}
 transformation is applied to the y variable.}
 
 \item{plot}{Boolean determining if plot should be generated.}
+
+\item{show.par}{Boolean determining if parameters such as power
+transformation or formula should be displayed.}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
@@ -74,9 +82,9 @@ IQR. Two values are needed.}
 \item{l.val}{Quantiles to define the quantile line parameters. Defaults to
 the mid 75\% of values. Two values are needed.}
 
-\item{xlab}{X label for output plot}
+\item{xlab}{X label for output plot. Ignored if \code{x} is a dataframe.}
 
-\item{ylab}{Y label for output plot}
+\item{ylab}{Y label for output plot. Ignored if \code{x} is a dataframe.}
 
 \item{...}{Not used}
 }
@@ -98,16 +106,20 @@ Returns a list with the following components:
 }
 \details{
 The QQ plot will displays the IQR via grey boxes for both x and y
-values. The box widths can be changed via the  \code{b.val} argument. The plot
-will also display the mid 75\% of values via light colored dashed lines. The
-line positions can be changed via the \code{l.val} argument. The middle
-dashed line represents each batch's median value.
-Console output prints the suggested multiplicative and additive offsets.
+  values. The box widths can be changed via the  \code{b.val} argument. The
+  plot will also display the mid 75\% of values via light colored dashed
+  lines. The line positions can be changed via the \code{l.val} argument. The
+  middle dashed line represents each batch's median value. Console output
+  prints the suggested multiplicative and additive offsets.
 }
 \examples{
 
-# Example 1: Comparing "Tenor 1" and "Bass 2" singer height values
+# Passing data as a dataframe
  singer <- lattice::singer
+ dat <- singer[singer$voice.part  \%in\% c("Bass 2", "Tenor 1"), ]
+ eda_qq(dat, height, voice.part)
+
+# Passing data as two separate vector objects
  bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
 
