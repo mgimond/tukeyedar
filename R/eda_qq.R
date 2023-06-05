@@ -23,6 +23,8 @@
 #' @param fy Formula to apply to y variable. This is computed after any
 #'   transformation is applied to the y variable.
 #' @param plot Boolean determining if plot should be generated.
+#' @param show.par Boolean determining if parameters such as power
+#'   transformation or formula should be displayed.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -106,7 +108,7 @@
 
 
 eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
-                   q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
+                   q.type = 5, fx = NULL, fy = NULL, plot = TRUE, show.par = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
                    size = 0.8, alpha = 0.8, q = TRUE, b.val = c(0.25,0.75),
                    l.val = c(0.125, 0.875), xlab = NULL, ylab = NULL, ...) {
@@ -267,7 +269,9 @@ eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
            col = rgb(0,0,0,0.05), border = NA)
     }
-    mtext(side = 3, text=paste("p=", p, fx ,fy,sep="  "), adj=1, cex = 0.65)
+    if(show.par == TRUE){
+      mtext(side = 3, text=paste("p=", p, fx ,fy,sep="  "), adj=1, cex = 0.65)
+    }
   }
 
   # Reset plot parameters and  output values
