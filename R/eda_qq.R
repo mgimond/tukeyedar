@@ -7,8 +7,10 @@
 #' @description \code{eda_qq} generates an empirical QQ plot or a Tukey
 #'   mean-difference plot
 #'
-#' @param x  Column assigned to the x axis.
-#' @param y  Column assigned to the y axis.
+#' @param x  Vector for first variable or a dataframe.
+#' @param y  Vector for second variable or column defining the continuous
+#'   variable if \code{x} is a dataframe.
+#' @param fac Column defining the grouping variable if \code{x} is a dataframe.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -34,16 +36,16 @@
 #'   IQR. Two values are needed.
 #' @param l.val Quantiles to define the quantile line parameters. Defaults to
 #'   the mid 75\% of values. Two values are needed.
-#' @param xlab X label for output plot
-#' @param ylab Y label for output plot
+#' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
+#' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ... Not used
 #'
 #' @details The QQ plot will displays the IQR via grey boxes for both x and y
-#' values. The box widths can be changed via the  \code{b.val} argument. The plot
-#' will also display the mid 75\% of values via light colored dashed lines. The
-#' line positions can be changed via the \code{l.val} argument. The middle
-#' dashed line represents each batch's median value.
-#' Console output prints the suggested multiplicative and additive offsets.
+#'   values. The box widths can be changed via the  \code{b.val} argument. The
+#'   plot will also display the mid 75\% of values via light colored dashed
+#'   lines. The line positions can be changed via the \code{l.val} argument. The
+#'   middle dashed line represents each batch's median value. Console output
+#'   prints the suggested multiplicative and additive offsets.
 #'
 #'
 #' @returns Returns a list with the following components:
@@ -60,8 +62,12 @@
 #'
 #' @examples
 #'
-#' # Example 1: Comparing "Tenor 1" and "Bass 2" singer height values
+#' # Passing data as a dataframe
 #'  singer <- lattice::singer
+#'  dat <- singer[singer$voice.part  %in% c("Bass 2", "Tenor 1"), ]
+#'  eda_qq(dat, height, voice.part)
+#'
+#' # Passing data as two separate vector objects
 #'  bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
 #'  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
 #'
@@ -99,17 +105,38 @@
 #'
 
 
-eda_qq <- function(x, y, p = 1L,  q.type = 5, tukey = FALSE, md = FALSE,
-                   fx = NULL, fy = NULL, plot = TRUE,
+eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
+                   q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
                    size = 0.8, alpha = 0.8, q = TRUE, b.val = c(0.25,0.75),
                    l.val = c(0.125, 0.875), xlab = NULL, ylab = NULL, ...) {
 
   # Parameters check
-  if (!is.numeric(x)) stop("X needs to be numeric")
-  if (!is.numeric(y)) stop("Y needs to be numeric")
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
   if (length(l.val)!= 2) stop("The b.val argument must have two values.")
+
+  # Extract data
+  if("data.frame" %in% class(x)){
+    val <- eval(substitute(y), x)
+    fac <- eval(substitute(fac), x)
+    g <- unique(fac)
+    if( length(g) != 2){
+      stop(paste("Column", fac, "has", length(g),
+                 "unique values. It needs to have two exactly."))
+    }
+    x <- val[fac == g[1]]
+    y <- val[fac == g[2]]
+    xlab <- g[1]
+    ylab <- g[2]
+  } else {
+    if(is.null(xlab)){
+      xlab = substitute(x)
+    }
+    if(is.null(ylab)){
+      ylab = substitute(y)
+    }
+  }
+
 
   # Define labels
   if(is.null(xlab)){
@@ -120,10 +147,8 @@ eda_qq <- function(x, y, p = 1L,  q.type = 5, tukey = FALSE, md = FALSE,
   }
 
   # Re-express data if required
-  if (p != 1L){
     x <- eda_re(x, p = p, tukey = tukey)
     y <- eda_re(y, p = p, tukey = tukey)
-  }
 
   # Get suggested multiplicative and additive offsets (off of original data)
   zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type)

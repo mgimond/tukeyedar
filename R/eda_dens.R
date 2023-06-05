@@ -6,8 +6,10 @@
 #' @description \code{eda_dens} generates overlapping density distributions for
 #'   two variables.
 #'
-#' @param x  Vector for first variable.
-#' @param y  Vector for second variable.
+#' @param x  Vector for first variable or a dataframe.
+#' @param y  Vector for second variable or column defining the continuous
+#'   variable if \code{x} is a dataframe.
+#' @param fac Column defining the grouping variable if \code{x} is a dataframe.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -21,8 +23,8 @@
 #' @param alpha Fill transparency (0 = transparent, 1 = opaque). Only applicable
 #'   if \code{rgb()} is not used to define fill colors.
 #' @param legend Boolean determining if a legend should be added to the plot.
-#' @param xlab X label for output plot.
-#' @param ylab Y label for output plot.
+#' @param xlab X variable label. Ignored if \code{x} is a dataframe.
+#' @param ylab Y variable label. Ignored if \code{x} is a dataframe.
 #' @param ... Arguments passed to the \code{stats::density()} function.
 #'
 #' @details This function will generate overlapping density plots with the first
@@ -33,36 +35,48 @@
 #'
 #' @examples
 #'
-#'  # Accepting data as two separate vector objects
+#'  # Passing data as two separate vector objects
 #'  set.seed(207)
 #'  x <- rbeta(1000,2,8)
 #'  y <- x * 1.5 + 0.1
 #'  eda_dens(x, y)
+#'
+#'  # Passing data as a dataframe
+#'  dat <- data.frame(val = c(x, y),
+#'                    grp = c(rep("x", length(x)), rep("y", length(y))))
+#'  eda_dens(dat, val, grp)
 
 
 
-eda_dens <- function(x, y, p = 1L, tukey = FALSE, fx = NULL,
+eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
                      fy = NULL, grey = 0.7, col = "red", size = 0.8,
                      alpha = 0.4, xlab = NULL, ylab = NULL, legend = TRUE, ...) {
 
-  # Parameters check
-  if (!is.numeric(x)) stop("X needs to be numeric")
-  if (!is.numeric(y)) stop("Y needs to be numeric")
-
-  # Define labels
-  if(is.null(xlab)){
-    xlab = substitute(x)
-  }
-  if(is.null(ylab)){
-    ylab = substitute(y)
+  # Extract data
+  if("data.frame" %in% class(x)){
+    val <- eval(substitute(y), x)
+    fac <- eval(substitute(fac), x)
+    g <- unique(fac)
+    if( length(g) != 2){
+      stop(paste("Column", fac, "has", length(g),
+                 "unique values. It needs to have two exactly."))
+    }
+    x <- val[fac == g[1]]
+    y <- val[fac == g[2]]
+    xlab <- g[1]
+    ylab <- g[2]
+  } else {
+    if(is.null(xlab)){
+      xlab = substitute(x)
+    }
+    if(is.null(ylab)){
+      ylab = substitute(y)
+    }
   }
 
   # Re-express data if required
-  if (p != 1L) {
     x <- eda_re(x, p = p, tukey = tukey)
     y <- eda_re(y, p = p, tukey = tukey)
-  }
-
 
   # Apply formula if present
   if(!is.null(fx) & !is.null(fy))
