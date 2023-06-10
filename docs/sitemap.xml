@@ -10,6 +10,9 @@
     <loc>/articles/polish.html</loc>
   </url>
   <url>
+    <loc>/articles/qq.html</loc>
+  </url>
+  <url>
     <loc>/articles/RLine.html</loc>
   </url>
   <url>
@@ -38,6 +41,9 @@
   </url>
   <url>
     <loc>/reference/eda_boxls.html</loc>
+  </url>
+  <url>
+    <loc>/reference/eda_dens.html</loc>
   </url>
   <url>
     <loc>/reference/eda_lm.html</loc>
@@ -83,5 +89,11 @@
   </url>
   <url>
     <loc>/reference/tukeyedar.html</loc>
+  </url>
+  <url>
+    <loc>/reference/wat05.html</loc>
+  </url>
+  <url>
+    <loc>/reference/wat95.html</loc>
   </url>
 </urlset>
