@@ -48,6 +48,7 @@
 #'   lines. The line positions can be changed via the \code{l.val} argument. The
 #'   middle dashed line represents each batch's median value. Console output
 #'   prints the suggested multiplicative and additive offsets.
+#'   See the QQ plot vignette for an introduction on its use and interpretation.
 #'
 #'
 #' @returns Returns a list with the following components:
@@ -55,7 +56,7 @@
 #' \itemize{
 #'   \item \code{x}: X values. May be interpolated to smallest quantile batch.
 #'   Values will reflect power transformation defined in \code{p}.
-#'   \item \code{b}: Yvalues. May be interpolated to smallest quantile batch.
+#'   \item \code{b}: Y values. May be interpolated to smallest quantile batch.
 #'   Values will reflect power transformation defined in \code{p}.
 #'   \item \code{p}: Re-expression applied to original values.
 #'   \item \code{fx}: Formula applied to x variable.
