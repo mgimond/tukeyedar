@@ -1,3 +1,4 @@
+url: https://mgimond.github.io/tukeyedar/
 destination: docs
 figures:
   dev: ragg::agg_png
