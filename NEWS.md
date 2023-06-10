@@ -8,7 +8,7 @@
 * `eda_lm` will now output `lm` intercept and slope.
 * Adds plot method for `eda_rline` object.
 * In `eda_re` if `p = 1`, box-cox option is ignored.
-* Homogenize plot appearances.
+* Homogenized plot appearances.
 * Added power parameter argument to `eda_boxls`.
 * Added power parameter argument to `eda_sl`.
 * Added plot option to `eda_sl`.
