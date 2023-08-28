@@ -1,1 +1,1 @@
-Make sure to copy the README files and HTML vignettes to doc/ after building. Then add links from doc/Readme to vignettes.
+To ensure that updates are pushed to gh-pages on Github, run pkgdown::build_site_github_pages()
