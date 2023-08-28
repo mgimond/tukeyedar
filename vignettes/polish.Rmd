@@ -363,7 +363,7 @@ plot(Mex2, "diagnostic")
 par(OP)
 ```
 
-You'll note the upward trend in residuals with increasing comparison values. This is usually a good indication of interaction in the effects. Another tell-tell sign is the pattern observed in the residuals with low residuals and high residuals in opposing corners in the table.
+You'll note the upward trend in residuals with increasing comparison values. This is usually a good indication of interaction in the effects. Another telltale sign is the pattern observed in the residuals with low residuals and high residuals in opposing corners in the table.
 
 If an interaction is observed, you should either include the interaction term in the additive model, or you should seek a re-expression that might help alleviate any interaction between the effects. 
 
