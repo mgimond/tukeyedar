@@ -51,7 +51,7 @@ accessed from this website:
   function](https://mgimond.github.io/tukeyedar/articles/RLine.html)
 - [The median
   polish](https://mgimond.github.io/tukeyedar/articles/polish.html)
-- [The emprirical QQ
+- [The empirical QQ
   plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
 
 If you chose to have the vignettes locally created when you installed
