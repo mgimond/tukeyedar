@@ -58,7 +58,7 @@ It’s strongly recommended that you read the vignettes. These can be accessed f
 
 -   [A detailed rundown of the resistant line function](https://mgimond.github.io/tukeyedar/articles/RLine.html)
 -   [The median polish](https://mgimond.github.io/tukeyedar/articles/polish.html)
--   [The emprirical QQ plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
+-   [The empirical QQ plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
 
 If you chose to have the vignettes locally created when you installed the package, then you can view them locally via
 `vignette("RLine", package = "tukeyedar")`. If you use a dark themed IDE, the vignettes may not render very well so you might opt to view them in a web browser via the functions `RShowDoc("RLine", package = "tukeyedar")`.
@@ -66,7 +66,7 @@ If you chose to have the vignettes locally created when you installed the packag
 ## Using the functions
 
 All functions start with `eda_`. For example, to generate a three point
-summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
+summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
 
 
 ```{r, fig.height=2.6, fig.width = 3.2, eval=FALSE}
