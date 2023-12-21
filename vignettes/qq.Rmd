@@ -1,5 +1,5 @@
 ---
-title: "The QQ plot"
+title: "The empirical QQ plot"
 author: "Manuel Gimond"
 date: "`r Sys.Date()`"
 output: 

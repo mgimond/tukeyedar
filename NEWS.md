@@ -1,4 +1,5 @@
 # tukeyedar (development version)
+* Added a Normal QQ plto option to `eda+qq`
 
 # tukeyedar 0.1.1
 

@@ -2,10 +2,10 @@
 #' @import grDevices
 #' @import lattice
 #' @importFrom utils modifyList
-#' @title Generates empirical QQ plot and Tukey mean-difference plot
+#' @title QQ and MD plots
 #'
-#' @description \code{eda_qq} generates an empirical QQ plot or a Tukey
-#'   mean-difference plot
+#' @description \code{eda_qq} Generates an empirical or Normal QQ plot as well
+#' as a Tukey mean-difference plot.
 #'
 #' @param x  Vector for first variable or a dataframe.
 #' @param y  Vector for second variable or column defining the continuous
@@ -50,10 +50,14 @@
 #'   positions can be changed via the \code{l.val} argument. The middle dashed
 #'   line represents each batch's median value. Console output prints the
 #'   suggested multiplicative and additive offsets. See the QQ plot vignette for
-#'   an introduction on its use and interpretation.
+#'   an introduction on its use and interpretation.\cr
+#'   \cr
 #'   The function can also be used to generate a Normal QQ plot when the
 #'   \code{norm} argument is set to  \code{TRUE}. In such a case, the line
-#'   parameters \code{l.val} are overridden and set to +/- 1 standard deviations.
+#'   parameters \code{l.val} are overridden and are set to +/- 1 standard
+#'   deviations. Note that the "suggested offsets" output is disabled, nor
+#'   can you generate an M-D version of the Normal QQ plot. Also note
+#'   that the formula argument is ignored in this mode.
 #'
 #'
 #' @returns Returns a list with the following components:
@@ -197,20 +201,22 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
 
   # Apply formula if present
-  if(!is.null(fx) & !is.null(fy))
+  if(!is.null(fx) & !is.null(fy) & norm == FALSE)
     warning(paste("You should apply a formula to just one axis.\n",
                   "You are applying the fomrula", fx,"to the x-axis",
                   "and the formula",fy ,"to the y-axis."))
-  if(!is.null(fx)){
+  if(!is.null(fx) & norm == FALSE){
     fx <- tolower(fx)
     if(!grepl("x", fx)) stop("Formula fx does not contain \"x\" variable.")
     x <- eval(parse(text=fx))
   }
-  if(!is.null(fy)){
+  if(!is.null(fy) & norm == FALSE){
     fy <- tolower(fy)
     if(!grepl("y", fy)) stop("Formula fx does not contain \"y\" variable.")
     y <- eval(parse(text=fy))
   }
+  if( (!is.null(fx) | !is.null(fy)) & norm == TRUE)
+    warning("Formula is ignored when generating a Normal QQ plot")
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)

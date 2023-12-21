@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_qq.R
 \name{eda_qq}
 \alias{eda_qq}
-\title{Generates empirical QQ plot and Tukey mean-difference plot}
+\title{QQ and MD plots}
 \usage{
 eda_qq(
   x,
@@ -104,8 +104,8 @@ Returns a list with the following components:
   \item \code{fy}: Formula applied to y variable.}
 }
 \description{
-\code{eda_qq} generates an empirical QQ plot or a Tukey
-  mean-difference plot
+\code{eda_qq} Generates an empirical or Normal QQ plot as well
+as a Tukey mean-difference plot.
 }
 \details{
 When the function is used to generate an empirical QQ plot, the plot
@@ -115,10 +115,14 @@ When the function is used to generate an empirical QQ plot, the plot
   positions can be changed via the \code{l.val} argument. The middle dashed
   line represents each batch's median value. Console output prints the
   suggested multiplicative and additive offsets. See the QQ plot vignette for
-  an introduction on its use and interpretation.
+  an introduction on its use and interpretation.\cr
+  \cr
   The function can also be used to generate a Normal QQ plot when the
   \code{norm} argument is set to  \code{TRUE}. In such a case, the line
-  parameters \code{l.val} are overridden and set to +/- 1 standard deviations.
+  parameters \code{l.val} are overridden and are set to +/- 1 standard
+  deviations. Note that the "suggested offsets" output is disabled, nor
+  can you generate an M-D version of the Normal QQ plot. Also note
+  that the formula argument is ignored in this mode.
 }
 \examples{
 
