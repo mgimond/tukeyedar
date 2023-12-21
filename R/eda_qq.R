@@ -11,6 +11,7 @@
 #' @param y  Vector for second variable or column defining the continuous
 #'   variable if \code{x} is a dataframe.
 #' @param fac Column defining the grouping variable if \code{x} is a dataframe.
+#' @param norm Boolean determining if a Normal QQ plot is to be generated.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -42,13 +43,17 @@
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ... Not used
 #'
-#' @details The QQ plot will displays the IQR via grey boxes for both x and y
-#'   values. The box widths can be changed via the  \code{b.val} argument. The
-#'   plot will also display the mid 75\% of values via light colored dashed
-#'   lines. The line positions can be changed via the \code{l.val} argument. The
-#'   middle dashed line represents each batch's median value. Console output
-#'   prints the suggested multiplicative and additive offsets.
-#'   See the QQ plot vignette for an introduction on its use and interpretation.
+#' @details When the function is used to generate an empirical QQ plot, the plot
+#'   will displays the IQR via grey boxes for both x and y values. The box
+#'   widths can be changed via the  \code{b.val} argument. The plot will also
+#'   display the mid 75\% of values via light colored dashed lines. The line
+#'   positions can be changed via the \code{l.val} argument. The middle dashed
+#'   line represents each batch's median value. Console output prints the
+#'   suggested multiplicative and additive offsets. See the QQ plot vignette for
+#'   an introduction on its use and interpretation.
+#'   The function can also be used to generate a Normal QQ plot when the
+#'   \code{norm} argument is set to  \code{TRUE}. In such a case, the line
+#'   parameters \code{l.val} are overridden and set to +/- 1 standard deviations.
 #'
 #'
 #' @returns Returns a list with the following components:
@@ -106,22 +111,31 @@
 #'  # species' petal widths.
 #'  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 #'
+#'  # Function can also generate a Normal QQ plot
+#'  eda_qq(bass2, norm = TRUE)
 
 
-eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
-                   q.type = 5, fx = NULL, fy = NULL, plot = TRUE, show.par = TRUE,
-                   grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
-                   size = 0.8, alpha = 0.8, q = TRUE, b.val = c(0.25,0.75),
-                   l.val = c(0.125, 0.875), xlab = NULL, ylab = NULL, ...) {
+eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
+                   md = FALSE, q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
+                   show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
+                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
+                   b.val = c(0.25,0.75), l.val = c(0.125, 0.875), xlab = NULL,
+                   ylab = NULL, ...) {
 
   # Parameters check
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
   if (length(l.val)!= 2) stop("The b.val argument must have two values.")
+  if ("data.frame" %in% class(x) & norm == TRUE)
+    stop("x needs to be a vector if norm=TRUE")
+  if(norm == TRUE & md == TRUE)
+    stop("A rotated version of Normal QQ plot is not yet implemented.")
 
-  # Extract data
+  # Extract data ----
   if("data.frame" %in% class(x)){
     val <- eval(substitute(y), x)
     fac <- eval(substitute(fac), x)
+    if (is.null(fac))
+      stop("You need to pass a valid factor column to the fac parameter")
     g <- unique(fac)
     if( length(g) != 2){
       stop(paste("Column", fac, "has", length(g),
@@ -131,42 +145,62 @@ eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
     y <- val[fac == g[2]]
     xlab <- g[1]
     ylab <- g[2]
+
   } else {
+
     if(is.null(xlab)){
-      xlab = substitute(x)
+
+      if( norm != TRUE) {
+        xlab = substitute(x)
+      } else {
+        xlab = "Normal quantile"
+      }
     }
-    if(is.null(ylab)){
+
+    if(is.null(ylab) & norm != TRUE){
       ylab = substitute(y)
+    } else if (is.null(ylab) & norm == TRUE){
+      ylab = substitute(x)
     }
   }
 
-
-  # Define labels
-  if(is.null(xlab)){
-    xlab = substitute(x)
-  }
-  if(is.null(ylab)){
-    ylab = substitute(y)
-  }
+  # # Define labels
+  # if(is.null(xlab)){
+  #   xlab = substitute(x)
+  # }
+  # if(is.null(ylab) & norm != TRUE){
+  #   ylab = substitute(y)
+  # }
 
   # Re-express data if required
-    x <- eda_re(x, p = p, tukey = tukey)
+  x <- eda_re(x, p = p, tukey = tukey)
+  if(norm != TRUE) {
     y <- eda_re(y, p = p, tukey = tukey)
+  }
 
-  # Get suggested multiplicative and additive offsets (off of original data)
-  zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type)
- # zd <- data.frame(y = zl$y - zl$x, x = (zl$y + zl$x) / 2)
+  # Compute x and y values ----
+  if(norm != TRUE){
+    zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
+  } else {
+    zl <- qqnorm(x, plot.it = FALSE)  # Get Normal quantiles
+  }
+
   zd <- data.frame(y = zl$y - zl$x, x = zl$x)
   zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
-  z <- eda_rline(zd,x,y)
-  x.multi <-  1 + z$b
-  x.add <- median(zl$y - sort(zl$x * x.multi))
+
+  # Get suggested multiplier and offset (only for empirical data)
+  if(!norm == TRUE){
+    z <- eda_rline(zd,x,y)
+    x.multi <-  1 + z$b
+    x.add <- median(zl$y - sort(zl$x * x.multi))
+  }
+
 
   # Apply formula if present
   if(!is.null(fx) & !is.null(fy))
-      warning(paste("You should apply a formula to just one axis.\n",
-                    "You are applying the fomrula", fx,"to the x-axis",
-                    "and the formula",fy ,"to the y-axis."))
+    warning(paste("You should apply a formula to just one axis.\n",
+                  "You are applying the fomrula", fx,"to the x-axis",
+                  "and the formula",fy ,"to the y-axis."))
   if(!is.null(fx)){
     fx <- tolower(fx)
     if(!grepl("x", fx)) stop("Formula fx does not contain \"x\" variable.")
@@ -190,7 +224,12 @@ eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
   }
 
   # Generate qqplot using base function
-  qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
+  if(norm != TRUE){
+    qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
+  } else {
+    qq <- qqnorm(x, plot.it = FALSE)
+  }
+
   x <- qq$x
   y <- qq$y
 
@@ -198,30 +237,64 @@ eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
   .pardef <- par(pty = "s", col = plotcol, mar = c(3,3,3,1))
   on.exit(par(.pardef))
 
+  # QQ plot ----
   if(plot == TRUE & md == FALSE){
 
 
     # Get quantile parameters
     qx <- quantile(x, b.val, qtype = q.type)
     qy <- quantile(y, b.val, qtype = q.type)
-    lx <- quantile(x, l.val, qtype = q.type)
-    ly <- quantile(y, l.val, qtype = q.type)
+    if(norm != TRUE){
+      lx <- quantile(x, l.val, qtype = q.type)
+      ly <- quantile(y, l.val, qtype = q.type)
+    } else {
+      lx <- c(-1,1)
+      ly <- c(1,-1) * sd(y) + mean(y)
+    }
+
     medx <- median(x)
     medy <- median(y)
 
     # Generate plot
     xylim <- range(x,y)
-    plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-          xlim = xylim, ylim = xylim)
+
+    # QQ plot: Empirical ----
+    if(norm != TRUE){
+      plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+            xlim = xylim, ylim = xylim)
+
+      # QQ plot: Normal ----
+    } else {
+      plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+    }
+
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
     mtext(ylab, side=3, adj= -0.1 , col=plotcol, padj = -1)
     title(xlab = xlab, line =1.8, col.lab=plotcol)
-    abline(0, 1, col = plotcol)
+
+    # Add emprical QQ line ----
+    if(norm != TRUE){
+      abline(0, 1, col = plotcol)
+
+      # Add Normal QQ line ----
+    } else {
+      probs = c(0.25, 0.75)
+      yy <- as.vector(quantile(y, probs, names = FALSE, type = q.type))
+      xx <- qnorm(probs)
+      slope <- diff(yy) / diff(xx)
+      int <- yy[[1L]] - slope * xx[[1L]]
+      abline(int, slope, col = plotcol)
+    }
+
+    # Add quantile boundary lines ----
     abline(v = medx, col = "grey80", lty = 2)
     abline(h = medy, col = "grey80", lty = 2)
+
+    # Add core boxes ----
     sq <- par("usr") # get plot corners
     if(q == TRUE){
       rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
@@ -231,8 +304,17 @@ eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
       abline(v = lx, lty = 3, col = "grey90")
       abline(h = ly, lty = 3, col = "grey90")
     }
-    mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
-  } else if(plot == TRUE & md == TRUE) {
+
+    # Add power/formula parameters to plot
+    if(norm != TRUE){
+      mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
+    } else {
+      mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
+    }
+
+
+    #  M-D plot ----
+  } else if(plot == TRUE & md == TRUE & norm != TRUE) {
 
     # Generate labels
     xlab2 <- paste("Mean of", xlab, "and", ylab)
@@ -273,12 +355,16 @@ eda_qq <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, md = FALSE,
     if(show.par == TRUE){
       mtext(side = 3, text=paste("p=", p, fx ,fy,sep="  "), adj=1, cex = 0.65)
     }
+
   }
 
   # Reset plot parameters and  output values
   par(.pardef)
-  print(paste0("Suggested offsets:", "y = ", "x * ", round(x.multi,4),
-              " + (", round(x.add,4),")"))
+  if(!norm == TRUE){
+    print(paste0("Suggested offsets:", "y = ", "x * ", round(x.multi,4),
+                 " + (", round(x.add,4),")"))
+  }
+
   invisible(list(x = x, y = y, p = p, fx = fx, fy = fy))
 
 }

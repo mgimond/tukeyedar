@@ -64,8 +64,9 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">eda_qq</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  <span class="va">y</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fac <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  norm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  p <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  tukey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  md <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -102,6 +103,10 @@ variable if <code>x</code> is a dataframe.</p></dd>
 
 <dt>fac</dt>
 <dd><p>Column defining the grouping variable if <code>x</code> is a dataframe.</p></dd>
+
+
+<dt>norm</dt>
+<dd><p>Boolean determining if a Normal QQ plot is to be generated.</p></dd>
 
 
 <dt>p</dt>
@@ -211,13 +216,17 @@ the mid 75% of values. Two values are needed.</p></dd>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The QQ plot will displays the IQR via grey boxes for both x and y
-  values. The box widths can be changed via the  <code>b.val</code> argument. The
-  plot will also display the mid 75% of values via light colored dashed
-  lines. The line positions can be changed via the <code>l.val</code> argument. The
-  middle dashed line represents each batch's median value. Console output
-  prints the suggested multiplicative and additive offsets.
-  See the QQ plot vignette for an introduction on its use and interpretation.</p>
+    <p>When the function is used to generate an empirical QQ plot, the plot
+  will displays the IQR via grey boxes for both x and y values. The box
+  widths can be changed via the  <code>b.val</code> argument. The plot will also
+  display the mid 75% of values via light colored dashed lines. The line
+  positions can be changed via the <code>l.val</code> argument. The middle dashed
+  line represents each batch's median value. Console output prints the
+  suggested multiplicative and additive offsets. See the QQ plot vignette for
+  an introduction on its use and interpretation.
+  The function can also be used to generate a Normal QQ plot when the
+  <code>norm</code> argument is set to  <code>TRUE</code>. In such a case, the line
+  parameters <code>l.val</code> are overridden and set to +/- 1 standard deviations.</p>
     </div>
 
     <div class="section level2">
@@ -282,6 +291,9 @@ the mid 75% of values. Two values are needed.</p></dd>
 <span class="r-plt img"><img src="eda_qq-9.png" alt="" width="384" height="621"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.7143 + (1.6286)"</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Function can also generate a Normal QQ plot</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qq-10.png" alt="" width="384" height="621"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

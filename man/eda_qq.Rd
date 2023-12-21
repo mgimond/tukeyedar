@@ -6,8 +6,9 @@
 \usage{
 eda_qq(
   x,
-  y,
+  y = NULL,
   fac = NULL,
+  norm = FALSE,
   p = 1L,
   tukey = FALSE,
   md = FALSE,
@@ -37,6 +38,8 @@ eda_qq(
 variable if \code{x} is a dataframe.}
 
 \item{fac}{Column defining the grouping variable if \code{x} is a dataframe.}
+
+\item{norm}{Boolean determining if a Normal QQ plot is to be generated.}
 
 \item{p}{Power transformation to apply to both sets of values.}
 
@@ -105,13 +108,17 @@ Returns a list with the following components:
   mean-difference plot
 }
 \details{
-The QQ plot will displays the IQR via grey boxes for both x and y
-  values. The box widths can be changed via the  \code{b.val} argument. The
-  plot will also display the mid 75\% of values via light colored dashed
-  lines. The line positions can be changed via the \code{l.val} argument. The
-  middle dashed line represents each batch's median value. Console output
-  prints the suggested multiplicative and additive offsets.
-  See the QQ plot vignette for an introduction on its use and interpretation.
+When the function is used to generate an empirical QQ plot, the plot
+  will displays the IQR via grey boxes for both x and y values. The box
+  widths can be changed via the  \code{b.val} argument. The plot will also
+  display the mid 75\% of values via light colored dashed lines. The line
+  positions can be changed via the \code{l.val} argument. The middle dashed
+  line represents each batch's median value. Console output prints the
+  suggested multiplicative and additive offsets. See the QQ plot vignette for
+  an introduction on its use and interpretation.
+  The function can also be used to generate a Normal QQ plot when the
+  \code{norm} argument is set to  \code{TRUE}. In such a case, the line
+  parameters \code{l.val} are overridden and set to +/- 1 standard deviations.
 }
 \examples{
 
@@ -156,4 +163,6 @@ The QQ plot will displays the IQR via grey boxes for both x and y
  # species' petal widths.
  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 
+ # Function can also generate a Normal QQ plot
+ eda_qq(bass2, norm = TRUE)
 }
