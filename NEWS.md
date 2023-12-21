@@ -1,5 +1,6 @@
 # tukeyedar (development version)
-* Added a Normal QQ plto option to `eda+qq`
+* Added a Normal QQ plot option to `eda_qq`
+* Added symmetrical Normal plot function `eda_symnorm`
 
 # tukeyedar 0.1.1
 
