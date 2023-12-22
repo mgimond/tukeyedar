@@ -131,8 +131,16 @@ eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, alpha = 0.
   # Re-express data if required
   if(p != 1L){
     x <- eda_re(x, p = p, tukey = tukey)
-  }
+    x.nan <- is.na(x)
+    if( any(x.nan)){
+      x <- x[!x.nan]
+      grp <- grp[!x.nan]
+      warning(paste("\nRe-expression produced NaN values. These observations will",
+                    "be removed from output. This will result in fewer points",
+                    "in the ouptut."))
+    }
 
+  }
 
   # Remove groups that have just one value
   sngl_val <- ave(1:length(x), grp, FUN = function(x) length(x) == 1)

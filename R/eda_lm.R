@@ -127,7 +127,7 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
     y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
 
   # Re-expression may produce NaN values. Output warning if TRUE
-    if( any(is.na(x) | is.na(x) ) )
+    if( any(is.na(x) | is.na(y) ) )
         warning(paste("Re-expression produced NaN values. These observations will",
                       "be removed from output. This will result in fewer points",
                       "in the ouptut."))

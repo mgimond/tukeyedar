@@ -155,9 +155,8 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
   } else {
 
     if(is.null(xlab)){
-
       if( norm == FALSE) {
-        xlab = substitute(x)
+        xlab = as.character(substitute(x))
       } else {
         xlab = "Normal quantile"
       }
@@ -172,12 +171,31 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
   # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
-  if(norm != TRUE) {
+  x.isna <- is.na(x)
+  rm.nan <- ifelse( any(x.isna), 1 , 0)
+  if(norm == FALSE) {
     y <- eda_re(y, p = p, tukey = tukey)
+    y.isna <- is.na(y)
+    rm.nan <- ifelse( any(y.isna), 1 , 0) + rm.nan
   }
 
+  # Re-expression may produce NaN values. Output warning if TRUE
+  if( rm.nan > 0 ) {
+    warning(paste("\nRe-expression produced NaN values. These observations will",
+                  "be removed from output. This will result in fewer points",
+                  "in the ouptut."))
+    if( norm == FALSE){
+      bad <- x.isna | y.isna
+      x <- x[!bad]
+      y <- y[!bad]
+    } else {
+      x <- x[!x.isna]
+    }
+  }
+
+
   # Compute x and y values ----
-  if(norm != TRUE){
+  if(norm == FALSE){
     zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
   } else {
     zl <- qqnorm(x, plot.it = FALSE)  # Get Normal quantiles
@@ -197,7 +215,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
   # Apply formula if present
   if(!is.null(fx) & !is.null(fy) & norm == FALSE)
     warning(paste("You should apply a formula to just one axis.\n",
-                  "You are applying the fomrula", fx,"to the x-axis",
+                  "You are applying the formula", fx,"to the x-axis",
                   "and the formula",fy ,"to the y-axis."))
   if(!is.null(fx) & norm == FALSE){
     fx <- tolower(fx)
@@ -288,12 +306,12 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    # axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
-    #      tck = -0.02)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    #mtext(ylab, side=3, adj= -0.1 , col=plotcol, padj = -1)
+    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+         tck = -0.02)
+
     mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
     title(xlab = xlab, line =1.8, col.lab=plotcol)
+
     if(!is.null(title)){
       title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
     }
