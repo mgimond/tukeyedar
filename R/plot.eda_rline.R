@@ -65,11 +65,25 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
     }
   }
 
+  # Get lines-to-inches ratio
+  in2line <- ( par("mar") / par("mai") )[2]
+
+  # Create a dummy plot to extract y-axis labels
+  pdf(NULL)
+  plot(x = x$x, y = x$y, type = "n", xlab = "", ylab = "", xaxt = "n",
+       yaxt='n', main = NULL)
+  y.labs <- range(axTicks(2))
+  dev.off()
+
+  # Compute the margin width (returned in inches before converting to lines)
+  y.wid <- max( strwidth( y.labs[1], units="inches"),
+                strwidth( y.labs[2], units="inches")) * in2line + 1
+
   # Set plot parameters
   if(equal == TRUE ){
-    .pardef <- par(mar = c(2.8,3.2,1.5,1.5), col = plotcol, pty = "s")
+    .pardef <- par(mar = c(2.8,y.wid,1.7,1.5), col = plotcol, pty = "s")
   } else {
-    .pardef <- par(mar = c(2.8,3.2,1.5,1.5), col = plotcol)
+    .pardef <- par(mar = c(2.8,y.wid,1.7,1.5), col = plotcol)
   }
   on.exit(par(.pardef))
 
@@ -80,8 +94,11 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
     plot(y ~ x, df, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, col.lab=plotcol,
          pch = pch, col = p.col, bg = p.fill, cex = size)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(ylab, side=3, adj= -0.2 , col=plotcol, padj = -1)
+   #axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
+    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+         tck = -0.02)
+    #mtext(ylab, side=3, adj= -0.2 , col=plotcol, padj = -1)
+    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
     title(xlab = xlab, line =1.8, col.lab=plotcol)
     if (model == TRUE){
       mtext(sprintf("y = %f + (%f)x",x$a, x$b ), col = plotcol, cex = 0.7)
