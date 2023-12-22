@@ -394,7 +394,7 @@ Where the `Education` levels are defined as follows:
 The original table (prior to running the median polish), can be viewed by setting `maxiter` to `0` in the call to `eda_pol`.
 
 ```{r fig.width=2.8, fig.height=2.8, results='hide', fig.cap = "2021 Average earnings for the US."}
-eda_pol(df1, row = Education, col = Sex, val = Earnings , maxiter = 0, adj.mar = TRUE)
+eda_pol(df1, row = Education, col = Sex, val = Earnings , maxiter = 0)
 ```
 
 Next, we'll run the median polish.
@@ -407,7 +407,7 @@ Next, we plot the final table and the diagnostic plot.
 
 ```{r fig.width=5.5, fig.height=2.8, echo = 2:3}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-plot(M2, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
+plot(M2, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 plot(M2, "diagnostic")
 par(OP)
 ```
@@ -429,18 +429,18 @@ The CV values are computed and stored in the median polish object. They can be e
 
 ```{r fig.width=5.5, fig.height=2.8, echo = 2:3, fig.cap = "Median polish residuals (left) and CV values (right)."}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-plot(M2, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
-plot(M2, "cv", adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8)
+plot(M2, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
+plot(M2, "cv", res.size = 0.8, row.size = 0.8, col.size = 0.8)
 par(OP)
 ```
 
-If the comparsion value is to be added to the model, we will need to compute a new set of residuals. These residuals can be plotted by setting `add.cv` to `TRUE` and by specifying a value for `k`. Using the slope to estimate `k` we get:
+If the comparison value is to be added to the model, we will need to compute a new set of residuals. These residuals can be plotted by setting `add.cv` to `TRUE` and by specifying a value for `k`. Using the slope to estimate `k` we get:
 
 ```{r fig.width=5.5, fig.height=2.8, echo = 2:3, fig.cap = "CV values (left) and new set of residuals (right)."}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-plot(M2, "cv", adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8)
+plot(M2, "cv", res.size = 0.8, row.size = 0.8, col.size = 0.8)
 plot(M2, "residuals", add.cv=TRUE, k = 0.94,
-     adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8)
+     res.size = 0.8, row.size = 0.8, col.size = 0.8)
 par(OP)
 ```
 
@@ -473,7 +473,7 @@ Next, we plot the final table and the diagnostic plot.
 
 ```{r fig.width=5.5, fig.height=2.8, echo = 2:3, results='hide', fig.cap = "Median polish output (left) and CV values (right)."}
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
-plot(M3, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
+plot(M3, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 plot(M3, "diagnostic")
 par(OP)
 ```
@@ -509,7 +509,7 @@ The plot suggests a power transformation of 0.1. We'll re-run the median polish 
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
 M4 <- eda_pol(df1, row = Education, col = Sex, val = Earnings, 
               plot = FALSE, p = 0.1)
-plot(M4, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
+plot(M4, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 plot(M4, "diagnostic")
 par(OP)
 ```
@@ -519,7 +519,7 @@ The slope is much smaller and the loess fit suggests no monotonically increasing
 We'll modify the color scheme so as to place emphasis on the effects as opposed to the overall value.
 
 ```{r fig.width=2.8, fig.height=2.8}
-plot(M4, adj.mar = TRUE, col.com = FALSE, 
+plot(M4, col.com = FALSE, 
      res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 ```
 
@@ -528,7 +528,7 @@ Here's what we can glean from the output:
 + The earnings values are best presented on a power of 0.1 scale.
 + Overall, the median earnings (in re-expressed form) is  $`r  formatC(M4$global, format="f", big.mark=",", digits = 0)`.
 + Variability in earnings due to different levels in education attainment covers a range of $`r formatC(diff(range(M4$row$effect)), format="f", big.mark=",", digits = 0) ` while that for different sexes covers a range of $`r  formatC(diff(range(M4$col$effect)), format="f", big.mark=",", digits = 0)`.
-+ The residuals are much smaller relative to the effects when the earnings are re-expressed. The residuals explain close to $`r  formatC(diff(range(M4$long$Earnings)), format="f", big.mark=",", digits = 0)` of the variability in the data. Just about all of the variability can be expalined by the effects.
++ The residuals are much smaller relative to the effects when the earnings are re-expressed. The residuals explain close to $`r  formatC(diff(range(M4$long$Earnings)), format="f", big.mark=",", digits = 0)` of the variability in the data. Just about all of the variability can be explained by the effects.
 + Re-expressing the values eliminates any interaction between the effects.
 
 ## The mean polish
@@ -538,7 +538,7 @@ The `eda_pol` function accepts any statistical summary function. By default, it 
 ```{r fig.width=2.8, fig.height=2.8}
 M5 <- eda_pol(df1, row = Education, col = Sex, val = Earnings , 
               stat = mean, plot = FALSE)
-plot(M5, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8)
+plot(M5, res.size = 0.8, row.size = 0.8, col.size = 0.8)
 ```
 
 Polishing the data using the mean requires a single iteration to reach a stable output. The mean suffers from its sensitivity to non-symmetrical distributions and outliers. As such, the median polish is a more robust summary statistic. That said, running the mean polish has its benefits: It's a great way to represent the effects generated from a **two-way analysis of variance** (aka 2-way ANOVA). This is confirmed by comparing the above row and column effects to a traditional 2-way ANOVA technique shown here:
@@ -551,7 +551,7 @@ As with the median polish, we must concern ourselves with interactions between t
 
 ```{r fig.width=2.8, fig.height=2.8, echo=2}
 OP <- par(mar=c(4,4,1,1))
-plot(M5, type = "diagnostic", adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8)
+plot(M5, type = "diagnostic", res.size = 0.8, row.size = 0.8, col.size = 0.8)
 par(OP)
 ```
 
@@ -561,7 +561,7 @@ There is strong evidence of interaction. The slope of 0.92 can be used to estima
 OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
 M4b <- eda_pol(df1, row = Education, col = Sex, val = Earnings , stat = mean,
                plot = FALSE, p = 0.1, maxiter = 1)
-plot(M4b, adj.mar = TRUE, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
+plot(M4b, res.size = 0.8, row.size = 0.8, col.size = 0.8) 
 plot(M4b, "diagnostic")
 par(OP)
 ```
@@ -569,4 +569,4 @@ par(OP)
 Re-expressing the data does a nice job in removing the interaction between effects much like it did when we performed the median polish. This suggests that if one were to run a two-way ANOVA, a re-expression would be strongly suggested.
 
 [^1]: *Understanding Robust and Exploratory Data Analysis*, D.C. Hoaglin, F. Mosteller and J.W. Tukey, 1983.
-[^2]: *Analysis of contingency tables based in generalised median polish with power transformations and non-additive models*, F. Klawonn, B. Jayaram, A. Kukita and F. Pessler. Health Information Science and Systems, 1:11, 2013.
+[^2]: *Analysis of contingency tables based in generalized median polish with power transformations and non-additive models*, F. Klawonn, B. Jayaram, A. Kukita and F. Pessler. Health Information Science and Systems, 1:11, 2013.

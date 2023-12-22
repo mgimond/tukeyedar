@@ -53,7 +53,7 @@
 
 plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col.quant = FALSE,
                             colpal = "RdYlBu", colrev = TRUE, col.eff = TRUE, col.com = TRUE,
-                            adj.mar = FALSE, res.size = 1, row.size = 1, col.size = 1,
+                            adj.mar = TRUE, res.size = 1, row.size = 1, col.size = 1,
                             res.txt = TRUE, label.txt = TRUE, ...){
   if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
   if (! type %in% c("residuals", "cv", "diagnostic" ))

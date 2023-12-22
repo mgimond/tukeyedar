@@ -19,7 +19,7 @@ eda_pol(
   offset = 1e-05,
   col.quant = FALSE,
   colpal = "RdYlBu",
-  adj.mar = FALSE,
+  adj.mar = TRUE,
   res.size = 1,
   row.size = 1,
   col.size = 1,

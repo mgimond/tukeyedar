@@ -63,8 +63,8 @@
 
 eda_pol <- function (x, row= NULL, col = NULL, val = NULL, stat = median, plot = TRUE,
                         eps = 0.01, maxiter = 5, sort = FALSE, p = 1, tukey = FALSE,
-                        offset = 0.00001, col.quant = FALSE, colpal = "RdYlBu", adj.mar = FALSE,
-                        res.size = 1, row.size = 1, col.size = 1,
+                        offset = 0.00001, col.quant = FALSE, colpal = "RdYlBu",
+                        adj.mar = TRUE, res.size = 1, row.size = 1, col.size = 1,
                         res.txt = TRUE, label.txt = TRUE){
 
   if(!missing(x))

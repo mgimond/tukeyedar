@@ -14,7 +14,7 @@
   colrev = TRUE,
   col.eff = TRUE,
   col.com = TRUE,
-  adj.mar = FALSE,
+  adj.mar = TRUE,
   res.size = 1,
   row.size = 1,
   col.size = 1,
