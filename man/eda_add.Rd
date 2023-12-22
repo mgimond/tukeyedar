@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_add.R
 \name{eda_add}
 \alias{eda_add}
-\title{Add graphical EDA elements to exsiting plot}
+\title{Add graphical EDA elements to existing plot}
 \usage{
 eda_add(
   x,

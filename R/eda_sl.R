@@ -52,11 +52,20 @@ eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
   x   <- eval(substitute(x), dat)
   fac <- eval(substitute(fac), dat)
 
-  # Split data into groups
-  x_fac <- split(x, fac)
-
   # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
+  x.nan <- is.na(x)
+  if( any(x.nan)){
+    x <- x[!x.nan]
+    fac <- fac[!x.nan]
+    warning(paste("\nRe-expression produced NaN values. These observations will",
+                  "be removed from output. This will result in fewer points",
+                  "in the ouptut."))
+  }
+
+
+  # Split data into groups
+  x_fac <- split(x, fac)
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)

@@ -16,6 +16,8 @@
 #' @param p   Power transformation to apply to input values
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
+#' @param show.par Boolean determining if power transformation value should
+#'   be displayed on plot.
 #' @param alpha Point transparency (0 = transparent <-> 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
@@ -79,10 +81,11 @@
 #' eda_symnorm(dat, value, grp, p = 0.1)
 
 
-eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, alpha = 0.3,
-                        grey = 0.7, pch = 16, p.col = "grey50", p.fill = "grey80",
-                        size = 1, col.ends = "grey90", col.mid = "bisque",
-                        xlab = NULL, ylab = NULL, t.size=1.5,
+eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
+                        show.par = TRUE, alpha = 0.3, grey = 0.7, pch = 16,
+                        p.col = "grey50", p.fill = "grey80", size = 1,
+                        col.ends = "grey90", col.mid = "bisque", xlab = NULL,
+                        ylab = NULL, t.size=1.5,
                         title = "Normal characterization"){
 
   # Prep the data if input is dataframe
@@ -228,11 +231,17 @@ eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, alpha = 0.
     lines(x=c(-max(x2), max(x2))+ i, y=c(means[i], means[i]))
   }
 
+  if(show.par == TRUE){
+    mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
+  }
+
   # Reset plot parameters and  output values
   par(.pardef)
 
-  message(c("Note that this is not a density plot. It's the Normal\n",
-            "characterization of the data using the data's standard deviation."))
+  message(c("\n!!!!!!!!!!!!!!!!!!!!!!!!\n",
+            "Note that this is not a density plot. It's the Normal ",
+            "characterization of the data using the data's standard deviation.\n",
+            "!!!!!!!!!!!!!!!!!!!!!!!!\n\n"))
 
 }
 

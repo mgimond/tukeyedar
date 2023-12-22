@@ -88,7 +88,21 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE){
 
   # Re-express data if required
   x <- eda_re(x, p = px, tukey = tukey)
+  x.nan <- is.na(x)
   y <- eda_re(y, p = py, tukey = tukey)
+  y.nan <- is.na(y)
+
+
+  # Re-expression may produce NaN values. Output warning if TRUE
+  if( any(x.nan, y.nan) ) {
+    warning(paste("\nRe-expression produced NaN values. These observations will",
+                  "be removed from output. This will result in fewer points",
+                  "in the ouptut."))
+    bad <- x.nan | y.nan
+    x <- x[!bad]
+    y <- y[!bad]
+
+  }
 
   # Get medians and sorted dataset
   m     <- thirds(x,y)

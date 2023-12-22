@@ -124,13 +124,20 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
 
   # Re-express data if required
     x <- eda_re(eval(substitute(x), dat), p = px, tukey = tukey)
+    x.nan <- is.na(x)
     y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
+    y.nan <- is.na(y)
 
   # Re-expression may produce NaN values. Output warning if TRUE
-    if( any(is.na(x) | is.na(y) ) )
-        warning(paste("Re-expression produced NaN values. These observations will",
-                      "be removed from output. This will result in fewer points",
-                      "in the ouptut."))
+    if( any(x.nan, y.nan) ) {
+      warning(paste("\nRe-expression produced NaN values. These observations will",
+                    "be removed from output. This will result in fewer points",
+                    "in the ouptut."))
+      bad <- x.nan | y.nan
+      x <- x[!bad]
+      y <- y[!bad]
+
+    }
 
 
   # Set plot elements color

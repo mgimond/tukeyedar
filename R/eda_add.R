@@ -1,6 +1,6 @@
 #' @export
 #' @import graphics
-#' @title Add graphical EDA elements to exsiting plot
+#' @title Add graphical EDA elements to existing plot
 #'
 #' @description \code{eda_add}  adds graphical EDA elements to a scatter plot.
 #'   Currently only adds \code{eda_rline} fit and points.

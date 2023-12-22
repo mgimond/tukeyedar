@@ -10,6 +10,7 @@ eda_symnorm(
   grp = NULL,
   p = 1,
   tukey = FALSE,
+  show.par = TRUE,
   alpha = 0.3,
   grey = 0.7,
   pch = 16,
@@ -33,6 +34,9 @@ eda_symnorm(
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation)}
+
+\item{show.par}{Boolean determining if power transformation value should
+be displayed on plot.}
 
 \item{alpha}{Point transparency (0 = transparent <-> 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}

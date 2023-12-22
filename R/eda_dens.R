@@ -77,6 +77,14 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
   # Re-express data if required
     x <- eda_re(x, p = p, tukey = tukey)
     y <- eda_re(y, p = p, tukey = tukey)
+    x.nan <- is.na(x)
+    y.nan <- is.na(y)
+    if(any(x.nan, y.nan)){
+      x <- x[!x.nan]
+      y <- y[!y.nan]
+      warning(paste("\nRe-expression produced NaN values. These observations will",
+                    "be removed from output."))
+    }
 
   # Apply formula if present
   if(!is.null(fx) & !is.null(fy))

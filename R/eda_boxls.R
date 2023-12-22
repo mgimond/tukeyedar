@@ -67,6 +67,14 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
 
   # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
+  x.nan <- is.na(x)
+  if( any(x.nan)){
+    x <- x[!x.nan]
+    fac <- fac[!x.nan]
+    warning(paste("\nRe-expression produced NaN values. These observations will",
+                  "be removed from output. This will result in fewer points",
+                  "in the ouptut."))
+  }
 
   # Extract boxplot parameters
   bx  <- boxplot(x ~ fac, outline=outlier, plot=FALSE)
