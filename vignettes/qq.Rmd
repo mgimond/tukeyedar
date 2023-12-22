@@ -7,7 +7,7 @@ output:
     toc: TRUE
     css: style.css
 vignette: >
-  %\VignetteIndexEntry{The QQ plot}
+  %\VignetteIndexEntry{The empirical QQ plot}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -301,8 +301,8 @@ The **Tukey mean-difference plot** is simply an extension of the QQ plot whereby
 ```{r fig.height=3, fig.width = 6, echo=2:4, results='hide'}
 OP <- par(mfrow=c(1,2))
 y <- x * 0.97 + 0.3
-eda_qq(x, y) ; title("QQ plot")
-eda_qq(x, y, md = TRUE) ; title("M-D plot")
+eda_qq(x, y, title = "QQ plot")
+eda_qq(x, y, md = TRUE, title = "M-D plot")
 par(OP)
 ```
 

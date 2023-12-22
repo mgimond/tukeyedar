@@ -28,6 +28,8 @@ eda_qq(
   l.val = c(0.125, 0.875),
   xlab = NULL,
   ylab = NULL,
+  title = NULL,
+  t.size = 1.2,
   ...
 )
 }
@@ -88,6 +90,10 @@ the mid 75\% of values. Two values are needed.}
 \item{xlab}{X label for output plot. Ignored if \code{x} is a dataframe.}
 
 \item{ylab}{Y label for output plot. Ignored if \code{x} is a dataframe.}
+
+\item{title}{Title to add to plot.}
+
+\item{t.size}{Title size.}
 
 \item{...}{Not used}
 }

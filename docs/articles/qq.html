@@ -77,7 +77,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2023-12-21</h4>
+            <h4 data-toc-skip class="date">2023-12-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/qq.Rmd" class="external-link"><code>vignettes/qq.Rmd</code></a></small>
       <div class="d-none name"><code>qq.Rmd</code></div>
@@ -472,8 +472,8 @@ the Tukey mean-difference plot (on the right) which is invoked by
 setting the argument <code>md = TRUE</code>.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">0.97</span> <span class="op">+</span> <span class="fl">0.3</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> ; <span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"QQ plot"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> ; <span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"M-D plot"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, title <span class="op">=</span> <span class="st">"QQ plot"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"M-D plot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-25-1.png" width="576"></p>
 </div>
 </div>

@@ -41,6 +41,8 @@
 #'   the mid 75\% of values. Two values are needed.
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
+#' @param title Title to add to plot.
+#' @param t.size Title size.
 #' @param ... Not used
 #'
 #' @details When the function is used to generate an empirical QQ plot, the plot
@@ -124,7 +126,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                    p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
                    b.val = c(0.25,0.75), l.val = c(0.125, 0.875), xlab = NULL,
-                   ylab = NULL, ...) {
+                   ylab = NULL, title = NULL, t.size = 1.2, ...) {
 
   # Parameters check
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
@@ -154,27 +156,19 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
     if(is.null(xlab)){
 
-      if( norm != TRUE) {
+      if( norm == FALSE) {
         xlab = substitute(x)
       } else {
         xlab = "Normal quantile"
       }
     }
 
-    if(is.null(ylab) & norm != TRUE){
-      ylab = substitute(y)
+    if(is.null(ylab) & norm == FALSE){
+      ylab = as.character(substitute(y))
     } else if (is.null(ylab) & norm == TRUE){
       ylab = substitute(x)
     }
   }
-
-  # # Define labels
-  # if(is.null(xlab)){
-  #   xlab = substitute(x)
-  # }
-  # if(is.null(ylab) & norm != TRUE){
-  #   ylab = substitute(y)
-  # }
 
   # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
@@ -239,8 +233,24 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
   x <- qq$x
   y <- qq$y
 
-  # Plot data
-  .pardef <- par(pty = "s", col = plotcol, mar = c(3,3,3,1))
+  # Generate plots ----
+
+  # Get lines-to-inches ratio
+  in2line <- ( par("mar") / par("mai") )[2]
+
+  # Create a dummy plot to extract y-axis labels
+  pdf(NULL)
+  plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
+       yaxt='n', main = NULL)
+  y.labs <- range(axTicks(2))
+  dev.off()
+
+  # Compute the margin width (returned in inches before converting to lines)
+  y.wid <- max( strwidth( y.labs[1], units="inches"),
+                strwidth( y.labs[2], units="inches")) * in2line + 1
+
+  # Set plot parameters
+  .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
   on.exit(par(.pardef))
 
   # QQ plot ----
@@ -265,7 +275,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     xylim <- range(x,y)
 
     # QQ plot: Empirical ----
-    if(norm != TRUE){
+    if(norm == FALSE){
       plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
             col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
             xlim = xylim, ylim = xylim)
@@ -278,11 +288,16 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(ylab, side=3, adj= -0.1 , col=plotcol, padj = -1)
+    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+         tck = -0.02)
+    #mtext(ylab, side=3, adj= -0.1 , col=plotcol, padj = -1)
+    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
     title(xlab = xlab, line =1.8, col.lab=plotcol)
+    if(!is.null(title)){
+      title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
+    }
 
-    # Add emprical QQ line ----
+    # Add empirical QQ line ----
     if(norm != TRUE){
       abline(0, 1, col = plotcol)
 
@@ -313,14 +328,16 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
     # Add power/formula parameters to plot
     if(norm != TRUE){
-      mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
+      params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
+      params <- gsub("\\; \\;", ";", params)
+      mtext(side = 3, text=params, adj=1, cex = 0.65)
     } else {
       mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
     }
 
 
     #  M-D plot ----
-  } else if(plot == TRUE & md == TRUE & norm != TRUE) {
+  } else if(plot == TRUE & md == TRUE & norm == FALSE) {
 
     # Generate labels
     xlab2 <- paste("Mean of", xlab, "and", ylab)
@@ -346,8 +363,12 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(ylab2, side=3, adj= -0.1 , col=plotcol, padj = -1)
+    mtext(ylab2, side=3, adj= -0.06 ,col=plotcol,  padj = -1.1)
     title(xlab = xlab2, line =1.8, col.lab=plotcol)
+    if(!is.null(title)){
+      title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
+    }
+
     abline(h = 0,  col = plotcol)
     abline(v = medx, col = "grey80", lty = 2)
     abline(h = medy, col = "grey80", lty = 2)
@@ -359,7 +380,9 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
            col = rgb(0,0,0,0.05), border = NA)
     }
     if(show.par == TRUE){
-      mtext(side = 3, text=paste("p=", p, fx ,fy,sep="  "), adj=1, cex = 0.65)
+      params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
+      params <- gsub("\\; \\;", ";", params)
+      mtext(side = 3, text=params, adj=1, cex = 0.65)
     }
 
   }
