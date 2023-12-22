@@ -28,8 +28,8 @@
 #' @param col.mid Fill color for middle of distribution (within +/- 1SD)
 #' @param xlab X label for output plot
 #' @param ylab Y label for output plot
-#' @param title Title to display above the plot
 #' @param t.size Title size
+#' @param title Title to display above the plot
 #' @param ... Not used
 #'
 #' @details This function will generate Normal distribution plots for each batch.
@@ -45,11 +45,11 @@
 #'          This plot serves a few purposes:
 #'        \itemize{
 #'         \item As a pedagogical tool to show when a Normal distribution may not
-#'               be a good characterization of the data's distribution
+#'               be a good characterization of the data's distribution.
 #'         \item To be used as a companion plot to a parametric test that
 #'               characterizes the distribution as being Normal (as opposed to a
 #'               traditional boxplot that uses quantiles to characterize the shape
-#'               of a distribution) }
+#'               of a distribution). }
 #'
 #'
 #' @return Does not return a value.
@@ -81,8 +81,9 @@
 
 eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, alpha = 0.3,
                         grey = 0.7, pch = 16, p.col = "grey50", p.fill = "grey80",
-                        size = 1, col.ends = "grey90", col.mid = "bisque", xlab = NULL, ylab = NULL,
-                        title = "Normal characterization of the data", t.size=1.5){
+                        size = 1, col.ends = "grey90", col.mid = "bisque",
+                        xlab = NULL, ylab = NULL, t.size=1.5,
+                        title = "Normal characterization"){
 
   # Prep the data if input is dataframe
   if("data.frame" %in% class(dat)) {
@@ -157,8 +158,25 @@ eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, alpha = 0.
   out <- lapply(out, function(df){ df$dn <- (df$dn / dn_rng[2] ) * 0.4
   return(df)})
 
-  # Generate plots
-  .pardef <- par(pty = "s", col = plotcol, mar = c(3,3,3,1))
+  # Generate plots ----
+
+  # Get lines-to-inches ratio
+  in2line <- ( par("mar") / par("mai") )[2]
+
+  # Create a dummy plot to extract y-axis labels
+  pdf(NULL)
+  plot(x = NULL, y = NULL, type = "n", xlab = "", ylab = "", xaxt = "n",
+       xlim=c(1 - 0.4, length(grp_unique) + 0.4), ylim = dx_rng,  yaxt='n',
+       main = NULL)
+  y.labs <- range(axTicks(2))
+  dev.off()
+
+  # Compute the margin width (returned in inches before converting to lines)
+  y.wid <- max( strwidth( y.labs[1], units="inches"),
+                strwidth( y.labs[2], units="inches")) * in2line + 1
+
+  # Set plot parameters
+  .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3.2,1))
   on.exit(par(.pardef))
 
   # Base plot
@@ -167,14 +185,15 @@ eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, alpha = 0.
        main = NULL)
 
   # Add y-label and title
-  mtext(ylab, side=2,  col=plotcol, padj = -0.5, at=par('usr')[4],
-        las=2)
-  mtext(title, side=3,  col=plotcol, adj = 1, padj = -1, cex=t.size)
+  # mtext(ylab, side=2,  col=plotcol, padj = -0.5, at=par('usr')[4],
+  #       las=2)
+  mtext(title, side=3, line = 2, col=plotcol, adj = 0, cex=t.size)
+  mtext(ylab,  side=3, line = 1, col=plotcol, adj = 0, padj = 0.5, cex=t.size - 0.3)
 
   # Add axes values
   axis(1,col=plotcol, col.axis=plotcol, at = 1:length(grp_unique), padj = -0.8,
        grp_unique)
-  axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.8,
+  axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
        tck = -0.02)
   title(xlab = xlab, line =1.8, col.lab=plotcol)
 

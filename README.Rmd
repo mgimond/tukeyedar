@@ -45,7 +45,7 @@ the `build_vignettes = TRUE` parameter.
 devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
 ```
 
-If for some reason the vignettes are not created, you might want to
+If, for some reason the vignettes are not created, you might want to
 re-install the package with the `force=TRUE` parameter.
 
 ```{r eval = FALSE}
@@ -60,8 +60,7 @@ It’s strongly recommended that you read the vignettes. These can be accessed f
 -   [The median polish](https://mgimond.github.io/tukeyedar/articles/polish.html)
 -   [The empirical QQ plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
 
-If you chose to have the vignettes locally created when you installed the package, then you can view them locally via
-`vignette("RLine", package = "tukeyedar")`. If you use a dark themed IDE, the vignettes may not render very well so you might opt to view them in a web browser via the functions `RShowDoc("RLine", package = "tukeyedar")`.
+If you chose to have the vignettes locally created when you installed the package, then you can view them locally via `vignette("RLine", package = "tukeyedar")`. If you use a dark themed IDE, the vignettes may not render very well so you might opt to view them in a web browser via the functions `RShowDoc("RLine", package = "tukeyedar")`.
 
 ## Using the functions
 

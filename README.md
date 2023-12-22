@@ -35,7 +35,7 @@ the `build_vignettes = TRUE` parameter.
 devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
 ```
 
-If for some reason the vignettes are not created, you might want to
+If, for some reason the vignettes are not created, you might want to
 re-install the package with the `force=TRUE` parameter.
 
 ``` r

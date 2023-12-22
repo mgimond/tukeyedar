@@ -20,8 +20,8 @@ eda_symnorm(
   col.mid = "bisque",
   xlab = NULL,
   ylab = NULL,
-  title = "Normal characterization of the data",
-  t.size = 1.5
+  t.size = 1.5,
+  title = "Normal characterization"
 )
 }
 \arguments{
@@ -56,9 +56,9 @@ ranging from 21-25).}
 
 \item{ylab}{Y label for output plot}
 
-\item{title}{Title to display above the plot}
-
 \item{t.size}{Title size}
+
+\item{title}{Title to display above the plot}
 
 \item{y}{Column of grouping variables}
 
@@ -88,11 +88,11 @@ This function will generate Normal distribution plots for each batch.
          This plot serves a few purposes:
        \itemize{
         \item As a pedagogical tool to show when a Normal distribution may not
-              be a good characterization of the data's distribution
+              be a good characterization of the data's distribution.
         \item To be used as a companion plot to a parametric test that
               characterizes the distribution as being Normal (as opposed to a
               traditional boxplot that uses quantiles to characterize the shape
-              of a distribution) }
+              of a distribution). }
 }
 \examples{
 
