@@ -13,6 +13,7 @@ eda_lm(
   px = 1,
   py = 1,
   tukey = FALSE,
+  show.par = TRUE,
   reg = TRUE,
   w = NULL,
   sd = TRUE,
@@ -29,6 +30,7 @@ eda_lm(
   lm.col = rgb(1, 0.5, 0.5, 0.8),
   loe.col = rgb(0.3, 0.3, 1, 1),
   stats = FALSE,
+  stat.size = 0.8,
   loess.d = list(family = "symmetric", span = 0.7, degree = 1),
   ...
 )
@@ -50,6 +52,9 @@ eda_lm(
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation)}
+
+\item{show.par}{Boolean determining if power transformation should be
+displayed in the plot.}
 
 \item{reg}{Boolean indicating whether a least squares regression line should
 be plotted}
@@ -90,24 +95,50 @@ definition)}
 \item{stats}{Boolean indicating if regression summary statistics should be
 displayed}
 
+\item{stat.size}{Text size of stats output in plot.}
+
 \item{loess.d}{A list of parameters passed to the \code{loess.smooth}
 function. A robust loess is used by default.}
 
 \item{...}{Not used}
 }
 \value{
-Returns a list from the  `lm` output.
+Returns residuals, intercept and slope from an OLS fit.
 
 \itemize{
+  \item \code{residuals}: Regression model residuals
   \item \code{a}: Intercept
-  \item \code{b}: Slope
-  \item \code{residuals}: Regression model residuals}
+  \item \code{b}: Slope}
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression
   line. A loess line can  also be added to the plot for model comparison. The
   axes are scaled such that their respective standard  deviations match axes
   unit length.
+}
+\details{
+The function will plot an OLS regression line and, if requested, a
+  loess fit. The plot will also display the +/- 1 standard deviations as
+  dashed lines. In theory, if both x and y values follow a perfectly Normal
+  distribution, roughly 68 percent of the points should fall in between these
+  lines.
+  \cr \cr
+  The true 68 percent of values can be displayed as grey rectangles by setting
+   \code{q=TRUE}. This uses the \code{quantile} function to compute the upper
+   and lower bounds defining  the inner 68 percent of values. If the data
+   follow a Normal distribution, the grey rectangle edges should coincide
+   with the +/- 1SD dashed lines.\cr
+   If you wish to show the interquartlie ranges (IQR) instead of the inner
+   68 percent of values, simply set \code{q.val = c(0.25,0.75)}.
+  \cr \cr
+  The plot has the option to re-express the values via the \code{px} and
+  \code{py} arguments. But note that if the re-expression produces \code{NaN}
+  values (such as if a negative value is logged) those points will be removed
+  from the plot. This will result in fewer observations being plotted. If
+  observations are removed as result of a re-expression a warning message
+  will be displayed in the console. \cr
+  The re-expression powers are shown in the upper right side of the plot.
+  To suppress the display of the re-expressions set \code{show.par = FALSE}.
 }
 \examples{
 

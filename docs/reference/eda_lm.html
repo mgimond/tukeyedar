@@ -77,6 +77,7 @@
 <span>  px <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  py <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  tukey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.par <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  reg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -93,6 +94,7 @@
 <span>  lm.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span><span class="op">)</span>,</span>
 <span>  loe.col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stat.size <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  loess.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"symmetric"</span>, span <span class="op">=</span> <span class="fl">0.7</span>, degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -131,6 +133,11 @@
 <dt>tukey</dt>
 <dd><p>Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation)</p></dd>
+
+
+<dt>show.par</dt>
+<dd><p>Boolean determining if power transformation should be
+displayed in the plot.</p></dd>
 
 
 <dt>reg</dt>
@@ -204,6 +211,10 @@ definition)</p></dd>
 displayed</p></dd>
 
 
+<dt>stat.size</dt>
+<dd><p>Text size of stats output in plot.</p></dd>
+
+
 <dt>loess.d</dt>
 <dd><p>A list of parameters passed to the <code>loess.smooth</code>
 function. A robust loess is used by default.</p></dd>
@@ -217,13 +228,38 @@ function. A robust loess is used by default.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns a list from the  `lm` output.</p>
+<p>Returns residuals, intercept and slope from an OLS fit.</p>
 
 
-<ul><li><p><code>a</code>: Intercept</p></li>
+<ul><li><p><code>residuals</code>: Regression model residuals</p></li>
+<li><p><code>a</code>: Intercept</p></li>
 <li><p><code>b</code>: Slope</p></li>
-<li><p><code>residuals</code>: Regression model residuals</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function will plot an OLS regression line and, if requested, a
+  loess fit. The plot will also display the +/- 1 standard deviations as
+  dashed lines. In theory, if both x and y values follow a perfectly Normal
+  distribution, roughly 68 percent of the points should fall in between these
+  lines.
+  <br><br>
+  The true 68 percent of values can be displayed as grey rectangles by setting
+   <code>q=TRUE</code>. This uses the <code>quantile</code> function to compute the upper
+   and lower bounds defining  the inner 68 percent of values. If the data
+   follow a Normal distribution, the grey rectangle edges should coincide
+   with the +/- 1SD dashed lines.<br>
+   If you wish to show the interquartlie ranges (IQR) instead of the inner
+   68 percent of values, simply set <code>q.val = c(0.25,0.75)</code>.
+  <br><br>
+  The plot has the option to re-express the values via the <code>px</code> and
+  <code>py</code> arguments. But note that if the re-expression produces <code>NaN</code>
+  values (such as if a negative value is logged) those points will be removed
+  from the plot. This will result in fewer observations being plotted. If
+  observations are removed as result of a re-expression a warning message
+  will be displayed in the console. <br>
+  The re-expression powers are shown in the upper right side of the plot.
+  To suppress the display of the re-expressions set <code>show.par = FALSE</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></code> and <code><a href="https://rdrr.io/r/stats/scatter.smooth.html" class="external-link">loess.smooth</a></code>
@@ -235,12 +271,12 @@ function. A robust loess is used by default.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add a regular (OLS) regression model and loess smooth to the data</span></span></span>
 <span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, loe <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_lm-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           x </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   37.285126   -5.344472 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add the inner 68% quantile to compare the true 68% of data to the SD</span></span></span>
 <span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, loe <span class="op">=</span> <span class="cn">TRUE</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_lm-1.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="eda_lm-2.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           x </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   37.285126   -5.344472 </span>

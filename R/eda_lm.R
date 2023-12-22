@@ -15,6 +15,8 @@
 #' @param py  Power transformation to apply to the y-variable
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
+#' @param show.par Boolean determining if power transformation should be
+#'   displayed in the plot.
 #' @param reg Boolean indicating whether a least squares regression line should
 #'   be plotted
 #' @param w Weight to pass to regression model
@@ -38,18 +40,42 @@
 #' @param loe.col LOESS curve color
 #' @param stats Boolean indicating if regression summary statistics should be
 #'   displayed
+#' @param stat.size Text size of stats output in plot.
 #' @param loess.d  A list of parameters passed to the \code{loess.smooth}
 #'   function. A robust loess is used by default.
 #' @param xlab X label for output plot
 #' @param ylab Y label for output plot
 #' @param ... Not used
 #'
-#' @return Returns a list from the  `lm` output.
+#' @details The function will plot an OLS regression line and, if requested, a
+#'   loess fit. The plot will also display the +/- 1 standard deviations as
+#'   dashed lines. In theory, if both x and y values follow a perfectly Normal
+#'   distribution, roughly 68 percent of the points should fall in between these
+#'   lines.
+#'   \cr \cr
+#'   The true 68 percent of values can be displayed as grey rectangles by setting
+#'    \code{q=TRUE}. This uses the \code{quantile} function to compute the upper
+#'    and lower bounds defining  the inner 68 percent of values. If the data
+#'    follow a Normal distribution, the grey rectangle edges should coincide
+#'    with the +/- 1SD dashed lines.\cr
+#'    If you wish to show the interquartlie ranges (IQR) instead of the inner
+#'    68 percent of values, simply set \code{q.val = c(0.25,0.75)}.
+#'   \cr \cr
+#'   The plot has the option to re-express the values via the \code{px} and
+#'   \code{py} arguments. But note that if the re-expression produces \code{NaN}
+#'   values (such as if a negative value is logged) those points will be removed
+#'   from the plot. This will result in fewer observations being plotted. If
+#'   observations are removed as result of a re-expression a warning message
+#'   will be displayed in the console. \cr
+#'   The re-expression powers are shown in the upper right side of the plot.
+#'   To suppress the display of the re-expressions set \code{show.par = FALSE}.
+#'
+#' @return Returns residuals, intercept and slope from an OLS fit.
 #'
 #' \itemize{
+#'   \item \code{residuals}: Regression model residuals
 #'   \item \code{a}: Intercept
-#'   \item \code{b}: Slope
-#'   \item \code{residuals}: Regression model residuals}
+#'   \item \code{b}: Slope}
 #'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
 #'   functions
@@ -81,11 +107,12 @@
 
 
 eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
-                   tukey = FALSE, reg = TRUE, w=NULL, sd = TRUE, grey = 0.6,
-                   pch = 21, p.col = "grey50", p.fill = "grey80", size = 0.8,
-                   alpha = 0.8, q = FALSE, q.val = c(0.16,0.84), q.type = 5,
-                   loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8),
-                   loe.col = rgb(.3, .3, 1, 1), stats=FALSE,
+                   tukey = FALSE, show.par = TRUE, reg = TRUE, w=NULL,
+                   sd = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
+                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = FALSE,
+                   q.val = c(0.16,0.84), q.type = 5, loe = FALSE,
+                   lm.col = rgb(1, 0.5, 0.5, 0.8), loe.col = rgb(.3, .3, 1, 1),
+                   stats=FALSE, stat.size = 0.8,
                    loess.d=list(family = "symmetric", span=0.7, degree=1), ...) {
 
   if(is.null(xlab)){
@@ -98,6 +125,13 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   # Re-express data if required
     x <- eda_re(eval(substitute(x), dat), p = px, tukey = tukey)
     y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
+
+  # Re-expression may produce NaN values. Output warning if TRUE
+    if( any(is.na(x) | is.na(x) ) )
+        warning(paste("Re-expression produced NaN values. These observations will",
+                      "be removed from output. This will result in fewer points",
+                      "in the ouptut."))
+
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
@@ -116,56 +150,84 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   # Run regression model
   M <- lm(y ~ x, weights = w)
 
-  # Plot data
-  .pardef <- par(pty = "s", col = plotcol)
+  # Generate plots ----
+
+  # Get lines-to-inches ratio
+  in2line <- ( par("mar") / par("mai") )[2]
+
+  # Create a dummy plot to extract y-axis labels
+  pdf(NULL)
+  plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
+       yaxt='n', main = NULL)
+  y.labs <- range(axTicks(2))
+  dev.off()
+
+  # Compute the margin width (returned in inches before converting to lines)
+  y.wid <- max( strwidth( y.labs[1], units="inches"),
+                strwidth( y.labs[2], units="inches")) * in2line + 1
+
+  .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
   on.exit(par(.pardef))
 
-  sd.x = sd(x,na.rm=T); sd.y = sd(y,na.rm=T)
+  sd.x <- sd(x, na.rm=T)
+  sd.y <- sd(y, na.rm=T)
+  mean.x <- mean(x, na.rm=T)
+  mean.y <- mean(y, na.rm=T)
+
   plot( x=x, y=y , asp=sd.x/sd.y, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
   box(col=plotcol)
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-  axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-  mtext(ylab, side=3, adj= -0.1 , col=plotcol, padj = -1)
+  axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+       tck = -0.02)
+  mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
+
   sq <- par("usr") # get plot corners
   if (sd == TRUE){
-    ysd1 <- (mean(y) + sd(y))
-    ysd2 <- (mean(y) - sd(y))
+    ysd1 <- (mean.y + sd.y)
+    ysd2 <- (mean.y - sd.y)
     text( label="+1sd", x= sq[2] - diff(sq[1:2]) * 0.03, y= ysd1 + diff(sq[3:4])*0.02,
           srt=0, col="grey70",  cex=0.7)
     text( label="-1sd", x= sq[2] - diff(sq[1:2]) * 0.03, y= ysd2 + diff(sq[3:4])*0.02,
           srt=0, col="grey70",  cex=0.7)
-    text( label="+1sd", y= sq[4] - diff(sq[3:4]) * 0.01, x= (mean(x) + sd(x)) ,
+    text( label="+1sd", y= sq[4] - diff(sq[3:4]) * 0.01, x= (mean.x + sd.x) ,
           srt=0, col="grey70",  cex=0.7)
-    text( label="-1sd", y= sq[4] - diff(sq[3:4]) * 0.01, x= (mean(x) - sd(x)) ,
+    text( label="-1sd", y= sq[4] - diff(sq[3:4]) * 0.01, x= (mean.x - sd.x) ,
           srt=0, col="grey70",  cex=0.7)
   }
   title(xlab = xlab, line =1.8, col.lab=plotcol)
   if(reg == TRUE)  abline(M, lw = 2, col = lm.col )
-  abline(v=mean(x),lty=1,col="grey70")
-  abline(h=mean(y), lty=1, col="grey70")
+  abline(v=mean.x,lty=1,col="grey70")
+  abline(h=mean.y, lty=1, col="grey70")
   if (sd == TRUE){
-    abline(v= mean(x) + c(-sd(x),sd(x)) ,lty=2,col="grey80")
-    abline(h=mean(y) + c(-sd(y),sd(y)), lty=2, col="grey80")
+    abline(v= mean.x + c(-sd.x,sd.x) ,lty=2,col="grey80")
+    abline(h=mean.y + c(-sd.y,sd.y), lty=2, col="grey80")
   }
   if(loe == TRUE)  lines( do.call( "loess.smooth",c( list(x=x,y=y), loess.l)),
                           col=loe.col,lw=2 , lty=2)
   if(stats == TRUE){
     st <- summary(M)
     mtext( sprintf("R-sq = %0.2f  Beta= %g P(beta) = %0.3f", st$r.sq,
-                   st$coef[2,1] , st$coef[2,4] ), side=3, col="blue"  )
+                   st$coef[2,1] , st$coef[2,4] ),
+           side=3, col="blue", cex=stat.size  )
   }
 
   if(q == TRUE){
   #  st <- summary(M)
-    qy <- quantile(y, q.val, type = q.type)
-    qx <- quantile(x, q.val, type = q.type)
+    qy <- quantile(y, q.val, type = q.type, na.rm=TRUE)
+    qx <- quantile(x, q.val, type = q.type, na.rm=TRUE)
     rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
          col = rgb(0,0,0,0.1), border = NA)
     rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
          col = rgb(0,0,0,0.1), border = NA)
   }
 
+  if(show.par == TRUE){
+    params <- paste0("px=",round(px,2),"\n py=",round(py,2))
+    mtext(side = 3, text=params, adj=1, cex = 0.65)
+  }
+
+  # Reset plot parameters
   par(.pardef)
   print(coef(M))
   invisible(list(residuals = residuals(M), a = coef(M)[1], b = coef(M)[2]))
