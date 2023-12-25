@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_boxls.R
 \name{eda_boxls}
 \alias{eda_boxls}
-\title{Create boxplots equalized by level and spread}
+\title{Boxplots equalized by level and spread}
 \usage{
 eda_boxls(
   dat,
@@ -16,7 +16,11 @@ eda_boxls(
   notch = FALSE,
   horiz = FALSE,
   outliers = TRUE,
-  grey = 0.6
+  xlab = NULL,
+  ylab = NULL,
+  grey = 0.6,
+  reorder = TRUE,
+  reorder.stat = "median"
 )
 }
 \arguments{
@@ -45,13 +49,33 @@ conditioned on}
 
 \item{outliers}{plot outliers (TRUE) or not (FALSE)}
 
+\item{xlab}{X label for output plot}
+
+\item{ylab}{Y label for output plot}
+
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
+
+\item{reorder}{Boolean determining if factors have to be reordered based
+on median, upper quartile or lower quartile (set in \code{reorder.type}).}
+
+\item{reorder.stat}{Statistic to reorder level by if \code{reorder} is set to
+\code{TRUE}. Either \code{"median"}, \code{"upper"} (for upper quartile) or
+\code{"lower"} (for lower quartile). If \code{type} is set to a value other
+than \code{"none"}, the this argument is ignored and the stat defaults to
+\code{"median"}.}
 }
 \value{
-{No return value}
-
-  #' @details
- \itemize{
+{No values are returned}
+}
+\description{
+\code{eda_boxls} creates boxplots conditioned on one variable
+  while providing the option to spreads levels and/or levels.
+}
+\details{
+\itemize{
+  \item By default, the boxplots are re-ordered by their median values.
+  \item If the outlier text to be displayed is its own value, it will not be
+   modified if the data are equalized by level or spread.
   \item Note that the notch offers a 95% test of the null that the true
   medians are equal assuming that the distribution of each batch is
   approximately normal. If the notches do not overlap, we can assuming that
@@ -59,16 +83,16 @@ conditioned on}
   do not correct for multiple comparison issues and three or more batches are
    plotted.}
 }
-\description{
-\code{eda_boxls} creates boxplots conditioned on one variable
-  while providing the option to spreads levels and/or levels.
-}
 \examples{
 
-# A basic boxplot (no equalization)
+#' # A basic boxplot. The outlier is labeled with the row number by default.
+eda_boxls(mtcars,mpg, cyl, type="none")
+
+# A basic boxplot. The outlier is labeled with its own value.
 eda_boxls(mtcars,mpg, cyl, type="none", out.txt=mpg )
 
-# Boxplots equalized by level
+# Boxplot equalized by level. Note that the outlier text is labeled with its
+# original value.
 eda_boxls(mtcars,mpg, cyl, type="l", out.txt=mpg )
 
 # Boxplots equalized by level and spread
@@ -77,6 +101,19 @@ eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg )
 # Hide outlier
 eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg , outlier=FALSE)
 
+# Equalizing level helps visualize increasing spread with increasing
+# median value
+food <- read.csv("http://mgimond.github.io/ES218/Data/Food_web.csv")
+eda_boxls(food, mean.length, dimension, type = "l")
+
 # For long factor level names, flip plot
 eda_boxls(iris, Sepal.Length, Species, out.txt=Sepal.Length , horiz = TRUE)
+
+# By default, plots are ordered by their medians.
+singer <- lattice::singer
+eda_boxls(singer, height, voice.part, out.txt=height, horiz = TRUE)
+
+# To order by top quartile, set reorder.stat to "upper"
+eda_boxls(singer, height, voice.part, out.txt=height, horiz = TRUE,
+          reorder.stat = "upper")
 }

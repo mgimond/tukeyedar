@@ -22,13 +22,16 @@ eda_symnorm(
   xlab = NULL,
   ylab = NULL,
   t.size = 1.5,
-  title = "Normal characterization"
+  title = "Normal characterization",
+  ...
 )
 }
 \arguments{
 \item{dat}{Data frame or single vector element}
 
 \item{x}{Column of values}
+
+\item{grp}{Column of grouping variables}
 
 \item{p}{Power transformation to apply to input values}
 
@@ -63,8 +66,6 @@ ranging from 21-25).}
 \item{t.size}{Title size}
 
 \item{title}{Title to display above the plot}
-
-\item{y}{Column of grouping variables}
 
 \item{...}{Not used}
 }

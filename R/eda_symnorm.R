@@ -12,7 +12,7 @@
 #'
 #' @param dat Data frame or single vector element
 #' @param x   Column of values
-#' @param y   Column of grouping variables
+#' @param grp Column of grouping variables
 #' @param p   Power transformation to apply to input values
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
@@ -86,7 +86,7 @@ eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
                         p.col = "grey50", p.fill = "grey80", size = 1,
                         col.ends = "grey90", col.mid = "bisque", xlab = NULL,
                         ylab = NULL, t.size=1.5,
-                        title = "Normal characterization"){
+                        title = "Normal characterization", ...){
 
   # Prep the data if input is dataframe
   if("data.frame" %in% class(dat)) {
