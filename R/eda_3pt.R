@@ -127,11 +127,26 @@ eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
   slope1 <- (ymed[2] - ymed[1]) / (xmed[2] - xmed[1])
   slope2 <- (ymed[3] - ymed[2]) / (xmed[3] - xmed[2])
 
+  # Get lines-to-inches ratio
+  in2line <- ( par("mar") / par("mai") )[2]
+
+  # Create a dummy plot to extract y-axis labels
+  pdf(NULL)
+  plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
+       yaxt='n', main = NULL)
+  y.labs <- range(axTicks(2))
+  dev.off()
+
+  # Compute the margin width (returned in inches before converting to lines)
+  y.wid <- max( strwidth( y.labs[1], units="inches"),
+                strwidth( y.labs[2], units="inches")) * in2line + 1
+
+
   # Set plot parameters
   if(equal == TRUE & axes == TRUE) {
-    .pardef <- par(mar = c(2.8,3.2,1.5,1.5), col = plotcol, pty = "s")
+    .pardef <- par(mar = c(2.8,y.wid,2.5,1.5), col = plotcol, pty = "s")
   } else if(axes == TRUE) {
-    .pardef <- par(mar = c(2.8,3.2,1.5,1.5), col = plotcol)
+    .pardef <- par(mar = c(2.8,y.wid,2.5,1.5), col = plotcol)
   } else {
     .pardef <- par(mar = c(0,0,0,0), col = plotcol)
   }
@@ -143,9 +158,14 @@ eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
        col = p.col, bg = p.fill, cex = size, col.lab = plotcol,
        col.axis = plotcol, ...)
   if(axes == TRUE){
+    # axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
+    # axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
+    # mtext(ylab, side=3, adj= -0.2 , col = plotcol, padj = -0.8)
+    # title(xlab = xlab, line =1.8, col.lab=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(ylab, side=3, adj= -0.2 , col = plotcol, padj = -0.8)
+    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+         tck = -0.02)
+    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
     title(xlab = xlab, line =1.8, col.lab=plotcol)
   }
 
