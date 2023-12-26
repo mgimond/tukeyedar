@@ -1,12 +1,14 @@
 # tukeyedar (development version)
 * Added a Normal QQ plot option to `eda_qq`
 * Added symmetrical Normal plot function `eda_symnorm`
+* Updated eda_boxls aesthetics
+* Updated median polish diagnostic plot aesthetics
 
 # tukeyedar 0.1.1
 
 * Introduces the median polish function `eda_pol`.
-* Introduces the QQ and Tukey mean-difference plot `eda.qq`.
-* Introduces the density plot function `eda.dens`.
+* Introduces the QQ and Tukey mean-difference plot `eda_qq`.
+* Introduces the density plot function `eda_dens`.
 * Adds re-expression parameters to `eda_lm` via the parameters `px` and `py`.
 * Adds `sd` labels to SD dashed lines in `eda_lm`.
 * `eda_lm` will now output `lm` intercept and slope.

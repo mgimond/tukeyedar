@@ -76,6 +76,12 @@
 <span>  col.size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  res.txt <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  label.txt <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  grey <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>  p.col <span class="op">=</span> <span class="st">"grey30"</span>,</span>
+<span>  p.fill <span class="op">=</span> <span class="st">"grey60"</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -83,7 +89,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A list of class eda_polish</p></dd>
+<dd><p>A list of class eda_polish.</p></dd>
 
 
 <dt>type</dt>
@@ -91,7 +97,7 @@
 
 
 <dt>add.cv</dt>
-<dd><p>Whether to add kCV to the model when plotting "residuals"</p></dd>
+<dd><p>Whether to add kCV to the model when plotting "residuals".</p></dd>
 
 
 <dt>k</dt>
@@ -101,54 +107,81 @@ makes us of slope.</p></dd>
 
 <dt>col.quant</dt>
 <dd><p>Boolean indicating if a quantile classification scheme
-should be used</p></dd>
+should be used.</p></dd>
 
 
 <dt>colpal</dt>
-<dd><p>Color palette to adopt (should be one listed in hcl.pals())</p></dd>
+<dd><p>Color palette to adopt (should be one listed in hcl.pals()).</p></dd>
 
 
 <dt>colrev</dt>
-<dd><p>Should color palette be reversed? (default TRUE)</p></dd>
+<dd><p>Should color palette be reversed? (default TRUE).</p></dd>
 
 
 <dt>col.eff</dt>
 <dd><p>Boolean indicating if effects and common value should
-contribute to color gradient</p></dd>
+contribute to color gradient.</p></dd>
 
 
 <dt>col.com</dt>
 <dd><p>Boolean indicating if common value should contribute to color
-gradient</p></dd>
+gradient.</p></dd>
 
 
 <dt>adj.mar</dt>
-<dd><p>Boolean indicating if margin width needs to accommodate labels</p></dd>
+<dd><p>Boolean indicating if margin width needs to accommodate labels.</p></dd>
 
 
 <dt>res.size</dt>
-<dd><p>Size of residual values in plot [0-1]</p></dd>
+<dd><p>Size of residual values in plot [0-1].</p></dd>
 
 
 <dt>row.size</dt>
-<dd><p>Size of row effect values in plot [0-1]</p></dd>
+<dd><p>Size of row effect values in plot [0-1].</p></dd>
 
 
 <dt>col.size</dt>
-<dd><p>Size of column effect values in plot [0-1]</p></dd>
+<dd><p>Size of column effect values in plot [0-1].</p></dd>
 
 
 <dt>res.txt</dt>
-<dd><p>Boolean indicating if values should be added to plot</p></dd>
+<dd><p>Boolean indicating if values should be added to plot.</p></dd>
 
 
 <dt>label.txt</dt>
 <dd><p>Boolean indicating if margin and column labels should be
-plotted</p></dd>
+plotted.</p></dd>
+
+
+<dt>grey</dt>
+<dd><p>Grey level to apply to plot elements in the diagnostic plot
+(0 to 1 with 1 = black).</p></dd>
+
+
+<dt>pch</dt>
+<dd><p>Point symbol type for the diagnostic plot.</p></dd>
+
+
+<dt>p.col</dt>
+<dd><p>Color for point symbol in the diagnostic plot.</p></dd>
+
+
+<dt>p.fill</dt>
+<dd><p>Point fill color passed to <code>bg</code> (Only used for <code>pch</code>
+ranging from 21-25).</p></dd>
+
+
+<dt>size</dt>
+<dd><p>Point size (0-1) in the diagnostic plot.</p></dd>
+
+
+<dt>alpha</dt>
+<dd><p>Point transparency (0 = transparent, 1 = opaque). Only
+applicable if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb()</a></code> is not used to define point colors.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Arguments to be passed to subsequent methods</p></dd>
+<dd><p>Arguments to be passed to subsequent methods.</p></dd>
 
 </dl></div>
     <div class="section level2">

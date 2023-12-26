@@ -96,7 +96,7 @@ The median polish can then be executed as follows:
 
 ```{r eval = FALSE}
 library(tukeyedar)
-M1 <- eda_pol(dat, row = region, col = edu, val = "perc")
+M1 <- eda_pol(dat, row = region, col = edu, val = perc)
 ```
 
 
@@ -188,7 +188,7 @@ plot(M1, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 
 ### Excluding common effect from the color palette range 
 
-By default, the range of color palettes are defined by the range of *all* values in the table. This includes the common value. To prevent the common value from affecting the distribution of color palettes, set `col.com` to `FALSE`.
+By default, the range of color palettes are defined by the range of *all* values in the table--this includes the common effect value. To prevent the common value from affecting the distribution of color palettes, set `col.com` to `FALSE`.
 
 ```{r eval = FALSE}
 plot(M1, col.com = FALSE)
@@ -214,9 +214,9 @@ plot(M1, col.eff = FALSE, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 
 Note that setting `col.eff` to `FALSE` does not prevent the effects cells from being colored. It simply ensures that the range of colors are maximized to match the full range of residual values. Any effect value that falls within the residual range will be assigned a color.
 
-### changing color schemes
+### Changing color schemes
 
-By default, the color scheme is symmetrical and centered on `0`. It adopts R's (version 4.1 and above) built-in `"RdYlBu"` color palettes. You can assign different built-in color palettes via the `colpal` parameter.
+By default, the color scheme is symmetrical (divergent) and centered on `0`. It adopts R's (version 4.1 and above) built-in `"RdYlBu"` color palette. You can assign different built-in color palettes via the `colpal` parameter.
 
 You can list available colors in R via the `hcl.pals()` function.
 
@@ -226,7 +226,7 @@ If you want to limit the output to divergent color palettes, type:
 hcl.pals(type = "diverging")
 ```
 
-For example, we can assign the `"Green-Brown"` color palette as follows. (We'll remove the common value from the range of input values to maximize the displayed set of colors).
+For example, we can assign the `"Green-Brown"` color palette as follows. (We'll remove the common effect value from the range of input values to maximize the displayed set of colors).
 
 ```{r eval = FALSE}
 plot(M1, colpal = "Green-Brown", col.com = FALSE)
@@ -236,7 +236,7 @@ plot(M1, colpal = "Green-Brown", col.com = FALSE)
 plot(M1, colpal = "Green-Brown", col.com = FALSE, res.size = 0.8,  row.size = 0.8, col.size = 0.8)
 ```
 
-The default classification scheme is symmetrical and linear, centered on `0`. If you want to maximize the use of colors, regardless of the range of values, you can set `col.quant` to `TRUE`.
+The default color scheme is symmetrical and linear, centered on `0`. If you want to maximize the use of colors, regardless of the range of values, you can set `col.quant` to `TRUE` which will adopt a quantile color scheme.
 
 ```{r eval = FALSE}
 plot(M1, col.quant = TRUE)
@@ -248,7 +248,7 @@ plot(M1, col.quant = TRUE,  row.size = 0.8, col.size = 0.8, res.size = 0.8,)
 
 You'll note that regardless of the asymmetrical distribution of values about `0`, each cell is assigned a unique color swatch.
 
-When adopting a quantitative color classification scheme, you might want to adopt a color palette that generates fewer unique hues and more variation in lightness values. For example,
+When adopting a quantile color classification scheme, you might want to adopt a color palette that generates fewer unique hues and more variation in lightness values. For example,
 
 ```{r eval = FALSE}
 plot(M1, col.quant = TRUE, colpal = "Green-Orange")
@@ -280,7 +280,7 @@ plot(M1, res.txt = FALSE, label.txt = FALSE)
 plot(M1, res.txt = FALSE, label.txt = FALSE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8)
 ```
 
-You can adjust the text size via the `res.size`, `row.size` and `col.size` parameters for the numeric values, the row names, and the column names respectively. For example, to set their sizes to 60% of their default value type:
+You can adjust the text size via the `res.size`, `row.size` and `col.size` parameters for the numeric values, the row names, and the column names respectively. For example, to set their sizes to 60% of their default value, type:
 
 ```{r fig.width=3, fig.height=3}
 plot(M1, row.size = 0.6, col.size = 0.6 , res.size = 0.6)
@@ -288,17 +288,15 @@ plot(M1, row.size = 0.6, col.size = 0.6 , res.size = 0.6)
 
 ## Exploring diagnostic plots
 
-The `plot` method will also generate a plot of the residuals vs comparison values (CV) herein referred to as the **diagnostic plot**.
+The `plot` method will also generate a plot of the residuals vs comparison values (CV), herein referred to as the **diagnostic plot**.
 
-```{r fig.width=3, fig.height=3, echo=2}
-OP <- par(mar=c(4,4,1,1))
+```{r fig.width=3, fig.height=3}
 plot(M1, type = "diagnostic") 
-par(OP)
 ```
 
-This plot shows the relationship between the CV values and the residuals. A bisquare robust line is fitted to the data (light red line) along with a robust loess fit (dashed blue line). The function will also output the line's slope. This slope can be used to help estimate a transformation of the data, if needed.
+A bisquare robust line is fitted to the data (light red line) along with a robust loess fit (dashed blue line). The function will also output the line's slope. This slope can be used to help estimate a transformation of the data, if needed.
 
-To generate your own plot, simply extract the `cv` component from the `M1` list. The `cv` component is a dataframe that stores the residuals (first column) and CV values (fourth column). The first few records of the data frame are shown next.
+To generate your own plot, simply extract the `cv` component from the `M1` list. The `cv` component is a dataframe that stores the residuals (first column) and CV values (fourth column). The first few records of the dataframe are shown here:
 
 ```{r}
 head(M1$cv)
@@ -329,7 +327,7 @@ par(OP)
 **Parallel** lines indicate **no interaction** between the effects. A median polish generates the following table and diagnostic plot:
 
 ```{r fig.width=5.5, fig.height=2.5, echo = FALSE,message=FALSE, warning=FALSE, error = FALSE, results='hide', fig.cap="Median polished data showing no interaction between effects"}
-OP <- par(mfrow = c(1,2), mar = c(4,4,1,1))
+OP <- par(mfrow = c(1,2))
 Mex1 <- eda_pol(ex1, row = row, col = col, val = val, maxiter = 4, plot=FALSE)
 plot(Mex1)
 plot(Mex1, "diagnostic")
@@ -356,14 +354,14 @@ Note how the lines are no longer parallel to one another in the interaction plot
 
 
 ```{r fig.width=5.5, fig.height=2.5, echo = FALSE, message=FALSE, warning=FALSE, error = FALSE, results='hide', fig.cap="Median polished data showing interaction between effects"}
-OP <- par(mfrow = c(1,2), mar = c(4,4,2,1))
+OP <- par(mfrow = c(1,2))
 Mex2 <- eda_pol(ex2, row = row, col = col, val = val, plot=FALSE, p = 1)
 plot(Mex2)
 plot(Mex2, "diagnostic")
 par(OP)
 ```
 
-You'll note the upward trend in residuals with increasing comparison values. This is usually a good indication of interaction in the effects. Another telltale sign is the pattern observed in the residuals with low residuals and high residuals in opposing corners in the table.
+You'll note the upward trend in residuals with increasing comparison values. This is usually a good indication of interaction in the effects. Another telltale sign is the pattern observed in the residuals of the median polish plot with low residuals and high residuals in opposing corners of the table.
 
 If an interaction is observed, you should either include the interaction term in the additive model, or you should seek a re-expression that might help alleviate any interaction between the effects. 
 
@@ -371,11 +369,11 @@ If you choose to include the interaction term in your model, the coefficient $k$
 
 If you choose to re-express the data in the hopes of removing any interaction in the data, you can try using a power transformation equal to  $1 - slope$ (slope being derived from the diagnostic plot).
 
-The infant mortality dataset does not suggest interaction between effects in the diagnostic plot. Next, we'll look at another dataset that may exhibit interaction between its effects.
+The infant mortality dataset used in this exercise does not suggest interaction between effects in the diagnostic plot. Next, we'll look at another dataset that may exhibit interaction between its effects.
 
 ### Another example: Earnings by sex for 2021
 
-The dataset consists of earnings by sex and levels of educational attainment for 2021 (src: US Census Bureau).
+The dataset consists of earnings by sex and levels of educational attainment for 2021 (*src: US Census Bureau*).
 
 ```{r}
 edu <- c("NoHS", "HS", "HS+2", "HS+4", "HS+6")
@@ -385,7 +383,8 @@ df1 <- data.frame(Education = factor(rep(edu,2), levels = edu),
                                     26967, 33430, 50554, 67202))
 ```
 
-Where the `Education` levels are defined as follows:
+The `Education` levels are defined as follows:
+
 + `NoHS`: Less than High School Graduate
 + `HS`:  High School Graduate (Includes Equivalency)
 + `AD`: Some College or Associate's Degree
@@ -525,8 +524,8 @@ plot(M4, col.com = FALSE,
 
 Here's what we can glean from the output:
 
-+ The earnings values are best presented on a power of 0.1 scale.
-+ Overall, the median earnings (in re-expressed form) is  $`r  formatC(M4$global, format="f", big.mark=",", digits = 0)`.
++ The earnings values are best expressed on a power scale of 0.1.
++ Overall, the median earnings (in re-expressed form) is about $`r  formatC(M4$global, format="f", big.mark=",", digits = 0)`.
 + Variability in earnings due to different levels in education attainment covers a range of $`r formatC(diff(range(M4$row$effect)), format="f", big.mark=",", digits = 0) ` while that for different sexes covers a range of $`r  formatC(diff(range(M4$col$effect)), format="f", big.mark=",", digits = 0)`.
 + The residuals are much smaller relative to the effects when the earnings are re-expressed. The residuals explain close to $`r  formatC(diff(range(M4$long$Earnings)), format="f", big.mark=",", digits = 0)` of the variability in the data. Just about all of the variability can be explained by the effects.
 + Re-expressing the values eliminates any interaction between the effects.

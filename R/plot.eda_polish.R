@@ -3,34 +3,36 @@
 #'
 #' @description \code{plot.eda_pol} A plot method for lists of eda_polish class.
 #'
-#' @param x A list of class eda_polish
+#' @param x A list of class eda_polish.
 #' @param type Plot type. One of three: "residuals", "cv" or "diagnostic".
-#' @param add.cv Whether to add kCV to the model when plotting "residuals"
+#' @param add.cv Whether to add kCV to the model when plotting "residuals".
 #' @param k Custom k to use if kCV is to be added to model. A value of NULL
 #'   makes us of slope.
 #' @param col.quant Boolean indicating if a quantile classification scheme
-#'   should be used
-#' @param colpal Color palette to adopt (should be one listed in hcl.pals())
-#' @param colrev Should color palette be reversed? (default TRUE)
+#'   should be used.
+#' @param colpal Color palette to adopt (should be one listed in hcl.pals()).
+#' @param colrev Should color palette be reversed? (default TRUE).
 #' @param col.eff Boolean indicating if effects and common value should
-#'   contribute to color gradient
+#'   contribute to color gradient.
 #' @param col.com Boolean indicating if common value should contribute to color
-#'   gradient
-#' @param adj.mar Boolean indicating if margin width needs to accommodate labels
-#' @param res.size Size of residual values in plot [0-1]
-#' @param row.size Size of row effect values in plot [0-1]
-#' @param col.size Size of column effect values in plot [0-1]
-#' @param res.txt Boolean indicating if values should be added to plot
+#'   gradient.
+#' @param adj.mar Boolean indicating if margin width needs to accommodate labels.
+#' @param res.size Size of residual values in plot [0-1].
+#' @param row.size Size of row effect values in plot [0-1].
+#' @param col.size Size of column effect values in plot [0-1].
+#' @param res.txt Boolean indicating if values should be added to plot.
 #' @param label.txt Boolean indicating if margin and column labels should be
-#'   plotted
-#' @param pch Point symbol type.
-#' @param p.col Color for point symbol.
+#'   plotted.
+#' @param grey Grey level to apply to plot elements in the diagnostic plot
+#'             (0 to 1 with 1 = black).
+#' @param pch Point symbol type for the diagnostic plot.
+#' @param p.col Color for point symbol in the diagnostic plot.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'   ranging from 21-25).
-#' @param size Point size (0-1)
+#' @param size Point size (0-1) in the diagnostic plot.
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
-#' @param ... Arguments to be passed to subsequent methods
+#' @param ... Arguments to be passed to subsequent methods.
 #'
 #' @return Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value
 #'   otherwise.

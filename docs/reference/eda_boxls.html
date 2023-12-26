@@ -170,12 +170,12 @@ than <code>"none"</code>, the this argument is ignored and the stat defaults to
 <ul><li><p>By default, the boxplots are re-ordered by their median values.</p></li>
 <li><p>If the outlier text to be displayed is its own value, it will not be
    modified if the data are equalized by level or spread.</p></li>
-<li><p>Note that the notch offers a 95<!-- % test of the null that the true -->
+<li><p>Note that the notch offers a 95 percent test of the null that the true
   medians are equal assuming that the distribution of each batch is
-  approximately normal. If the notches do not overlap, we can assuming that
+  approximately normal. If the notches do not overlap, we can assume that
   medians are significantly different at a 0.05 level. Note that the notches
-  do not correct for multiple comparison issues and three or more batches are
-   plotted.</p></li>
+  do not correct for multiple comparison issues when three or more batches are
+  plotted.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -183,10 +183,10 @@ than <code>"none"</code>, the this argument is ignored and the stat defaults to
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#' # A basic boxplot. The outlier is labeled with the row number by default.</span></span></span>
 <span class="r-in"><span><span class="fu">eda_boxls</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, type<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_boxls-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># A basic boxplot. The outlier is labeled with its own value.</span></span></span>
 <span class="r-in"><span><span class="fu">eda_boxls</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, type<span class="op">=</span><span class="st">"none"</span>, out.txt<span class="op">=</span><span class="va">mpg</span> <span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_boxls-1.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="eda_boxls-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Boxplot equalized by level. Note that the outlier text is labeled with its</span></span></span>

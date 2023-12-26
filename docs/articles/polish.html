@@ -77,7 +77,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2023-12-22</h4>
+            <h4 data-toc-skip class="date">2023-12-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
@@ -172,7 +172,7 @@ each variable (the two factors and the expected value).</p>
 <p>The median polish can then be executed as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
-<span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="st">"perc"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">dat</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
 <p>The function will output the table as a plot along with a list of
 components that are stored in the <code>M1</code> object. If you want to
@@ -261,8 +261,8 @@ follows:</p>
 <h3 id="excluding-common-effect-from-the-color-palette-range">Excluding common effect from the color palette range<a class="anchor" aria-label="anchor" href="#excluding-common-effect-from-the-color-palette-range"></a>
 </h3>
 <p>By default, the range of color palettes are defined by the range of
-<em>all</em> values in the table. This includes the common value. To
-prevent the common value from affecting the distribution of color
+<em>all</em> values in the table–this includes the common effect value.
+To prevent the common value from affecting the distribution of color
 palettes, set <code>col.com</code> to <code>FALSE</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.com <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -287,11 +287,11 @@ values. Any effect value that falls within the residual range will be
 assigned a color.</p>
 </div>
 <div class="section level3">
-<h3 id="changing-color-schemes">changing color schemes<a class="anchor" aria-label="anchor" href="#changing-color-schemes"></a>
+<h3 id="changing-color-schemes">Changing color schemes<a class="anchor" aria-label="anchor" href="#changing-color-schemes"></a>
 </h3>
-<p>By default, the color scheme is symmetrical and centered on
-<code>0</code>. It adopts R’s (version 4.1 and above) built-in
-<code>"RdYlBu"</code> color palettes. You can assign different built-in
+<p>By default, the color scheme is symmetrical (divergent) and centered
+on <code>0</code>. It adopts R’s (version 4.1 and above) built-in
+<code>"RdYlBu"</code> color palette. You can assign different built-in
 color palettes via the <code>colpal</code> parameter.</p>
 <p>You can list available colors in R via the <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.pals()</a></code>
 function.</p>
@@ -304,23 +304,23 @@ type:</p>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  [<span class="dv">13</span>] <span class="st">"Broc"</span>          <span class="st">"Cork"</span>          <span class="st">"Vik"</span>           <span class="st">"Berlin"</span>       </span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  [<span class="dv">17</span>] <span class="st">"Lisbon"</span>        <span class="st">"Tofino"</span></span></code></pre></div>
 <p>For example, we can assign the <code>"Green-Brown"</code> color
-palette as follows. (We’ll remove the common value from the range of
-input values to maximize the displayed set of colors).</p>
+palette as follows. (We’ll remove the common effect value from the range
+of input values to maximize the displayed set of colors).</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, colpal <span class="op">=</span> <span class="st">"Green-Brown"</span>, col.com <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-25-1.png" width="288"></p>
-<p>The default classification scheme is symmetrical and linear, centered
-on <code>0</code>. If you want to maximize the use of colors, regardless
-of the range of values, you can set <code>col.quant</code> to
-<code>TRUE</code>.</p>
+<p>The default color scheme is symmetrical and linear, centered on
+<code>0</code>. If you want to maximize the use of colors, regardless of
+the range of values, you can set <code>col.quant</code> to
+<code>TRUE</code> which will adopt a quantile color scheme.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.quant <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-27-1.png" width="288"></p>
 <p>You’ll note that regardless of the asymmetrical distribution of
 values about <code>0</code>, each cell is assigned a unique color
 swatch.</p>
-<p>When adopting a quantitative color classification scheme, you might
-want to adopt a color palette that generates fewer unique hues and more
+<p>When adopting a quantile color classification scheme, you might want
+to adopt a color palette that generates fewer unique hues and more
 variation in lightness values. For example,</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.quant <span class="op">=</span> <span class="cn">TRUE</span>, colpal <span class="op">=</span> <span class="st">"Green-Orange"</span><span class="op">)</span></span></code></pre></div>
@@ -344,7 +344,7 @@ applying a median polish to a large grid file.</p>
 <p>You can adjust the text size via the <code>res.size</code>,
 <code>row.size</code> and <code>col.size</code> parameters for the
 numeric values, the row names, and the column names respectively. For
-example, to set their sizes to 60% of their default value type:</p>
+example, to set their sizes to 60% of their default value, type:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, row.size <span class="op">=</span> <span class="fl">0.6</span>, col.size <span class="op">=</span> <span class="fl">0.6</span> , res.size <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-34-1.png" width="288"></p>
@@ -353,7 +353,7 @@ example, to set their sizes to 60% of their default value type:</p>
 <h2 id="exploring-diagnostic-plots">Exploring diagnostic plots<a class="anchor" aria-label="anchor" href="#exploring-diagnostic-plots"></a>
 </h2>
 <p>The <code>plot</code> method will also generate a plot of the
-residuals vs comparison values (CV) herein referred to as the
+residuals vs comparison values (CV), herein referred to as the
 <strong>diagnostic plot</strong>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, type <span class="op">=</span> <span class="st">"diagnostic"</span><span class="op">)</span> </span></code></pre></div>
@@ -361,16 +361,15 @@ residuals vs comparison values (CV) herein referred to as the
 <pre><code>  $slope
       cv 
   1.3688</code></pre>
-<p>This plot shows the relationship between the CV values and the
-residuals. A bisquare robust line is fitted to the data (light red line)
-along with a robust loess fit (dashed blue line). The function will also
+<p>A bisquare robust line is fitted to the data (light red line) along
+with a robust loess fit (dashed blue line). The function will also
 output the line’s slope. This slope can be used to help estimate a
 transformation of the data, if needed.</p>
 <p>To generate your own plot, simply extract the <code>cv</code>
 component from the <code>M1</code> list. The <code>cv</code> component
 is a dataframe that stores the residuals (first column) and CV values
-(fourth column). The first few records of the data frame are shown
-next.</p>
+(fourth column). The first few records of the dataframe are shown
+here:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">head</span>(M1<span class="sc">$</span>cv)</span>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>        perc region.eff  edu.eff            cv</span>
 <span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span><span class="fl">3.15625</span>     <span class="fl">2.3000</span> <span class="sc">-</span><span class="fl">1.19375</span> <span class="sc">-</span><span class="fl">0.1316846523</span></span>
@@ -437,8 +436,9 @@ Median polished data showing interaction between effects
 </div>
 <p>You’ll note the upward trend in residuals with increasing comparison
 values. This is usually a good indication of interaction in the effects.
-Another telltale sign is the pattern observed in the residuals with low
-residuals and high residuals in opposing corners in the table.</p>
+Another telltale sign is the pattern observed in the residuals of the
+median polish plot with low residuals and high residuals in opposing
+corners of the table.</p>
 <p>If an interaction is observed, you should either include the
 interaction term in the additive model, or you should seek a
 re-expression that might help alleviate any interaction between the
@@ -450,24 +450,31 @@ the slope generated in the diagnostic plot.</p>
 interaction in the data, you can try using a power transformation equal
 to <span class="math inline">\(1 - slope\)</span> (slope being derived
 from the diagnostic plot).</p>
-<p>The infant mortality dataset does not suggest interaction between
-effects in the diagnostic plot. Next, we’ll look at another dataset that
-may exhibit interaction between its effects.</p>
+<p>The infant mortality dataset used in this exercise does not suggest
+interaction between effects in the diagnostic plot. Next, we’ll look at
+another dataset that may exhibit interaction between its effects.</p>
 <div class="section level3">
 <h3 id="another-example-earnings-by-sex-for-2021">Another example: Earnings by sex for 2021<a class="anchor" aria-label="anchor" href="#another-example-earnings-by-sex-for-2021"></a>
 </h3>
 <p>The dataset consists of earnings by sex and levels of educational
-attainment for 2021 (src: US Census Bureau).</p>
+attainment for 2021 (<em>src: US Census Bureau</em>).</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">edu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NoHS"</span>, <span class="st">"HS"</span>, <span class="st">"HS+2"</span>, <span class="st">"HS+4"</span>, <span class="st">"HS+6"</span><span class="op">)</span></span>
 <span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Education <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">edu</span>,<span class="fl">2</span><span class="op">)</span>, levels <span class="op">=</span> <span class="va">edu</span><span class="op">)</span>,</span>
 <span>                  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Male"</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Female"</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                  Earnings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">31722</span>, <span class="fl">40514</span>, <span class="fl">49288</span>, <span class="fl">73128</span>,<span class="fl">98840</span>,<span class="fl">20448</span>,</span>
 <span>                                    <span class="fl">26967</span>, <span class="fl">33430</span>, <span class="fl">50554</span>, <span class="fl">67202</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Where the <code>Education</code> levels are defined as follows: +
-<code>NoHS</code>: Less than High School Graduate + <code>HS</code>:
-High School Graduate (Includes Equivalency) + <code>AD</code>: Some
-College or Associate’s Degree + <code>Grad</code>: Bachelor’s Degree</p>
+<p>The <code>Education</code> levels are defined as follows:</p>
+<ul>
+<li>
+<code>NoHS</code>: Less than High School Graduate</li>
+<li>
+<code>HS</code>: High School Graduate (Includes Equivalency)</li>
+<li>
+<code>AD</code>: Some College or Associate’s Degree</li>
+<li>
+<code>Grad</code>: Bachelor’s Degree</li>
+</ul>
 <p>The original table (prior to running the median polish), can be
 viewed by setting <code>maxiter</code> to <code>0</code> in the call to
 <code>eda_pol</code>.</p>
@@ -636,8 +643,9 @@ as opposed to the overall value.</p>
 <p><img src="polish_files/figure-html/unnamed-chunk-51-1.png" width="268.8"></p>
 <p>Here’s what we can glean from the output:</p>
 <ul>
-<li>The earnings values are best presented on a power of 0.1 scale.</li>
-<li>Overall, the median earnings (in re-expressed form) is $19.</li>
+<li>The earnings values are best expressed on a power scale of 0.1.</li>
+<li>Overall, the median earnings (in re-expressed form) is about
+$19.</li>
 <li>Variability in earnings due to different levels in education
 attainment covers a range of $3 while that for different sexes covers a
 range of $1.</li>

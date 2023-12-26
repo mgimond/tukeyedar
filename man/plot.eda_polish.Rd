@@ -20,46 +20,67 @@
   col.size = 1,
   res.txt = TRUE,
   label.txt = TRUE,
+  grey = 0.6,
+  pch = 21,
+  p.col = "grey30",
+  p.fill = "grey60",
+  size = 0.9,
+  alpha = 0.8,
   ...
 )
 }
 \arguments{
-\item{x}{A list of class eda_polish}
+\item{x}{A list of class eda_polish.}
 
 \item{type}{Plot type. One of three: "residuals", "cv" or "diagnostic".}
 
-\item{add.cv}{Whether to add kCV to the model when plotting "residuals"}
+\item{add.cv}{Whether to add kCV to the model when plotting "residuals".}
 
 \item{k}{Custom k to use if kCV is to be added to model. A value of NULL
 makes us of slope.}
 
 \item{col.quant}{Boolean indicating if a quantile classification scheme
-should be used}
+should be used.}
 
-\item{colpal}{Color palette to adopt (should be one listed in hcl.pals())}
+\item{colpal}{Color palette to adopt (should be one listed in hcl.pals()).}
 
-\item{colrev}{Should color palette be reversed? (default TRUE)}
+\item{colrev}{Should color palette be reversed? (default TRUE).}
 
 \item{col.eff}{Boolean indicating if effects and common value should
-contribute to color gradient}
+contribute to color gradient.}
 
 \item{col.com}{Boolean indicating if common value should contribute to color
-gradient}
+gradient.}
 
-\item{adj.mar}{Boolean indicating if margin width needs to accommodate labels}
+\item{adj.mar}{Boolean indicating if margin width needs to accommodate labels.}
 
-\item{res.size}{Size of residual values in plot [0-1]}
+\item{res.size}{Size of residual values in plot [0-1].}
 
-\item{row.size}{Size of row effect values in plot [0-1]}
+\item{row.size}{Size of row effect values in plot [0-1].}
 
-\item{col.size}{Size of column effect values in plot [0-1]}
+\item{col.size}{Size of column effect values in plot [0-1].}
 
-\item{res.txt}{Boolean indicating if values should be added to plot}
+\item{res.txt}{Boolean indicating if values should be added to plot.}
 
 \item{label.txt}{Boolean indicating if margin and column labels should be
-plotted}
+plotted.}
 
-\item{...}{Arguments to be passed to subsequent methods}
+\item{grey}{Grey level to apply to plot elements in the diagnostic plot
+(0 to 1 with 1 = black).}
+
+\item{pch}{Point symbol type for the diagnostic plot.}
+
+\item{p.col}{Color for point symbol in the diagnostic plot.}
+
+\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
+ranging from 21-25).}
+
+\item{size}{Point size (0-1) in the diagnostic plot.}
+
+\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
+applicable if \code{rgb()} is not used to define point colors.}
+
+\item{...}{Arguments to be passed to subsequent methods.}
 }
 \value{
 Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value

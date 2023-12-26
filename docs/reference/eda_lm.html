@@ -271,12 +271,12 @@ function. A robust loess is used by default.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add a regular (OLS) regression model and loess smooth to the data</span></span></span>
 <span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, loe <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_lm-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           x </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   37.285126   -5.344472 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add the inner 68% quantile to compare the true 68% of data to the SD</span></span></span>
 <span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span>, <span class="va">mpg</span>, loe <span class="op">=</span> <span class="cn">TRUE</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_lm-1.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="eda_lm-2.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           x </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   37.285126   -5.344472 </span>
