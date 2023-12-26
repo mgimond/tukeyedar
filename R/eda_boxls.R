@@ -46,7 +46,7 @@
 #'
 #' @examples
 #'
-#'#' # A basic boxplot. The outlier is labeled with the row number by default.
+#' # A basic boxplot. The outlier is labeled with the row number by default.
 #' eda_boxls(mtcars,mpg, cyl, type="none")
 #'
 #' # A basic boxplot. The outlier is labeled with its own value.

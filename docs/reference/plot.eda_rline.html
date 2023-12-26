@@ -77,6 +77,7 @@
 <span>  alpha <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  model <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  pt3 <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fit <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -84,7 +85,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>Object of class <code>eda_rline</code></p></dd>
+<dd><p>Object of class <code>eda_rline</code>.</p></dd>
 
 
 <dt>type</dt>
@@ -92,7 +93,7 @@
 
 
 <dt>xlab</dt>
-<dd><p>Custom x-axis label. Defaults to column name</p></dd>
+<dd><p>Custom x-axis label. Defaults to column name.</p></dd>
 
 
 <dt>ylab</dt>
@@ -100,15 +101,15 @@
 
 
 <dt>grey</dt>
-<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black)</p></dd>
+<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black).</p></dd>
 
 
 <dt>pch</dt>
-<dd><p>Point symbol type</p></dd>
+<dd><p>Point symbol type.</p></dd>
 
 
 <dt>equal</dt>
-<dd><p>Boolean determining if axes lengths should match (i.e. squate
+<dd><p>Boolean determining if axes lengths should match (i.e. square
 plot).</p></dd>
 
 
@@ -122,7 +123,7 @@ ranging from 21-25).</p></dd>
 
 
 <dt>size</dt>
-<dd><p>Point size (0-1)</p></dd>
+<dd><p>Point size (0-1).</p></dd>
 
 
 <dt>alpha</dt>
@@ -132,16 +133,20 @@ if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rg
 
 <dt>model</dt>
 <dd><p>Boolean indicating if the resulting model should be added above
-plot. Only applies to <code>type = "model"</code></p></dd>
+plot. Only applies to <code>type = "model"</code>.</p></dd>
 
 
 <dt>pt3</dt>
 <dd><p>Boolean indicating if the 3-pt summaries should be added to the
-plot. Only applies to <code>type = "model"</code></p></dd>
+plot. Only applies to <code>type = "model"</code>.</p></dd>
+
+
+<dt>fit</dt>
+<dd><p>Boolean indicating if the fitted line should be added to the plot.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Arguments to be passed to subsequent methods</p></dd>
+<dd><p>Arguments to be passed to subsequent methods.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -162,8 +167,10 @@ plot. Only applies to <code>type = "model"</code></p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.eda_rline-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span>, type <span class="op">=</span> <span class="st">"residuals"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span>, pt3 <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.eda_rline-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">r.lm</span>, type <span class="op">=</span> <span class="st">"residuals"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="plot.eda_rline-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

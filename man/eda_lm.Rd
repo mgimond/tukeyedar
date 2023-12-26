@@ -17,6 +17,7 @@ eda_lm(
   reg = TRUE,
   w = NULL,
   sd = TRUE,
+  mean.l = TRUE,
   grey = 0.6,
   pch = 21,
   p.col = "grey50",
@@ -36,71 +37,74 @@ eda_lm(
 )
 }
 \arguments{
-\item{dat}{Data frame}
+\item{dat}{Data frame.}
 
-\item{x}{Column assigned to the x axis}
+\item{x}{Column assigned to the x axis.}
 
-\item{y}{Column assigned to the y axis}
+\item{y}{Column assigned to the y axis.}
 
-\item{xlab}{X label for output plot}
+\item{xlab}{X label for output plot.}
 
-\item{ylab}{Y label for output plot}
+\item{ylab}{Y label for output plot.}
 
-\item{px}{Power transformation to apply to the x-variable}
+\item{px}{Power transformation to apply to the x-variable.}
 
-\item{py}{Power transformation to apply to the y-variable}
+\item{py}{Power transformation to apply to the y-variable.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)}
+(FALSE adopts a Box-Cox transformation).}
 
 \item{show.par}{Boolean determining if power transformation should be
 displayed in the plot.}
 
 \item{reg}{Boolean indicating whether a least squares regression line should
-be plotted}
+be plotted.}
 
-\item{w}{Weight to pass to regression model}
+\item{w}{Weight to pass to regression model.}
 
-\item{sd}{Boolean determining if standard deviation lines should be plotted}
+\item{sd}{Boolean determining if standard deviation lines should be plotted.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
+\item{mean.l}{Boolean determining if the x and y mean lines should be added
+to the plot.}
 
-\item{pch}{Point symbol type}
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
+
+\item{pch}{Point symbol type.}
 
 \item{p.col}{Color for point symbol.}
 
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
 ranging from 21-25).}
 
-\item{size}{Point size (0-1)}
+\item{size}{Point size (0-1).}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
 
-\item{q}{Boolean determining if grey quantile boxes should be plotted}
+\item{q}{Boolean determining if grey quantile boxes should be plotted.}
 
 \item{q.val}{F-values to use to define the quantile box parameters. Defaults
 to mid 68% of values. If more than 2 f-values are defined, the first two
 are used to generate the box.}
 
 \item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
-definition)}
+definition).}
 
-\item{loe}{Boolean indicating if a loess curve should be fitted}
+\item{loe}{Boolean indicating if a loess curve should be fitted.}
 
-\item{lm.col}{Regression line color}
+\item{lm.col}{Regression line color.}
 
-\item{loe.col}{LOESS curve color}
+\item{loe.col}{LOESS curve color.}
 
 \item{stats}{Boolean indicating if regression summary statistics should be
-displayed}
+displayed.}
 
 \item{stat.size}{Text size of stats output in plot.}
 
 \item{loess.d}{A list of parameters passed to the \code{loess.smooth}
 function. A robust loess is used by default.}
 
-\item{...}{Not used}
+\item{...}{Not used.}
 }
 \value{
 Returns residuals, intercept and slope from an OLS fit.

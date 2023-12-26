@@ -37,7 +37,13 @@
 #' @references Understanding Robust and Exploratory Data Analysis, Hoaglin,
 #' David C., Frederick Mosteller, and John W. Tukey, 1983.
 #' @examples
-#' eda_sl(iris, Sepal.Length, Species)
+#' dat <- read.csv("http://mgimond.github.io/ES218/Data/Food_web.csv")
+#' sl <- eda_sl(dat, mean.length, dimension)
+#'
+#' # The output can be passed to a model fitting function like eda_lm
+#' # The output slope can be used to help identify a power transformation
+#' eda_lm(sl, Level, Spread)
+#'
 
 
 eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
@@ -92,11 +98,26 @@ eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
     spread <- log(unlist(lapply(x_fac, IQR)))
   }
 
-  df4 <- data.frame(level, spread)
+  df4 <- data.frame(Level = level, Spread = spread)
 
-  # Plot if requested
-  if(plot == TRUE){
-    .pardef <- par(pty = "s", col = plotcol)
+  # Generated plot (if requested)
+    if(plot == TRUE){
+
+    # Get lines-to-inches ratio
+    in2line <- ( par("mar") / par("mai") )[2]
+
+    # Create a dummy plot to extract y-axis labels
+    pdf(NULL)
+    plot(x = level, y = spread, type = "n", xlab = "", ylab = "", xaxt = "n",
+         yaxt='n', main = NULL)
+    y.labs <- range(axTicks(2))
+    dev.off()
+
+    # Compute the margin width (returned in inches before converting to lines)
+    y.wid <- max( strwidth( y.labs[1], units="inches"),
+                  strwidth( y.labs[2], units="inches")) * in2line + 1
+
+    .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
     on.exit(par(.pardef))
 
     plot( x=level, y=spread , ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,

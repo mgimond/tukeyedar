@@ -12,7 +12,7 @@ eda_dens(
   tukey = FALSE,
   fx = NULL,
   fy = NULL,
-  grey = 0.7,
+  grey = 0.6,
   col = "red",
   size = 0.8,
   alpha = 0.4,

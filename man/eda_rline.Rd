@@ -4,20 +4,22 @@
 \alias{eda_rline}
 \title{Tukey's resistant line}
 \usage{
-eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE)
+eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20)
 }
 \arguments{
-\item{dat}{Data frame}
+\item{dat}{Data frame.}
 
-\item{x}{Column assigned to the x axis}
+\item{x}{Column assigned to the x axis.}
 
-\item{y}{Column assigned to the y axis}
+\item{y}{Column assigned to the y axis.}
 
-\item{px}{Power transformation to apply to the x-variable}
+\item{px}{Power transformation to apply to the x-variable.}
 
-\item{py}{Power transformation to apply to the y-variable}
+\item{py}{Power transformation to apply to the y-variable.}
 
-\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted.}
+
+\item{iter}{Maximum number of iterations to run.
 (FALSE adopts a Box-Cox transformation)}
 }
 \value{
@@ -66,8 +68,10 @@ This is an R implementation of the \code{RLIN.F} FORTRAN code in
 M <- eda_rline(neoplasms, Temp, Mortality)
 M
 
-# Plot the output
+# Plot the output (red line is the resistant line)
 plot(M)
+
+# Add a traditional OLS regression line (dashed line)
 abline(lm(Mortality ~ Temp, neoplasms), lty = 3)
 
 # Plot the residuals

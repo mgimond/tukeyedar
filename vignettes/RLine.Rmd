@@ -82,29 +82,24 @@ However, the function doesn't stop there. After fitting the inital line, the fun
 
 An example of the iteration follows using data from Velleman et. al's book. The dataset, `neoplasms`, consists of breast cancer mortality rates for regions with varying mean annual temperatures.
 
-```{r, fig.height=2.3, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
-OP <- par(mar=c(4,4,1,1))
-plot(Mortality ~ Temp, neoplasms, pch=20)
-par(OP)
+```{r, fig.height=2.8, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
+eda_lm(neoplasms, Temp, Mortality, show.par = F, reg = F, sd=F, mean.l = F)
 ```
 
 The three batches are divided as follows:
 
-```{r, fig.height=2.3, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
+```{r, fig.height=2.8, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
 df    <- neoplasms[order(neoplasms$Temp),]
 brk   <- with(df, thirds(y = Mortality, x = Temp))$index
 brk.x <- (df$Temp[brk[1:2]] + df$Temp[brk[1:2]+1]) /2
-OP    <- par(mar=c(4,4,1,1))
-plot(Mortality~Temp, df, pch=20)
-abline(v=brk.x,lty=3, col="grey")
-par(OP)
+plot(eda_rline(neoplasms, Temp, Mortality), model=F, pt3=F, fit = F)
 ```
 
 Note that the 16 record dataset is not divisible by three thus forcing an extra point in the middle batch (had the remainder of the division by three been two, then each extra point would have been added to the tail-end batches). 
 
 Next, we compute the medians for each batch (highlighted as red points in the following figure).
 
-```{r, fig.height=2.3, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
+```{r, fig.height=2.8, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
 
 brk <-c(0,brk)
 rng <- as.list(paste(brk[1:3]+1,":",brk[2:4],sep="")) 
@@ -116,11 +111,13 @@ for (i in 1:length(rng)){
   ymed[i] <- median(df$Mortality[eval(parse(text=rng[[i]]))])
 }
 
-OP <- par(mar=c(4,4,1,1))
-plot(Mortality~Temp,df, pch=20)
-abline(v=brk.x,lty=3, col="grey")
-points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
-par(OP)
+plot(eda_rline(neoplasms, Temp, Mortality), model=F, pt3=T, fit = F)
+
+# OP <- par(mar=c(4,4,1,1))
+# plot(Mortality~Temp,df, pch=20)
+# abline(v=brk.x,lty=3, col="grey")
+# points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
+# par(OP)
 ```
 
 The two end medians are used to compute the slope as:
@@ -140,10 +137,11 @@ $$
 where $(x,y)_{l,m,r}$ are the median x and y values for each batch.
 This line is then used to compute the first set of residuals. A line is then fitted to the residuals following the same procedure outlined above.
 
-```{r, fig.height=2.3, fig.width=5.5,echo=FALSE, dev.args=list(pointsize=11)}
+```{r, fig.height=2.8, fig.width=5.5,echo=FALSE, dev.args=list(pointsize=11)}
 b0 <- (ymed[3] - ymed[1]) / (xmed[3] - xmed[1])
 a0 <- median(ymed - b0 * xmed)
 resid0 <- df$Mortality - (a0 + b0*df$Temp)
+df$Residual <- resid0
 D0  <-  with(df, Delta.r(Temp,Mortality,1:16,xmed,b0)) 
 ymed2 <- vector()
 for (i in 1:length(rng)) {
@@ -152,15 +150,16 @@ for (i in 1:length(rng)) {
 res.b0 <- (ymed2[3] - ymed2[1]) / (xmed[3] - xmed[1])
 res.a0 <- median(ymed2 - res.b0 * xmed)
 
-
 OP <- par(mar=c(4,4,1,1),mfrow=c(1,2))
-plot(Mortality~Temp,df, pch=20)
-abline(v=brk.x,lty=3, col="grey")
+#plot(Mortality~Temp,df, pch=20)
+plot(eda_rline(neoplasms, Temp, Mortality,iter=1), model=F, pt3=T, fit = F)
+#abline(v=brk.x,lty=3, col="grey")
 points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
 abline(a=a0, b=b0, col=rgb(1,0,0,0.5))
 
-plot(df$Temp, resid0, ylab="Residuals", xlab="Temp", pch=20)
-abline(v=brk.x,lty=3, col="grey")
+#plot(df, Temp, resid0, ylab="Residuals", xlab="Temp", pch=20)
+plot(eda_rline(df, Temp, Residual,iter=1), model=F, pt3=F, fit = F)
+#abline(v=brk.x,lty=3, col="grey")
 points(x=xmed, y=ymed2, col=rgb(1,0,0,0.5), pch=20,cex=2)
 abline(a=res.a0, b=res.b0, col=rgb(1,0,0,0.5))
 par(OP)
@@ -170,12 +169,13 @@ par(OP)
 The initial model slope and intercept are `r round(b0,3)` and `r round(a0,3)` respectively and the residual's slope and intercept are `r round(res.b0,3)` and `r round(res.a0,3)` respectively.
 The residual slope is then added to the first computed slope and the process is again repeated thus generating the following tweaked slope and updated residuals:
 
-```{r, fig.height=2.3, fig.width=5.5, echo=FALSE, dev.args=list(pointsize=11)}
+```{r, fig.height=2.8, fig.width=5.5, echo=FALSE, dev.args=list(pointsize=11)}
 del <- D0 / (xmed[3] - xmed[1])
 b1 <- b0 + res.b0
 a1 <- median(ymed - b1 * xmed)
 
 resid1 <- df$Mortality - (a1 + b1*df$Temp)
+df$Residual <- resid1
 D1  <-  with(df, Delta.r(Temp,Mortality,1:16,xmed,b1)) # resid slope
 ymed3 <- vector()
 for (i in 1:length(rng)) {
@@ -186,13 +186,15 @@ res.a1 <- median(ymed3 - res.b1 * xmed)
 
 
 OP <- par(mar=c(4,4,1,1),mfrow=c(1,2))
-plot(Mortality~Temp,df, pch=20)
-abline(v=brk.x,lty=3, col="grey")
+#plot(Mortality~Temp,df, pch=20)
+#abline(v=brk.x,lty=3, col="grey")
+plot(eda_rline(neoplasms, Temp, Mortality,iter=1), model=F, pt3=T, fit = F)
 points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
 abline(a=a1, b=b1, col=rgb(1,0,0,0.5))
 
-plot(df$Temp, resid1, ylab="Residuals", xlab="Temp", pch=20)
-abline(v=brk.x,lty=3, col="grey")
+#plot(df$Temp, resid1, ylab="Residuals", xlab="Temp", pch=20)
+plot(eda_rline(df, Temp, Residual,iter=1), model=F, pt3=F, fit = F)
+#abline(v=brk.x,lty=3, col="grey")
 points(x=xmed, y=ymed3, col=rgb(1,0,0,0.5), pch=20,cex=2)
 abline(a=res.a1, b=res.b1, col=rgb(1,0,0,0.5))
 par(OP)
@@ -201,7 +203,7 @@ par(OP)
 
 The updated slope is now `r round(b0,3)` + (`r round(res.b0,3)`) = `r round(b1,3)`.  The iteration continues until the slope residuals stabilize. The final line for this working example is,
 
-```{r, fig.height=2.6, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
+```{r, fig.height=2.8, fig.width = 3.2, echo=FALSE, dev.args=list(pointsize=11)}
 M <- eda_rline(neoplasms, Temp, Mortality)
 plot(M, grey = 0.8, model = FALSE)
 ```
@@ -225,21 +227,21 @@ The elements `a` and `b` are the model's intercept and slope. The vectors `x` an
 
 The output is a list of class `eda_rline`. A `plot` method is available for this class. 
 
-```{r fig.height=2.6, fig.width = 3.2, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, dev.args=list(pointsize=11)}
 plot(M)
 ```
 
 
 To see how this resistant line compares to an ordinary least-squares (OLS) regression slope, add the output of the `lm` model to the plot via `abline()`:
 
-```{r, fig.height=2.6, fig.width = 3.2, echo=2, dev.args=list(pointsize=11)}
+```{r, fig.height=2.8, fig.width = 3.2, echo=2, dev.args=list(pointsize=11)}
 plot(M)
 abline(lm(Mortality ~ Temp, neoplasms), lty = 2) 
 ```
 
 The regression model computes a slope of `2.36` whereas the resistant line function generates a slope of `2.89`. From the scatter plot, we can spot a point that may have undo influence on the regression line (this point is highlighted in green in the following plot).
 
-```{r fig.height=2.6, fig.width = 3.2, echo=3, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, echo=3, dev.args=list(pointsize=11)}
 plot(M) 
 abline(lm(Mortality~Temp, neoplasms),lty = 2)  
 points(neoplasms[15,], col="#43CD80",cex=1.5 ,pch=20)
@@ -251,7 +253,7 @@ Removing that point from the data generates an OLS regression line more inline w
 neoplasms.sub <- neoplasms[-15,]
 ```
 
-```{r fig.height=2.6, fig.width = 3.2, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, dev.args=list(pointsize=11)}
 M.sub <- eda_rline(neoplasms.sub, Temp, Mortality)
 plot(M.sub)
 abline(lm(Mortality ~ Temp, neoplasms.sub), lty = 2) # Regression model with data subset
@@ -265,7 +267,7 @@ Note how the OLS slope is inline with that generated from the resistant line. Yo
 
 The `nine_point` dataset is used by Hoaglin et. al (p. 139) to test the resistant line function's ability to stabilize wild oscillations in the computed slopes across iterations. 
 
-```{r fig.height=2.6, fig.width = 3.2, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, dev.args=list(pointsize=11)}
 M <- eda_rline(nine_point, X,Y)
 plot(M)
 ```
@@ -277,7 +279,7 @@ Here, slope and intercept are `r round(M$b,3)` and `r round(M$a,3)` respectively
 
 `age_height` is another dataset found in Hoaglin et. al (p. 135). It gives the ages and heights of children from a private urban school.
 
-```{r fig.height=2.6, fig.width = 3.2, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, dev.args=list(pointsize=11)}
 M <- eda_rline(age_height, Months,Height)
 plot(M)
 ```
@@ -290,26 +292,26 @@ It's important to remember that the resistant line technique is only valid if th
 
 First, we'll fit the resistant line to the data.
 
-```{r fig.height=2.6, fig.width = 3.2, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, dev.args=list(pointsize=11)}
 M <- eda_rline(mtcars, disp, mpg)
 plot(M)
 ```
 
 It's important to note that just because a resistant line can be fit does not necessarily imply that the relationship is linear. To assess linearity of the `mtcars` dataset, we'll make use of the `eda_3pt` function.
 
-```{r fig.height=2.6, fig.width = 3.2,  results='hide', dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2,  results='hide', dev.args=list(pointsize=11)}
 eda_3pt(mtcars, disp, mpg)
 ```
 
 It's clear from the two half slopes that the relationship is not linear. Velleman et. al first suggest re-expressing `mpg` to `1/mpg` (i.e. applying a power transformation of `-1`) giving us number of gallons consumed per mile driven.
 
-```{r fig.height=2.6, fig.width = 3.2,  results='hide', dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2,  results='hide', dev.args=list(pointsize=11)}
 eda_3pt(mtcars, disp, mpg, py = -1, ylab = "gal/mi")
 ```
 
 The two half slopes still differ. We will therefore opt to re-express the `disp` variable. One possibility is to take the inverse of 1/3 since displacement is a measure of volume (e.g. length^3^) which gives us:
 
-```{r fig.height=2.6, fig.width = 3.2, results='hide', dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2, results='hide', dev.args=list(pointsize=11)}
 eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
         ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
 ```
@@ -317,7 +319,7 @@ eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
 Now that we have identified re-expressions that linearises the relationship, we can fit the resistant line. (Note that the grey line generated by the `eda_3pt` function is not the same as the resistant line generated with `eda_rline`.)
 
 
-```{r fig.height=2.6, fig.width = 3.2,r, dev.args=list(pointsize=11)}
+```{r fig.height=2.8, fig.width = 3.2,r, dev.args=list(pointsize=11)}
 M <- eda_rline(mtcars, disp, mpg,  px = -1/3, py = -1)
 plot(M, ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
 ```
@@ -331,7 +333,7 @@ Confidence intervals for the coefficients can be estimated using bootstrapping t
 Here, we fit the resistant line then extract its residuals. We then re-run the model many times by replacing the original y values with the **modeled** y values **plus** the resampled residuals to generate the confidence intervals.
 
 ```{r}
-n  <- 599 # Set number of iterations
+n  <- 999 # Set number of iterations
 M  <- eda_rline(neoplasms, Temp, Mortality) # Fit the resistant line
 bt <- array(0, dim=c(n, 2)) # Create empty bootstrap array
 for(i in 1:n){ #bootstrap loop
@@ -364,7 +366,7 @@ conf
 Here, we resample the x-y paired values (with replacement) then compute the resistant line each time.
 
 ```{r}
-n  <- 599 # Set number of iterations
+n  <- 1999 # Set number of iterations
 bt <- array(0, dim=c(n, 2)) # Create empty bootstrap array
 for(i in 1:n){ #bootstrap loop
   recs <- sample(1:nrow(neoplasms), replace = TRUE)

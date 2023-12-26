@@ -6,12 +6,13 @@
 #'   and Tukey's resistant line technique outlined in chapter 5 of
 #'   "Understanding Robust and Exploratory Data Analysis" (Wiley, 1983).
 #'
-#' @param dat Data frame
-#' @param x   Column assigned to the x axis
-#' @param y   Column assigned to the y axis
-#' @param px  Power transformation to apply to the x-variable
-#' @param py  Power transformation to apply to the y-variable
-#' @param tukey Boolean determining if a Tukey transformation should be adopted
+#' @param dat Data frame.
+#' @param x   Column assigned to the x axis.
+#' @param y   Column assigned to the y axis.
+#' @param px  Power transformation to apply to the x-variable.
+#' @param py  Power transformation to apply to the y-variable.
+#' @param tukey Boolean determining if a Tukey transformation should be adopted.
+#' @param iter Maximum number of iterations to run.
 #'   (FALSE adopts a Box-Cox transformation)
 #'
 #' @return Returns a list of class \code{eda_rline}with the following named
@@ -58,8 +59,10 @@
 #' M <- eda_rline(neoplasms, Temp, Mortality)
 #' M
 #'
-#' # Plot the output
+#' # Plot the output (red line is the resistant line)
 #' plot(M)
+#'
+#' # Add a traditional OLS regression line (dashed line)
 #' abline(lm(Mortality ~ Temp, neoplasms), lty = 3)
 #'
 #' # Plot the residuals
@@ -76,7 +79,7 @@
 #' plot(M)
 #'
 #'
-eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE){
+eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
 
   if(!missing(dat))
   {
@@ -142,7 +145,7 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE){
   if (round(D1,8) != 0 ) {
     # D0 and D1 should have opposite signs, if not, add another delta r
     control <- 0
-    while ( sign(D0) == sign(D1) && (control < 20)) {
+    while ( sign(D0) == sign(D1) && (control <= iter)) {
       b0 <- b1
       D0 <- D1
       b1 <- b1 + del
@@ -162,7 +165,7 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE){
     # Now repeat the last iteration until Delta r is less than 0.1% of b0
     count <- 0
 
-    while ( (abs(del) > cutoff) && (count < 20)){
+    while ( (abs(del) > cutoff) && (count <= iter)){
       # Narrow the interval, assign b2 to b0 or b1 depending on sign of D2
       if( sign(D2) == sign(D1)) {
         b1 <- b2

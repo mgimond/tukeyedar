@@ -81,6 +81,7 @@
 <span>  reg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  w <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  mean.l <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  grey <span class="op">=</span> <span class="fl">0.6</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>  p.col <span class="op">=</span> <span class="st">"grey50"</span>,</span>
@@ -103,36 +104,36 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>dat</dt>
-<dd><p>Data frame</p></dd>
+<dd><p>Data frame.</p></dd>
 
 
 <dt>x</dt>
-<dd><p>Column assigned to the x axis</p></dd>
+<dd><p>Column assigned to the x axis.</p></dd>
 
 
 <dt>y</dt>
-<dd><p>Column assigned to the y axis</p></dd>
+<dd><p>Column assigned to the y axis.</p></dd>
 
 
 <dt>xlab</dt>
-<dd><p>X label for output plot</p></dd>
+<dd><p>X label for output plot.</p></dd>
 
 
 <dt>ylab</dt>
-<dd><p>Y label for output plot</p></dd>
+<dd><p>Y label for output plot.</p></dd>
 
 
 <dt>px</dt>
-<dd><p>Power transformation to apply to the x-variable</p></dd>
+<dd><p>Power transformation to apply to the x-variable.</p></dd>
 
 
 <dt>py</dt>
-<dd><p>Power transformation to apply to the y-variable</p></dd>
+<dd><p>Power transformation to apply to the y-variable.</p></dd>
 
 
 <dt>tukey</dt>
 <dd><p>Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)</p></dd>
+(FALSE adopts a Box-Cox transformation).</p></dd>
 
 
 <dt>show.par</dt>
@@ -142,23 +143,28 @@ displayed in the plot.</p></dd>
 
 <dt>reg</dt>
 <dd><p>Boolean indicating whether a least squares regression line should
-be plotted</p></dd>
+be plotted.</p></dd>
 
 
 <dt>w</dt>
-<dd><p>Weight to pass to regression model</p></dd>
+<dd><p>Weight to pass to regression model.</p></dd>
 
 
 <dt>sd</dt>
-<dd><p>Boolean determining if standard deviation lines should be plotted</p></dd>
+<dd><p>Boolean determining if standard deviation lines should be plotted.</p></dd>
+
+
+<dt>mean.l</dt>
+<dd><p>Boolean determining if the x and y mean lines should be added
+to the plot.</p></dd>
 
 
 <dt>grey</dt>
-<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black)</p></dd>
+<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black).</p></dd>
 
 
 <dt>pch</dt>
-<dd><p>Point symbol type</p></dd>
+<dd><p>Point symbol type.</p></dd>
 
 
 <dt>p.col</dt>
@@ -171,7 +177,7 @@ ranging from 21-25).</p></dd>
 
 
 <dt>size</dt>
-<dd><p>Point size (0-1)</p></dd>
+<dd><p>Point size (0-1).</p></dd>
 
 
 <dt>alpha</dt>
@@ -180,7 +186,7 @@ applicable if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="extern
 
 
 <dt>q</dt>
-<dd><p>Boolean determining if grey quantile boxes should be plotted</p></dd>
+<dd><p>Boolean determining if grey quantile boxes should be plotted.</p></dd>
 
 
 <dt>q.val</dt>
@@ -191,24 +197,24 @@ are used to generate the box.</p></dd>
 
 <dt>q.type</dt>
 <dd><p>Quantile type. Defaults to 5 (Cleveland's f-quantile
-definition)</p></dd>
+definition).</p></dd>
 
 
 <dt>loe</dt>
-<dd><p>Boolean indicating if a loess curve should be fitted</p></dd>
+<dd><p>Boolean indicating if a loess curve should be fitted.</p></dd>
 
 
 <dt>lm.col</dt>
-<dd><p>Regression line color</p></dd>
+<dd><p>Regression line color.</p></dd>
 
 
 <dt>loe.col</dt>
-<dd><p>LOESS curve color</p></dd>
+<dd><p>LOESS curve color.</p></dd>
 
 
 <dt>stats</dt>
 <dd><p>Boolean indicating if regression summary statistics should be
-displayed</p></dd>
+displayed.</p></dd>
 
 
 <dt>stat.size</dt>
@@ -221,7 +227,7 @@ function. A robust loess is used by default.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Not used</p></dd>
+<dd><p>Not used.</p></dd>
 
 </dl></div>
     <div class="section level2">

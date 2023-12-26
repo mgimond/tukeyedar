@@ -103,7 +103,9 @@ This function will generate Normal distribution plots for each batch.
 
 # Here's an example of a dataset that can be well approximated by
 # a normal distribution
+# First, a boxplot of the data
 eda_boxls(iris, Sepal.Length, Species) # Check with boxplot
+# Now, a Normal characterization of the data
 eda_symnorm(iris, Sepal.Length, Species)
 
 # Create a skewed dataset (i.e. one not well approximated by a normal

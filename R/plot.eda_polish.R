@@ -112,8 +112,9 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL,
       plot(cv,residuals, col.lab=plotcol, pch = pch, col = p.col,
            bg = p.fill, cex = size, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA)
       axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-      axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-      mtext("Residuals", side=3, adj= -0.06 ,col=plotcol,  padj = -1.1)
+      axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+           tck = -0.02)
+      mtext("Residuals", side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
       title(xlab = "CV", line =1.8, col.lab=plotcol)
 
       abline(h = median(residuals), lty=2, col = plotcol)

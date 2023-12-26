@@ -69,7 +69,13 @@ univariate dataset.
   }
 }
 \examples{
-eda_sl(iris, Sepal.Length, Species)
+dat <- read.csv("http://mgimond.github.io/ES218/Data/Food_web.csv")
+sl <- eda_sl(dat, mean.length, dimension)
+
+# The output can be passed to a model fitting function like eda_lm
+# The output slope can be used to help identify a power transformation
+eda_lm(sl, Level, Spread)
+
 }
 \references{
 Understanding Robust and Exploratory Data Analysis, Hoaglin,

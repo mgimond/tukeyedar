@@ -8,44 +8,46 @@
 #'   axes are scaled such that their respective standard  deviations match axes
 #'   unit length.
 #'
-#' @param dat Data frame
-#' @param x   Column assigned to the x axis
-#' @param y   Column assigned to the y axis
-#' @param px  Power transformation to apply to the x-variable
-#' @param py  Power transformation to apply to the y-variable
+#' @param dat Data frame.
+#' @param x   Column assigned to the x axis.
+#' @param y   Column assigned to the y axis.
+#' @param px  Power transformation to apply to the x-variable.
+#' @param py  Power transformation to apply to the y-variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation)
+#'   (FALSE adopts a Box-Cox transformation).
 #' @param show.par Boolean determining if power transformation should be
 #'   displayed in the plot.
 #' @param reg Boolean indicating whether a least squares regression line should
-#'   be plotted
-#' @param w Weight to pass to regression model
-#' @param sd Boolean determining if standard deviation lines should be plotted
-#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
-#' @param pch Point symbol type
+#'   be plotted.
+#' @param w Weight to pass to regression model.
+#' @param sd Boolean determining if standard deviation lines should be plotted.
+#' @param mean.l Boolean determining if the x and y mean lines should be added
+#'   to the plot.
+#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
+#' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'   ranging from 21-25).
-#' @param size Point size (0-1)
+#' @param size Point size (0-1).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
-#' @param q Boolean determining if grey quantile boxes should be plotted
+#' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param q.val F-values to use to define the quantile box parameters. Defaults
 #'   to mid 68% of values. If more than 2 f-values are defined, the first two
 #'   are used to generate the box.
 #' @param q.type Quantile type. Defaults to 5 (Cleveland's f-quantile
-#'   definition)
-#' @param loe Boolean indicating if a loess curve should be fitted
-#' @param lm.col Regression line color
-#' @param loe.col LOESS curve color
+#'   definition).
+#' @param loe Boolean indicating if a loess curve should be fitted.
+#' @param lm.col Regression line color.
+#' @param loe.col LOESS curve color.
 #' @param stats Boolean indicating if regression summary statistics should be
-#'   displayed
+#'   displayed.
 #' @param stat.size Text size of stats output in plot.
 #' @param loess.d  A list of parameters passed to the \code{loess.smooth}
 #'   function. A robust loess is used by default.
-#' @param xlab X label for output plot
-#' @param ylab Y label for output plot
-#' @param ... Not used
+#' @param xlab X label for output plot.
+#' @param ylab Y label for output plot.
+#' @param ... Not used.
 #'
 #' @details The function will plot an OLS regression line and, if requested, a
 #'   loess fit. The plot will also display the +/- 1 standard deviations as
@@ -108,12 +110,12 @@
 
 eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                    tukey = FALSE, show.par = TRUE, reg = TRUE, w=NULL,
-                   sd = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = FALSE,
-                   q.val = c(0.16,0.84), q.type = 5, loe = FALSE,
+                   sd = TRUE, mean.l = TRUE, grey = 0.6, pch = 21,
+                   p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
+                   q = FALSE, q.val = c(0.16,0.84), q.type = 5, loe = FALSE,
                    lm.col = rgb(1, 0.5, 0.5, 0.8), loe.col = rgb(.3, .3, 1, 1),
                    stats=FALSE, stat.size = 0.8,
-                   loess.d=list(family = "symmetric", span=0.7, degree=1), ...) {
+                   loess.d=list(family = "symmetric", span=0.7, degree=1), ...){
 
   if(is.null(xlab)){
     xlab = as.character(substitute(x))
@@ -204,8 +206,10 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   }
   title(xlab = xlab, line =1.8, col.lab=plotcol)
   if(reg == TRUE)  abline(M, lw = 2, col = lm.col )
-  abline(v=mean.x,lty=1,col="grey70")
-  abline(h=mean.y, lty=1, col="grey70")
+  if (mean.l == TRUE){
+    abline(v=mean.x,lty=1,col="grey70")
+    abline(h=mean.y, lty=1, col="grey70")
+  }
   if (sd == TRUE){
     abline(v= mean.x + c(-sd.x,sd.x) ,lty=2,col="grey80")
     abline(h=mean.y + c(-sd.y,sd.y), lty=2, col="grey80")

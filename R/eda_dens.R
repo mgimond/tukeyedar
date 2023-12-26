@@ -49,7 +49,7 @@
 
 
 eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
-                     fy = NULL, grey = 0.7, col = "red", size = 0.8,
+                     fy = NULL, grey = 0.6, col = "red", size = 0.8,
                      alpha = 0.4, xlab = NULL, ylab = NULL, legend = TRUE, ...) {
 
   # Extract data
@@ -117,14 +117,29 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
   dx <- density(x, ...)
   dy <- density(y, ...)
 
-  # Plot data
-  .pardef <- par(pty = "s", col = plotcol, mar = c(3,3,3,1))
-  on.exit(par(.pardef))
-
-  # Generate plot
+  # Get ranges
   xlim <- range(dx$x, dy$x)
   ylim <- range(dx$y, dy$y)
 
+  # Get lines-to-inches ratio
+  in2line <- ( par("mar") / par("mai") )[2]
+
+  # Create a dummy plot to extract y-axis labels
+  pdf(NULL)
+  plot(x = dx, y = NULL, type = "n", xlab = "", ylab = "", xaxt = "n",
+       yaxt='n', main = NULL,  xlim = xlim, ylim = ylim)
+  y.labs <- range(axTicks(2))
+  dev.off()
+
+  # Compute the margin width (returned in inches before converting to lines)
+  y.wid <- max( strwidth( y.labs[1], units="inches"),
+                strwidth( y.labs[2], units="inches")) * in2line + 1
+
+  # Plot data
+  .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
+  on.exit(par(.pardef))
+
+  # Generate plot
   plot( dx,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, main = "",
         col.lab=plotcol, col = "grey", xlim = xlim, ylim = ylim)
   polygon(dx, col = colx)

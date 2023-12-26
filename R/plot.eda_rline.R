@@ -4,25 +4,26 @@
 #'@description \code{plot.eda_rline} A plot method for lists of \code{eda_rline}
 #'  class.
 #'
-#'@param x Object of class \code{eda_rline}
+#'@param x Object of class \code{eda_rline}.
 #'@param type Plot type. One of two: "model", "residuals".
-#'@param xlab Custom x-axis label. Defaults to column name
+#'@param xlab Custom x-axis label. Defaults to column name.
 #'@param ylab Custom y-axis label. Defaults to column name.
-#'@param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
-#'@param equal Boolean determining if axes lengths should match (i.e. squate
+#'@param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
+#'@param equal Boolean determining if axes lengths should match (i.e. square
 #'  plot).
-#'@param pch Point symbol type
+#'@param pch Point symbol type.
 #'@param p.col Color for point symbol.
 #'@param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'  ranging from 21-25).
-#'@param size Point size (0-1)
+#'@param size Point size (0-1).
 #'@param alpha Point transparency (0 = transparent, 1 = opaque). Only applicable
 #'  if \code{rgb()} is not used to define point colors.
 #'@param model Boolean indicating if the resulting model should be added above
-#'  plot. Only applies to \code{type = "model"}
+#'  plot. Only applies to \code{type = "model"}.
 #'@param pt3 Boolean indicating if the 3-pt summaries should be added to the
-#'  plot. Only applies to \code{type = "model"}
-#'@param ... Arguments to be passed to subsequent methods
+#'  plot. Only applies to \code{type = "model"}.
+#'@param fit Boolean indicating if the fitted line should be added to the plot.
+#'@param ... Arguments to be passed to subsequent methods.
 #'
 #'@return Does not return a value.
 #'
@@ -33,12 +34,13 @@
 #' r.lm    <- eda_rline(age_height, Months, Height)
 #'
 #' plot(r.lm)
+#' plot(r.lm, pt3 = FALSE)
 #' plot(r.lm, type = "residuals")
 
 plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0.7,
                            pch = 21, equal = TRUE, p.col = "grey50",
                            p.fill = "grey80", size = 0.8, alpha = 0.7,
-                           model = TRUE, pt3 = TRUE, ...){
+                           model = TRUE, pt3 = TRUE, fit= TRUE, ...){
   if (!inherits(x,"eda_rline")) stop("The input object must of class eda_rline")
   if (! type %in% c("residuals", "model" ))
     stop("Paramater \"type=\" must be of \"residuals\", or \"model\" ")
@@ -81,9 +83,9 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
 
   # Set plot parameters
   if(equal == TRUE ){
-    .pardef <- par(mar = c(2.8,y.wid,1.7,1.5), col = plotcol, pty = "s")
+    .pardef <- par(mar = c(3,y.wid,3,1), col = plotcol, pty = "s")
   } else {
-    .pardef <- par(mar = c(2.8,y.wid,1.7,1.5), col = plotcol)
+    .pardef <- par(mar = c(3,y.wid,3,1), col = plotcol)
   }
   on.exit(par(.pardef))
 
@@ -103,7 +105,9 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
     if (model == TRUE){
       mtext(sprintf("y = %f + (%f)x",x$a, x$b ), col = plotcol, cex = 0.7)
     }
-    abline(a = x$a, b = x$b, col="red")
+    if(fit == TRUE){
+      abline(a = x$a, b = x$b, col="red")
+    }
     if (pt3 == TRUE){
       points(cbind(x$xmed, x$ymed), pch =21, bg="red", cex = 1.2)
     }

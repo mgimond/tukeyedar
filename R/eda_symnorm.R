@@ -60,7 +60,9 @@
 #'
 #' # Here's an example of a dataset that can be well approximated by
 #' # a normal distribution
+#' # First, a boxplot of the data
 #' eda_boxls(iris, Sepal.Length, Species) # Check with boxplot
+#' # Now, a Normal characterization of the data
 #' eda_symnorm(iris, Sepal.Length, Species)
 #'
 #' # Create a skewed dataset (i.e. one not well approximated by a normal
@@ -239,8 +241,8 @@ eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
   par(.pardef)
 
   message(c("\n!!!!!!!!!!!!!!!!!!!!!!!!\n",
-            "Note that this is not a density plot. It's the Normal ",
-            "characterization of the data using the data's standard deviation.\n",
+            "Note that this is not a density plot.\nIt's the Normal ",
+            "characterization of the data \nusing the data's standard deviation.\n",
             "!!!!!!!!!!!!!!!!!!!!!!!!\n\n"))
 
 }
