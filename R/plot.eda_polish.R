@@ -23,6 +23,13 @@
 #' @param res.txt Boolean indicating if values should be added to plot
 #' @param label.txt Boolean indicating if margin and column labels should be
 #'   plotted
+#' @param pch Point symbol type.
+#' @param p.col Color for point symbol.
+#' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
+#'   ranging from 21-25).
+#' @param size Point size (0-1)
+#' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
+#'   applicable if \code{rgb()} is not used to define point colors.
 #' @param ... Arguments to be passed to subsequent methods
 #'
 #' @return Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value
@@ -51,10 +58,14 @@
 #' # Generate diagnostic plot
 #' plot(out, type = "diagnostic")
 
-plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col.quant = FALSE,
-                            colpal = "RdYlBu", colrev = TRUE, col.eff = TRUE, col.com = TRUE,
-                            adj.mar = TRUE, res.size = 1, row.size = 1, col.size = 1,
-                            res.txt = TRUE, label.txt = TRUE, ...){
+plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL,
+                            col.quant = FALSE, colpal = "RdYlBu", colrev = TRUE,
+                            col.eff = TRUE, col.com = TRUE, adj.mar = TRUE,
+                            res.size = 1, row.size = 1, col.size = 1,
+                            res.txt = TRUE, label.txt = TRUE, grey = 0.6,
+                            pch=21, p.col="grey30",  p.fill = "grey60",
+                            size = 0.9, alpha = 0.8,  ...){
+
   if (!inherits(x,"eda_polish")) stop("The input object must of class eda_polish")
   if (! type %in% c("residuals", "cv", "diagnostic" ))
     stop("Paramater \"type=\" must be of \"residuals\", \"cv\" or \"diagnostic\" ")
@@ -69,13 +80,42 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
   col <- unlist(mat[1,-1])
   cv.mat <- matrix(apply(expand.grid(row, col),1, prod), ncol = length(col)) / x$global
 
+  # Set plot elements color
+  plotcol <- rgb(1-grey, 1-grey, 1-grey)
+
   if(type == "diagnostic"){
     if(sum(is.finite(x$cv[,4])) > 1){
       cv <- x$cv[,4]
       residuals <- x$cv[,1]
-      plot(cv,residuals, pch=16, col = rgb(0,0,0,0.5))
-      abline(h = median(residuals), lty=2, col = "grey")
-      abline(v = median(cv), lty=2, col = "grey")
+
+      # Get lines-to-inches ratio
+      in2line <- ( par("mar") / par("mai") )[2]
+
+      # Create a dummy plot to extract y-axis labels
+      pdf(NULL)
+      plot(x = cv, y = residuals, type = "n", xlab = "", ylab = "", xaxt = "n",
+           yaxt='n', main = NULL)
+      y.labs <- range(axTicks(2))
+      dev.off()
+
+      # Compute the margin width (returned in inches before converting to lines)
+      y.wid <- max( strwidth( y.labs[1], units="inches"),
+                    strwidth( y.labs[2], units="inches")) * in2line + 1
+
+      # Set plot parameters
+      .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
+      on.exit(par(.pardef))
+
+    #  plot(cv,residuals, pch=16, col = rgb(0,0,0,0.5))
+      plot(cv,residuals, col.lab=plotcol, pch = pch, col = p.col,
+           bg = p.fill, cex = size, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA)
+      axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
+      axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
+      mtext("Residuals", side=3, adj= -0.06 ,col=plotcol,  padj = -1.1)
+      title(xlab = "CV", line =1.8, col.lab=plotcol)
+
+      abline(h = median(residuals), lty=2, col = plotcol)
+      abline(v = median(cv), lty=2, col = plotcol)
       fit.r <- MASS::rlm(residuals~cv, psi = MASS::psi.bisquare)
       abline(fit.r, col = rgb(1,0,0,0.35))
       tryCatch(
@@ -87,7 +127,11 @@ plot.eda_polish <- function(x, type = "residuals", add.cv = FALSE, k = NULL, col
           message("Loess fit could not be generated.")
           }
       )
+      # Reset plot parameters and  output values
+      par(.pardef)
+
       return(list(slope = fit.r$coefficients[2]))
+
     } else {
       return("CV values are not finite")
     }
