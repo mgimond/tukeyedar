@@ -3,7 +3,7 @@
 #' @importFrom utils modifyList
 #' @title Symmetric Normal distribution plot
 #'
-#' @description \code{eda_symnorm} generates mirrored Normal distribution plots
+#' @description \code{eda_normfit} generates mirrored Normal distribution plots
 #'   of the data. Its purpose is to compare batches of values as seen from a
 #'   Normal approximation lens. These plots are better suited than a traditional
 #'   boxplot when paired with a parametric test such as a t-test or an ANOVA given
@@ -63,7 +63,7 @@
 #' # First, a boxplot of the data
 #' eda_boxls(iris, Sepal.Length, Species) # Check with boxplot
 #' # Now, a Normal characterization of the data
-#' eda_symnorm(iris, Sepal.Length, Species)
+#' eda_normfit(iris, Sepal.Length, Species)
 #'
 #' # Create a skewed dataset (i.e. one not well approximated by a normal
 #' # distribution)
@@ -75,15 +75,15 @@
 #'
 #' # The Normal approximation of the data artificially inflates the lower range
 #' # of values. In fact, very few observations fall below -1 standard deviation!
-#' eda_symnorm(dat, value, grp)
+#' eda_normfit(dat, value, grp)
 #'
 #' # The function allows for a re-expression of the values. Here, we'll
 #' # adopt a Box-Cox power transformation of 0.1
 #' eda_boxls(dat, value, grp, p = 0.1)  # Looks better
-#' eda_symnorm(dat, value, grp, p = 0.1)
+#' eda_normfit(dat, value, grp, p = 0.1)
 
 
-eda_symnorm <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
+eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
                         show.par = TRUE, alpha = 0.3, grey = 0.7, pch = 16,
                         p.col = "grey50", p.fill = "grey80", size = 1,
                         col.ends = "grey90", col.mid = "bisque", xlab = NULL,

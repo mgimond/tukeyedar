@@ -1,6 +1,6 @@
 # tukeyedar (development version)
 * Added a Normal QQ plot option to `eda_qq`
-* Added symmetrical Normal plot function `eda_symnorm`
+* Added symmetrical Normal fit plot function `eda_normfit`
 * Updated eda_boxls aesthetics
 * Updated median polish diagnostic plot aesthetics
 
