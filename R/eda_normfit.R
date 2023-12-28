@@ -88,7 +88,7 @@ eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
                         p.col = "grey50", p.fill = "grey80", size = 1,
                         col.ends = "grey90", col.mid = "bisque", xlab = NULL,
                         ylab = NULL, t.size=1.5,
-                        title = "Normal characterization", ...){
+                        title = "Normal fit plot", ...){
 
   # Prep the data if input is dataframe
   if("data.frame" %in% class(dat)) {
