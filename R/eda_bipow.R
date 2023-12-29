@@ -55,11 +55,11 @@ eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey=TRUE, ...) {
   # Plot data for each transformation
   M <- matrix( 1: ((nRows + 2)*(nCols + 2)),nrow=nRows + 2, ncol = nCols + 2, byrow=TRUE)
 
-  .pardef <- par(mar = c(0,0,0,0))
+  .pardef <-par(no.readonly = TRUE)
 #  on.exit(par(.pardef), add = TRUE)
   on.exit(par(.pardef))
 
- # par(mar = c(0,0,0,0))
+  par(mar = c(0,0,0,0))
   lHeight <- c(0.3, rep(1, nCols),0.3 )
   lWidth <- c(0.3, rep(1, nCols),0.3 )
   layout(mat=M, widths = lWidth , heights= lHeight)
