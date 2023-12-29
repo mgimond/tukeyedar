@@ -134,12 +134,13 @@ eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
   pdf(NULL)
   plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
        yaxt='n', main = NULL)
-  y.labs <- range(axTicks(2))
+  # y.labs <- range(axTicks(2))
+  y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
 
   # Compute the margin width (returned in inches before converting to lines)
-  y.wid <- max( strwidth( y.labs[1], units="inches"),
-                strwidth( y.labs[2], units="inches")) * in2line + 1
+  # y.wid <- max( strwidth( y.labs[1], units="inches"),
+  #               strwidth( y.labs[2], units="inches")) * in2line + 1
 
 
   # Set plot parameters

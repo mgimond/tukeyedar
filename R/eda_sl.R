@@ -110,12 +110,13 @@ eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
     pdf(NULL)
     plot(x = level, y = spread, type = "n", xlab = "", ylab = "", xaxt = "n",
          yaxt='n', main = NULL)
-    y.labs <- range(axTicks(2))
+    # y.labs <- range(axTicks(2))
+    y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
     dev.off()
 
     # Compute the margin width (returned in inches before converting to lines)
-    y.wid <- max( strwidth( y.labs[1], units="inches"),
-                  strwidth( y.labs[2], units="inches")) * in2line + 1
+    # y.wid <- max( strwidth( y.labs[1], units="inches"),
+    #               strwidth( y.labs[2], units="inches")) * in2line + 1
 
     .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
     on.exit(par(.pardef))

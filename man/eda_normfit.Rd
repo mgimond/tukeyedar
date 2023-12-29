@@ -22,7 +22,7 @@ eda_normfit(
   xlab = NULL,
   ylab = NULL,
   t.size = 1.5,
-  title = "Normal characterization",
+  title = "Normal fit plot",
   ...
 )
 }

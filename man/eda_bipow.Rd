@@ -4,7 +4,7 @@
 \alias{eda_bipow}
 \title{Ladder of powers transformation on bivariate data with three-point summary plot}
 \usage{
-eda_bipow(dat, x, y, p = c(3, 2, 1, 0.5, 0), tukey = TRUE, ...)
+eda_bipow(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = TRUE, ...)
 }
 \arguments{
 \item{dat}{Data frame}
@@ -38,7 +38,14 @@ labels are omitted to reduce plot clutter.
 }
 \examples{
 
- eda_bipow(dat = cars, x = speed, y = dist)
+data(cars)
+# Example 1
+eda_bipow(dat = cars, x = speed, y = dist)
+# Custom powers
+eda_bipow(dat = cars, x = speed, y = dist, p = c(-1, -0.5, 0, 0.5, 1))
+# Adopt box-cox transformation
+eda_bipow(dat = cars, x = speed, y = dist, tukey = FALSE, p = c(-1, -0.5, 0, 0.5, 1))
+
 }
 \references{
 \itemize{

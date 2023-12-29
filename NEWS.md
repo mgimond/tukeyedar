@@ -1,4 +1,4 @@
-# tukeyedar (development version)
+# tukeyedar 0.2.0
 * Added a Normal QQ plot option to `eda_qq`
 * Added symmetrical Normal fit plot function `eda_normfit`
 * Updated eda_boxls aesthetics

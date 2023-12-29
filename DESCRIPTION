@@ -1,5 +1,5 @@
 Package: tukeyedar
-Version: 0.1.1.9000
+Version: 0.2.0
 Type: Package
 Title: Tukey Inspired Exploratory Data Analysis Functions
 Authors@R: person(given = "Manuel", 

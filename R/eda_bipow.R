@@ -30,9 +30,16 @@
 #'
 #' @examples
 #'
-#'  eda_bipow(dat = cars, x = speed, y = dist)
+#' data(cars)
+#' # Example 1
+#' eda_bipow(dat = cars, x = speed, y = dist)
+#' # Custom powers
+#' eda_bipow(dat = cars, x = speed, y = dist, p = c(-1, -0.5, 0, 0.5, 1))
+#' # Adopt box-cox transformation
+#' eda_bipow(dat = cars, x = speed, y = dist, tukey = FALSE, p = c(-1, -0.5, 0, 0.5, 1))
+#'
 
-eda_bipow <- function(dat, x, y, p = c(3, 2, 1, .5, 0), tukey=TRUE, ...) {
+eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey=TRUE, ...) {
 
   if(!missing(dat))
   {
@@ -48,10 +55,11 @@ eda_bipow <- function(dat, x, y, p = c(3, 2, 1, .5, 0), tukey=TRUE, ...) {
   # Plot data for each transformation
   M <- matrix( 1: ((nRows + 2)*(nCols + 2)),nrow=nRows + 2, ncol = nCols + 2, byrow=TRUE)
 
-  .pardef <- par(no.readonly = T)
-  on.exit(par(.pardef), add = TRUE)
+  .pardef <- par(mar = c(0,0,0,0))
+#  on.exit(par(.pardef), add = TRUE)
+  on.exit(par(.pardef))
 
-  par(mar = c(0,0,0,0))
+ # par(mar = c(0,0,0,0))
   lHeight <- c(0.3, rep(1, nCols),0.3 )
   lWidth <- c(0.3, rep(1, nCols),0.3 )
   layout(mat=M, widths = lWidth , heights= lHeight)

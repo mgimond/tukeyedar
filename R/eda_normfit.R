@@ -181,12 +181,13 @@ eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
   plot(x = NULL, y = NULL, type = "n", xlab = "", ylab = "", xaxt = "n",
        xlim=c(1 - 0.4, length(grp_unique) + 0.4), ylim = dx_rng,  yaxt='n',
        main = NULL)
-  y.labs <- range(axTicks(2))
+#  y.labs <- range(axTicks(2))
+  y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
 
   # Compute the margin width (returned in inches before converting to lines)
-  y.wid <- max( strwidth( y.labs[1], units="inches"),
-                strwidth( y.labs[2], units="inches")) * in2line + 1
+  # y.wid <- max( strwidth( y.labs[1], units="inches"),
+  #               strwidth( y.labs[2], units="inches")) * in2line + 1
 
   # Set plot parameters
   .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3.2,1))
