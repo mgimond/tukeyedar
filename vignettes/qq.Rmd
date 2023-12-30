@@ -261,7 +261,7 @@ y <- rnorm(100)
 eda_qq(x, y)
 ```
 
-Note how the points not only meander about the `x=y` line, but some of the points tail off near the end of the distributions.
+Note how the points not only meander about the `x=y` line, but some of the points tail off near the end of the distribution.
 
 
 # Power transformation
@@ -308,7 +308,7 @@ par(OP)
 
 # A working example
 
-Many datasets will have distributions that differ not only additively and/or Multiplicatively, but also by their general shape. This may create complex point patterns in your QQ plot. Such cases can be indicative of different *processes* at play for different ranges of values. We'll explore such a case using `wat95` and `wat05` dataframes available in this package. The data represent derived normal temperatures for the 1981-2010 period (`wat95`) and the 1991-2020 period (`wat05`) for the city of Waterville, Maine (USA). We will subset the data to the daily *average* normals, `avg`:
+Many datasets will have distributions that differ not only additively and/or multiplicatively, but also by their general shape. This may create complex point patterns in your QQ plot. Such cases can be indicative of different *processes* at play for different ranges of values. We'll explore such a case using `wat95` and `wat05` dataframes available in this package. The data represent derived normal temperatures for the 1981-2010 period (`wat95`) and the 1991-2020 period (`wat05`) for the city of Waterville, Maine (USA). We will subset the data to the daily *average* normals, `avg`:
 
 ```{r}
 old <- wat95$avg # legacy temperature normals
@@ -378,7 +378,7 @@ par(OP)
 
 ```
 
-The proposed offsets seem to do a good job in characterizing the differences in temperatures .
+The proposed offsets seem to do a good job in characterizing the differences in temperatures.
 
 
 The characterization of the differences in normal temperatures between the old and new set of normals can be formalized as follows: 
