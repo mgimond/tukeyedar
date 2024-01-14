@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_normfit.R
 \name{eda_normfit}
 \alias{eda_normfit}
-\title{Symmetric Normal distribution plot}
+\title{Normal fit vs density plot.}
 \usage{
 eda_normfit(
   dat,
@@ -11,117 +11,195 @@ eda_normfit(
   p = 1,
   tukey = FALSE,
   show.par = TRUE,
-  alpha = 0.3,
-  grey = 0.7,
+  sq = TRUE,
+  inner = 0.6826,
+  dens = TRUE,
+  bw = "SJ-dpi",
+  kernel = "gaussian",
   pch = 16,
+  size = 0.8,
+  alpha = 0.3,
   p.col = "grey50",
   p.fill = "grey80",
-  size = 1,
+  grey = 0.7,
   col.ends = "grey90",
-  col.mid = "bisque",
+  col.mid = "#EBC89B",
+  col.ends.dens = "#EBC89B",
+  col.mid.dens = "grey90",
+  offset = 0.02,
+  tsize = 1.5,
   xlab = NULL,
   ylab = NULL,
-  t.size = 1.5,
-  title = "Normal fit plot",
   ...
 )
 }
 \arguments{
-\item{dat}{Data frame or single vector element}
+\item{dat}{Vector of values or a dataframe.}
 
-\item{x}{Column of values}
+\item{x}{Column of values if \code{dat} is a dataframe, ignored otherwise.}
 
-\item{grp}{Column of grouping variables}
+\item{grp}{Column of grouping variables if \code{dat} is a dataframe, ignored
+otherwise.}
 
-\item{p}{Power transformation to apply to input values}
+\item{p}{Power transformation to apply to both sets of values.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)}
+(FALSE adopts a Box-Cox transformation).}
 
-\item{show.par}{Boolean determining if power transformation value should
-be displayed on plot.}
+\item{show.par}{Boolean determining if power transformation should be
+displayed in the plot's upper-right corner.}
 
-\item{alpha}{Point transparency (0 = transparent <-> 1 = opaque). Only
-applicable if \code{rgb()} is not used to define point colors.}
+\item{sq}{Boolean determining if the plot should be square.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
+\item{inner}{Fraction of values that should be captured by the inner color
+band of the normal and density plots. Defaults to 0.6826 (inner 68% of
+values).}
 
-\item{pch}{Point symbol type}
+\item{dens}{Boolean determining if the density plot should displayed
+alongside the normal fit plot.}
+
+\item{bw}{Bandwidth parameter passed to the built-in \code{density} function.}
+
+\item{kernel}{Kernel parameter passed to the built-in \code{density}
+function.}
+
+\item{pch}{Point symbol type.}
+
+\item{size}{Point side.}
+
+\item{alpha}{Fill transparency (0 = transparent, 1 = opaque). Only applicable
+if \code{rgb()} is not used to define fill colors.}
 
 \item{p.col}{Color for point symbol.}
 
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
 ranging from 21-25).}
 
-\item{size}{Point size (0-1)}
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
-\item{col.ends}{Fill color for ends of distribution (beyond +/- 1SD)}
+\item{col.ends}{Fill color for ends of the Normal distribution.}
 
-\item{col.mid}{Fill color for middle of distribution (within +/- 1SD)}
+\item{col.mid}{Fill color for middle band of the Normal distribution.}
 
-\item{xlab}{X label for output plot}
+\item{col.ends.dens}{Fill color for ends of the density distribution.}
 
-\item{ylab}{Y label for output plot}
+\item{col.mid.dens}{Fill color for middle band of the density distribution.}
 
-\item{t.size}{Title size}
+\item{offset}{A value (in x-axis units) that defines the gap between left and
+right side plots. Ignored if \code{dens} is \code{TRUE}.}
 
-\item{title}{Title to display above the plot}
+\item{tsize}{Size of plot title.}
 
-\item{...}{Not used}
+\item{xlab}{X variable label.}
+
+\item{ylab}{Y variable label.}
+
+\item{...}{Note used.}
 }
 \value{
 Does not return a value.
 }
 \description{
-\code{eda_normfit} generates mirrored Normal distribution plots
-  of the data. Its purpose is to compare batches of values as seen from a
-  Normal approximation lens. These plots are better suited than a traditional
-  boxplot when paired with a parametric test such as a t-test or an ANOVA given
-  that such tests use the Normal approximation to characterize the shape of the
-  distribution.
+\code{eda_normfit} generates a fitted Normal distribution to the
+  data with the option to compare it to a density distribution.
 }
 \details{
-This function will generate Normal distribution plots for each batch.
-         The plots are mirrored to mimic the look of a violin plot. But it's
-         important to note that this plot characterizes the distribution following
-         a Normal (Gaussian) distribution using the batch standard deviation
-         and its mean--nothing else. \cr
-         \cr
-         The plots are colored based on the part that falls between +/- 1
-         standard deviation (bisque color by default) and the part that falls
-         outside of it (light grey by default. The plot also adds the mean
-         This plot serves a few purposes:
-       \itemize{
-        \item As a pedagogical tool to show when a Normal distribution may not
-              be a good characterization of the data's distribution.
-        \item To be used as a companion plot to a parametric test that
-              characterizes the distribution as being Normal (as opposed to a
-              traditional boxplot that uses quantiles to characterize the shape
-              of a distribution). }
+This function will generate a (symmetrical) Normal distribution
+  fitted to the data if \code{dens} is set to \code{FALSE} or a side-by-side
+  density/Normal fit plot if \code{dens} is set to \code{TRUE}. If the
+  latter, the density plot will be on the left side and the Normal fit will
+  be on the right side of the vertical axis. \cr
+  \cr
+  The plots have two fill colors: one for the inner band and the other for
+  the outer band. The inner band shows the area of the curve that encompasses
+  the desired fraction of values defined by \code{inner}. Be default, this
+  value is 0.6826, or 68.26 percent (this is roughly the percentage of values
+  covered by +/- 1 standard deviations of a Normal distribution). For the
+  Normal fit plot, the range is computed from the theoretical Normal and not
+  from the actual values. For the density plot, the range is computed from
+  the actual values. By default, the colors are inverted between the Normal
+  curve and the density curve. If the density plot is not drawn, then the
+  Normal plot colors are identical about the vertical axis.
+  \cr
+  If a density plot is desired, \code{dens = TRUE}, a gap (defined by
+  \code{offset}) is created between the left side density plot and the right
+  side Normal fit plot. Points showing the location of values on the
+  y-axis are also added to help view their distribution relative to the
+  density and Normal fit curves. This function makes use of the built-in
+  \code{density} function. As such, you can pass the \code{bw} and
+  \code{kernel} parameters as you would for the \code{density} function.
+  \cr
+  Measures of centrality are computed differently for the Normal fit and
+  density plots. The mean is computed for the Normal fit plot and the median
+  is computed for density plot. These measures of centrality are shown as
+  black horizontal lines in the plot.
+  \cr
+  The areas under the density and Normal fit plots are scaled to their
+  peak values, respectively. So, the areas should not be compared between
+  both plots.
 }
 \examples{
 
-# Here's an example of a dataset that can be well approximated by
-# a normal distribution
-# First, a boxplot of the data
-eda_boxls(iris, Sepal.Length, Species) # Check with boxplot
-# Now, a Normal characterization of the data
-eda_normfit(iris, Sepal.Length, Species)
+# Explore a skewed distribution
+set.seed(218)
+x <- rexp(500)
 
-# Create a skewed dataset (i.e. one not well approximated by a normal
-# distribution)
+# Generate base histogram
+hist(x)
+
+# Plot density/Normal fit plot
+eda_normfit(x)
+eda_normfit(x)
+
+# Limit the plot to just a Normal fit
+eda_normfit(x, dens = FALSE)
+
+# The inner band's range can be modified. Here, we view the inter-quartile
+# range, +/- 1 standard deviation range and the inner 95\% range)
+OP <- par(mfrow = c(1,3))
+invisible(sapply(c(0.5, 0.6826, 0.95),
+      function(prop) eda_normfit(x, inner = prop, tsize = 1,
+                                 ylab = paste(prop*100,"\% of values"))))
+par(OP)
+
+# The bandwidth selector can also be specified
+OP <- par(mfrow=c(2,3))
+ invisible(sapply(c("SJ-dpi", "nrd0", "nrd", "SJ-ste", "bcv", "ucv" ),
+       function(band) eda_normfit(x, bw = band, tsize=0.9, size=0, offset=0.005,
+                                  ylab = band)))
+par(OP)
+
+# The bandwidth argument can also be passed a numeric value
+OP <- par(mfrow=c(1,3))
+invisible(sapply(c(0.2, 0.1, 0.05 ),
+       function(band) eda_normfit(x, bw = band, tsize=1,size=.5, offset=0.01,
+                                  ylab = band)))
+par(OP)
+
+# Examples of a few kernel options
+OP <- par(mfrow=c(1,3))
+invisible(sapply(c("gaussian", "optcosine", "rectangular" ),
+      function(k) eda_normfit(x, kernel = k, tsize=1, size=.5, offset=0.01,
+                               ylab = k)))
+par(OP)
+
+# Another example where data are passed as a dataframe
 set.seed(540)
-dat <- data.frame(value = rbeta(100, 1, 15),
-                  grp = sample(letters[1:3], 100, replace = TRUE))
-# The skewness is obvious in the following boxplots
-eda_boxls(dat, value, grp)
-
-# The Normal approximation of the data artificially inflates the lower range
-# of values. In fact, very few observations fall below -1 standard deviation!
+dat <- data.frame(value = rbeta(20, 1, 50),
+                 grp = sample(letters[1:3], 100, replace = TRUE))
 eda_normfit(dat, value, grp)
 
-# The function allows for a re-expression of the values. Here, we'll
-# adopt a Box-Cox power transformation of 0.1
-eda_boxls(dat, value, grp, p = 0.1)  # Looks better
-eda_normfit(dat, value, grp, p = 0.1)
+# Points can be removed and the gap rendered narrower
+eda_normfit(dat, value, grp, size = 0, offset = 0.01)
+
+# Color can be modified. Here we modify the density plot  fill colors
+eda_normfit(dat, value, grp, size = 0, offset = 0.01,
+            col.ends.dens = "#A1D99B", col.mid.dens = "#E5F5E0")
+
+# A power transformation can be applied to the data. Here
+# we'll apply a log transformation
+eda_normfit(dat, value, grp, p = 0)
+}
+\seealso{
+\code{\link[stats]{density}}
 }
