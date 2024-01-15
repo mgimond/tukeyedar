@@ -1,11 +1,11 @@
 pandoc: 3.1.1
-pkgdown: 2.0.7.9000
-pkgdown_sha: 13d8d621105a3a527a05e46c6c805a6564c39791
+pkgdown: 2.0.7
+pkgdown_sha: ~
 articles:
   polish: polish.html
   qq: qq.html
   RLine: RLine.html
-last_built: 2024-01-14T22:43Z
+last_built: 2024-01-15T19:07Z
 urls:
   reference: https://mgimond.github.io/tukeyedar/reference
   article: https://mgimond.github.io/tukeyedar/articles

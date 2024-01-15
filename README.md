@@ -10,11 +10,10 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check](https://github.com/mgimond/tukeyedar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mgimond/tukeyedar/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The `tukeyedar` package houses a subset of functions used in Exploratory
-Data Analysis (EDA). Most functions are inspired by work published by
-Tukey (1977), D. C. Hoaglin and Tukey (1983) and Velleman and Hoaglin
-(1981). Note that this package is in beta mode, so use at your own
-discretion.
+The `tukeyedar` package houses data exploration tools. Many functions
+are inspired by work published by Tukey (1977), D. C. Hoaglin and Tukey
+(1983) and Velleman and Hoaglin (1981). Note that this package is in
+beta mode, so use at your own discretion.
 
 ## Installation
 
