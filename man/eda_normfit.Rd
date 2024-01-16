@@ -24,8 +24,8 @@ eda_normfit(
   grey = 0.7,
   col.ends = "grey90",
   col.mid = "#EBC89B",
-  col.ends.dens = "#EBC89B",
-  col.mid.dens = "grey90",
+  col.ends.dens = "grey90",
+  col.mid.dens = "#EBC89B",
   offset = 0.02,
   tsize = 1.5,
   xlab = NULL,
@@ -34,33 +34,33 @@ eda_normfit(
 )
 }
 \arguments{
-\item{dat}{Vector of values or a dataframe.}
+\item{dat}{Vector of values, or a dataframe.}
 
 \item{x}{Column of values if \code{dat} is a dataframe, ignored otherwise.}
 
 \item{grp}{Column of grouping variables if \code{dat} is a dataframe, ignored
 otherwise.}
 
-\item{p}{Power transformation to apply to both sets of values.}
+\item{p}{Power transformation to apply to all values.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation).}
+(\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).}
 
-\item{show.par}{Boolean determining if power transformation should be
-displayed in the plot's upper-right corner.}
+\item{show.par}{Boolean determining if the power transformation used with the
+data should be displayed in the plot's upper-right corner.}
 
 \item{sq}{Boolean determining if the plot should be square.}
 
 \item{inner}{Fraction of values that should be captured by the inner color
-band of the normal and density plots. Defaults to 0.6826 (inner 68% of
+band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
 values).}
 
-\item{dens}{Boolean determining if the density plot should displayed
-alongside the normal fit plot.}
+\item{dens}{Boolean determining if the density plot should be displayed
+alongside the Normal fit plot.}
 
-\item{bw}{Bandwidth parameter passed to the built-in \code{density} function.}
+\item{bw}{Bandwidth parameter passed to the \code{density()} function.}
 
-\item{kernel}{Kernel parameter passed to the built-in \code{density}
+\item{kernel}{Kernel parameter passed to the \code{density()}
 function.}
 
 \item{pch}{Point symbol type.}
@@ -75,7 +75,8 @@ if \code{rgb()} is not used to define fill colors.}
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
 ranging from 21-25).}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
+\item{grey}{Grey level to apply to plot elements such as axes, labels, etc...
+(0 to 1 with 1 = black).}
 
 \item{col.ends}{Fill color for ends of the Normal distribution.}
 
@@ -86,7 +87,7 @@ ranging from 21-25).}
 \item{col.mid.dens}{Fill color for middle band of the density distribution.}
 
 \item{offset}{A value (in x-axis units) that defines the gap between left and
-right side plots. Ignored if \code{dens} is \code{TRUE}.}
+right side plots. Ignored if \code{dens} is \code{FALSE}.}
 
 \item{tsize}{Size of plot title.}
 
@@ -113,30 +114,29 @@ This function will generate a (symmetrical) Normal distribution
   The plots have two fill colors: one for the inner band and the other for
   the outer band. The inner band shows the area of the curve that encompasses
   the desired fraction of values defined by \code{inner}. By default, this
-  value is 0.6826, or 68.26 percent (this is roughly the percentage of values
+  value is 0.6826, or 68.26\% (this is roughly the percentage of values
   covered by +/- 1 standard deviations of a Normal distribution). For the
   Normal fit plot, the range is computed from the theoretical Normal and not
   from the actual values. For the density plot, the range is computed from
-  the actual values. By default, the colors are inverted between the Normal
-  curve and the density curve. If the density plot is not drawn, then the
-  Normal plot colors are identical about the vertical axis. \cr
+  the actual values. \cr
   \cr
   If a density plot is desired, \code{dens = TRUE}, a gap (defined by
   \code{offset}) is created between the left side density plot and the right
-  side Normal fit plot. Points showing the location of values on the
-  y-axis are also added to help view their distribution relative to the
-  density and Normal fit curves. This function makes use of the built-in
-  \code{density} function. As such, you can pass the \code{bw} and
-  \code{kernel} parameters as you would for the \code{density} function.\cr
+  side Normal fit plot. This function makes use of the built-in
+  \code{stats::density} function. As such, you can pass the \code{bw} and
+  \code{kernel} parameters as you would for the \code{density()} function.
+  Points showing the location of values along the y-axis are also added to
+  help view their distributions relative to the density and Normal fit
+  curves. \cr
   \cr
   Measures of centrality are computed differently for the Normal fit and
   density plots. The mean is computed for the Normal fit plot and the median
-  is computed for density plot. These measures of centrality are shown as
+  is computed for the density plot. These measures of centrality are shown as
   black horizontal lines in the plot.\cr
   \cr
   The areas under the density and Normal fit plots are scaled to their
   peak values, respectively. So, the areas should not be compared between
-  both plots.
+  both distributions.
 }
 \examples{
 
@@ -154,8 +154,8 @@ eda_normfit(x)
 # Limit the plot to just a Normal fit
 eda_normfit(x, dens = FALSE)
 
-# The inner band's range can be modified. Here, we view the inter-quartile
-# range, +/- 1 standard deviation range and the inner 95\% range)
+# The inner band's range can be modified. Here, we view the interquartile
+# range, the +/- 1 standard deviation range and the inner 95\% range)
 OP <- par(mfrow = c(1,3))
 invisible(sapply(c(0.5, 0.6826, 0.95),
       function(prop) eda_normfit(x, inner = prop, tsize = 1,

@@ -1,8 +1,11 @@
+# tukeyedar 0.2.1
+* Added the option to plot the density distribution alongside the Normal fit in `eda_normfit`.
+
 # tukeyedar 0.2.0
-* Added a Normal QQ plot option to `eda_qq`
-* Added symmetrical Normal fit plot function `eda_normfit`
-* Updated eda_boxls aesthetics
-* Updated median polish diagnostic plot aesthetics
+* Added a Normal QQ plot option to `eda_qq`.
+* Added symmetrical Normal fit plot function `eda_normfit`.
+* Updated eda_boxls aesthetics.
+* Updated median polish diagnostic plot aesthetics.
 
 # tukeyedar 0.1.1
 
