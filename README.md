@@ -11,8 +11,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The `tukeyedar` package houses data exploration tools. Many functions
-are inspired by work published by Tukey (1977), D. C. Hoaglin and Tukey
-(1983) and Velleman and Hoaglin (1981). Note that this package is in
+are inspired by work published by Tukey (1977), Hoaglin (1983), Velleman
+and Hoaglin (1981), and Cleveland (1993). Note that this package is in
 beta mode, so use at your own discretion.
 
 ## Installation
@@ -86,10 +86,16 @@ mtcars %>% eda_3pt(disp, mpg)
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
+<div id="ref-visdata1993" class="csl-entry">
+
+Cleveland, William. 1993. *Visualizing Data*. Hobart Press.
+
+</div>
+
 <div id="ref-understanding_eda1983" class="csl-entry">
 
-D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. *Understanding
-Robust and Exploratory Data Analysis*. Wiley.
+Hoaglin, Mosteller, D. C. 1983. *Understanding Robust and Exploratory
+Data Analysis*. Wiley.
 
 </div>
 
