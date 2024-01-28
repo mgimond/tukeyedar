@@ -12,6 +12,7 @@ eda_dens(
   tukey = FALSE,
   fx = NULL,
   fy = NULL,
+  show.par = TRUE,
   grey = 0.6,
   col = "red",
   size = 0.8,
@@ -40,6 +41,9 @@ transformation is applied to the x variable.}
 
 \item{fy}{Formula to apply to y variable. This is computed after any
 transformation is applied to the y variable.}
+
+\item{show.par}{Boolean determining if parameters such as power
+transformation or formula should be displayed.}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 

@@ -17,6 +17,8 @@
 #'   transformation is applied to the x variable.
 #' @param fy Formula to apply to y variable. This is computed after any
 #'   transformation is applied to the y variable.
+#' @param show.par Boolean determining if parameters such as power
+#'   transformation or formula should be displayed.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param col Fill color for second density distribution.
 #' @param size Point size (0-1).
@@ -49,7 +51,7 @@
 
 
 eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
-                     fy = NULL, grey = 0.6, col = "red", size = 0.8,
+                     fy = NULL, show.par = TRUE, grey = 0.6, col = "red", size = 0.8,
                      alpha = 0.4, xlab = NULL, ylab = NULL, legend = TRUE, ...) {
 
   # Extract data
@@ -151,7 +153,10 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
        tck = -0.02)
   mtext("Density", side=3, adj= -0.1 , col=plotcol, padj = -1)
   title(xlab = "Value", line = 1.8, col.lab=plotcol)
-  mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
+  if(show.par == TRUE){
+    mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
+  }
+
 
    if (legend == TRUE){
     sq <- par("usr") # get plot corners
