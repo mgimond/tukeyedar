@@ -78,7 +78,89 @@
 #' M <- eda_rline(nine_point, X, Y)
 #' plot(M)
 #'
-#'
+
+
+eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, maxiter = 20){
+
+  if(!missing(dat))
+  {
+    xlab <- deparse(substitute(x))
+    ylab <- deparse(substitute(y))
+    x <- eval(substitute(x), dat)
+    y <- eval(substitute(y), dat)
+  }
+
+  # Re-express data if required
+  x <- eda_re(x, p = px, tukey = tukey)
+  x.nan <- is.na(x)
+  y <- eda_re(y, p = py, tukey = tukey)
+  y.nan <- is.na(y)
+
+
+  # Re-expression may produce NaN values. Output warning if TRUE
+  if( any(x.nan, y.nan) ) {
+    warning(paste("\nRe-expression produced NaN values. These observations will",
+                  "be removed from output. This will result in fewer points",
+                  "in the ouptut."))
+    bad <- x.nan | y.nan
+    x <- x[!bad]
+    y <- y[!bad]
+
+  }
+
+
+  # Get medians and sorted dataset
+  m     <- thirds(x,y)
+  xmed  <- m$xmed
+  ymed  <- m$ymed
+  index <- m$index
+
+  x <- m$x
+  y <- m$y
+
+  # Compute delta x (a constant throughout the code)
+  deltax <- xmed[3] - xmed[1]
+
+  # Initial slope and intercept
+  b <- (ymed[3] - ymed[1]) / (xmed[3] - xmed[1])
+  a <- sum(ymed - b * xmed)/3
+  res <- y - (a + b * x)
+
+  # Find the cuttoff, this is where the final diff between D0 and D1 is 0.1% of b0
+  cutoff <- abs(0.001 * b)
+
+  # Compute Delta r and del r for first iteration
+  del <- Delta.r(x,y,index,xmed,b) / deltax
+
+  if(maxiter > 1) {
+    sgn <- 0
+    iter <- 1
+    while(iter <= maxiter & abs(del) > cutoff){
+      mr <- thirds(x, res)
+      br <- (mr$ymed[3] - mr$ymed[1]) / (mr$xmed[3] - mr$xmed[1])
+      sgn <- sign(br_old) * sign(br)
+      if (sgn == -1){
+        b_old1 <- b
+        b <- b - br *( (b - b_old) / (br - br_old))
+        b_old <- b_old1
+      } else {
+        b_old <- b
+        b <- b + br
+      }
+      # a <- sum(ymed - b * xmed)/3
+      br_old <- br
+      res <- y - (a + b * x)
+
+      del <- Delta.r(x,mr$y,index,xmed,b) / deltax
+      iter <- iter + 1
+    }
+
+  }
+
+  a <- sum(ymed - b * xmed)/3
+}
+
+
 eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
 
   if(!missing(dat))
