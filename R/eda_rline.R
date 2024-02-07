@@ -12,7 +12,7 @@
 #' @param px  Power transformation to apply to the x-variable.
 #' @param py  Power transformation to apply to the y-variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted.
-#' @param iter Maximum number of iterations to run.
+#' @param maxiter Maximum number of iterations to run.
 #'   (FALSE adopts a Box-Cox transformation)
 #'
 #' @return Returns a list of class \code{eda_rline}with the following named
@@ -68,18 +68,14 @@
 #' # Plot the residuals
 #' plot(M, type = "residuals")
 #'
-#' # This next example models gas consumption as a function of engine displacement.
-#' # It applies a transformation to both variables via the px and py arguments.
-#' eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
-#'        ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
-#'
 #' # This next example uses Andrew Siegel's pathological 9-point dataset to test
 #' # for model stability when convergence cannot be reached.
 #' M <- eda_rline(nine_point, X, Y)
 #' plot(M)
 #'
-#'
-eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
+
+
+eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, maxiter = 20){
 
   if(!missing(dat))
   {
@@ -107,6 +103,7 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
 
   }
 
+
   # Get medians and sorted dataset
   m     <- thirds(x,y)
   xmed  <- m$xmed
@@ -119,86 +116,178 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
   # Compute delta x (a constant throughout the code)
   deltax <- xmed[3] - xmed[1]
 
-  # Step 1
-  # Compute the first slope
-  b0 <- (ymed[3] - ymed[1]) / (xmed[3] - xmed[1])
+  # Initial slope and intercept
+  b <- (ymed[3] - ymed[1]) / (xmed[3] - xmed[1])
+  a0 <- sum(ymed - b * xmed)/3
+  res <- y - (a0 + b * x)
+  mr <- thirds(x, res)
+  br <- (mr$ymed[3] - mr$ymed[1]) / (mr$xmed[3] - mr$xmed[1])
 
   # Find the cuttoff, this is where the final diff between D0 and D1 is 0.1% of b0
-  cutoff <- abs(0.001 * b0)
+  cutoff <- abs(0.001 * b)
 
   # Compute Delta r and del r for first iteration
-  D0  <-  Delta.r(x,y,index,xmed,b0)
-  del <- D0 / deltax
+  del <- Delta.r(x,y,index,xmed,b) / deltax
 
-  # Step 2
-  # Add del r to b0
-  b1 <- b0 + del
+  iter <- 1
+  if(maxiter > 1) {
+    sgn <- 0
+    while(iter <= maxiter & abs(del) > cutoff){
 
-  # Compute Delta r and del r for second iteration
-  D1 <-  Delta.r(x,y,index,xmed,b1)
 
-  # print(sprintf("D0=%f, D1=%f, b0=%f, b1=%f",D0, D1, b0,b1)) # For debugging
-  # print(sprintf("D0=%f, D1=%f",D0,D1)) # For debugging
-  count <- 0
-
-  # If D0 or D1 are 0, then we already have a robust line, if not, proceed
-  if (round(D1,8) != 0 ) {
-    # D0 and D1 should have opposite signs, if not, add another delta r
-    control <- 0
-    while ( sign(D0) == sign(D1) && (control <= iter)) {
-      b0 <- b1
-      D0 <- D1
-      b1 <- b1 + del
-      del <- del + del
-      D1  <-  Delta.r(x,y,index,xmed,b1)
-      control <- control +1
-    }
-
-    # Interpolate between b0 and b1
-    b2 <- b1 - D1 * (b1 - b0) / (D1 - D0)
-
-    # Compute Delta r and del r for 3rd iteration
-    D2 <-  Delta.r(x,y,index,xmed,b2)
-    del <- D2 / deltax
-    # print(sprintf("del=%f, b2=%f, D2=%f",del,b2,D2)) # For debugging
-
-    # Now repeat the last iteration until Delta r is less than 0.1% of b0
-    count <- 0
-
-    while ( (abs(del) > cutoff) && (count <= iter)){
-      # Narrow the interval, assign b2 to b0 or b1 depending on sign of D2
-      if( sign(D2) == sign(D1)) {
-        b1 <- b2
-        D1 <- D2
-      }else{
-        b0 <- b2
-        D0 <- D2
+      if (sgn > -1 | iter ==1) {
+        b_old <- b
+        b <- b + br
+      } else {
+        b_old1 <- b
+        b <- b - br *( (b - b_old) / (br - br_old))
+        b_old <- b_old1
       }
+      res <- y - (a0 + b * x)
+      mr <- thirds(x, res)
+      br_old <- br
+      br <- (mr$ymed[3] - mr$ymed[1]) / (mr$xmed[3] - mr$xmed[1])
+      sgn <- sign(br_old) * sign(br)
 
-      b2 <- b1 - D1 * (b1 - b0) / (D1 - D0)
-      D2 <-  Delta.r(x,y,index,xmed,b2)
-      del <- D2 / deltax
-      # print(sprintf("Count=%i, b2=%f, D2=%f, del=%f",count, b2,D2,del)) # For debugging
-      count <- count + 1
+      # a <- sum(ymed - b * xmed)/3
+      del <- Delta.r(x,mr$y,index,xmed,br) / deltax
+      iter <- iter + 1
     }
-  }else{
-    b2 <- b1
+
   }
 
-  # Compute the new intercept (following procedure outlined
-  # on page 158 of ABC of EDA)
-   a   <- median( y - b2 * x )
-
-  # Compute final residuals
-  res <- y - (a + b2 * x)
+  # Intercept
+  a <- sum(mr$ymed) / 3 + a0
 
   # Output (include sorted y's and x's)
-  out <- list(b=b2, a=a, res=res, x=x, y=y, xmed=xmed, ymed=ymed,
+  out <- list(b=b, a=a, res=res, x=x, y=y, xmed=xmed, ymed=ymed,
               index = index, xlab = xlab, ylab=ylab, px= px, py=py,
-              iter = count + 3)
+              iter = iter)
   class(out) <- "eda_rline"
   return(out)
 }
+
+
+# eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
+#
+#   if(!missing(dat))
+#   {
+#     xlab <- deparse(substitute(x))
+#     ylab <- deparse(substitute(y))
+#     x <- eval(substitute(x), dat)
+#     y <- eval(substitute(y), dat)
+#   }
+#
+#   # Re-express data if required
+#   x <- eda_re(x, p = px, tukey = tukey)
+#   x.nan <- is.na(x)
+#   y <- eda_re(y, p = py, tukey = tukey)
+#   y.nan <- is.na(y)
+#
+#
+#   # Re-expression may produce NaN values. Output warning if TRUE
+#   if( any(x.nan, y.nan) ) {
+#     warning(paste("\nRe-expression produced NaN values. These observations will",
+#                   "be removed from output. This will result in fewer points",
+#                   "in the ouptut."))
+#     bad <- x.nan | y.nan
+#     x <- x[!bad]
+#     y <- y[!bad]
+#
+#   }
+#
+#   # Get medians and sorted dataset
+#   m     <- thirds(x,y)
+#   xmed  <- m$xmed
+#   ymed  <- m$ymed
+#   index <- m$index
+#
+#   x <- m$x
+#   y <- m$y
+#
+#   # Compute delta x (a constant throughout the code)
+#   deltax <- xmed[3] - xmed[1]
+#
+#   # Step 1
+#   # Compute the first slope
+#   b0 <- (ymed[3] - ymed[1]) / (xmed[3] - xmed[1])
+#
+#   # Find the cuttoff, this is where the final diff between D0 and D1 is 0.1% of b0
+#   cutoff <- abs(0.001 * b0)
+#
+#   # Compute Delta r and del r for first iteration
+#   D0  <-  Delta.r(x,y,index,xmed,b0)
+#   del <- D0 / deltax
+#
+#   # Step 2
+#   # Add del r to b0
+#   b1 <- b0 + del
+#
+#   # Compute Delta r and del r for second iteration
+#   D1 <-  Delta.r(x,y,index,xmed,b1)
+#
+#   # print(sprintf("D0=%f, D1=%f, b0=%f, b1=%f",D0, D1, b0,b1)) # For debugging
+#   # print(sprintf("D0=%f, D1=%f",D0,D1)) # For debugging
+#   count <- 0
+#
+#   # If D0 or D1 are 0, then we already have a robust line, if not, proceed
+#   if (round(D1,8) != 0 ) {
+#     # D0 and D1 should have opposite signs, if not, add another delta r
+#     control <- 0
+#     while ( sign(D0) == sign(D1) && (control <= iter)) {
+#       b0 <- b1
+#       D0 <- D1
+#       b1 <- b1 + del
+#       del <- del + del
+#       D1  <-  Delta.r(x,y,index,xmed,b1)
+#       control <- control +1
+#     }
+#
+#     # Interpolate between b0 and b1
+#     b2 <- b1 - D1 * (b1 - b0) / (D1 - D0)
+#
+#     # Compute Delta r and del r for 3rd iteration
+#     D2 <-  Delta.r(x,y,index,xmed,b2)
+#     del <- D2 / deltax
+#     # print(sprintf("del=%f, b2=%f, D2=%f",del,b2,D2)) # For debugging
+#
+#     # Now repeat the last iteration until Delta r is less than 0.1% of b0
+#     count <- 0
+#
+#     while ( (abs(del) > cutoff) && (count <= iter)){
+#       # Narrow the interval, assign b2 to b0 or b1 depending on sign of D2
+#       if( sign(D2) == sign(D1)) {
+#         b1 <- b2
+#         D1 <- D2
+#       }else{
+#         b0 <- b2
+#         D0 <- D2
+#       }
+#
+#       b2 <- b1 - D1 * (b1 - b0) / (D1 - D0)
+#       D2 <-  Delta.r(x,y,index,xmed,b2)
+#       del <- D2 / deltax
+#       # print(sprintf("Count=%i, b2=%f, D2=%f, del=%f",count, b2,D2,del)) # For debugging
+#       count <- count + 1
+#     }
+#   }else{
+#     b2 <- b1
+#   }
+#
+#   # Compute the new intercept (following procedure outlined
+#   # on page 158 of ABC of EDA)
+#    a   <- median( y - b2 * x )
+#
+#   # Compute final residuals
+#   res <- y - (a + b2 * x)
+#
+#   # Output (include sorted y's and x's)
+#   out <- list(b=b2, a=a, res=res, x=x, y=y, xmed=xmed, ymed=ymed,
+#               index = index, xlab = xlab, ylab=ylab, px= px, py=py,
+#               iter = count + 3)
+#   class(out) <- "eda_rline"
+#   return(out)
+# }
 
 
 thirds <- function(x,y){

@@ -347,11 +347,11 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     }
 
     # Add power/formula parameters to plot
-    if(norm != TRUE & show.par == TRUE){
+    if(norm != TRUE){
       params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
       params <- gsub("\\; \\;", ";", params)
       mtext(side = 3, text=params, adj=1, cex = 0.65)
-    } else if (norm == TRUE & show.par == TRUE){
+    } else {
       mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
     }
 

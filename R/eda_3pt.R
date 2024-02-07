@@ -60,6 +60,12 @@
 #'
 #' hsratio <- eda_3pt(cars, speed, dist)
 #' hsratio <- eda_3pt(cars, speed, dist, py = 1/3, ylab=expression("Dist"^{1/3}))
+#'
+#' #' # This next example models gas consumption as a function of engine displacement.
+#' # It applies a transformation to both variables via the px and py arguments.
+#' eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
+#'        ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
+#'
 
 eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
                     pch = 21, equal = TRUE, p.col = "grey50",

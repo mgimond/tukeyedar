@@ -4,7 +4,7 @@
 \alias{eda_rline}
 \title{Tukey's resistant line}
 \usage{
-eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20)
+eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE, maxiter = 20)
 }
 \arguments{
 \item{dat}{Data frame.}
@@ -19,7 +19,7 @@ eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20)
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted.}
 
-\item{iter}{Maximum number of iterations to run.
+\item{maxiter}{Maximum number of iterations to run.
 (FALSE adopts a Box-Cox transformation)}
 }
 \value{
@@ -77,16 +77,10 @@ abline(lm(Mortality ~ Temp, neoplasms), lty = 3)
 # Plot the residuals
 plot(M, type = "residuals")
 
-# This next example models gas consumption as a function of engine displacement.
-# It applies a transformation to both variables via the px and py arguments.
-eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
-       ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
-
 # This next example uses Andrew Siegel's pathological 9-point dataset to test
 # for model stability when convergence cannot be reached.
 M <- eda_rline(nine_point, X, Y)
 plot(M)
-
 
 }
 \references{
