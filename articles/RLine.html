@@ -351,8 +351,8 @@ residuals to generate the confidence intervals.</p>
 <span>                     Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">conf</span></span>
 <span><span class="co">#&gt;                    5%       95%</span></span>
-<span><span class="co">#&gt;  Intercept -50.607847 33.700956</span></span>
-<span><span class="co">#&gt;  Slope       1.695947  3.527369</span></span></code></pre></div>
+<span><span class="co">#&gt;  Intercept -48.765331 39.195501</span></span>
+<span><span class="co">#&gt;  Slope       1.600325  3.489898</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="resampling-the-x-y-paired-values">Resampling the x-y paired values<a class="anchor" aria-label="anchor" href="#resampling-the-x-y-paired-values"></a>
@@ -378,9 +378,9 @@ compute the resistant line each time.</p>
 <code class="sourceCode R"><span><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span>,</span>
 <span>                     Slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">bt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, p<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.95</span><span class="op">)</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">conf</span></span>
-<span><span class="co">#&gt;                     5%      95%</span></span>
-<span><span class="co">#&gt;  Intercept -111.053391 13.35642</span></span>
-<span><span class="co">#&gt;  Slope        1.639302  4.23883</span></span></code></pre></div>
+<span><span class="co">#&gt;                     5%       95%</span></span>
+<span><span class="co">#&gt;  Intercept -110.380393 12.197769</span></span>
+<span><span class="co">#&gt;  Slope        1.643678  4.236492</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
