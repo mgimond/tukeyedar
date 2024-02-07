@@ -1,3 +1,6 @@
+# tukeyedar 0.2.2
+* Re-wrote eda_rline function. This also fixed issue #15.
+
 # tukeyedar 0.2.1
 * Added the option to plot the density distribution alongside the Normal fit in `eda_normfit`.
 

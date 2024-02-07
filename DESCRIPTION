@@ -1,5 +1,5 @@
 Package: tukeyedar
-Version: 0.2.1
+Version: 0.2.2
 Type: Package
 Title: Tukey Inspired Exploratory Data Analysis Functions
 Authors@R: person(given = "Manuel", 
@@ -25,5 +25,5 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3
