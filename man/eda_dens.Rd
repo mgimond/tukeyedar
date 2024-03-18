@@ -15,6 +15,7 @@ eda_dens(
   grey = 0.6,
   col = "red",
   size = 0.8,
+  show.par = TRUE,
   alpha = 0.4,
   xlab = NULL,
   ylab = NULL,
@@ -46,6 +47,9 @@ transformation is applied to the y variable.}
 \item{col}{Fill color for second density distribution.}
 
 \item{size}{Point size (0-1).}
+
+\item{show.par}{Boolean determining if parameters such as power
+transformation or formula should be displayed.}
 
 \item{alpha}{Fill transparency (0 = transparent, 1 = opaque). Only applicable
 if \code{rgb()} is not used to define fill colors.}

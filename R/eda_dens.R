@@ -25,6 +25,8 @@
 #' @param legend Boolean determining if a legend should be added to the plot.
 #' @param xlab X variable label. Ignored if \code{x} is a dataframe.
 #' @param ylab Y variable label. Ignored if \code{x} is a dataframe.
+#' @param show.par Boolean determining if parameters such as power
+#'   transformation or formula should be displayed.
 #' @param ... Arguments passed to the \code{stats::density()} function.
 #'
 #' @details This function will generate overlapping density plots with the first
@@ -49,7 +51,7 @@
 
 
 eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
-                     fy = NULL, grey = 0.6, col = "red", size = 0.8,
+                     fy = NULL, grey = 0.6, col = "red", size = 0.8, show.par= TRUE,
                      alpha = 0.4, xlab = NULL, ylab = NULL, legend = TRUE, ...) {
 
   # Extract data
@@ -151,7 +153,10 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
        tck = -0.02)
   mtext("Density", side=3, adj= -0.1 , col=plotcol, padj = -1)
   title(xlab = "Value", line = 1.8, col.lab=plotcol)
-  mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
+
+  if(show.par == TRUE){
+     mtext(side = 3, text=paste0("p=",p,";",fx," ",fy,sep=""), adj=1, cex = 0.65)
+  }
 
    if (legend == TRUE){
     sq <- par("usr") # get plot corners
