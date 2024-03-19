@@ -1,4 +1,6 @@
 # tukeyedar 0.2.3
+* Added `show.par` option  to `eda_qq`
+* fixed issue #17.
 
 # tukeyedar 0.2.2
 * Re-wrote eda_rline function. This also fixed issue #15.
