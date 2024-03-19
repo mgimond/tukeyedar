@@ -77,7 +77,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-02-07</h4>
+            <h4 data-toc-skip class="date">2024-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
@@ -155,20 +155,20 @@ input dataset in long form as opposed to <code>medpolish</code> which
 takes the dataset in the form of a matrix. For example, the infant
 mortality dataset needs to consist of at least three columns: one for
 each variable (the two factors and the expected value).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>grd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ed8"</span>, <span class="st">"ed9-11"</span>, <span class="st">"ed12"</span>, <span class="st">"ed13-15"</span>, <span class="st">"ed16"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">region =</span>  <span class="fu">rep</span>( <span class="fu">c</span>(<span class="st">"NE"</span>, <span class="st">"NC"</span>, <span class="st">"S"</span>, <span class="st">"W"</span>), <span class="at">each =</span> <span class="dv">5</span>),</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">edu =</span> <span class="fu">factor</span>(<span class="fu">rep</span>( grd , <span class="dv">4</span>), <span class="at">levels =</span> grd),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">perc =</span> <span class="fu">c</span>(<span class="fl">25.3</span>, <span class="fl">25.3</span>, <span class="fl">18.2</span>, <span class="fl">18.3</span>, <span class="fl">16.3</span>, <span class="fl">32.1</span>, <span class="dv">29</span>, <span class="fl">18.8</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fl">24.3</span>, <span class="dv">19</span>, <span class="fl">38.8</span>, <span class="dv">31</span>, <span class="fl">19.3</span>, <span class="fl">15.7</span>, <span class="fl">16.8</span>, <span class="fl">25.4</span>, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                           <span class="fl">21.1</span>, <span class="fl">20.3</span>, <span class="dv">24</span>, <span class="fl">17.5</span>))</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    region     edu perc</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>     NE     ed8 <span class="fl">25.3</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>     NE  ed9<span class="dv">-11</span> <span class="fl">25.3</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>     NE    ed12 <span class="fl">18.2</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>     NE ed13<span class="dv">-15</span> <span class="fl">18.3</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span>     NE    ed16 <span class="fl">16.3</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">6</span>     NC     ed8 <span class="fl">32.1</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>grd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ed8"</span>, <span class="st">"ed9-11"</span>, <span class="st">"ed12"</span>, <span class="st">"ed13-15"</span>, <span class="st">"ed16"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">region =</span>  <span class="fu">rep</span>( <span class="fu">c</span>(<span class="st">"NE"</span>, <span class="st">"NC"</span>, <span class="st">"S"</span>, <span class="st">"W"</span>), <span class="at">each =</span> <span class="dv">5</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                  <span class="at">edu =</span> <span class="fu">factor</span>(<span class="fu">rep</span>( grd , <span class="dv">4</span>), <span class="at">levels =</span> grd),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                  <span class="at">perc =</span> <span class="fu">c</span>(<span class="fl">25.3</span>, <span class="fl">25.3</span>, <span class="fl">18.2</span>, <span class="fl">18.3</span>, <span class="fl">16.3</span>, <span class="fl">32.1</span>, <span class="dv">29</span>, <span class="fl">18.8</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                           <span class="fl">24.3</span>, <span class="dv">19</span>, <span class="fl">38.8</span>, <span class="dv">31</span>, <span class="fl">19.3</span>, <span class="fl">15.7</span>, <span class="fl">16.8</span>, <span class="fl">25.4</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                           <span class="fl">21.1</span>, <span class="fl">20.3</span>, <span class="dv">24</span>, <span class="fl">17.5</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">head</span>(dat)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>    region     edu perc</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  <span class="dv">1</span>     NE     ed8 <span class="fl">25.3</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="dv">2</span>     NE  ed9<span class="dv">-11</span> <span class="fl">25.3</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="dv">3</span>     NE    ed12 <span class="fl">18.2</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="dv">4</span>     NE ed13<span class="dv">-15</span> <span class="fl">18.3</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="dv">5</span>     NE    ed16 <span class="fl">16.3</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="dv">6</span>     NC     ed8 <span class="fl">32.1</span></span></code></pre></div>
 <p>The median polish can then be executed as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
@@ -181,21 +181,21 @@ suppress the plot, you can set the parameter
 <p>The <code>M1</code> object is of class <code>eda_polish</code>. You
 can extract the common values, and the row and column effects as
 follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>M1<span class="sc">$</span>global</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span>] <span class="fl">20.85</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>M1<span class="sc">$</span>row</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    region  effect</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>     NC  <span class="fl">2.3000</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>     NE <span class="sc">-</span><span class="fl">1.4625</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>      S <span class="sc">-</span><span class="fl">0.3500</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>      W  <span class="fl">0.3500</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>M1<span class="sc">$</span>col</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        edu   effect</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>     ed8  <span class="fl">7.43125</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>  ed9<span class="dv">-11</span>  <span class="fl">5.88125</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>    ed12 <span class="sc">-</span><span class="fl">1.19375</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span> ed13<span class="dv">-15</span>  <span class="fl">0.03125</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span>    ed16 <span class="sc">-</span><span class="fl">3.70000</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>M1<span class="sc">$</span>global</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  [<span class="dv">1</span>] <span class="fl">20.85</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>M1<span class="sc">$</span>row</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    region  effect</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="dv">1</span>     NC  <span class="fl">2.3000</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="dv">2</span>     NE <span class="sc">-</span><span class="fl">1.4625</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="dv">3</span>      S <span class="sc">-</span><span class="fl">0.3500</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="dv">4</span>      W  <span class="fl">0.3500</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>M1<span class="sc">$</span>col</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>        edu   effect</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="dv">1</span>     ed8  <span class="fl">7.43125</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="dv">2</span>  ed9<span class="dv">-11</span>  <span class="fl">5.88125</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="dv">3</span>    ed12 <span class="sc">-</span><span class="fl">1.19375</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="dv">4</span> ed13<span class="dv">-15</span>  <span class="fl">0.03125</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="dv">5</span>    ed16 <span class="sc">-</span><span class="fl">3.70000</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="ordering-rows-and-columns-by-effect-values">Ordering rows and columns by effect values<a class="anchor" aria-label="anchor" href="#ordering-rows-and-columns-by-effect-values"></a>
 </h3>
@@ -297,12 +297,12 @@ color palettes via the <code>colpal</code> parameter.</p>
 function.</p>
 <p>If you want to limit the output to divergent color palettes,
 type:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hcl.pals</span>(<span class="at">type =</span> <span class="st">"diverging"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   [<span class="dv">1</span>] <span class="st">"Blue-Red"</span>      <span class="st">"Blue-Red 2"</span>    <span class="st">"Blue-Red 3"</span>    <span class="st">"Red-Green"</span>    </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   [<span class="dv">5</span>] <span class="st">"Purple-Green"</span>  <span class="st">"Purple-Brown"</span>  <span class="st">"Green-Brown"</span>   <span class="st">"Blue-Yellow 2"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>   [<span class="dv">9</span>] <span class="st">"Blue-Yellow 3"</span> <span class="st">"Green-Orange"</span>  <span class="st">"Cyan-Magenta"</span>  <span class="st">"Tropic"</span>       </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">13</span>] <span class="st">"Broc"</span>          <span class="st">"Cork"</span>          <span class="st">"Vik"</span>           <span class="st">"Berlin"</span>       </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">17</span>] <span class="st">"Lisbon"</span>        <span class="st">"Tofino"</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">hcl.pals</span>(<span class="at">type =</span> <span class="st">"diverging"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>   [<span class="dv">1</span>] <span class="st">"Blue-Red"</span>      <span class="st">"Blue-Red 2"</span>    <span class="st">"Blue-Red 3"</span>    <span class="st">"Red-Green"</span>    </span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>   [<span class="dv">5</span>] <span class="st">"Purple-Green"</span>  <span class="st">"Purple-Brown"</span>  <span class="st">"Green-Brown"</span>   <span class="st">"Blue-Yellow 2"</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>   [<span class="dv">9</span>] <span class="st">"Blue-Yellow 3"</span> <span class="st">"Green-Orange"</span>  <span class="st">"Cyan-Magenta"</span>  <span class="st">"Tropic"</span>       </span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  [<span class="dv">13</span>] <span class="st">"Broc"</span>          <span class="st">"Cork"</span>          <span class="st">"Vik"</span>           <span class="st">"Berlin"</span>       </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  [<span class="dv">17</span>] <span class="st">"Lisbon"</span>        <span class="st">"Tofino"</span></span></code></pre></div>
 <p>For example, we can assign the <code>"Green-Brown"</code> color
 palette as follows. (We’ll remove the common effect value from the range
 of input values to maximize the displayed set of colors).</p>
@@ -370,14 +370,14 @@ component from the <code>M1</code> list. The <code>cv</code> component
 is a dataframe that stores the residuals (first column) and CV values
 (fourth column). The first few records of the dataframe are shown
 here:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(M1<span class="sc">$</span>cv)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>        perc region.eff  edu.eff            cv</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span><span class="fl">3.15625</span>     <span class="fl">2.3000</span> <span class="sc">-</span><span class="fl">1.19375</span> <span class="sc">-</span><span class="fl">0.1316846523</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">-</span><span class="fl">0.00625</span>    <span class="sc">-</span><span class="fl">0.3500</span> <span class="sc">-</span><span class="fl">1.19375</span>  <span class="fl">0.0200389688</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>  <span class="fl">0.00625</span>    <span class="sc">-</span><span class="fl">1.4625</span> <span class="sc">-</span><span class="fl">1.19375</span>  <span class="fl">0.0837342626</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span>  <span class="fl">0.29375</span>     <span class="fl">0.3500</span> <span class="sc">-</span><span class="fl">1.19375</span> <span class="sc">-</span><span class="fl">0.0200389688</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span> <span class="sc">-</span><span class="fl">4.83125</span>    <span class="sc">-</span><span class="fl">0.3500</span>  <span class="fl">0.03125</span> <span class="sc">-</span><span class="fl">0.0005245803</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">6</span>  <span class="fl">1.11875</span>     <span class="fl">2.3000</span>  <span class="fl">0.03125</span>  <span class="fl">0.0034472422</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">head</span>(M1<span class="sc">$</span>cv)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>        perc region.eff  edu.eff            cv</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span><span class="fl">3.15625</span>     <span class="fl">2.3000</span> <span class="sc">-</span><span class="fl">1.19375</span> <span class="sc">-</span><span class="fl">0.1316846523</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">-</span><span class="fl">0.00625</span>    <span class="sc">-</span><span class="fl">0.3500</span> <span class="sc">-</span><span class="fl">1.19375</span>  <span class="fl">0.0200389688</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="dv">3</span>  <span class="fl">0.00625</span>    <span class="sc">-</span><span class="fl">1.4625</span> <span class="sc">-</span><span class="fl">1.19375</span>  <span class="fl">0.0837342626</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="dv">4</span>  <span class="fl">0.29375</span>     <span class="fl">0.3500</span> <span class="sc">-</span><span class="fl">1.19375</span> <span class="sc">-</span><span class="fl">0.0200389688</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="dv">5</span> <span class="sc">-</span><span class="fl">4.83125</span>    <span class="sc">-</span><span class="fl">0.3500</span>  <span class="fl">0.03125</span> <span class="sc">-</span><span class="fl">0.0005245803</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="dv">6</span>  <span class="fl">1.11875</span>     <span class="fl">2.3000</span>  <span class="fl">0.03125</span>  <span class="fl">0.0034472422</span></span></code></pre></div>
 <p>The diagnostic plot helps identify any interactions between both
 effects. If interaction is suspected, then the model is no longer a
 simple additive model; The model needs to be augmented with an
@@ -678,18 +678,18 @@ has its benefits: It’s a great way to represent the effects generated
 from a <strong>two-way analysis of variance</strong> (aka 2-way ANOVA).
 This is confirmed by comparing the above row and column effects to a
 traditional 2-way ANOVA technique shown here:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model.tables</span>(<span class="fu">aov</span>(Earnings <span class="sc">~</span> Sex <span class="sc">+</span> Education, df1))</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  Tables of effects</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>   Sex </span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  Sex</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  Female   Male </span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>   <span class="sc">-</span><span class="dv">9489</span>   <span class="dv">9489</span> </span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>   Education </span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  Education</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    NoHS     HS   HS<span class="sc">+</span><span class="dv">2</span>   HS<span class="sc">+</span><span class="dv">4</span>   HS<span class="sc">+</span><span class="dv">6</span> </span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">23124</span> <span class="sc">-</span><span class="dv">15469</span>  <span class="sc">-</span><span class="dv">7850</span>  <span class="dv">12632</span>  <span class="dv">33812</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">model.tables</span>(<span class="fu">aov</span>(Earnings <span class="sc">~</span> Sex <span class="sc">+</span> Education, df1))</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  Tables of effects</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  </span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>   Sex </span>
+<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>  Sex</span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>  Female   Male </span>
+<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>   <span class="sc">-</span><span class="dv">9489</span>   <span class="dv">9489</span> </span>
+<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>  </span>
+<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>   Education </span>
+<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a>  Education</span>
+<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>    NoHS     HS   HS<span class="sc">+</span><span class="dv">2</span>   HS<span class="sc">+</span><span class="dv">4</span>   HS<span class="sc">+</span><span class="dv">6</span> </span>
+<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">23124</span> <span class="sc">-</span><span class="dv">15469</span>  <span class="sc">-</span><span class="dv">7850</span>  <span class="dv">12632</span>  <span class="dv">33812</span></span></code></pre></div>
 <p>As with the median polish, we must concern ourselves with
 interactions between the effects. If interaction is present, ANOVA
 inferential statistics using the F-test can be untrustworthy.</p>
