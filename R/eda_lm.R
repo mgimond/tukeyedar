@@ -19,6 +19,7 @@
 #'   displayed in the plot.
 #' @param reg Boolean indicating whether a least squares regression line should
 #'   be plotted.
+#' @param poly Polynomial order.
 #' @param w Weight to pass to regression model.
 #' @param sd Boolean determining if standard deviation lines should be plotted.
 #' @param mean.l Boolean determining if the x and y mean lines should be added
@@ -109,7 +110,7 @@
 
 
 eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
-                   tukey = FALSE, show.par = TRUE, reg = TRUE, w=NULL,
+                   tukey = FALSE, show.par = TRUE, reg = TRUE, poly = 1, w=NULL,
                    sd = TRUE, mean.l = TRUE, grey = 0.6, pch = 21,
                    p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
                    q = FALSE, q.val = c(0.16,0.84), q.type = 5, loe = FALSE,
@@ -157,7 +158,8 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   loess.l  <- modifyList(list(span = 0.5), loess.d)
 
   # Run regression model
-  M <- lm(y ~ x, weights = w)
+  #M <- lm(y ~ x, weights = w)
+  M <- lm(y ~ poly(x, degree = poly, raw = TRUE), weights = w)
 
   # Generate plots ----
 
