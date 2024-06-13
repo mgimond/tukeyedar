@@ -1,3 +1,7 @@
+# tukeyedar 0.2.4
+* Added polynomial option to `eda_lm` function.
+* Added robust fitting option to `eda_lm` function (uses `MASS::rlm`)
+
 # tukeyedar 0.2.3
 * Added `show.par` option  to `eda_qq`
 * fixed issue #17.

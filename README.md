@@ -84,7 +84,8 @@ mtcars %>% eda_3pt(disp, mpg)
 
 ------------------------------------------------------------------------
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-visdata1993" class="csl-entry">
 
