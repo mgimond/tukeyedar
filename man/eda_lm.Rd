@@ -108,8 +108,11 @@ displayed.}
 
 \item{stat.size}{Text size of stats output in plot.}
 
-\item{loess.d}{A list of parameters passed to the \code{loess.smooth}
+\item{loess.d}{A list of arguments passed to the \code{loess.smooth}
 function. A robust loess is used by default.}
+
+\item{rlm.d}{A list of arguments passed to the \code{MASS::rlm}
+function.}
 
 \item{...}{Not used.}
 }

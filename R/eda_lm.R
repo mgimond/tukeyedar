@@ -45,8 +45,10 @@
 #' @param stats Boolean indicating if regression summary statistics should be
 #'   displayed.
 #' @param stat.size Text size of stats output in plot.
-#' @param loess.d  A list of parameters passed to the \code{loess.smooth}
+#' @param loess.d  A list of arguments passed to the \code{loess.smooth}
 #'   function. A robust loess is used by default.
+#' @param rlm.d A list of arguments passed to the \code{MASS::rlm}
+#'   function.
 #' @param xlab X label for output plot.
 #' @param ylab Y label for output plot.
 #' @param ... Not used.
