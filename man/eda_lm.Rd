@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_lm.R
 \name{eda_lm}
 \alias{eda_lm}
-\title{Least Squares regression plot (with optional LOESS fit)}
+\title{Regression plot (with optional LOESS fit)}
 \usage{
 eda_lm(
   dat,
@@ -15,6 +15,8 @@ eda_lm(
   tukey = FALSE,
   show.par = TRUE,
   reg = TRUE,
+  poly = 1,
+  robust = FALSE,
   w = NULL,
   sd = TRUE,
   mean.l = TRUE,
@@ -33,6 +35,7 @@ eda_lm(
   stats = FALSE,
   stat.size = 0.8,
   loess.d = list(family = "symmetric", span = 0.7, degree = 1),
+  rlm.d = list(psi = "psi.bisquare"),
   ...
 )
 }
@@ -59,6 +62,10 @@ displayed in the plot.}
 
 \item{reg}{Boolean indicating whether a least squares regression line should
 be plotted.}
+
+\item{poly}{Polynomial order.}
+
+\item{robust}{Boolean indicating if robust regression should be used.}
 
 \item{w}{Weight to pass to regression model.}
 
@@ -121,28 +128,37 @@ Returns residuals, intercept and slope from an OLS fit.
   unit length.
 }
 \details{
-The function will plot an OLS regression line and, if requested, a
-  loess fit. The plot will also display the +/- 1 standard deviations as
-  dashed lines. In theory, if both x and y values follow a perfectly Normal
-  distribution, roughly 68 percent of the points should fall in between these
-  lines.
+The function will plot a regression line and, if requested, a loess
+  fit. The function adopts the least squares fitting technique by default. It
+  defaults to a first order polynomial fit. The polynomial order can be
+  specified via the \code{poly} argument.
+  \cr\cr
+  The plot displays the +/- 1 standard deviations as dashed lines. In
+  theory, if both x and y values follow a perfectly Normal distribution,
+  roughly 68 percent of the points should fall in between these lines.
   \cr \cr
-  The true 68 percent of values can be displayed as grey rectangles by setting
-   \code{q=TRUE}. This uses the \code{quantile} function to compute the upper
-   and lower bounds defining  the inner 68 percent of values. If the data
-   follow a Normal distribution, the grey rectangle edges should coincide
-   with the +/- 1SD dashed lines.\cr
-   If you wish to show the interquartlie ranges (IQR) instead of the inner
-   68 percent of values, simply set \code{q.val = c(0.25,0.75)}.
+  The true 68 percent of values can be displayed as grey rectangles by
+  setting \code{q=TRUE}. It uses the \code{quantile} function to compute
+  the upper and lower bounds defining the inner 68 percent of values. If the
+  data follow a Normal distribution, the grey rectangle edges should coincide
+  with the +/- 1SD dashed lines.\cr
+  If you wish to show the interquartile ranges (IQR) instead of the inner
+  68 percent of values, simply set \code{q.val = c(0.25,0.75)}.
   \cr \cr
   The plot has the option to re-express the values via the \code{px} and
   \code{py} arguments. But note that if the re-expression produces \code{NaN}
-  values (such as if a negative value is logged) those points will be removed
-  from the plot. This will result in fewer observations being plotted. If
-  observations are removed as result of a re-expression a warning message
-  will be displayed in the console. \cr
-  The re-expression powers are shown in the upper right side of the plot.
-  To suppress the display of the re-expressions set \code{show.par = FALSE}.
+   values (such as if a negative value is logged) those points will be
+   removed from the plot. This will result in fewer observations being
+   plotted. If observations are removed as result of a re-expression a
+   warning message will be displayed in the console.
+   \cr
+   There-expression powers are shown in the upper right side of the plot. To
+  suppress the display of the re-expressions set \code{show.par = FALSE}.
+  \cr\cr
+  If the \code{robus} boolean argument is set to TRUE, \code{MASS}'s
+  built-in robust fitting model, \code{rlm} is used to fit the regression
+  line to the data. \code{rlm} arguments can be passed as a list via the
+  \code{rlm.d} argument.
 }
 \examples{
 
@@ -168,6 +184,11 @@ eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
 eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             px = 1/3, py = 0, q = TRUE, loe = TRUE)
 
+# Fit a second order polynomial
+eda_lm(mtcars, hp, mpg, poly = 2)
+
+# Fit a robust regression model
+eda_lm(mtcars, hp, mpg, robust = TRUE)
 }
 \seealso{
 \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}

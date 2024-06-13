@@ -1,5 +1,5 @@
 #' @export
-#' @import grDevices, MASS
+#' @import MASS
 #' @importFrom utils modifyList
 #' @title Regression plot (with optional LOESS fit)
 #'
