@@ -80,7 +80,7 @@
 #'    There-expression powers are shown in the upper right side of the plot. To
 #'   suppress the display of the re-expressions set \code{show.par = FALSE}.
 #'   \cr\cr
-#'   If the \code{robus} boolean argument is set to TRUE, \code{MASS}'s
+#'   If the \code{robust} argument is set to TRUE, \code{MASS}'s
 #'   built-in robust fitting model, \code{rlm} is used to fit the regression
 #'   line to the data. \code{rlm} arguments can be passed as a list via the
 #'   \code{rlm.d} argument.
