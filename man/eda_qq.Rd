@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_qq.R
 \name{eda_qq}
 \alias{eda_qq}
-\title{QQ and MD plots}
+\title{Quantile-Quantile and Mean-Difference Tukey plots}
 \usage{
 eda_qq(
   x,
@@ -101,9 +101,8 @@ the mid 75\% of values. Two values are needed.}
 Returns a list with the following components:
 
 \itemize{
-  \item \code{x}: X values. May be interpolated to smallest quantile batch.
-  Values will reflect power transformation defined in \code{p}.
-  \item \code{b}: Y values. May be interpolated to smallest quantile batch.
+  \item \code{data}: Dataframe with input \code{x} and \code{y} values.
+  May be interpolated to smallest quantile batch.
   Values will reflect power transformation defined in \code{p}.
   \item \code{p}: Re-expression applied to original values.
   \item \code{fx}: Formula applied to x variable.

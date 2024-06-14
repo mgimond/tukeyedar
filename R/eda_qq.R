@@ -2,7 +2,7 @@
 #' @import grDevices
 #' @import lattice
 #' @importFrom utils modifyList
-#' @title QQ and MD plots
+#' @title Quantile-Quantile and Mean-Difference Tukey plots
 #'
 #' @description \code{eda_qq} Generates an empirical or Normal QQ plot as well
 #' as a Tukey mean-difference plot.
@@ -65,9 +65,8 @@
 #' @returns Returns a list with the following components:
 #'
 #' \itemize{
-#'   \item \code{x}: X values. May be interpolated to smallest quantile batch.
-#'   Values will reflect power transformation defined in \code{p}.
-#'   \item \code{b}: Y values. May be interpolated to smallest quantile batch.
+#'   \item \code{data}: Dataframe with input \code{x} and \code{y} values.
+#'   May be interpolated to smallest quantile batch.
 #'   Values will reflect power transformation defined in \code{p}.
 #'   \item \code{p}: Re-expression applied to original values.
 #'   \item \code{fx}: Formula applied to x variable.
@@ -413,7 +412,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     print(paste0("Suggested offsets:", "y = ", "x * ", round(x.multi,4),
                  " + (", round(x.add,4),")"))
   }
-
-  invisible(list(x = x, y = y, p = p, fx = fx, fy = fy))
-
+  data <- data.frame(x, y)
+  names(data) <- c(xlab, ylab)
+  invisible(list(data = data, p = p, fx = fx, fy = fy))
 }
