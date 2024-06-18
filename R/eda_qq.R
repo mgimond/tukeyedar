@@ -2,16 +2,19 @@
 #' @import grDevices
 #' @import lattice
 #' @importFrom utils modifyList
-#' @title Quantile-Quantile and Mean-Difference Tukey plots
+#' @title Quantile-Quantile plot, mean-difference Tukey plot, and symmetry QQ
+#' plot
 #'
 #' @description \code{eda_qq} Generates an empirical or Normal QQ plot as well
-#' as a Tukey mean-difference plot.
+#' as a Tukey mean-difference plot. Can also be used to generate a symmetry QQ
+#' plot.
 #'
 #' @param x  Vector for first variable or a dataframe.
 #' @param y  Vector for second variable or column defining the continuous
 #'   variable if \code{x} is a dataframe.
 #' @param fac Column defining the grouping variable if \code{x} is a dataframe.
 #' @param norm Boolean determining if a Normal QQ plot is to be generated.
+#' @param sym Boolean determining if a symmetry QQ plot is to be generated.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -54,13 +57,25 @@
 #'   suggested multiplicative and additive offsets. See the QQ plot vignette for
 #'   an introduction on its use and interpretation.\cr
 #'   \cr
-#'   The function can also be used to generate a Normal QQ plot when the
+#'   The function can generate a Normal QQ plot when the
 #'   \code{norm} argument is set to  \code{TRUE}. In such a case, the line
 #'   parameters \code{l.val} are overridden and are set to +/- 1 standard
 #'   deviations. Note that the "suggested offsets" output is disabled, nor
 #'   can you generate an M-D version of the Normal QQ plot. Also note
-#'   that the formula argument is ignored in this mode.
-#'
+#'   that the formula argument is ignored in this mode.cr
+#'   \cr
+#'   The function can be used to generate a symmetry QQ plot when the
+#'   \code{sym} argument is set to  \code{TRUE}. This plot helps assess the
+#'   symmetry of a variable by splitting it into two halves, upper and lower,
+#'   using the batch's median as the cutoff point. The values for each half are
+#'   the distances of each observation to the medina value in \code{x}'s units.
+#'   The distance starts at 0 in the bottom-left corner of the plot. The grey
+#'   box width, \code{b.val} and outer quantile line, \code{l.val}, will be
+#'   measure from the origin given that the batch's center of mass is at 0.
+#'   Power transformations can be applied to \code{x} but any formulas passed
+#'   via \code{fx} or \code{fy} are ignored. This plot is inspired from the
+#'   symmetry plot described by Chambers et al. in section 2.8 of their book
+#'   (see reference).
 #'
 #' @returns Returns a list with the following components:
 #'
@@ -72,6 +87,11 @@
 #'   \item \code{fx}: Formula applied to x variable.
 #'   \item \code{fy}: Formula applied to y variable.}
 #'
+#' @references
+#'
+#' \itemize{
+#'   \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+#'   Graphical Methods for Data Analysis (1983)}
 #'
 #' @examples
 #'
@@ -116,16 +136,19 @@
 #'  # species' petal widths.
 #'  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 #'
-#'  # Function can also generate a Normal QQ plot
+#'  # Function can generate a Normal QQ plot
 #'  eda_qq(bass2, norm = TRUE)
+#'
+#'  # Function can also generate a symmetry QQ plot
+#'  eda_qq(tenor1, sym = TRUE)
 
 
-eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
-                   md = FALSE, q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
-                   show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
-                   b.val = c(0.25,0.75), l.val = c(0.125, 0.875), xlab = NULL,
-                   ylab = NULL, title = NULL, t.size = 1.2, ...) {
+eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
+                   tukey = FALSE, md = FALSE, q.type = 5, fx = NULL, fy = NULL,
+                   plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
+                   p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
+                   q = TRUE, b.val = c(0.25,0.75), l.val = c(0.125, 0.875),
+                   xlab = NULL, ylab = NULL, title = NULL, t.size = 1.2, ...) {
 
   # Parameters check
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
@@ -134,6 +157,15 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     stop("x needs to be a vector if norm=TRUE")
   if(norm == TRUE & md == TRUE)
     stop("A rotated version of Normal QQ plot is not yet implemented.")
+  if(norm == TRUE & sym == TRUE)
+    stop(paste("This function cannot combine a normal QQ plot with a symmetry QQ plot.",
+               " Either set norm to FALSE or sym to FALSE."))
+   if(sym == TRUE & ("data.frame" %in% class(x)) )
+    stop("x must be avector and not a dataframe to generate a symmetry QQ plot")
+   if(sym == TRUE)
+    cat(" This is a symmetry QQ plot.\n",
+        "Values are distances from each observation to the median value\n",
+        "Function arguments (fx and fy) are ignored")
 
   # Extract data ----
   if("data.frame" %in% class(x)){
@@ -150,8 +182,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     y <- val[fac == g[2]]
     xlab <- g[1]
     ylab <- g[2]
-
-  } else {
+  } else if (sym != TRUE){
 
     if(is.null(xlab)){
       if( norm == FALSE) {
@@ -162,9 +193,9 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
     }
 
     if(is.null(ylab) & norm == FALSE){
-      ylab = as.character(substitute(y))
+      ylab <- as.character(substitute(y))
     } else if (is.null(ylab) & norm == TRUE){
-      ylab = substitute(x)
+      ylab <- substitute(x)
     }
   }
 
@@ -172,7 +203,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
   x <- eda_re(x, p = p, tukey = tukey)
   x.isna <- is.na(x)
   rm.nan <- ifelse( any(x.isna), 1 , 0)
-  if(norm == FALSE) {
+  if(norm == FALSE & sym == FALSE) {
     y <- eda_re(y, p = p, tukey = tukey)
     y.isna <- is.na(y)
     rm.nan <- ifelse( any(y.isna), 1 , 0) + rm.nan
@@ -193,6 +224,26 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
   }
 
 
+  # If a symmetry QQ plot is requested, split x in half
+  if(sym == TRUE) {
+    med <- median(x)
+    len <- length(x)
+    x.sort <- sort(x)
+    n2 <- ifelse( len%%2 == 0, len/2, (len + 1)/2)
+    x <- med - x.sort[1:n2]
+    y <- x.sort[ (len + 1) - (1:n2) ] - med
+    xlab <- "lower half"
+    ylab <- "upper half"
+
+    # Modify grey box and line parameters
+    l.val <- c(0, diff(l.val))
+    b.val <- c(0, diff(b.val))
+
+    # Ignore any functions applied to the data
+    fx <- NULL
+    fy <- NULL
+  }
+
   # Compute x and y values ----
   if(norm == FALSE){
     zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
@@ -204,7 +255,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
   zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
 
   # Get suggested multiplier and offset (only for empirical data)
-  if(!norm == TRUE){
+  if(norm == FALSE & sym == FALSE ){
     z <- eda_rline(zd,x,y)
     x.multi <-  1 + z$b
     x.add <- median(zl$y - sort(zl$x * x.multi))
@@ -330,9 +381,11 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
       abline(int, slope, col = plotcol)
     }
 
-    # Add quantile boundary lines ----
-    abline(v = medx, col = "grey80", lty = 2)
-    abline(h = medy, col = "grey80", lty = 2)
+    # Add medians (omit id sym == TRUE) ----
+    if(sym != TRUE){
+      abline(v = medx, col = "grey80", lty = 2)
+      abline(h = medy, col = "grey80", lty = 2)
+    }
 
     # Add core boxes ----
     sq <- par("usr") # get plot corners
@@ -408,7 +461,7 @@ eda_qq <- function(x, y=NULL, fac = NULL, norm = FALSE, p = 1L, tukey = FALSE,
 
   # Reset plot parameters and  output values
   par(.pardef)
-  if(!norm == TRUE){
+  if(norm == FALSE & sym == FALSE){
     print(paste0("Suggested offsets:", "y = ", "x * ", round(x.multi,4),
                  " + (", round(x.add,4),")"))
   }
