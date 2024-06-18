@@ -7,7 +7,7 @@
 eda_unipow(
   x,
   p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2),
-  tukey = TRUE,
+  tukey = FALSE,
   bins = 5,
   cex.main = 1.3,
   col = "#DDDDDD",
@@ -21,7 +21,7 @@ eda_unipow(
 
 \item{p}{Vector of powers}
 
-\item{tukey}{If TRUE (default), apply Tukey's power transformation, if FALSE
+\item{tukey}{If TRUE, apply Tukey's power transformation. If FALSE
 adopt Box-Cox transformation}
 
 \item{bins}{Number of histogram bins}
@@ -51,7 +51,7 @@ across different powers.\cr
 }
 \examples{
 data(mtcars)
-eda_unipow(mtcars$mpg, bins=6)
+eda_unipow(mtcars$mpg, bins=6, tukey = TRUE)
 }
 \references{
 \itemize{

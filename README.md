@@ -52,6 +52,7 @@ accessed from this website:
   polish](https://mgimond.github.io/tukeyedar/articles/polish.html)
 - [The empirical QQ
   plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
+- [The symmetry QQ plot](https://mgimond.github.io/tukeyedar/articles/symqq.html)
 
 If you chose to have the vignettes locally created when you installed
 the package, then you can view them locally via

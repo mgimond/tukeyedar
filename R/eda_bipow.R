@@ -35,11 +35,11 @@
 #' eda_bipow(dat = cars, x = speed, y = dist)
 #' # Custom powers
 #' eda_bipow(dat = cars, x = speed, y = dist, p = c(-1, -0.5, 0, 0.5, 1))
-#' # Adopt box-cox transformation
-#' eda_bipow(dat = cars, x = speed, y = dist, tukey = FALSE, p = c(-1, -0.5, 0, 0.5, 1))
+#' # Adopt Tukey transformation
+#' eda_bipow(dat = cars, x = speed, y = dist, tukey = TRUE, p = c(-1, -0.5, 0, 0.5, 1))
 #'
 
-eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey=TRUE, ...) {
+eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...) {
 
   if(!missing(dat))
   {

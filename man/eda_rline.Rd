@@ -4,7 +4,7 @@
 \alias{eda_rline}
 \title{Tukey's resistant line}
 \usage{
-eda_rline(dat, x, y, px = 1, py = 1, tukey = TRUE, maxiter = 20)
+eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20)
 }
 \arguments{
 \item{dat}{Data frame.}

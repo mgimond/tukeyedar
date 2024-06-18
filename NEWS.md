@@ -1,3 +1,7 @@
+# tukeyedar 0.2.5
+* Added symmetry QQ option to `eda_qq` function.
+* Ensure that all re-expressions default to Box-Cox method.
+
 # tukeyedar 0.2.4
 * Added polynomial option to `eda_lm` function.
 * Added robust fitting option to `eda_lm` function (uses `MASS::rlm`)

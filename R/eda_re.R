@@ -19,7 +19,7 @@
 #' x <- c(15, 28, 17, 73,  8, 83,  2)
 #' eda_re(x, p=-1/3)
 
-eda_re <- function(x, p=0, tukey=TRUE){
+eda_re <- function(x, p=0, tukey=FALSE){
   if(p == 0) {
     z <- ifelse(!is.na(x), log(x), NA)
   } else if(tukey == FALSE & p != 1) {

@@ -75,7 +75,7 @@
 #'
 
 
-eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, maxiter = 20){
+eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20){
 
   if(!missing(dat))
   {
@@ -168,7 +168,7 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, maxiter = 20){
 }
 
 
-# eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, iter = 20){
+# eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = FALSE, iter = 20){
 #
 #   if(!missing(dat))
 #   {

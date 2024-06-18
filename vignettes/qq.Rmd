@@ -1,5 +1,5 @@
 ---
-title: "The empirical QQ plot"
+title: "The empirical QQ plot (and derived Tukey mean-difference plot)"
 author: "Manuel Gimond"
 date: "`r Sys.Date()`"
 output: 
@@ -7,7 +7,7 @@ output:
     toc: TRUE
     css: style.css
 vignette: >
-  %\VignetteIndexEntry{The empirical QQ plot}
+  %\VignetteIndexEntry{The empirical QQ plot (and derived Tukey mean-difference plot)}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

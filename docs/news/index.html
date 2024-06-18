@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,8 +25,9 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/polish.html">Median polish</a>
-    <a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot</a>
+    <a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a>
     <a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a>
+    <a class="dropdown-item" href="../articles/symqq.html">The symmetry QQ plot</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -52,6 +53,11 @@
       <small>Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.5" id="tukeyedar-025">tukeyedar 0.2.5<a class="anchor" aria-label="anchor" href="#tukeyedar-025"></a></h2>
+<ul><li>Added symmetry QQ option to <code>eda_qq</code> function.</li>
+<li>Ensure that all re-expressions default to Box-Cox method.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.4" id="tukeyedar-024">tukeyedar 0.2.4<a class="anchor" aria-label="anchor" href="#tukeyedar-024"></a></h2>
 <ul><li>Added polynomial option to <code>eda_lm</code> function.</li>

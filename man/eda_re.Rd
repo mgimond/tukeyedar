@@ -4,7 +4,7 @@
 \alias{eda_re}
 \title{Re-expression function}
 \usage{
-eda_re(x, p = 0, tukey = TRUE)
+eda_re(x, p = 0, tukey = FALSE)
 }
 \arguments{
 \item{x}{Vector}

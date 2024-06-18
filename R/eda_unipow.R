@@ -8,7 +8,7 @@
 #'
 #' @param x  Vector
 #' @param p  Vector of powers
-#' @param tukey If TRUE (default), apply Tukey's power transformation, if FALSE
+#' @param tukey If TRUE, apply Tukey's power transformation. If FALSE
 #'   adopt Box-Cox transformation
 #' @param bins Number of histogram bins
 #' @param cex.main Histogram title size (assigned to each histogram plot)
@@ -30,11 +30,11 @@
 #'
 #' @examples
 #' data(mtcars)
-#' eda_unipow(mtcars$mpg, bins=6)
+#' eda_unipow(mtcars$mpg, bins=6, tukey = TRUE)
 
 
 eda_unipow <- function(x, p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2),
-                     tukey = TRUE,
+                     tukey = FALSE,
                      bins=5, cex.main=1.3,
                      col="#DDDDDD",border="#AAAAAA",
                      title="Re-expressed data via ladder of powers",
