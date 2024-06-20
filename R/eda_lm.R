@@ -218,7 +218,7 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
        tck = -0.02)
-  mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
+  mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
 
   sq <- par("usr") # get plot corners
   if (sd == TRUE){

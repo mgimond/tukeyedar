@@ -216,7 +216,7 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
   }
 
 #  mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
-  mtext(ylab, side=3, adj= -0.01 ,col=plotcol,  padj = -1.1)
+  mtext(ylab, side=3, adj= -0.01 ,col=plotcol,  padj = -1.1, cex = par("cex"))
   title(xlab = xlab, line =1.8, col.lab=plotcol)
 
   # Add 0 line

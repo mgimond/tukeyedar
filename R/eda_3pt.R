@@ -172,7 +172,7 @@ eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
          tck = -0.02)
-    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
+    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
     title(xlab = xlab, line =1.8, col.lab=plotcol)
   }
 

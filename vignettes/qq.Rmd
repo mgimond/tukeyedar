@@ -335,7 +335,6 @@ This next chunk of code will generate three separate QQ plots for each range of 
 labs <- c("low", "mid", "high")
 out <- Q$data
 out$avg <- (out$old + out$new) / 2
-#out <- as.data.frame(out[c(1:2,6)])
 out2 <- split(out, cut(out$avg, c(min(out$avg), 35, 50, max(out$avg)), 
                        labels = labs, include.lowest = TRUE))
 sapply(labs, FUN = \(x) {eda_qq(out2[[x]]$old, out2[[x]]$new ,
@@ -349,7 +348,6 @@ OP <- par(mfrow = c(1,3))
 labs <- c("low", "mid", "high")
 out <- Q$data
 out$avg <- (out$old + out$new) / 2
-#out <- as.data.frame(out[c(1:2,6)])
 out2 <- split(out, cut(out$avg, c(min(out$avg), 35, 50, max(out$avg)), 
                        labels = labs, include.lowest = TRUE))
 tmp <- sapply(labs, FUN = \(x) {eda_qq(out2[[x]]$old, out2[[x]]$new ,

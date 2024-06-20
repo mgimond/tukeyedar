@@ -360,7 +360,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
          tck = -0.02)
 
-    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2)
+    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
     title(xlab = xlab, line =1.8, col.lab=plotcol)
 
     if(!is.null(title)){
@@ -435,7 +435,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(ylab2, side=3, adj= -0.06 ,col=plotcol,  padj = -1.1)
+    mtext(ylab2, side=3, adj= -0.06 ,col=plotcol,  padj = -1.1, cex = par("cex"))
     title(xlab = xlab2, line =1.8, col.lab=plotcol)
     if(!is.null(title)){
       title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
