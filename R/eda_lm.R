@@ -180,8 +180,7 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
     #M <- lm(y ~ x, weights = w)
     M <- lm(y ~ poly(x, degree = poly, raw = TRUE), weights = w)
   } else {
-    rlm.d <- modifyList(list(formula = y ~ poly(x, degree=poly, raw=TRUE),
-                             data = dat), rlm.d)
+    rlm.d <- modifyList(list(formula = y ~ poly(x, degree=poly, raw=TRUE)), rlm.d)
     M <- do.call(MASS::rlm, rlm.d)
   }
 
