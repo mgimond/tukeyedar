@@ -235,7 +235,7 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   title(xlab = xlab, line =1.8, col.lab=plotcol)
   if(reg == TRUE) {
     #abline(M, lw = 2, col = lm.col )
-    line_x <- with(dat, seq(min(x), max(x), length.out=300))
+    line_x <- seq(min(x), max(x), length.out=300)
     line_y <- predict(M, newdata = data.frame(x = line_x))
     lines(line_x, line_y, lw = 2, col = lm.col)
   }
