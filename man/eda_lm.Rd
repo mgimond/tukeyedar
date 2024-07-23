@@ -20,6 +20,7 @@ eda_lm(
   w = NULL,
   sd = TRUE,
   mean.l = TRUE,
+  asp = TRUE,
   grey = 0.6,
   pch = 21,
   p.col = "grey50",
@@ -73,6 +74,11 @@ be plotted.}
 
 \item{mean.l}{Boolean determining if the x and y mean lines should be added
 to the plot.}
+
+\item{asp}{Boolean determining if the plot aspect ratio should equal the
+ratio of the x and y standard deviations. A value of \code{FALSE} defaults
+to the base plot's default aspect ratio. A value of \code{TRUE} uses the
+aspect ratio \code{sd(x)/sd(y)}.}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 

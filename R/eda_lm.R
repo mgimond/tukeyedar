@@ -49,6 +49,10 @@
 #'   function. A robust loess is used by default.
 #' @param rlm.d A list of arguments passed to the \code{MASS::rlm}
 #'   function.
+#' @param asp Boolean determining if the plot aspect ratio should equal the
+#'   ratio of the x and y standard deviations. A value of \code{FALSE} defaults
+#'   to the base plot's default aspect ratio. A value of \code{TRUE} uses the
+#'   aspect ratio \code{sd(x)/sd(y)}.
 #' @param xlab X label for output plot.
 #' @param ylab Y label for output plot.
 #' @param ... Not used.
@@ -128,7 +132,7 @@
 
 eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                    tukey = FALSE, show.par = TRUE, reg = TRUE, poly = 1,
-                   robust = FALSE,  w=NULL, sd = TRUE, mean.l = TRUE,
+                   robust = FALSE,  w=NULL, sd = TRUE, mean.l = TRUE,asp = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
                    size = 0.8, alpha = 0.8, q = FALSE, q.val = c(0.16,0.84),
                    q.type = 5, loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8),
@@ -211,7 +215,9 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   mean.x <- mean(x, na.rm=T)
   mean.y <- mean(y, na.rm=T)
 
-  plot( x=x, y=y , asp=sd.x/sd.y, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+  asp_val <- ifelse(asp == TRUE, sd.x/sd.y, NA) # See if x and y SDs need to match
+
+  plot( x=x, y=y , asp=asp_val, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
   box(col=plotcol)
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
