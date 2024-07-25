@@ -64,6 +64,7 @@
 <span>  alpha <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  switch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -133,6 +134,11 @@ if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rg
 
 <dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
 <dd><p>Y variable label. Ignored if <code>x</code> is a dataframe.</p></dd>
+
+
+<dt id="arg-switch">switch<a class="anchor" aria-label="anchor" href="#arg-switch"></a></dt>
+<dd><p>Boolean determining if the axes should be swapped. Only applies
+to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 
 
 <dt id="arg-legend">legend<a class="anchor" aria-label="anchor" href="#arg-legend"></a></dt>
