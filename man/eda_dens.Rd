@@ -19,6 +19,7 @@ eda_dens(
   alpha = 0.4,
   xlab = NULL,
   ylab = NULL,
+  switch = FALSE,
   legend = TRUE,
   ...
 )
@@ -57,6 +58,9 @@ if \code{rgb()} is not used to define fill colors.}
 \item{xlab}{X variable label. Ignored if \code{x} is a dataframe.}
 
 \item{ylab}{Y variable label. Ignored if \code{x} is a dataframe.}
+
+\item{switch}{Boolean determining if the axes should be swapped. Only applies
+to dataframe input. Ignored if vectors are passed to the function.}
 
 \item{legend}{Boolean determining if a legend should be added to the plot.}
 

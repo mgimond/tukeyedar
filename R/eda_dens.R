@@ -27,6 +27,8 @@
 #' @param ylab Y variable label. Ignored if \code{x} is a dataframe.
 #' @param show.par Boolean determining if parameters such as power
 #'   transformation or formula should be displayed.
+#' @param switch Boolean determining if the axes should be swapped. Only applies
+#'   to dataframe input. Ignored if vectors are passed to the function.
 #' @param ... Arguments passed to the \code{stats::density()} function.
 #'
 #' @details This function will generate overlapping density plots with the first
@@ -51,14 +53,29 @@
 
 
 eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
-                     fy = NULL, grey = 0.6, col = "red", size = 0.8, show.par= TRUE,
-                     alpha = 0.4, xlab = NULL, ylab = NULL, legend = TRUE, ...) {
+                     fy = NULL, grey = 0.6, col = "red", size = 0.8,
+                     show.par= TRUE, alpha = 0.4, xlab = NULL, ylab = NULL,
+                     switch = FALSE, legend = TRUE, ...) {
 
   # Extract data
   if("data.frame" %in% class(x)){
     val <- eval(substitute(y), x)
-    fac <- eval(substitute(fac), x)
-    g <- unique(fac)
+    #fac <- eval(substitute(fac), x)
+    fac <- as.factor(eval(substitute(fac), x))
+    fac <- droplevels(fac)
+
+    # Get level order (determines axes order)
+    if(is.null(levels(fac))) {
+      g <- unique(fac)
+    } else {
+      g <- levels(fac)
+    }
+
+    # Switch axes if requested
+    if (switch == TRUE){
+      g <- rev(g)
+    }
+
     if( length(g) != 2){
       stop(paste("Column", fac, "has", length(g),
                  "unique values. It needs to have two exactly."))

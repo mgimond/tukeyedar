@@ -28,6 +28,7 @@ eda_qq(
   q = TRUE,
   b.val = c(0.25, 0.75),
   l.val = c(0.125, 0.875),
+  switch = FALSE,
   xlab = NULL,
   ylab = NULL,
   title = NULL,
@@ -90,6 +91,9 @@ IQR. Two values are needed.}
 
 \item{l.val}{Quantiles to define the quantile line parameters. Defaults to
 the mid 75\% of values. Two values are needed.}
+
+\item{switch}{Boolean determining if the axes should be swapped. Only applies
+to dataframe input. Ignored if vectors are passed to the function.}
 
 \item{xlab}{X label for output plot. Ignored if \code{x} is a dataframe.}
 

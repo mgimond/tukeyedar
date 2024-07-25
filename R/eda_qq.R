@@ -42,6 +42,8 @@
 #'   IQR. Two values are needed.
 #' @param l.val Quantiles to define the quantile line parameters. Defaults to
 #'   the mid 75\% of values. Two values are needed.
+#' @param switch Boolean determining if the axes should be swapped. Only applies
+#'   to dataframe input. Ignored if vectors are passed to the function.
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param title Title to add to plot.
@@ -148,7 +150,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                    plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
                    p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
                    q = TRUE, b.val = c(0.25,0.75), l.val = c(0.125, 0.875),
-                   xlab = NULL, ylab = NULL, title = NULL, t.size = 1.2, ...) {
+                   switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
+                   t.size = 1.2, ...) {
 
   # Parameters check
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
@@ -170,14 +173,31 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   # Extract data ----
   if("data.frame" %in% class(x)){
     val <- eval(substitute(y), x)
-    fac <- eval(substitute(fac), x)
+    #fac <- eval(substitute(fac), x)
+    fac <- as.factor(eval(substitute(fac), x))
+    fac <- droplevels(fac)
+
     if (is.null(fac))
       stop("You need to pass a valid factor column to the fac parameter")
-    g <- unique(fac)
+
+    # Get level order (determines axes order)
+    if(is.null(levels(fac))) {
+      g <- unique(fac)
+    } else {
+      g <- levels(fac)
+    }
+
+    # Switch axes if requested
+    if (switch == TRUE){
+      g <- rev(g)
+    }
+
     if( length(g) != 2){
       stop(paste("Column", fac, "has", length(g),
                  "unique values. It needs to have two exactly."))
     }
+
+    # Extract X and Y values
     x <- val[fac == g[1]]
     y <- val[fac == g[2]]
     xlab <- g[1]
