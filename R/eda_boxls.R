@@ -17,8 +17,7 @@
 #' @param type Plot type. "none" = no equalization ; "l" = equalize by level;
 #'   "ls" = equalize by both level and spread
 #' @param notch Boolean determining if notches should be added.
-#' @param  horiz  plot horizontally (TRUE) or vertically (FALSE)
-#' @param  outliers  plot outliers (TRUE) or not (FALSE)
+#' @param horiz  plot horizontally (TRUE) or vertically (FALSE)
 #' @param xlab X label for output plot
 #' @param ylab Y label for output plot
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
@@ -80,7 +79,7 @@
 
 eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
                       out.txt = NULL, type="none", notch = FALSE, horiz=FALSE,
-                      outliers=TRUE, xlab = NULL, ylab = NULL, grey = 0.6,
+                      xlab = NULL, ylab = NULL, grey = 0.6,
                       reorder=TRUE, reorder.stat="median"){
 
   # Parameters check

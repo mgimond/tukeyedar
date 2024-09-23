@@ -1,3 +1,7 @@
+# tukeyedar 0.2.6
+* Added the quantile-difference plot to the `eda_qq` function.
+* Removed redundant `outliers` argument from `eda_boxls` (#21).
+
 # tukeyedar 0.2.5
 * Added symmetry QQ option to `eda_qq` function.
 * Ensure that all re-expressions default to Box-Cox method.

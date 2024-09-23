@@ -22,6 +22,8 @@
 #'   algorithms. (See \code{quantile}tile function).
 #' @param md Boolean determining if Tukey mean-difference plot should be
 #'   generated.
+#' @param qd Boolean determining if a quantile-difference plot should be
+#'   generated (overrides the \code{md} option).
 #' @param fx Formula to apply to x variable. This is computed after any
 #'   transformation is applied to the x variable.
 #' @param fy Formula to apply to y variable. This is computed after any
@@ -114,8 +116,12 @@
 #'  # We can fine-tune by generating the Tukey mean-difference plot
 #'  eda_qq(bass2, tenor1, fx = "x - 2", md = TRUE)
 #'
+#'  # An alternative to the mean-difference plot is the quantile-difference plot
+#'  # where the quantile (instead of the mean) is mapped to the x-axis
+#'  eda_qq(bass2, tenor1, fx = "x - 2", qd = TRUE)
+#'
 #'  # An offset of another 0.5 inches seems warranted
-#'  # We can sat that overall, bass2 singers are 2.5 inches taller than  tenor1.
+#'  # We can say that overall, bass2 singers are 2.5 inches taller than  tenor1.
 #'  # The offset is additive.
 #'  eda_qq(bass2, tenor1, fx = "x - 2.5", md = TRUE)
 #'
@@ -146,8 +152,8 @@
 
 
 eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
-                   tukey = FALSE, md = FALSE, q.type = 5, fx = NULL, fy = NULL,
-                   plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
+                   tukey = FALSE, md = FALSE, qd = FALSE, q.type = 5, fx = NULL,
+                   fy = NULL, plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
                    p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
                    q = TRUE, b.val = c(0.25,0.75), l.val = c(0.125, 0.875),
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
@@ -160,6 +166,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     stop("x needs to be a vector if norm=TRUE")
   if(norm == TRUE & md == TRUE)
     stop("A rotated version of Normal QQ plot is not yet implemented.")
+  if(norm == TRUE & qd == TRUE)
+    stop("A rotated version of Normal QQ plot is not yet implemented.")
   if(norm == TRUE & sym == TRUE)
     stop(paste("This function cannot combine a normal QQ plot with a symmetry QQ plot.",
                " Either set norm to FALSE or sym to FALSE."))
@@ -169,7 +177,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     cat(" This is a symmetry QQ plot.\n",
         "Values are distances from each observation to the median value\n",
         "Function arguments (fx and fy) are ignored")
-
+   if(md == TRUE & qd == TRUE) warning(paste("Both md and qd are set to TRUE.",
+                                             "qd will override md."))
   # Extract data ----
   if("data.frame" %in% class(x)){
     val <- eval(substitute(y), x)
@@ -343,7 +352,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   on.exit(par(.pardef))
 
   # QQ plot ----
-  if(plot == TRUE & md == FALSE){
+  if(plot == TRUE & md == FALSE & qd == FALSE){
 
 
     # Get quantile parameters
@@ -429,7 +438,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
 
     #  M-D plot ----
-  } else if(plot == TRUE & md == TRUE & norm == FALSE) {
+  } else if(plot == TRUE & md == TRUE & norm == FALSE & qd == FALSE) {
 
     # Generate labels
     xlab2 <- paste("Mean of", xlab, "and", ylab)
@@ -476,7 +485,57 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
       params <- gsub("\\; \\;", ";", params)
       mtext(side = 3, text=params, adj=1, cex = 0.65)
     }
+  } else if(plot == TRUE & qd == TRUE){
 
+    # Generate labels
+    xlab2 <- paste("Quantile")
+    ylab2 <- paste(ylab,"-", xlab)
+
+    # Compute q-d variables
+    md.y  <- (y - x)
+    md.x  <- (1:length(y) - 0.5) /length(y)
+
+    # Get quantile parameters
+    qy <- quantile(md.y, b.val, qtype = q.type)
+    ly <- quantile(md.y, l.val, qtype = q.type)
+    lx <- c(0.25, 0.5, 0.75) # Vertical lines showing IQR an median
+    print(lx)
+    medx <- median(md.x)
+    medy <- median(md.y)
+
+    # If f-vall type is not 5, print warning
+    if(q.type != 5) warning("Currently, only q.type = 5 is implemented.")
+
+    # Generate plot
+    ylim <- range(md.y, 0)
+
+    plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+          ylim = ylim)
+    box(col=plotcol)
+    axis(1,col=plotcol, col.axis=plotcol, labels=lx, at=lx, padj = -0.5)
+    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
+    mtext(ylab2, side=3, adj= -0.06 ,col=plotcol,  padj = -1.1, cex = par("cex"))
+    title(xlab = xlab2, line =1.8, col.lab=plotcol)
+    if(!is.null(title)){
+      title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
+    }
+
+    abline(h = 0,  col = plotcol)
+    abline(v = medx, col = "grey80", lty = 2)
+    abline(h = medy, col = "grey80", lty = 2)
+    abline(h = ly, col = "grey90", lty = 3)
+    abline(v = lx, col = "grey90", lty = 3)
+    sq <- par("usr") # get plot corners
+    if(q == TRUE){
+      rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
+           col = rgb(0,0,0,0.05), border = NA)
+    }
+    if(show.par == TRUE){
+      params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
+      params <- gsub("\\; \\;", ";", params)
+      mtext(side = 3, text=params, adj=1, cex = 0.65)
+    }
   }
 
   # Reset plot parameters and  output values
