@@ -11,7 +11,7 @@ plot."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ plot."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Quantile-Quantile plot, mean-difference Tukey plot, and symmetry QQ plot</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/R/eda_qq.R" class="external-link"><code>R/eda_qq.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.2.6/R/eda_qq.R" class="external-link"><code>R/eda_qq.R</code></a></small>
       <div class="d-none name"><code>eda_qq.Rd</code></div>
     </div>
 
@@ -61,6 +61,7 @@ plot.</p>
 <span>  p <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  tukey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  md <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  qd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  q.type <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  fx <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fy <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -121,6 +122,11 @@ variable if <code>x</code> is a dataframe.</p></dd>
 <dt id="arg-md">md<a class="anchor" aria-label="anchor" href="#arg-md"></a></dt>
 <dd><p>Boolean determining if Tukey mean-difference plot should be
 generated.</p></dd>
+
+
+<dt id="arg-qd">qd<a class="anchor" aria-label="anchor" href="#arg-qd"></a></dt>
+<dd><p>Boolean determining if a quantile-difference plot should be
+generated (overrides the <code>md</code> option).</p></dd>
 
 
 <dt id="arg-q-type">q.type<a class="anchor" aria-label="anchor" href="#arg-q-type"></a></dt>
@@ -287,11 +293,18 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 <span class="r-plt img"><img src="eda_qq-4.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.04 + (-5.2163)"</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># An alternative to the mean-difference plot is the quantile-difference plot</span></span></span>
+<span class="r-in"><span> <span class="co"># where the quantile (instead of the mean) is mapped to the x-axis</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x - 2"</span>, qd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.25 0.50 0.75</span>
+<span class="r-plt img"><img src="eda_qq-5.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.04 + (-5.2163)"</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># An offset of another 0.5 inches seems warranted</span></span></span>
-<span class="r-in"><span> <span class="co"># We can sat that overall, bass2 singers are 2.5 inches taller than  tenor1.</span></span></span>
+<span class="r-in"><span> <span class="co"># We can say that overall, bass2 singers are 2.5 inches taller than  tenor1.</span></span></span>
 <span class="r-in"><span> <span class="co"># The offset is additive.</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x - 2.5"</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-6.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.04 + (-5.2163)"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Example 2: Sepal width</span></span></span>
@@ -299,38 +312,38 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 <span class="r-in"><span> <span class="va">virginica</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"virginica"</span>, select <span class="op">=</span> <span class="va">Petal.Width</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">setosa</span>, <span class="va">virginica</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-6.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-7.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.7143 + (1.6286)"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># The points are not completely parallel to the  1:1 line suggesting a</span></span></span>
 <span class="r-in"><span> <span class="co"># multiplicative offset. The slope may be difficult to eyeball. The function</span></span></span>
 <span class="r-in"><span> <span class="co"># outputs a suggested slope and intercept. We can start with that</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">setosa</span>, <span class="va">virginica</span>, fx <span class="op">=</span> <span class="st">"x *  1.7143"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-7.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-8.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.7143 + (1.6286)"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Now let's add the suggested additive offset.</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">setosa</span>, <span class="va">virginica</span>, fx <span class="op">=</span> <span class="st">"x *  1.7143  + 1.6286"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-8.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-9.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.7143 + (1.6286)"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># We can confirm this value via the mean-difference plot</span></span></span>
 <span class="r-in"><span> <span class="co"># Overall, we have both a multiplicative and additive offset between the</span></span></span>
 <span class="r-in"><span> <span class="co"># species' petal widths.</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">setosa</span>, <span class="va">virginica</span>, fx <span class="op">=</span> <span class="st">"x *  1.7143 + 1.6286"</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-9.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-10.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.7143 + (1.6286)"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Function can generate a Normal QQ plot</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-10.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-11.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Function can also generate a symmetry QQ plot</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">tenor1</span>, sym <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  This is a symmetry QQ plot.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Values are distances from each observation to the median value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Function arguments (fx and fy) are ignored</span>
-<span class="r-plt img"><img src="eda_qq-11.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_qq-12.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -342,7 +355,7 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
