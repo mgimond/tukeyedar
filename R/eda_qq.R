@@ -152,12 +152,19 @@
 
 
 eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
-                   tukey = FALSE, md = FALSE, qd = FALSE, q.type = 5, fx = NULL,
-                   fy = NULL, plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
-                   p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
-                   q = TRUE, b.val = c(0.25,0.75), l.val = c(0.125, 0.875),
+                   tukey = FALSE, md = FALSE, qd = FALSE,
+                   q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
+                   show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
+                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
+                   b.val = c(0.25,0.75), l.val = c(0.125, 0.875),
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
                    t.size = 1.2, ...) {
+
+  # Check for invalid arguments
+  input <- names(list(...))
+  check <- input %in% names(formals(cat))
+  if (any(!check)) warning(sprintf("%s is not a valid argument.",
+                                   paste(input[!check], collapse = ", ")))
 
   # Parameters check
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
@@ -177,8 +184,14 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     cat(" This is a symmetry QQ plot.\n",
         "Values are distances from each observation to the median value\n",
         "Function arguments (fx and fy) are ignored")
-   if(md == TRUE & qd == TRUE) warning(paste("Both md and qd are set to TRUE.",
-                                             "qd will override md."))
+   if(md == TRUE & qd == TRUE)
+     warning(paste("Both md and qd are set to TRUE. ",
+                   "qd will override md."))
+   if(!"data.frame" %in% class(x) & switch == TRUE)
+     warning(paste("The argument switch was set to TRUE yet the input dataset ",
+                   "is not a dataframe. Switch only applies to data stored ",
+                   "in a dataframe."))
+
   # Extract data ----
   if("data.frame" %in% class(x)){
     val <- eval(substitute(y), x)
@@ -215,21 +228,23 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
     if(is.null(xlab)){
       if( norm == FALSE) {
-        xlab = as.character(substitute(x))
+        xlab = deparse(substitute(x))
       } else {
         xlab = "Normal quantile"
       }
     }
 
     if(is.null(ylab) & norm == FALSE){
-      ylab <- as.character(substitute(y))
+      ylab <- deparse(substitute(y))
     } else if (is.null(ylab) & norm == TRUE){
       ylab <- substitute(x)
     }
   }
 
   # Re-express data if required
-  x <- eda_re(x, p = p, tukey = tukey)
+  if (p != 1) {
+    x <- eda_re(x, p = p, tukey = tukey)
+  }
   x.isna <- is.na(x)
   rm.nan <- ifelse( any(x.isna), 1 , 0)
   if(norm == FALSE & sym == FALSE) {
@@ -485,6 +500,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
       params <- gsub("\\; \\;", ";", params)
       mtext(side = 3, text=params, adj=1, cex = 0.65)
     }
+
+    #  Q-D plot  ----
   } else if(plot == TRUE & qd == TRUE){
 
     # Generate labels

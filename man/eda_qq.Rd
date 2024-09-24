@@ -14,6 +14,7 @@ eda_qq(
   p = 1L,
   tukey = FALSE,
   md = FALSE,
+  qd = FALSE,
   q.type = 5,
   fx = NULL,
   fy = NULL,
@@ -55,6 +56,9 @@ variable if \code{x} is a dataframe.}
 
 \item{md}{Boolean determining if Tukey mean-difference plot should be
 generated.}
+
+\item{qd}{Boolean determining if a quantile-difference plot should be
+generated (overrides the \code{md} option).}
 
 \item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
 algorithms. (See \code{quantile}tile function).}
@@ -170,8 +174,12 @@ When the function is used to generate an empirical QQ plot, the plot
  # We can fine-tune by generating the Tukey mean-difference plot
  eda_qq(bass2, tenor1, fx = "x - 2", md = TRUE)
 
+ # An alternative to the mean-difference plot is the quantile-difference plot
+ # where the quantile (instead of the mean) is mapped to the x-axis
+ eda_qq(bass2, tenor1, fx = "x - 2", qd = TRUE)
+
  # An offset of another 0.5 inches seems warranted
- # We can sat that overall, bass2 singers are 2.5 inches taller than  tenor1.
+ # We can say that overall, bass2 singers are 2.5 inches taller than  tenor1.
  # The offset is additive.
  eda_qq(bass2, tenor1, fx = "x - 2.5", md = TRUE)
 

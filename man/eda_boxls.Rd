@@ -15,7 +15,6 @@ eda_boxls(
   type = "none",
   notch = FALSE,
   horiz = FALSE,
-  outliers = TRUE,
   xlab = NULL,
   ylab = NULL,
   grey = 0.6,
@@ -46,8 +45,6 @@ conditioned on}
 \item{notch}{Boolean determining if notches should be added.}
 
 \item{horiz}{plot horizontally (TRUE) or vertically (FALSE)}
-
-\item{outliers}{plot outliers (TRUE) or not (FALSE)}
 
 \item{xlab}{X label for output plot}
 
