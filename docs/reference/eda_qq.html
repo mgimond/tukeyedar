@@ -259,18 +259,17 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
   parameters <code>l.val</code> are overridden and are set to +/- 1 standard
   deviations. Note that the "suggested offsets" output is disabled, nor
   can you generate an M-D version of the Normal QQ plot. Also note
-  that the formula argument is ignored in this mode.cr
-  <br>
+  that the formula argument is ignored in this mode.<br><br>
   The function can be used to generate a symmetry QQ plot when the
   <code>sym</code> argument is set to  <code>TRUE</code>. This plot helps assess the
   symmetry of a variable by splitting it into two halves, upper and lower,
   using the batch's median as the cutoff point. The values for each half are
-  the distances of each observation to the medina value in <code>x</code>'s units.
+  the distances of each observation to the median value in <code>x</code>'s units.
   The distance starts at 0 in the bottom-left corner of the plot. The grey
-  box width, <code>b.val</code> and outer quantile line, <code>l.val</code>, will be
-  measure from the origin given that the batch's center of mass is at 0.
-  Power transformations can be applied to <code>x</code> but any formulas passed
-  via <code>fx</code> or <code>fy</code> are ignored. This plot is inspired from the
+  box width, <code>b.val</code>, and outer quantile line, <code>l.val</code>, will be
+  measured from the origin given that the batch's center of mass is at 0.
+  Power transformations can be applied to <code>x</code> but any formula passed
+  via <code>fx</code> or <code>fy</code> is ignored. This plot is inspired from the
   symmetry plot described by Chambers et al. in section 2.8 of their book
   (see reference).</p>
     </div>
@@ -288,11 +287,11 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 <span class="r-in"><span> <span class="va">singer</span> <span class="op">&lt;-</span> <span class="fu">lattice</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lattice/man/singer.html" class="external-link">singer</a></span></span></span>
 <span class="r-in"><span> <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">singer</span><span class="op">[</span><span class="va">singer</span><span class="op">$</span><span class="va">voice.part</span>  <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bass 2"</span>, <span class="st">"Tenor 1"</span><span class="op">)</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">dat</span>, <span class="va">height</span>, <span class="va">voice.part</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qq-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Suggested offsets:y = x * 1.04 + (-5.2163)"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Passing data as two separate vector objects</span></span></span>
 <span class="r-in"><span> <span class="va">bass2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">singer</span>, <span class="va">voice.part</span> <span class="op">==</span> <span class="st">"Bass 2"</span>, select <span class="op">=</span> <span class="va">height</span>, drop <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_qq-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span> <span class="va">tenor1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">singer</span>, <span class="va">voice.part</span> <span class="op">==</span> <span class="st">"Tenor 1"</span>, select <span class="op">=</span> <span class="va">height</span>, drop <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span><span class="op">)</span></span></span>

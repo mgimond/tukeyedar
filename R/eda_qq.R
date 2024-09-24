@@ -66,18 +66,18 @@
 #'   parameters \code{l.val} are overridden and are set to +/- 1 standard
 #'   deviations. Note that the "suggested offsets" output is disabled, nor
 #'   can you generate an M-D version of the Normal QQ plot. Also note
-#'   that the formula argument is ignored in this mode.cr
+#'   that the formula argument is ignored in this mode.\cr
 #'   \cr
 #'   The function can be used to generate a symmetry QQ plot when the
 #'   \code{sym} argument is set to  \code{TRUE}. This plot helps assess the
 #'   symmetry of a variable by splitting it into two halves, upper and lower,
 #'   using the batch's median as the cutoff point. The values for each half are
-#'   the distances of each observation to the medina value in \code{x}'s units.
+#'   the distances of each observation to the median value in \code{x}'s units.
 #'   The distance starts at 0 in the bottom-left corner of the plot. The grey
-#'   box width, \code{b.val} and outer quantile line, \code{l.val}, will be
-#'   measure from the origin given that the batch's center of mass is at 0.
-#'   Power transformations can be applied to \code{x} but any formulas passed
-#'   via \code{fx} or \code{fy} are ignored. This plot is inspired from the
+#'   box width, \code{b.val}, and outer quantile line, \code{l.val}, will be
+#'   measured from the origin given that the batch's center of mass is at 0.
+#'   Power transformations can be applied to \code{x} but any formula passed
+#'   via \code{fx} or \code{fy} is ignored. This plot is inspired from the
 #'   symmetry plot described by Chambers et al. in section 2.8 of their book
 #'   (see reference).
 #'
