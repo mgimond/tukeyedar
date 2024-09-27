@@ -39,8 +39,9 @@
 
 plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0.7,
                            pch = 21, equal = TRUE, p.col = "grey50",
-                           p.fill = "grey80", size = 0.8, alpha = 0.7,
-                           model = TRUE, pt3 = TRUE, fit= TRUE, ...){
+                           p.fill = "grey80", b.val = c(0.25,0.75), size = 0.8,
+                           alpha = 0.7, model = TRUE, pt3 = TRUE, fit= TRUE, ...){
+
   if (!inherits(x,"eda_rline")) stop("The input object must of class eda_rline")
   if (! type %in% c("residuals", "model" ))
     stop("Paramater \"type=\" must be of \"residuals\", or \"model\" ")
