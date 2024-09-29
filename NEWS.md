@@ -1,4 +1,9 @@
 # tukeyedar 0.2.6
+*  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
+* `eda_lm` now outputs an `eda_lm` class.
+* `eda_rline` now outputs `fitted.values`.
+
+# tukeyedar 0.2.6
 * Added the quantile-difference plot to the `eda_qq` function.
 * Removed redundant `outliers` argument from `eda_boxls` (#21).
 
