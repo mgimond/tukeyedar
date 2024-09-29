@@ -15,13 +15,13 @@
 #' @param maxiter Maximum number of iterations to run.
 #'   (FALSE adopts a Box-Cox transformation)
 #'
-#' @return Returns a list of class \code{eda_rline}with the following named
+#' @return Returns a list of class \code{eda_rline} with the following named
 #'   components:
 #'
 #' \itemize{
 #'   \item \code{a}: Intercept
 #'   \item \code{b}: Slope
-#'   \item \code{res}: Residuals sorted on x-values
+#'   \item \code{residuals}: Residuals sorted on x-values
 #'   \item \code{x}: Sorted x values
 #'   \item \code{y}: y values following sorted x-values
 #'   \item \code{xmed}: Median x values for each third
@@ -30,7 +30,8 @@
 #'                      each thirds
 #'   \item \code{xlab}: X label name
 #'   \item \code{ylab}: Y label name
-#'   \item \code{iter}: Number of iterations}
+#'   \item \code{iter}: Number of iterations
+#'   \item \code{fitted.values}: Fitted values}
 #'
 #' @details  This is an R implementation of the \code{RLIN.F} FORTRAN code in
 #'   Velleman et. al's book. This function fits a robust line using a
@@ -159,10 +160,13 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20){
   # Intercept
   a <- sum(mr$ymed) / 3 + a0
 
+  # Fitted values
+  fitted.values <- a + b*(x)
+
   # Output (include sorted y's and x's)
-  out <- list(b=b, a=a, res=res, x=x, y=y, xmed=xmed, ymed=ymed,
+  out <- list(b=b, a=a, residuals=res, x=x, y=y, xmed=xmed, ymed=ymed,
               index = index, xlab = xlab, ylab=ylab, px= px, py=py,
-              iter = iter)
+              iter = iter, fitted.values=fitted.values)
   class(out) <- "eda_rline"
   return(out)
 }

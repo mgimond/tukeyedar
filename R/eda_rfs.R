@@ -37,13 +37,14 @@
 
 eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRUE,
                     stat = mean, grey = 0.7, pch = 21, p.col = "grey50",
-                    p.fill = "grey80", b.val = c(0.25,0.75), q = TRUE,
+                    p.fill = "grey80", b.val = c(0.25,0.75), q = FALSE,
                     size = 0.8, alpha = 0.7){
 
   # Check that input is either an eda_lm model or a dataframe
   if (! (inherits(dat,"data.frame") |
-         (inherits(dat,"eda_model") |
-          inherits(dat, "lm"))))
+         (inherits(dat,"eda_lm") |
+          inherits(dat, "lm") |
+          inherits(dat, "eda_rline"))))
     stop("The input object must of class eda_lm or a data.frame.")
 
   # Check other arguments
@@ -83,6 +84,23 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     show.par <- FALSE
     # Get quantiles for box boundaries
     qy <- quantile(res_sort, b.val, qtype = 5)
+    # Get matching quantiles in the fitted data
+    e <- ecdf(model_sort)
+    qx <- c(e(qy))
+  }
+
+  # eda_lm model scenario
+  if(inherits(dat,"eda_lm") | inherits(dat,"eda_rline")){
+    res_sort <- sort(dat$residuals)
+    model_sort <- sort(dat$fitted.values - mean(dat$fitted.values))
+    fval <- (1:length(res_sort) - 0.5) / length(res_sort)
+    ylim <- range(res_sort, model_sort)
+    show.par <- FALSE
+    # Get quantiles for box boundaries
+    qy <- quantile(res_sort, b.val, qtype = 5)
+    # Get matching quantiles in the fitted data
+    e <- ecdf(model_sort)
+    qx <- c(e(qy))
   }
 
   # Generate the plot
@@ -159,22 +177,29 @@ eda_rfs(mtcars, hp, am, stat = mean, p = 1, q =T, show.par = TRUE)
 eda_boxls(mtcars, hp, am, reorder = FALSE)
 eda_boxls(mtcars, hp, am, reorder = FALSE)
 
+library(lattice)
 eda_rfs(singer, height, voice.part, stat = mean, p = 1, show.par = TRUE)
 
 M1 <- lm(hp ~ mpg, mtcars)
 eda_rfs(M1,q =T)
-
-library(lattice)
 rfs(M1)
-eda_boxls(singer, height, voice.part, reorder = FALSE)
 
-M2 <- eda_lm(mtcars, hp ,  mpg)
+M2 <- eda_lm(mtcars, mpg, hp)
+eda_rfs(M2,q =T)
+
+M3 <- eda_rline(mtcars, mpg, hp)
+plot(M3)
+eda_rfs(M3,q =T)
+
+M4 <- eda_lm(mtcars, mpg, hp, py = -1)
+eda_rfs(M4,q =T)
 
 df2 <- read.table("C:\\Users\\mgimond\\Documents\\Ebooks\\R\\Data\\Visualizing Data -- Cleveland\\tables\\ganglion.txt")
 df2
 M3 <- lm((cp.ratio) ~ area, df2)
 eda_rfs(M3)
 
-
-e <- ecdf(1:20)
-e
+zz <- c(rep(1,4), rep(2,4), rep(3,4))
+qq <- quantile(zz, c(0.25,0.75))
+e <- ecdf(zz)
+e(qq)

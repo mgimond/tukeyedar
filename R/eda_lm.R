@@ -89,13 +89,14 @@
 #'   line to the data. \code{rlm} arguments can be passed as a list via the
 #'   \code{rlm.d} argument.
 #'
-#' @return Returns residuals, intercept and coefficient(s) from an OLS
-#'    fit if \code{reg = TRUE}. Returns \code{NULL} otherwise.
+#' @return Returns a list of class \code{eda_lm}. Output includes the following
+#'    if \code{reg = TRUE}. Returns \code{NULL} otherwise.
 #'
 #' \itemize{
 #'   \item \code{residuals}: Regression model residuals
 #'   \item \code{a}: Intercept
-#'   \item \code{b}: Polynomial coefficient(s)}
+#'   \item \code{b}: Polynomial coefficient(s)
+#'   \item \code{fitted.values}: Fitted values}
 #'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
 #'   functions
@@ -286,7 +287,12 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
     out_coef <- coef(M)
     names(out_coef) <- c("int", paste0(xlab, "^", 1:poly))
     print(out_coef)
-    invisible(list(residuals = residuals(M), a = out_coef[1], b = out_coef[-1]))
+    lst <- list(residuals = residuals(M),
+                a = out_coef[1],
+                b = out_coef[-1],
+                fitted.values = predict(M))
+    class(lst) <- "eda_lm"
+    invisible(lst)
   } else {
     print(NULL)
   }

@@ -47,7 +47,7 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
     stop("Paramater \"type=\" must be of \"residuals\", or \"model\" ")
 
   # Build dataframe
-  df <- data.frame(x = x$x, y = x$y, res = x$res)
+  df <- data.frame(x = x$x, y = x$y, res = x$residuals)
 
   # Get labels
   if(is.null(xlab)){
