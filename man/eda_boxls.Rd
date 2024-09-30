@@ -37,7 +37,8 @@ conditioned on}
 
 \item{outlier}{Boolean indicating if outliers should be plotted}
 
-\item{out.txt}{Column whose values are to be used to label outliers}
+\item{out.txt}{Column whose values are to be used to label outliers. If
+set to \code{NULL} (the default), the record number is displayed.}
 
 \item{type}{Plot type. "none" = no equalization ; "l" = equalize by level;
 "ls" = equalize by both level and spread}
@@ -66,7 +67,7 @@ than \code{"none"}, the this argument is ignored and the stat defaults to
 }
 \description{
 \code{eda_boxls} creates boxplots conditioned on one variable
-  while providing the option to spreads levels and/or levels.
+  while providing the option to level the data or equalize the spreads.
 }
 \details{
 \itemize{
@@ -100,8 +101,7 @@ eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg , outlier=FALSE)
 
 # Equalizing level helps visualize increasing spread with increasing
 # median value
-food <- read.csv("http://mgimond.github.io/ES218/Data/Food_web.csv")
-eda_boxls(food, mean.length, dimension, type = "l")
+eda_boxls(iris, Sepal.Length, Species, type = "l",  out.txt=Sepal.Length)
 
 # For long factor level names, flip plot
 eda_boxls(iris, Sepal.Length, Species, out.txt=Sepal.Length , horiz = TRUE)

@@ -16,6 +16,10 @@
 #'   (\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).
 #' @param show.par Boolean determining if the power transformation used with the
 #'   data should be displayed in the plot's upper-right corner.
+#' @param stat Choice of summary statistic to use when centering the fitted
+#'   values around 0. The \code{stat} parameter is also used for fitting
+#'   univariate values (i.e. for summarizing groups). \code{stat} can be either
+#'   \code{mean} or \code{median}.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -33,7 +37,36 @@
 #' \itemize{
 #'   \item William S. Cleveland. Visualizing Data. Hobart Press (1993)}
 #'
+#' @examples
 #'
+#' # Generate a basic residual-fit spread plot
+#' eda_rfs(mtcars,mpg, cyl)
+#'
+#' # Add interquartile guides (grey boxes in plot)
+#' # 50% of the residuals cover a range of
+#' eda_rfs(mtcars,mpg, cyl, q = TRUE)
+#'
+#' # Change guide to encompass mid 75% of residual values
+#' eda_rfs(mtcars,mpg, cyl, q = TRUE, b.val = c( 0.125, 0.875))
+#'
+#' # Use median instead of the mean to compute group summaries and to
+#' # recenter the fitted values around 0.
+#' eda_rfs(mtcars,mpg, cyl, stat = median)
+#'
+#' # Apply power transformation of -1 to mpg. Defaults to box-cox method.
+#' eda_rfs(mtcars,mpg, cyl, p = -1)
+#'
+#' # Generate rfs plot for bivariate model output. Model can be generated from
+#' # lm(), eda_lm() or eda_rline()
+#' M1 <- lm(hp ~ mpg, mtcars)
+#' eda_rfs(M1,q =TRUE)
+#'
+#' M2 <- eda_lm(mtcars, mpg, hp)
+#' eda_rfs(M2,q =TRUE)
+#'
+#' M3 <- eda_rline(mtcars, mpg, hp)
+#' eda_rfs(M3, q =TRUE)
+
 
 eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRUE,
                     stat = mean, grey = 0.7, pch = 21, p.col = "grey50",
@@ -62,14 +95,13 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     model <- ave(x, grp, FUN=stat)
     res <- x - model
     x_sort <- sort(x)
-    model_sort <- sort(model) - mean(x) # Sort and rescale
+    model_sort <- sort(model) - stat(x) # Sort and rescale
     res_sort <- sort(res)
     fval <- (1:length(x) - 0.5) / length(x)
     ylim <- range(res_sort, model_sort)
 
     # Get quantiles for box boundaries
     qy <- quantile(res, b.val, qtype = 5)
-
     # Get matching quantiles in the fitted data
     e <- ecdf(model_sort)
     qx <- c(e(qy))
@@ -78,7 +110,7 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
   # lm model scenario
   if(inherits(dat,"lm")){
     res_sort <- sort(dat$residuals)
-    model_sort <- sort(dat$fitted.values - mean(dat$fitted.values))
+    model_sort <- sort(dat$fitted.values - stat(dat$fitted.values))
     fval <- (1:length(res_sort) - 0.5) / length(res_sort)
     ylim <- range(res_sort, model_sort)
     show.par <- FALSE
@@ -92,7 +124,7 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
   # eda_lm model scenario
   if(inherits(dat,"eda_lm") | inherits(dat,"eda_rline")){
     res_sort <- sort(dat$residuals)
-    model_sort <- sort(dat$fitted.values - mean(dat$fitted.values))
+    model_sort <- sort(dat$fitted.values - stat(dat$fitted.values))
     fval <- (1:length(res_sort) - 0.5) / length(res_sort)
     ylim <- range(res_sort, model_sort)
     show.par <- FALSE
@@ -102,6 +134,14 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     e <- ecdf(model_sort)
     qx <- c(e(qy))
   }
+
+  # Compare spreads using user defined quantiles
+  cat(sprintf("The mid %0.1f%% of residuals covers about %0.2f units.\n",
+               diff(b.val)*100, diff(qy)))
+  cat(sprintf("The fitted values cover a range of about %0.2f units,\n",
+              diff(range(model_sort))))
+  cat(sprintf("or about %0.1f%% of the mid %0.1f%% of residuals.",
+              diff(range(model_sort)) / diff(qy) * 100, diff(b.val)*100))
 
   # Generate the plot
 
@@ -119,16 +159,16 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
   xtics <- c(0, .25, 0.5, 0.75, 1)
 
   # Side-by-side plots
+
   # Set plot parameters
-  print(y.wid)
   .pardef <- par(mfrow = c(1,2),mai = c(0.6,0,0.2,0),
                  oma = c(2, y.wid, 1,0.5), col = plotcol)
-  on.exit(par(.pardef))
+   on.exit(par(.pardef))
 
     # Fit plot
     plot(fval, model_sort, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, col.lab=plotcol,
          pch = pch, col = p.col, bg = p.fill, cex = size, ylim = ylim,
-         main = "Fit minus mean", col.main = "grey40")
+         main = paste("Fit minus",as.character(substitute(stat))), col.main = "grey40")
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5, at = xtics)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
          tck = -0.02)
@@ -139,8 +179,8 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     # Add box to fit plot
     sq <- par("usr") # get plot corners
     if(q == TRUE){
-       rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-            col = rgb(0,0,0,0.05), border = NA)
+      # rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
+      #       col = rgb(0,0,0,0.05), border = NA)
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
            col = rgb(0,0,0,0.05), border = NA)
     }
@@ -158,8 +198,8 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     # Add box to fit plot
     sq <- par("usr") # get plot corners
     if(q == TRUE){
-      # rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-      #      col = rgb(0,0,0,0.05), border = NA)
+      rect(xleft = b.val[1], xright = b.val[2], ybottom=sq[3],ytop=sq[4],
+          col = rgb(0,0,0,0.05), border = NA)
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
            col = rgb(0,0,0,0.05), border = NA)
     }
@@ -173,33 +213,3 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
   par(.pardef)
 }
 
-eda_rfs(mtcars, hp, am, stat = mean, p = 1, q =T, show.par = TRUE)
-eda_boxls(mtcars, hp, am, reorder = FALSE)
-eda_boxls(mtcars, hp, am, reorder = FALSE)
-
-library(lattice)
-eda_rfs(singer, height, voice.part, stat = mean, p = 1, show.par = TRUE)
-
-M1 <- lm(hp ~ mpg, mtcars)
-eda_rfs(M1,q =T)
-rfs(M1)
-
-M2 <- eda_lm(mtcars, mpg, hp)
-eda_rfs(M2,q =T)
-
-M3 <- eda_rline(mtcars, mpg, hp)
-plot(M3)
-eda_rfs(M3,q =T)
-
-M4 <- eda_lm(mtcars, mpg, hp, py = -1)
-eda_rfs(M4,q =T)
-
-df2 <- read.table("C:\\Users\\mgimond\\Documents\\Ebooks\\R\\Data\\Visualizing Data -- Cleveland\\tables\\ganglion.txt")
-df2
-M3 <- lm((cp.ratio) ~ area, df2)
-eda_rfs(M3)
-
-zz <- c(rep(1,4), rep(2,4), rep(3,4))
-qq <- quantile(zz, c(0.25,0.75))
-e <- ecdf(zz)
-e(qq)

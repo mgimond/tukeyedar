@@ -14,7 +14,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,13 +104,13 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns a list of class <code>eda_rline</code>with the following named
+<p>Returns a list of class <code>eda_rline</code> with the following named
   components:</p>
 
 
 <ul><li><p><code>a</code>: Intercept</p></li>
 <li><p><code>b</code>: Slope</p></li>
-<li><p><code>res</code>: Residuals sorted on x-values</p></li>
+<li><p><code>residuals</code>: Residuals sorted on x-values</p></li>
 <li><p><code>x</code>: Sorted x values</p></li>
 <li><p><code>y</code>: y values following sorted x-values</p></li>
 <li><p><code>xmed</code>: Median x values for each third</p></li>
@@ -120,6 +120,7 @@
 <li><p><code>xlab</code>: X label name</p></li>
 <li><p><code>ylab</code>: Y label name</p></li>
 <li><p><code>iter</code>: Number of iterations</p></li>
+<li><p><code>fitted.values</code>: Fitted values</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -157,7 +158,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -46.20241</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $res</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 45.57582 24.41744 22.09836 33.10703 13.02900 16.66079 24.13767 29.03651</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 15.26830 22.07813 27.03304 17.00992 23.88680 30.46368 26.07466 24.41744</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -192,6 +193,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $iter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $fitted.values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  45.70511  52.06349  69.98256  75.47389  76.05193  79.52013  81.54326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  84.14441  87.61262  90.50279  91.94788  93.97100  95.99412  98.01724</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15]  98.30626 102.06349</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "eda_rline"</span>

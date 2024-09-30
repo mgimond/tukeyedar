@@ -23,13 +23,13 @@ eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20)
 (FALSE adopts a Box-Cox transformation)}
 }
 \value{
-Returns a list of class \code{eda_rline}with the following named
+Returns a list of class \code{eda_rline} with the following named
   components:
 
 \itemize{
   \item \code{a}: Intercept
   \item \code{b}: Slope
-  \item \code{res}: Residuals sorted on x-values
+  \item \code{residuals}: Residuals sorted on x-values
   \item \code{x}: Sorted x values
   \item \code{y}: y values following sorted x-values
   \item \code{xmed}: Median x values for each third
@@ -38,7 +38,8 @@ Returns a list of class \code{eda_rline}with the following named
                      each thirds
   \item \code{xlab}: X label name
   \item \code{ylab}: Y label name
-  \item \code{iter}: Number of iterations}
+  \item \code{iter}: Number of iterations
+  \item \code{fitted.values}: Fitted values}
 }
 \description{
 \code{eda_rline} is an R implementation of Hoaglin, Mosteller

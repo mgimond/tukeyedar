@@ -1,4 +1,4 @@
-# tukeyedar 0.2.6
+# tukeyedar 0.2.7
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
 * `eda_lm` now outputs an `eda_lm` class.
 * `eda_rline` now outputs `fitted.values`.

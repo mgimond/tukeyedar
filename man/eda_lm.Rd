@@ -123,13 +123,14 @@ function.}
 \item{...}{Not used.}
 }
 \value{
-Returns residuals, intercept and coefficient(s) from an OLS
-   fit if \code{reg = TRUE}. Returns \code{NULL} otherwise.
+Returns a list of class \code{eda_lm}. Output includes the following
+   if \code{reg = TRUE}. Returns \code{NULL} otherwise.
 
 \itemize{
   \item \code{residuals}: Regression model residuals
   \item \code{a}: Intercept
-  \item \code{b}: Polynomial coefficient(s)}
+  \item \code{b}: Polynomial coefficient(s)
+  \item \code{fitted.values}: Fitted values}
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression

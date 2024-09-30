@@ -3,7 +3,7 @@
 #' @title Boxplots equalized by level and spread
 #'
 #' @description \code{eda_boxls} creates boxplots conditioned on one variable
-#'   while providing the option to spreads levels and/or levels.
+#'   while providing the option to level the data or equalize the spreads.
 #'
 #' @param dat  Data frame
 #' @param x    Column name assigned to the values
@@ -13,7 +13,8 @@
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
 #' @param outlier Boolean indicating if outliers should be plotted
-#' @param out.txt Column whose values are to be used to label outliers
+#' @param out.txt Column whose values are to be used to label outliers. If
+#'   set to \code{NULL} (the default), the record number is displayed.
 #' @param type Plot type. "none" = no equalization ; "l" = equalize by level;
 #'   "ls" = equalize by both level and spread
 #' @param notch Boolean determining if notches should be added.
@@ -63,8 +64,7 @@
 #'
 #' # Equalizing level helps visualize increasing spread with increasing
 #' # median value
-#' food <- read.csv("http://mgimond.github.io/ES218/Data/Food_web.csv")
-#' eda_boxls(food, mean.length, dimension, type = "l")
+#' eda_boxls(iris, Sepal.Length, Species, type = "l",  out.txt=Sepal.Length)
 #'
 #' # For long factor level names, flip plot
 #' eda_boxls(iris, Sepal.Length, Species, out.txt=Sepal.Length , horiz = TRUE)
@@ -149,6 +149,9 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
     bx$stats <- sweep(bx$stats, 2, med, FUN="-")
     bx$conf  <- sweep(bx$conf, 2, med, FUN="-")
     bx$out <- bx$out - med[bx$group]
+    if (type == "l"){
+      ylab <- paste(ylab, "(equalized by level)")
+    }
   }
 
   # Equalize levels and spreads (standardize using IQR)
@@ -157,6 +160,7 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
     bx$stats <- sweep(bx$stats, 2, sprd, FUN="/")
     bx$conf  <- sweep(bx$conf, 2, sprd, FUN="/")
     bx$out <- bx$out / sprd[bx$group]
+    ylab <- paste(ylab, "(equalized by level/spread)")
   }
 
   # Generate plots ----
