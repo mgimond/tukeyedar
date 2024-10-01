@@ -1,0 +1,45 @@
+---
+title: "The residual-fit spread plot"
+author: "Manuel Gimond"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: TRUE
+    css: style.css
+vignette: >
+  %\VignetteIndexEntry{The empirical QQ plot (and derived Tukey mean-difference plot)}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#> ",
+  message = FALSE,
+  tidy = FALSE,
+  cache = FALSE,
+  warning = FALSE,
+  encoding = "UTF-8"
+)
+```
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, dev.args=list(pointsize=10))
+```
+
+# Introduction
+
+The *residual-fit spread plot* (rfs plot) is a plot first introduced by William Cleveland designed to compare the variability explained by a fitted model (such as group means for a univariate analysis or a linear model for a bivariate analysis) and the variability in the residuals. It's constructed as follows:
+
+-  A model is fitted to the data.
+-  The residuals are computed by subtracting the fitted values from the original values.
+-  The estimated values from the model are centered on zero by subtracting, for example, the mean from the values.
+-  The centered fitted values and residuals are each sorted from smallest to largest values.
+-  Side-by-side plots are created by plotting the sorted fitted values and residuals to their respective f-values (i.e. their fractional contribution) 
+
+
+
+
