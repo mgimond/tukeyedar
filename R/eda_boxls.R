@@ -22,6 +22,11 @@
 #' @param xlab X label for output plot
 #' @param ylab Y label for output plot
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
+#' @param fill Boxplot fill color
+#' @param boxcol Boxplot outline color
+#' @param outcol Outlier color
+#' @param whiskcol Whisker line color
+#' @param medcol Median line color
 #' @param reorder Boolean determining if factors have to be reordered based
 #'   on median, upper quartile or lower quartile (set in \code{reorder.type}).
 #' @param reorder.stat Statistic to reorder level by if \code{reorder} is set to
@@ -29,6 +34,8 @@
 #'   \code{"lower"} (for lower quartile). If \code{type} is set to a value other
 #'   than \code{"none"}, the this argument is ignored and the stat defaults to
 #'   \code{"median"}.
+#' @param show.par Boolean determining if power transformation should be
+#'   displayed in the plot.
 #'
 #' @return {No values are returned}
 #'
@@ -79,8 +86,10 @@
 
 eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
                       out.txt = NULL, type="none", notch = FALSE, horiz=FALSE,
-                      xlab = NULL, ylab = NULL, grey = 0.6,
-                      reorder=TRUE, reorder.stat="median"){
+                      xlab = NULL, ylab = NULL, grey = 0.6, fill = "grey70",
+                      boxcol = NULL, outcol="grey40", whiskcol="grey40",
+                      medcol="grey40", reorder=TRUE, reorder.stat="median",
+                      show.par = TRUE){
 
   # Parameters check
   if (!type %in% c("none", "l" , "ls"))
@@ -196,9 +205,9 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
 
   # Generate boxplot
   bxp(bx, pch=20, outline=outlier, horizontal=horiz, border=NA, notch = notch,
-      boxfill="grey70", whiskcol="grey40", whisklty=1, staplecol="grey40",
-      medcol="grey40",medlwd=4,outcol="grey40",outpch=20, yaxt='n', xaxt='n',
-      pars=list(las=1, col.axis =plotcol,  col.lab="grey50"))
+      boxfill=fill, boxcol = boxcol, whiskcol=whiskcol, whisklty=1,
+      staplecol="grey40", medcol=medcol,medlwd=4,outcol=outcol,outpch=20,
+      yaxt='n', xaxt='n', pars=list(las=1, col.axis =plotcol,  col.lab="grey50"))
   box(col=plotcol)
 
     if (horiz == TRUE){
@@ -247,6 +256,12 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
       }
     }
   }
+
+  if(show.par == TRUE){
+    params <- paste0("p=",round(p,2))
+    mtext(side = 3, text=params, adj=1, cex = 0.65)
+  }
+
   par(.pardef)
 
   if(type != "none"){
