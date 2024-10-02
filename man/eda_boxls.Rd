@@ -18,8 +18,14 @@ eda_boxls(
   xlab = NULL,
   ylab = NULL,
   grey = 0.6,
+  fill = "grey70",
+  boxcol = NULL,
+  outcol = "grey40",
+  whiskcol = "grey40",
+  medcol = "grey40",
   reorder = TRUE,
-  reorder.stat = "median"
+  reorder.stat = "median",
+  show.par = TRUE
 )
 }
 \arguments{
@@ -53,6 +59,16 @@ set to \code{NULL} (the default), the record number is displayed.}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
 
+\item{fill}{Boxplot fill color}
+
+\item{boxcol}{Boxplot outline color}
+
+\item{outcol}{Outlier color}
+
+\item{whiskcol}{Whisker line color}
+
+\item{medcol}{Median line color}
+
 \item{reorder}{Boolean determining if factors have to be reordered based
 on median, upper quartile or lower quartile (set in \code{reorder.type}).}
 
@@ -61,6 +77,9 @@ on median, upper quartile or lower quartile (set in \code{reorder.type}).}
 \code{"lower"} (for lower quartile). If \code{type} is set to a value other
 than \code{"none"}, the this argument is ignored and the stat defaults to
 \code{"median"}.}
+
+\item{show.par}{Boolean determining if power transformation should be
+displayed in the plot.}
 }
 \value{
 {No values are returned}

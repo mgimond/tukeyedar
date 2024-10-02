@@ -205,8 +205,8 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
 
   # Generate boxplot
   bxp(bx, pch=20, outline=outlier, horizontal=horiz, border=NA, notch = notch,
-      boxfill=fill, boxcol = boxcol, whiskcol=whiskcol, whisklty=1,
-      staplecol="grey40", medcol=medcol,medlwd=4,outcol=outcol,outpch=20,
+      boxfill=fill, boxcol = boxcol, whiskcol=whiskcol, staplecol = whiskcol,
+      outcol=outcol, whisklty=1,medcol=medcol, medlwd=4, outpch=20,
       yaxt='n', xaxt='n', pars=list(las=1, col.axis =plotcol,  col.lab="grey50"))
   box(col=plotcol)
 
