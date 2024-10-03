@@ -71,7 +71,7 @@ At best, we can estimate the expected value using some summary statistic such as
 
 If we want to improve our estimation of the value in `y`, we may want to add a grouping variable to the mix. In Figure 2, we see that the samme set of values are now split across groups `a`, `b` and `c`. Doing so, in this example, seems to reduce the variability, or the "randomness" in our estimation of `y`, given that by knowing which group `y` falls into, we can come up with a more precise estimate of the value while reducing the undertainty associated with that estimate.
 
-```{r fig.height=2.8, fig.width=2.8, echo = FALSE, fig.cap="Figure 2. Same batch of values split across three groups with each group's mean displayed as a red point values with the mean value represented as a red point.", fig.align="center"}
+```{r fig.height=3, fig.width=2.3, echo = FALSE, fig.cap="Figure 2. Same batch of values split across three groups with each group's mean displayed as a red point values with the mean value represented as a red point.", fig.align="center"}
 eda_boxls(df, y, group, fill = "white", outcol = "white", xlab = "All values",
           whiskcol = "white" , show.par = FALSE, medcol = "white", outlier = FALSE)
 OP <- par(mar = c(0, 0, 0, 0))
@@ -81,12 +81,40 @@ points(x=1:3, tapply(df$y,df$group, FUN = mean), cex=2, col = "red3", pch=16)
 par(OP)
 ```
 
-Eyeballing the three batches, it seems that the uncertainty or noise in the data is reduced down to around two units--an improvement in our estimation. 
-An rfs plot helps us assess how will the grouping variable helps improve on our estimation in `y` vis-a-vis the variability in the data.
+Eyeballing the three batches, it seems that the residuals in the data are reduced down to around two units--an improvement in our estimation since there is less uncertainty in the estimated value if we know which group the value belongs to. 
 
-```{r fig.height=3.2, fig.width=5, echo = FALSE, fig.cap="Figure 3. A residual-fit spread plot. Each observation is split between its mean value (left plot) and its residual (right plot). TO facilitate comparison between both plots, the mean value is centered on zero. Its residual counterpart is already centered on 0 given that it's the error about the group's mean value.", fig.align="center", results='hide'}
-eda_rfs(df, y, group)
+The uncertainty seems consistent across all three batches, but note the outlier in batch `b` which may make it seem as though batch `b` has greater variability in its residuals. This brings up an issue as to how best to visualize the spread of the residuals in the data. In the above figures, we are jittering the points to help separate the observations, but this does not help us see how the residuals are distributed. In other words, are they uniformly distributed about the visible range of 2 units, or do they follow a bell shaped curve?  We could generated violin plots to help visualize the distributions as shown in Figure 3.
+
+```{r fig.height=3.5, fig.width=4, echo = FALSE, fig.cap="Figure 3. Violin plots. Dashed lines show the mean values for each batch. The bisque colored inner region highlights where 50% of the residual values lie", fig.align="center", results='hide'}
+eda_viol(df, y, group, stat = "mean", inner = 0.5, show.par = FALSE)
 ```
 
+The bisque colored inner region in the Figure 3 violin plots highlight where 50% of the mid values lie in the distributions. The *significance* in our ability to correctly estimate the mean values of $y$ increases by quite a bit when focusing on the inner 50% of residuals (2 units / 0.5 units or a four fold difference in spreads between estimates and residuals).
+
+Now, if we choose to focus on the inner 95% of the residuals, the difference in spreads between fitted values and residuals becomes a bit more modest as can be seen in Figure 4.
+
+```{r fig.height=3.5, fig.width=4, echo = FALSE, fig.cap="Figure 4. Violin plots. The bisque colored inner region highlights where 95% of the residual values lie.", fig.align="center", results='hide'}
+eda_viol(df, y, group, stat = "mean", inner = 0.95, show.par = FALSE)
+```
+
+Here, the residuals can span anywhere from 3 units (batch `a`) to 4 units (batch `b`). On average, we can say that the spread in residuals covers roughly 3.5 units. This makes the spread in fitted values about half of the spread in residuals when characterize as the mid 95% of values.
+
+One can quickly see how our assessment of the value in adding a grouping variable to the data can be biased based on what mid portion of the resdiuals we should emphasize. For example, we probably don't want to focus on the full range since outliers may not be representative of the full dataset. Conversely, the mid 50% of residuals may be too restrictive. Ideally, we would want to have a plot that does not place emphasis on a single measure of spread when comparing spreads in fitted values to spreads in residuals. A Cleveland residual-fit spread plot (rfs for short) is designed to facilitate the comparison of spreads. Key elements of the plot should include:
+
+- Placing emphasis on the spreads of the fitted values and not their absolute values. This requires that the overall mean value be subtracted from the fitted values to center the latter around zero (this aligns the center of the fitted values with the residuals which are centered around zero by construct).
+- Order the fitted values and the residuals based on their respective ranks. This facilitates the comparison of pre-specified percentage of inner spread such as the 50% or 95% spreads used in the earlier examples
+
+The above criteria can be satisfied by making use of side-by-side quantile plots where a quantile plot of the fitted values (minus the global mean) are paired up with a quantile plot of the residuals. The residual-fit spread plot for the working example is shown in figure 5.
+
+
+```{r fig.height=3.5, fig.width=5, echo = FALSE, fig.cap="Figure 5. A residual-fit spread plot. Each observation is split between its fitted value--the group mean--(left plot) and its residual (right plot). To facilitate comparison between both plots, the mean values are centered on zero and the data are sorted giving use side-by-side quantile plots. The x-axis is the fraction of values (f-value) in each plot that are at or below the matching value on the y-axis.", fig.align="center", results='hide'}
+eda_rfs(df, y, group, show.par = FALSE)
+```
+
+What looks to be three horizontal lines on the left plot are simply overlapping points--one point for each observation. The spread of two units in the fitted mean values is apparent in the left plot. The right plot shows a range in residuals that covers a bit more than 2.5 units. But recall that this range includes outliers that may not be representative of the bulk of residuals. Hence, emphasis should be placed on the core distribution of the residuals. The x-axis can help identify this core. 
+
+```{r fig.height=3.5, fig.width=5, echo = FALSE, fig.cap="Figure 5. A residual-fit spread plot with the mid 50% of residual values highlighted in light grey.", fig.align="center", results='hide'}
+eda_rfs(df, y, group, show.par = FALSE, q = TRUE, inner=0.5)
+```
 
 

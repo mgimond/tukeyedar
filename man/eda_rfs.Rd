@@ -16,7 +16,7 @@ eda_rfs(
   pch = 21,
   p.col = "grey50",
   p.fill = "grey80",
-  b.val = c(0.25, 0.75),
+  inner = 0.6826,
   q = FALSE,
   size = 0.8,
   alpha = 0.7
@@ -53,14 +53,16 @@ univariate values (i.e. for summarizing groups). \code{stat} can be either
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
 ranging from 21-25).}
 
-\item{b.val}{Quantiles to define the quantile box parameters. Defaults to the
-  IQR. Two values are needed.
+\item{inner}{Fraction of values that should be captured by the inner color
+band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
+values).}
+
+\item{q}{Boolean determining if grey quantile boxes should be plotted.
+
  @references
 
 \itemize{
   \item William S. Cleveland. Visualizing Data. Hobart Press (1993)}}
-
-\item{q}{Boolean determining if grey quantile boxes should be plotted.}
 
 \item{size}{Point size (0-1)}
 
@@ -76,12 +78,12 @@ applicable if \code{rgb()} is not used to define point colors.}
 # Generate a basic residual-fit spread plot
 eda_rfs(mtcars,mpg, cyl)
 
-# Add interquartile guides (grey boxes in plot)
-# 50\% of the residuals cover a range of
+# Add inner 68.4\% region to residuals (grey boxes in plot)
+# Vertical grey box shows matching y-values
 eda_rfs(mtcars,mpg, cyl, q = TRUE)
 
 # Change guide to encompass mid 75\% of residual values
-eda_rfs(mtcars,mpg, cyl, q = TRUE, b.val = c( 0.125, 0.875))
+eda_rfs(mtcars,mpg, cyl, q = TRUE, inner = 0.75)
 
 # Use median instead of the mean to compute group summaries and to
 # recenter the fitted values around 0.

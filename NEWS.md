@@ -1,7 +1,8 @@
 # tukeyedar 0.2.7
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
+*  Added the `eda_viol` function that generates a violin plot.
 * `eda_lm` now outputs an `eda_lm` class.
-* `eda_rline` now outputs `fitted.values`.
+* `eda_rline` now outputs `fitted.values` class.
 
 # tukeyedar 0.2.6
 * Added the quantile-difference plot to the `eda_qq` function.
