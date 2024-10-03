@@ -77,7 +77,7 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
     }
 
     if( length(g) != 2){
-      stop(paste("Column", fac, "has", length(g),
+      stop(paste("Grouping column fac has", length(g),
                  "unique values. It needs to have two exactly."))
     }
     x <- val[fac == g[1]]
