@@ -184,9 +184,17 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   # Run regression model
   if(robust == FALSE) {
     #M <- lm(y ~ x, weights = w)
-    M <- lm(y ~ poly(x, degree = poly, raw = TRUE), weights = w)
+    if (poly > 0){
+      M <- lm(y ~ poly(x, degree = poly, raw = TRUE), weights = w)
+    } else {
+      M <- lm(y ~ 1, weights = w)
+    }
   } else {
-    rlm.d <- modifyList(list(formula = y ~ poly(x, degree=poly, raw=TRUE)), rlm.d)
+    if (poly > 0){
+      rlm.d <- modifyList(list(formula = y ~ poly(x, degree=poly, raw=TRUE)), rlm.d)
+      M <- do.call(MASS::rlm, rlm.d)
+    } else
+    rlm.d <- modifyList(list(formula = y ~ 1), rlm.d)
     M <- do.call(MASS::rlm, rlm.d)
   }
 
@@ -288,7 +296,12 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   # Output residuals and coefficients if regression is set to TRUE
   if(reg == TRUE) {
     out_coef <- coef(M)
-    names(out_coef) <- c("int", paste0(xlab, "^", 1:poly))
+    if (poly > 0){
+      names(out_coef) <- c("int", paste0(xlab, "^", 1:poly))
+    } else {
+      names(out_coef) <- c("int")
+    }
+
     print(out_coef)
     lst <- list(residuals = residuals(M),
                 a = out_coef[1],
