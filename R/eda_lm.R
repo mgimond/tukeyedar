@@ -190,7 +190,9 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
     M <- do.call(MASS::rlm, rlm.d)
   }
 
-
+  # Modify ylim as needed to ensure that the full extent of the fitted model
+  # fits in the plot window
+  ylim = range(y, predict(M))
 
   # Generate plots ----
 
@@ -200,7 +202,7 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   # Create a dummy plot to extract y-axis labels
   pdf(NULL)
   plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
-       yaxt='n', main = NULL)
+       yaxt='n', main = NULL, ylim = ylim)
   #y.labs <- range(axTicks(2))
   y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
@@ -220,7 +222,8 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   asp_val <- ifelse(asp == TRUE, sd.x/sd.y, NA) # See if x and y SDs need to match
 
   plot( x=x, y=y , asp=asp_val, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-        col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+        col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+        ylim = ylim)
   box(col=plotcol)
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
