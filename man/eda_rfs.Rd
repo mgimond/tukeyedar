@@ -19,7 +19,8 @@ eda_rfs(
   inner = 0.6826,
   q = FALSE,
   size = 0.8,
-  alpha = 0.7
+  alpha = 0.7,
+  ylim = NULL
 )
 }
 \arguments{
@@ -57,17 +58,14 @@ ranging from 21-25).}
 band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
 values).}
 
-\item{q}{Boolean determining if grey quantile boxes should be plotted.
-
- @references
-
-\itemize{
-  \item William S. Cleveland. Visualizing Data. Hobart Press (1993)}}
+\item{q}{Boolean determining if grey quantile boxes should be plotted.}
 
 \item{size}{Point size (0-1)}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
+
+\item{ylim}{Define custom y axis limits.}
 }
 \description{
 \code{eda_rfs} generates a Cleveland residual-fit spread plot
@@ -102,4 +100,8 @@ eda_rfs(M2,q =TRUE)
 
 M3 <- eda_rline(mtcars, mpg, hp)
 eda_rfs(M3, q =TRUE)
+}
+\references{
+\itemize{
+  \item William S. Cleveland. Visualizing Data. Hobart Press (1993)}
 }

@@ -32,8 +32,9 @@
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
+#' @param ylim Define custom y axis limits.
 #'
-#'  @references
+#' @references
 #'
 #' \itemize{
 #'   \item William S. Cleveland. Visualizing Data. Hobart Press (1993)}
@@ -72,7 +73,7 @@
 eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRUE,
                     stat = mean, grey = 0.7, pch = 21, p.col = "grey50",
                     p.fill = "grey80",inner = 0.6826, q = FALSE,
-                    size = 0.8, alpha = 0.7){
+                    size = 0.8, alpha = 0.7, ylim = NULL){
 
   # Check that input is either an eda_lm model or a dataframe
   if (! (inherits(dat,"data.frame") |
@@ -104,7 +105,10 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     model_sort <- sort(model) - stat(x) # Sort and rescale
     res_sort <- sort(res)
     fval <- (1:length(x) - 0.5) / length(x)
-    ylim <- range(res_sort, model_sort)
+    if(is.null(ylim)){
+      ylim <- range(res_sort, model_sort)
+    }
+
 
     # Get quantiles for box boundaries
     qy <- quantile(res, b.val, qtype = 5)
@@ -118,7 +122,9 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     res_sort <- sort(dat$residuals)
     model_sort <- sort(dat$fitted.values - stat(dat$fitted.values))
     fval <- (1:length(res_sort) - 0.5) / length(res_sort)
-    ylim <- range(res_sort, model_sort)
+    if(is.null(ylim)){
+      ylim <- range(res_sort, model_sort)
+    }
     show.par <- FALSE
     # Get quantiles for box boundaries
     qy <- quantile(res_sort, b.val, qtype = 5)
@@ -132,7 +138,9 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     res_sort <- sort(dat$residuals)
     model_sort <- sort(dat$fitted.values - stat(dat$fitted.values))
     fval <- (1:length(res_sort) - 0.5) / length(res_sort)
-    ylim <- range(res_sort, model_sort)
+    if(is.null(ylim)){
+      ylim <- range(res_sort, model_sort)
+    }
     show.par <- FALSE
     # Get quantiles for box boundaries
     qy <- quantile(res_sort, b.val, qtype = 5)
