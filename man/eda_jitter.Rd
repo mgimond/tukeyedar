@@ -129,6 +129,6 @@ eda_jitter(iris, Sepal.Width)
 # A basic jitter plot conditioned on a categorical variable
 eda_jitter(iris, Sepal.Width, Species)
 
-# Use line instead of point for summary
+# Use line instead of point for summary statistic
 eda_jitter(iris, Sepal.Width, Species, stat.type = "l")
 }

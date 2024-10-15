@@ -1,5 +1,4 @@
 #' @export
-#' @import lattice
 #' @title Jitter plot
 #'
 #' @description \code{eda_jitter} creates jitter plot conditioned on one variable.
@@ -8,7 +7,7 @@
 #' @param x    Column name assigned to the values
 #' @param fac  Column name assigned to the factor the values are to be
 #'   conditioned on
-#' @param jitter Jittering paramater. A fraction of the group width
+#' @param jitter Jittering parameter. A fraction of the group width
 #'   (\code{0} to \code{1})
 #' @param p  Power transformation to apply to variable
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
@@ -30,7 +29,7 @@
 #'   or width of line if \code{stat.type = "l"}.
 #' @param stat.pch Point statistical summary type (1 through 25). Ignored if
 #'   \code{stat.type = "l"}.
-#' @param stat.pad Fraction to add to the lenght of the line statistical summary,
+#' @param stat.pad Fraction to add to the length of the line statistical summary,
 #'   Ignore if \code{stat.type = "p"}.
 #' @param xlab X label for output plot
 #' @param ylab Y label for output plot
@@ -68,7 +67,7 @@
 #' # A basic jitter plot conditioned on a categorical variable
 #' eda_jitter(iris, Sepal.Width, Species)
 #'
-#' # Use line instead of point for summary
+#' # Use line instead of point for summary statistic
 #' eda_jitter(iris, Sepal.Width, Species, stat.type = "l")
 
 eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
