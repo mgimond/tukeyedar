@@ -21,7 +21,7 @@
 #'   univariate values (i.e. for summarizing groups). \code{stat} can be either
 #'   \code{mean} or \code{median}.
 #' @param inner Fraction of values that should be captured by the inner color
-#'   band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
+#'   band of the normal and density plots. Defaults to 0.9 (inner 90\% of
 #'   values).
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
@@ -33,6 +33,39 @@
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param ylim Define custom y axis limits.
+#' @param bar Boolean determining if spread comparison stacked bar should be
+#'   plotted.
+#'
+#' @return {No values are returned}
+#'
+#' @details
+#' The \code{eda_rfs} function generates a residual-fit spread plot for
+#' univariate and bivariate data. Input can be a dataframe with one column
+#' storing the continuous variable and another column storing the categorical
+#' (grouping) variable or, for a bivariate dataset, a model output from an
+#' \code{lm()}, \code{eda_lm()} or \code{eda_rline()} function.\cr
+#' \cr
+#' The \code{stat} argument only applies to univariate data and allows the user
+#' to choose the summary statistic to fit to the data (either mean or median).
+#' This statistic is also used to recenter the fitted values in the rfs plot.\cr
+#' \cr
+#' The \code{q} argument, when set to \code{TRUE}, will add a shaded region to
+#' the residual quantile plot highlighting the mid portion of the data defined
+#' by the \code{inner} argument (set to 90% of the mid values, by default). The
+#' range defined by the mid portion of the data is highlighted in the left plot
+#' for comparison with the the full range defined by the fitted values. \cr
+#' \cr
+#' The \code{inner} argument is the fraction of mid values to display with the
+#' shaded region if \code{q = TRUE} and the fraction used to define the
+#' residual's spread in the console output.\cr
+#' \cr
+#' The \code{bar} option, when set to \code{TRUE}, adds a narrow stacked barplot
+#' that compares the spread covered by the residuals (red bar) with the spread
+#' covered by the fitted values (green bar). The residual spread is computed
+#' for the portion of the residuals defined by the \code{inner} argument. The
+#' values outputted in the console are those used in computing the vertical
+#' bars.\cr
+#' \cr
 #'
 #' @references
 #'
@@ -44,7 +77,7 @@
 #' # Generate a basic residual-fit spread plot
 #' eda_rfs(mtcars,mpg, cyl)
 #'
-#' # Add inner 68.4% region to residuals (grey boxes in plot)
+#' # Add inner 90% region to residuals (grey boxes in plot)
 #' # Vertical grey box shows matching y-values
 #' eda_rfs(mtcars,mpg, cyl, q = TRUE)
 #'
@@ -72,8 +105,8 @@
 
 eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRUE,
                     stat = mean, grey = 0.7, pch = 21, p.col = "grey50",
-                    p.fill = "grey80",inner = 0.6826, q = FALSE,
-                    size = 0.8, alpha = 0.7, ylim = NULL){
+                    p.fill = "grey80",inner = 0.9, q = FALSE,
+                    size = 0.8, alpha = 0.7, ylim = NULL, bar = FALSE){
 
   # Check that input is either an eda_lm model or a dataframe
   if (! (inherits(dat,"data.frame") |
@@ -150,23 +183,26 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
   }
 
   # Compare spreads using user defined quantiles
+  res.spd <- diff(qy)  # Residual spread
+  fit.spd <- diff(range(model_sort))  # Fitted model spread
+  res.fit <- fit.spd / res.spd  # ratio
   cat(sprintf("The mid %0.1f%% of residuals covers about %0.2f units.\n",
-               diff(b.val)*100, diff(qy)))
-  cat(sprintf("The fitted values cover a range of about %0.2f units,\n",
-              diff(range(model_sort))))
+               diff(b.val)*100, res.spd))
+  cat(sprintf("The fitted values cover a range of %0.2f units, ",
+              fit.spd))
   cat(sprintf("or about %0.1f%% of the mid %0.1f%% of residuals.",
-              diff(range(model_sort)) / diff(qy) * 100, diff(b.val)*100))
+              res.fit * 100, diff(b.val)*100))
 
   # Generate the plot
 
   # Get lines-to-inches ratio
-  in2line <- ( par("mar") / par("mai") )[2]
+  in2liney <- ( par("mar") / par("mai") )[2]
 
-  # Create a dummy plot to extract y-axis labels
+    # Create a dummy plot to extract y-axis labels
   pdf(NULL)
   plot(x = model_sort, y = res_sort, type = "n", xlab = "", ylab = "", xaxt = "n",
        yaxt='n', main = NULL)
-  y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
+  y.wid <- max( strwidth( axTicks(2), units="inches")) * in2liney + 1.2
   dev.off()
 
   # X-axis labels
@@ -175,9 +211,14 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
   # Side-by-side plots
 
   # Set plot parameters
-  .pardef <- par(mfrow = c(1,2),mai = c(0.6,0,0.2,0),
-                 oma = c(2, y.wid, 1,0.5), col = plotcol)
-   on.exit(par(.pardef))
+  .pardef <- par(no.readonly = TRUE)
+  on.exit(par(.pardef))
+  if (bar == TRUE){
+    layout(matrix(c(1,2,3),1,3,byrow=TRUE), widths = c(0.49,0.02,0.49))
+  } else {
+    layout(matrix(c(1,2),1,2,byrow=TRUE), widths = c(0.5,0.5))
+  }
+  par(mai = c(0.6,0,0.2,0), cex = 1, oma = c(2, y.wid, 1,0.5), col = plotcol)
 
     # Fit plot
     plot(fval, model_sort, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, col.lab=plotcol,
@@ -193,10 +234,20 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     # Add box to fit plot
     sq <- par("usr") # get plot corners
     if(q == TRUE){
-      # rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-      #       col = rgb(0,0,0,0.05), border = NA)
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
            col = rgb(0,0,0,0.05), border = NA)
+    }
+
+    # Add stacked bar plot if desired
+    if (bar == TRUE){
+      res.top <- res.spd / (fit.spd + res.spd)
+      plot(0, type = "n", xlim = c(0, 1), ylim = c(0, 1), xlab = "",
+           ylab = "", xaxt="n", yaxt="n", bty="o",xaxs="i",yaxs="i")
+      rect(xleft = 0.03, ybottom = 0, xright = 1, ytop = res.top, col = "#FAC4C3",
+           border = FALSE)
+      rect(xleft = 0.03, ybottom = res.top , xright = 1, ytop = 1, col = "#CEE6B5",
+           border = FALSE)
+      box(col=plotcol)
     }
 
     # Residual plot

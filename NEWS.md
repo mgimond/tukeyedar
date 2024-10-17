@@ -1,6 +1,7 @@
 # tukeyedar 0.2.7
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
 *  Added the `eda_viol` function that generates a violin plot.
+*  Added the `eda_jitter` function that generates a jitter plot from univariate datasets.
 * `eda_lm` now outputs an `eda_lm` class.
 * `eda_rline` now outputs `fitted.values` class.
 * `eda_lm` now accepts `poly = 0`. This generates a flat line. Can be used with `robust = TRUE`.

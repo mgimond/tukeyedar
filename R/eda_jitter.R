@@ -42,12 +42,7 @@
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param reorder Boolean determining if factors have to be reordered based
-#'   on \code{reorder.type}.
-#' @param reorder.stat Statistic to reorder level by if \code{reorder} is set to
-#'   \code{TRUE}. Either \code{"mean"}, \code{"median"}, \code{"upper"}
-#'   (for upper quartile) or \code{"lower"} (for lower quartile). If \code{type}
-#'   is set to a value other than \code{"none"}, the this argument is ignored
-#'   and the stat defaults to \code{"median"}.
+#'   on \code{stat}.
 #' @param show.par Boolean determining if power transformation should be
 #'   displayed in the plot.
 #' @param ylim Define custom y axis limits (x limits if \code{horiz=TRUE}.
@@ -55,13 +50,17 @@
 #' @return {No values are returned}
 #'
 #' @details
-#'  \itemize{
-#'   \item By default, the jitter plots are re-ordered by their median values.
-#'   \item To prevent re-ordering of the factors, set \code{reorder=FALSE}}
+#' Function generates jitter plot from a univariate dataset. If no categorical
+#' variable is passed to the function, a single jitter plot is created from the
+#' data. \cr
+#' \cr
+#' By default, the plots are ordered based on the statistic used to generate
+#' the central value.
 #'
 #' @examples
 #'
-#' # A basic jitter plot for a single variable
+#' # A basic jitter plot for a single variable where the mean is automatically
+#' # fitted to the data
 #' eda_jitter(iris, Sepal.Width)
 #'
 #' # A basic jitter plot conditioned on a categorical variable
@@ -69,22 +68,22 @@
 #'
 #' # Use line instead of point for summary statistic
 #' eda_jitter(iris, Sepal.Width, Species, stat.type = "l")
+#'
+#' # You can apply a transformation to the data. The summary statistic will be
+#' # computed after the data are transformed.
+#' eda_jitter(mtcars, hp, cyl, p = 0)
 
 eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
                       horiz=FALSE, stat = mean, show.stat = TRUE, stat.type = "p",
                       stat.col = "firebrick", stat.fill = "bisque", stat.size = 2,
                       stat.pch = 21, stat.pad = 1, xlab = NULL, ylab = NULL,
                       grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
-                      size = 0.8, alpha = 0.8,
-                      reorder=TRUE, reorder.stat="median",
+                      size = 0.8, alpha = 0.8, reorder=TRUE,
                       show.par = TRUE, ylim = NULL){
 
   # Parameters check
   if (!as.character(substitute(stat)) %in% c("mean", "median"))
     stop("Argument \"stat\"  must be either the mean or the median (without quotes).")
-  if (!reorder.stat %in% c("mean", "median", "upper" , "lower"))
-    stop("Argument \"reorder.stat\" must be one of \"mean\", \"median\", \"upper\" or
-         \"lower\". Stat name must be in quotes.")
   if (!stat.type %in% c("p", "l"))
     stop("Stat symbol \"stat.type\" must be \"l\" or \"p\"")
 
@@ -127,11 +126,7 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
 
   # Reorder levels if requested
   if(reorder == TRUE && length(levels(fac)) > 1){
-    if(reorder.stat == "lower") {
-      ord.stat <- tapply(x, fac, function(x) quantile(x,probs=0.25))
-    } else if (reorder.stat == "upper"){
-      ord.stat <- tapply(x, fac, function(x) quantile(x,probs=0.75))
-    } else if (reorder.stat == "mean"){
+    if (!as.character(substitute(stat)) == "mean"){
       ord.stat <- tapply(x, fac, mean )
     } else {
       ord.stat <- tapply(x, fac, median )
@@ -143,14 +138,7 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
   # Get rank number for factor
   fac.order <- as.numeric(fac)
 
-  # Get axis limits
-  if(is.null(ylim)){
-    ylim <- range(x)
-  }
-
-  xlim <- c(0.5, length(levels(fac)) + 0.5)
-
-    # Re-express data if required
+  # Re-express data if required
   x <- eda_re(x, p = p, tukey = tukey)
   x.nan <- is.na(x)
   if( any(x.nan)){
@@ -160,6 +148,13 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
                   "be removed from output. This will result in fewer points",
                   "in the ouptut."))
   }
+
+  # Get axis limits
+  if(is.null(ylim)){
+    ylim <- range(x)
+  }
+
+  xlim <- c(0.5, length(levels(fac)) + 0.5)
 
   # Create stat point symbol list
   xp <-  fac.order

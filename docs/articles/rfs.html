@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-10-09</h4>
+            <h4 data-toc-skip class="date">2024-10-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/rfs.Rmd" class="external-link"><code>vignettes/rfs.Rmd</code></a></small>
       <div class="d-none name"><code>rfs.Rmd</code></div>
@@ -92,8 +92,8 @@ analysis or a linear model for a bivariate analysis) to the variability
 in the remaining residuals. It’s constructed as follows:</p>
 <ul>
 <li>A model is fitted to the data. This can be the fitted mean values
-for multiple groups in a unvariate analysis, or a fitted regression line
-in a bivariate analysis.</li>
+for multiple groups in a univariate analysis, or a fitted regression
+line in a bivariate analysis.</li>
 <li>The residuals are computed by subtracting the fitted values from the
 original values.</li>
 <li>The estimated values from the model are centered on zero by
@@ -104,7 +104,8 @@ values.</li>
 <p>As such, an important assumption when creating an rfs plot is the
 shared shape of the residual distribution across groups or all ranges of
 an independent variable.</p>
-<p>Let’s start with a simple batch of values, <code>y</code>.</p>
+<p>Let’s start with a simple batch of values,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>.</p>
 <div class="figure" style="text-align: center">
 <img src="rfs_files/figure-html/unnamed-chunk-3-1.png" alt="Figure 1. A batch of 60 values with the mean value represented as a red point. The points are jittered about the x-axis to help visualize their distribution." width="230.4"><p class="caption">
 Figure 1. A batch of 60 values with the mean value represented as a red
@@ -115,188 +116,161 @@ distribution.
 <p>An overarching objective in data analysis is to reduce data to some
 summary that best characterizes the set of values. In this example, we
 can use the batch’s mean value of 11.03 (red point in figure 1) as an
-estimate of a typical value for <code>y</code>. This is a good first
-approximation as to what to expect as a “typical” value for
-<code>y</code>. But, not all values in <code>y</code> are exactly equal
-11.03. There is some variability around this estimate. The variability
-ranges from 9 to 13 for an overall range of about 4 <code>y</code>
-units. This uncertainty about the fitted mean value is often referred to
-as the residuals–the difference between the actual value and the
-estimated value.</p>
-<p>If we want to improve our estimation of a value in <code>y</code>
-(i.e. to reduce the uncertainty in our estimation of <code>y</code>), we
-may want to add a grouping variable to the dataset. In essence, we are
-adding another <em>handle</em> to the data in the hopes of chipping away
-at the uncertainty that accompanies the estimate. Figure 2 shows the
-groups each value in <code>y</code> belongs to.</p>
-<div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-4-1.png" alt="Figure 2. Same batch of values split across three groups with each group's mean displayed as a red point." width="220.8"><p class="caption">
-Figure 2. Same batch of values split across three groups with each
-group’s mean displayed as a red point.
-</p>
-</div>
-<p>This gives us three different possible estimates for <code>y</code>
-depending on which group the value belongs to. Eyeballing the three
-batches, it seems that the residuals in the data are reduced down to
-around two units–an improvement in our estimation since there is now
-less uncertainty in the estimation of <code>y</code>.</p>
-<p>So far, we have characterized the level of uncertainy in the data by
-identifying the minimum and maximum values in the residuals. However,
-outliers such as the upper value in the group <code>b</code> batch may
-make it seem as though batch <code>b</code> has greater variability in
-its residuals than the other groups. This brings up an issue as to how
-best to characterize the spread of the residuals. In the above figures,
-we are jittering the points to help separate the observations, but
-jittering has its limitations, especially with large datasets. A violin
-plot may be more effective in highlighting the nature of the
-distribution about each mean as shown in Figure 3.</p>
-<div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-5-1.png" alt="Figure 3. Violin plots. Dashed lines show the mean values for each batch. The bisque colored inner region highlights where 50% of the residual values lie" width="384"><p class="caption">
-Figure 3. Violin plots. Dashed lines show the mean values for each
-batch. The bisque colored inner region highlights where 50% of the
-residual values lie
-</p>
-</div>
-<p>The bisque colored inner region in Figure 3 highlights where 50% of
-the mid values lie in each distribution. The improvement in our ability
-to correctly estimate the mean values of
+estimate of a typical value for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>.
+This is a good first approximation as to what to expect as a “typical”
+value for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>.
+But, not all values in
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
-increases by quite a bit when focusing on the inner 50% of residuals as
-opposed to the upper and lower values. If we we focus on the inner 50%
-of values, the spread is roughly <em>2 units / 0.5 units = 4</em>, a
-four fold difference in spreads between estimates and residuals.</p>
-<p>Now, if we choose to focus on the inner 95% of the residuals instead
-of 50%, the difference in spreads between fitted values and residuals
-becomes a bit more modest as can be seen in Figure 4.</p>
+are exactly equal 11.03. There is some variability around this estimate.
+The variability ranges from 9 to 13 for an overall range of about 4
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+units. This uncertainty about the fitted mean value is often
+characterized as the <strong>residuals</strong>–the difference between
+the actual value and the fitted value.</p>
+<p>If we want to improve our estimation of a value in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+(i.e. to reduce the uncertainty in our estimation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>),
+we may want to add a grouping variable to the dataset. In essence, we
+are adding another <em>handle</em> to the data in the hopes of chipping
+away at the uncertainty that accompanies the estimate. Figure 2 shows
+the groups each value in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+belongs to.</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-6-1.png" alt="Figure 4. Violin plots. The bisque colored inner region highlights where 95% of the residual values lie." width="384"><p class="caption">
-Figure 4. Violin plots. The bisque colored inner region highlights where
-95% of the residual values lie.
+<img src="rfs_files/figure-html/unnamed-chunk-4-1.png" alt="Figure 2. Same batch of values split across three groups with each group's mean displayed as an orange point." width="220.8"><p class="caption">
+Figure 2. Same batch of values split across three groups with each
+group’s mean displayed as an orange point.
 </p>
 </div>
-<p>Here, the residuals can span anywhere from 3 units (batch
-<code>a</code>) to 4 units (batch <code>b</code>) for an everage spread
-in residuals of roughly 2 units about each group’s respective means.
-This makes the spread in fitted values about on par with the spread in
-residuals when the latter is characterized as the mid 95% of residual
-values. This isn’t bad given that the grouping of variables help reduce
-the uncertainty in our estimated value by half (recall that in the
-original dataset, the uncertainty in the estimated value covered roughly
-four units).</p>
-<p>One can quickly note how our assessment of the value in adding a
-grouping variable to <code>y</code> can be biased by what mid portion of
-the residuals we choose to emphasize. For example, we probably don’t
-want to focus on the full range since outliers may not be representative
-of the full dataset. Conversely, the mid 50% of residuals may be too
-restrictive. Ideally, we would want to have a plot that does not place
-emphasis on any single measure of spread when comparing distributions
-between fitted values and residuals. A Cleveland <strong>residual-fit
-spread plot</strong> (<strong>rfs</strong> for short) does away with
-this shortcoming. Key elements of the plot include:</p>
-<ul>
-<li>Placing emphasis on the spreads of the fitted values and not their
-absolute values. This requires that the overall mean value be subtracted
-from the fitted values to center the latter around zero (this aligns the
-center of the fitted values with that of the residuals which are
-centered around zero by design).</li>
-<li>Order the fitted values and the residuals based on their respective
-ranks. This facilitates the comparison of a wide range of measures of
-spreads such as the 50% or 95% spreads used in the earlier
-examples.</li>
-</ul>
-<p>The above criteria can be satisfied by making use of side-by-side
-quantile plots where a quantile plot of the fitted values (minus the
-global mean) is paired up with a quantile plot of the residuals. The
-residual-fit spread plot for the working example is shown in figure
-5.</p>
+<p>Knowing what group an observation belongs to can generate one of
+three completely different estimates of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+that range from about 10 to 12 units. This reduces the uncertainty in
+our estimation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+by about 2 units, which is an improvement over our earlier model that
+generated just one estimate for all observations. The range in residual
+values about each fitted mean seems to have also diminished. Ideally, we
+want the uncertainty surrounding the fitted means to be as small as
+possible relative to the range of fitted means. However, the jitter plot
+in Figure 2 is not very effective in comparing both spreads. A better
+plot is one that limits the emphasis on the comparison between spreads
+in fitted values and their residuals. Such a plot does away with the
+absolute values of the fitted means and their residuals, instead, it
+centers both spreads around
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>.
+Another characteristic of an ideal plot is to help quantify the relative
+difference in spreads between the fitted values and the residuals. A
+good candidate for such a plot is a side-by-side quantile plot of fitted
+values centered (roughly) around zero on the left and the residual
+values centered on their respective group fitted values. This gives us
+the rfs plot shown in Figure 3.</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-7-1.png" alt="Figure 5. A residual-fit spread plot. Each observation is split between a quantile plot of fitted value minus group mean (left plot) and a quantile plot of residuals (right plot). The x-axis displays the fraction of values (f-value) in each plot that are at or below the matching value on the y-axis." width="480"><p class="caption">
-Figure 5. A residual-fit spread plot. Each observation is split between
+<img src="rfs_files/figure-html/unnamed-chunk-5-1.png" alt="Figure 3. A residual-fit spread plot. Each observation is split between a quantile plot of fitted value minus group mean (left plot) and a quantile plot of residuals (right plot). The x-axis displays the fraction of values (f-value) in each plot that are at or below the matching value on the y-axis." width="480"><p class="caption">
+Figure 3. A residual-fit spread plot. Each observation is split between
 a quantile plot of fitted value minus group mean (left plot) and a
 quantile plot of residuals (right plot). The x-axis displays the
 fraction of values (f-value) in each plot that are at or below the
 matching value on the y-axis.
 </p>
 </div>
-<p>What looks to be three horizontal lines on the left plot in Figure 5
+<p>What looks to be three horizontal lines on the left plot in Figure 3
 are simply overlapping points–one point for each observation. Since an
-observation in <code>y</code> falls into one of the three groups
-(<code>a</code>, <code>b</code> or <code>c</code>), many values in
-<code>y</code> will share the same fitted (mean) value. For example, the
-last observation in the original dataset has a value of
-<code>11.05</code> and is part of group <code>c</code>. Its value can be
-decomposed into its group mean of <code>11.98</code> and its residual of
+observation in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+falls into one of the three groups (<code>a</code>, <code>b</code> or
+<code>c</code>), many values in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+will share the same fitted (mean) value. For example, the last
+observation in the original dataset has a value of <code>11.05</code>
+and is part of group <code>c</code>. Its value can be decomposed into
+its group mean of <code>11.98</code> and its residual of
 <code>-0.93</code> as follows:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11.05</mn><mo>=</mo><mn>11.98</mn><mo>−</mo><mn>0.93</mn></mrow><annotation encoding="application/x-tex">
 11.05 = 11.98 - 0.93
-</annotation></semantics></math> This value is shown as a green point in
-Figure 6. Note that the overall mean of 11.03 is removed from the fitted
-value of <code>11.05</code> giving us a rescaled fitted value of
-0.95.</p>
+</annotation></semantics></math></p>
+<p>This value is shown as a green point in Figure 4. Note that the
+overall mean of 11.03 is removed from the fitted value of 11.98 giving
+us a rescaled fitted value of 0.95. The same process is applied to all
+other observations resulting in the same number of points in both
+quantile plots as total number of observations in the original
+dataset.</p>
 <div class="float">
-<img src="rfs_uni_1.png" alt="Figure 6. Example of how a fitted value and its residual are mapped to an RFS plot. The red points on the fitted line represent the estimated value for each group. The green point is one of the observations whose estimated value and residual are mapped to the rfs plot."><div class="figcaption">Figure 6. Example of how a fitted value and its
-residual are mapped to an RFS plot. The red points on the fitted line
-represent the estimated value for each group. The green point is one of
-the observations whose estimated value and residual are mapped to the
-rfs plot.</div>
+<img src="rfs_uni_1.png" alt="Figure 4. Example of how a fitted value and its residual are mapped to an rfs plot. The green point is an example of an observation highlighted in the text whose estimated value and residual are mapped to the rfs plot."><div class="figcaption">Figure 4. Example of how a fitted value and its
+residual are mapped to an rfs plot. The green point is an example of an
+observation highlighted in the text whose estimated value and residual
+are mapped to the rfs plot.</div>
 </div>
-<p>The same process is applied to all other observations resulting in
-the same number of points in both plots as total number of observations
-in the dataset.</p>
+<p><cr></cr></p>
 <p>The rfs plot facilitates the comparison of both spreads by sharing
 the same y axis and by having both spreads centered on 0. In this
 working example, the spreads are about identical suggesting that the
-grouping variable can help explain some of the variability in the
-data.</p>
+grouping variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>r</mi><mi>o</mi><mi>u</mi><mi>p</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">groups</annotation></semantics></math>
+can help explain some of the variability in the data.</p>
 <p>To help develop an intuitive feel for the interpretation of the rfs
 plot, we can explore two extreme scenarios. In this first scenario, we
-assign groups to the values in <code>y</code> in such a way as to
-maximize the separation in each group (see Figure 8).</p>
+assign groups to the values in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+in such a way as to maximize the separation in each group (see Figure
+5).</p>
+<center>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-9-1.png" alt="Figure 8. An example of a dataset that exhibits a clear separation in grouped values of y." width="230.4"><p class="caption">
-Figure 8. An example of a dataset that exhibits a clear separation in
+<img src="rfs_files/figure-html/unnamed-chunk-7-1.png" alt="Figure 5. An example of a dataset that exhibits a clear separation in grouped values of y." width="230.4"><p class="caption">
+Figure 5. An example of a dataset that exhibits a clear separation in
 grouped values of y.
 </p>
 </div>
-<p>Figure 9 shows the matching rfs plot. Here, the spread in fitted
+</center>
+<p>Figure 6 shows the matching rfs plot. Here, the spread in fitted
 values is greater than the spread in residuals defined by its minimum
 and maximum values. If we ignore the extreme values and focus solely on
 the inner 95% of the residuals, we see that the uncertainty is reduced
-to just about 1 unit in <code>y</code> or half the spread defined by the
-fitted values.</p>
+to just about 1 unit in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+or half the spread defined by the fitted values.</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-10-1.png" alt="Figure 9. The spread in the fitted mean values spans 2 units along the y-axis. The residuals span labout 1 unit when ignoring the extreme values suggesting that the grouping variable does a good job in improving our estimation of y." width="480"><p class="caption">
-Figure 9. The spread in the fitted mean values spans 2 units along the
-y-axis. The residuals span labout 1 unit when ignoring the extreme
-values suggesting that the grouping variable does a good job in
-improving our estimation of y.
+<img src="rfs_files/figure-html/unnamed-chunk-8-1.png" alt="Figure 6. The spread in the fitted mean values spans 2 units along the y-axis. The residuals span about 1 unit when ignoring the extreme values suggesting that the grouping variable does a good job in improving our estimation of y." width="480"><p class="caption">
+Figure 6. The spread in the fitted mean values spans 2 units along the
+y-axis. The residuals span about 1 unit when ignoring the extreme values
+suggesting that the grouping variable does a good job in improving our
+estimation of y.
 </p>
 </div>
 <p>In this next example, we look at the other extreme: one where the
 spread in fitted means is small relative to the uncertainty surrounding
-each fitted value.The original <code>y</code> batch of values is used
-while re-assigning the grouping variables in such a way so as to
-minimize the importance of the grouping variable in estimating
-<code>y</code>.</p>
+each fitted value. The original
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+batch of values is used while re-assigning the grouping variables in
+such a way so as to minimize the importance of the grouping variable in
+estimating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+(See Figure 7).</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-11-1.png" alt="Figure 10. An example of a dataset that does not exhibit a clear separation in grouped values of y." width="230.4"><p class="caption">
-Figure 10. An example of a dataset that does not exhibit a clear
+<img src="rfs_files/figure-html/unnamed-chunk-9-1.png" alt="Figure 7. An example of a dataset that does not exhibit a clear separation in grouped values of y." width="230.4"><p class="caption">
+Figure 7. An example of a dataset that does not exhibit a clear
 separation in grouped values of y.
 </p>
 </div>
-<p>The rfs plot of the data is shown in Figure 11.</p>
+<p>The matching rfs plot is shown in Figure 8.</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-12-1.png" alt="Figure 11. The spread in the fitted mean values spans just 1/3 of a unit while the residuals span labout 3 unit when ignoring the extreme values suggesting that the grouping variable does not improve on our estimation of y." width="480"><p class="caption">
-Figure 11. The spread in the fitted mean values spans just 1/3 of a unit
-while the residuals span labout 3 unit when ignoring the extreme values
+<img src="rfs_files/figure-html/unnamed-chunk-10-1.png" alt="Figure 8. The spread in the fitted mean values spans just 1/3 of a unit while the residuals span about 3 units when ignoring the extreme values suggesting that the grouping variable does not improve on our estimation of y." width="480"><p class="caption">
+Figure 8. The spread in the fitted mean values spans just 1/3 of a unit
+while the residuals span about 3 units when ignoring the extreme values
 suggesting that the grouping variable does not improve on our estimation
 of y.
 </p>
 </div>
 <p>With this last dataset, the spread in residuals is quite important
 relative to the spread in fitted values. This suggests that the grouping
-variable does not improve in our estimation of <code>y</code>. Its
-effect in estimating <code>y</code> is small.</p>
+variable does not improve in our estimation of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>.
+Its effect in estimating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+is small.</p>
 <div class="section level3">
 <h3 id="generating-an-rfs-plot-with-eda_rfs">Generating an rfs plot with eda_rfs<a class="anchor" aria-label="anchor" href="#generating-an-rfs-plot-with-eda_rfs"></a>
 </h3>
@@ -305,139 +279,148 @@ follows:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">9591</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">60</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">11</span>, <span class="fl">12</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, </span>
-<span>                 group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>                 groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>To generate an rfs plot, type:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, <span class="va">group</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, <span class="va">groups</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  The mid 90.0% of residuals covers about 1.62 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 1.87 units, or about 115.4% of the mid 90.0% of residuals.</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-14-1.png" alt="Figure 12. An rfs plot generated using the eda_rfs() function." width="480"><p class="caption">
-Figure 12. An rfs plot generated using the eda_rfs() function.
+<img src="rfs_files/figure-html/unnamed-chunk-12-1.png" alt="Figure 9. An rfs plot generated using the eda_rfs() function." width="480"><p class="caption">
+Figure 9. An rfs plot generated using the eda_rfs() function.
 </p>
 </div>
 <p>In addition to generating a plot, the function will also output
-information about the spreads. It will compare the spread in the
-residuals to the range of values in the fitted data.</p>
-<pre><code><span><span class="co">#&gt;  The mid 68.3% of residuals covers about 0.90 units.</span></span>
-<span><span class="co">#&gt;  The fitted values cover a range of about 1.87 units,</span></span>
-<span><span class="co">#&gt;  or about 207.3% of the mid 68.3% of residuals.</span></span></code></pre>
-<p>By default, the function will focus on the inner 68.3% of the spread
-in the residuals (what would be equivalent to a standard deviation if
-the residuals were normally distributed). You can view this region on
-the plot by setting the <code>q</code> parameter to
-<code>TRUE</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, <span class="va">group</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+information about the spreads in the console. It compares the spread in
+the mid 90% of residuals to the range of fitted values.</p>
+<p>The plot and the console output indicate that mid 90% of the
+residuals fall between -0.75 and +0.75, roughly. This encompasses a
+spread close to 1.5 units. This is about half the spread covered by the
+fitted values.</p>
+<p>The reason the mid 90% of values is chosen is to prevent outliers or
+extreme values in the residuals from disproportionately exaggerating the
+spread in residuals. For example, you’ll note an extreme outlier of a
+little more than 1.5 units which is clearly not representative of the
+bulk of the residuals.</p>
+<p>A shaded region highlighting the inner 90% of residuals can be added
+to the plot by setting <code>q = TRUE</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, <span class="va">groups</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-16-1.png" alt="Figure 12. An rfs plot generated using the eda_rfs() function with the inner 68.3%  region displayed as a grey vertical region in the Residuals quantile plot. The horizontal grey region shows the matching values on the y-axis." width="480"><p class="caption">
-Figure 12. An rfs plot generated using the eda_rfs() function with the
-inner 68.3% region displayed as a grey vertical region in the Residuals
+<img src="rfs_files/figure-html/unnamed-chunk-13-1.png" alt="Figure 10. An rfs plot generated using the eda_rfs() function with the inner 90%  region displayed as a grey vertical block in the residuals quantile plot. The horizontal grey region shows the matching values on the y-axis." width="480"><p class="caption">
+Figure 10. An rfs plot generated using the eda_rfs() function with the
+inner 90% region displayed as a grey vertical block in the residuals
 quantile plot. The horizontal grey region shows the matching values on
 the y-axis.
 </p>
 </div>
-<p>The plot and the console output indicate that about 68% of the
-residuals fall between -0.45 and +0.45, roughly. This encompasses a
-spread close to 1 unit (0.9 to be exact). This is about half the spread
-covered by the fitted values.</p>
-<p>If a wider portion of the residual spread is desired, the
-<code>inner</code> argument can be modified to accomodate the desried
-spread. For example, if 95% of the inner residual spread is to be
+<p>You can change what constitutes the mid portion of the residuals by
+assigning a fraction ranging from 0 to 1 to the <code>inner</code>
+argument. For example, if 95% of the inner residual spread is to be
 compared to the spread in fitted values, set <code>inner = 0.95</code>
 as shown in the following example.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, <span class="va">group</span>, inner <span class="op">=</span> <span class="fl">0.95</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  The mid 95.0% of residuals covers about 1.92 units.</span></span>
-<span><span class="co">#&gt;  The fitted values cover a range of about 1.87 units,</span></span>
-<span><span class="co">#&gt;  or about 97.3% of the mid 95.0% of residuals.</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt;  The mid 90.0% of residuals covers about 1.62 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 1.87 units, or about 115.4% of the mid 90.0% of residuals.</span></span></code></pre>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-18-1.png" alt="Figure 13. An rfs plot generated using the eda_rfs() function with the inner 95% region displayed as a grey veritcal region in the Residuals quantile plot. The horizontal grey region shows the matching values on the y-axis." width="480"><p class="caption">
-Figure 13. An rfs plot generated using the eda_rfs() function with the
-inner 95% region displayed as a grey veritcal region in the Residuals
+<img src="rfs_files/figure-html/unnamed-chunk-14-1.png" alt="Figure 11. An rfs plot generated using the eda_rfs() function with the inner 95% region displayed as a grey vertical region in the Residuals quantile plot. The horizontal grey region shows the matching values on the y-axis." width="480"><p class="caption">
+Figure 11. An rfs plot generated using the eda_rfs() function with the
+inner 95% region displayed as a grey vertical region in the Residuals
 quantile plot. The horizontal grey region shows the matching values on
 the y-axis.
 </p>
 </div>
 <p>Adding the grouping variable improves our estimation of
-<code>y</code> by reducing the uncertanty around our estimate. Had we
-not split the data into groups and stuck with one overall mean value, we
-would have ended up with a larger residual spread as shown in Figure
-14.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">all</span> <span class="op">&lt;-</span> <span class="st">"all"</span></span>
-<span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, <span class="va">all</span>, inner <span class="op">=</span> <span class="fl">0.95</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  The mid 95.0% of residuals covers about 3.28 units.</span></span>
-<span><span class="co">#&gt;  The fitted values cover a range of about 0.00 units,</span></span>
-<span><span class="co">#&gt;  or about 0.0% of the mid 95.0% of residuals.</span></span></code></pre></div>
-<div class="figure">
-<img src="rfs_files/figure-html/unnamed-chunk-20-1.png" alt="Figure 14. An rfs plot of the data as it was presented to us before the data values were split into groups. The single fitted estimate is the overall mean." width="480"><p class="caption">
-Figure 14. An rfs plot of the data as it was presented to us before the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+by reducing the uncertainty around our estimate. Had we not split the
+data into groups and stuck with one overall mean value, we would have
+ended up with a larger residual spread as shown in Figure 12.</p>
+<pre><code><span><span class="co">#&gt;  The mid 90.0% of residuals covers about 2.76 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 0.00 units, or about 0.0% of the mid 90.0% of residuals.</span></span></code></pre>
+<div class="figure" style="text-align: center">
+<img src="rfs_files/figure-html/unnamed-chunk-15-1.png" alt="Figure 12. An rfs plot of the data as it was presented to us before the data values were split into groups. The single fitted estimate is the overall mean." width="480"><p class="caption">
+Figure 12. An rfs plot of the data as it was presented to us before the
 data values were split into groups. The single fitted estimate is the
 overall mean.
 </p>
 </div>
-<p>In the above code, we added a new column, <code>all</code>, with a
-unique “group” value, <code>"all"</code> shared across all
-<code>y</code> values. This results in a single “group” for the rfs
-spread plot. 95% of the inner residual spread covers a range of 3.28
-units–quite a bit more than the spread in residuals observed when we
-added the grouping variable to the mix.</p>
+<p>In the above code, we added a new column with a unique grouping
+value, <code>"all"</code>, shared across all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+values. This results in a single “group” for the rfs spread plot. 90% of
+the inner residual spread covers a range of 2.76 units–quite a bit more
+than the spread in residuals observed when we added the grouping
+variable to the mix.</p>
 </div>
 <div class="section level3">
 <h3 id="eda_rfs-options">eda_rfs() options<a class="anchor" aria-label="anchor" href="#eda_rfs-options"></a>
 </h3>
-<p>You’ve already been introduced to the <code>inner</code> argument
-which allows you to specify what inner range of the residual spread to
-display in the plot and in the console.</p>
-<p>Another option that can be modified is the summary statistic used
-with the univariate data. By default, the function computes the mean
+<p>You’ve already been introduced to the <code>q</code> and
+<code>inner</code> arguments which allows you to set and visualize the
+inner range of the residual spread rfs plot and in the console.</p>
+<p>Another <code>eda_rfs</code> option modifies the summary statistic
+used with univariate data. By default, the function computes the mean
 value for each group in the data. Instead, you can have the software
 compute the median by setting <code>stat = median</code>. This can be a
 useful option when working with skewed datasets. For example, the
-<code>hp</code> variable in the built-in <code>mtcars</code> dataset has
-a right skew. The higher values will have a disprporitonatye influence
-on the mean value as shown in Figure 15.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">am</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="rfs_files/figure-html/unnamed-chunk-21-1.png" alt="Figure 15." width="480"><p class="caption">
-Figure 15.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">hp</annotation></semantics></math>
+variable in the built-in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>t</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">mtcars</annotation></semantics></math>
+dataset has a right skew. The higher values will have a disproportionate
+influence on the mean value as shown in Figure 13.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">am</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  The mid 90.0% of residuals covers about 177.90 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 33.42 units, or about 18.8% of the mid 90.0% of residuals.</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="rfs_files/figure-html/unnamed-chunk-16-1.png" alt="Figure 13. An rfs plot of horsepower values in the mtcars dataset conditioned on transmission type (am variable in the dataset). Here, the mean statistic (default) is used to compute the central values." width="480"><p class="caption">
+Figure 13. An rfs plot of horsepower values in the mtcars dataset
+conditioned on transmission type (am variable in the dataset). Here, the
+mean statistic (default) is used to compute the central values.
 </p>
 </div>
-<p>Figure 16 generates an rfs plot using the median statistic as opposed
-to the mean. Note the difference in the reported residual spread
-vis-a-vis the spread in the fitted values.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Adopting the median will minimize the influence the extremes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">hp</annotation></semantics></math>
+value will have in fitting the central values to each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">am</annotation></semantics></math>
+group as shown in Figure 14.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">am</span>, stat <span class="op">=</span> <span class="va">median</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  The mid 68.3% of residuals covers about 113.53 units.</span></span>
-<span><span class="co">#&gt;  The fitted values cover a range of about 66.00 units,</span></span>
-<span><span class="co">#&gt;  or about 58.1% of the mid 68.3% of residuals.</span></span></code></pre></div>
-<div class="figure">
-<img src="rfs_files/figure-html/unnamed-chunk-22-1.png" alt="Figure 16." width="480"><p class="caption">
-Figure 16.
+<span><span class="co">#&gt;  The mid 90.0% of residuals covers about 187.15 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 66.00 units, or about 35.3% of the mid 90.0% of residuals.</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="rfs_files/figure-html/unnamed-chunk-17-1.png" alt="Figure 14. An rfs plot of horsepower values in the mtcars dataset conditioned on transmission type (am variable in the dataset). Here, the optional median statistic is used to compute the central values." width="480"><p class="caption">
+Figure 14. An rfs plot of horsepower values in the mtcars dataset
+conditioned on transmission type (am variable in the dataset). Here, the
+optional median statistic is used to compute the central values.
 </p>
 </div>
 <blockquote>
 <p>It’s important to remember that the use of an rfs plot only makes
 sense when the residuals across all groups share the same distribution.
-This is a common asumption with many popular parametric statisitcal
+This is a common assumption with many popular parametric statistical
 procedures.</p>
 </blockquote>
-<p>The function does allow for the transformation of a variable for a
-univariate dataset. For example, to render the <code>hp</code> dataset
-more symmatrical, we can apply a log transformation via the argument
-<code>p = 0</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">am</span>,  q <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="rfs_files/figure-html/unnamed-chunk-23-1.png" alt="Figure 17." width="480"><p class="caption">
-Figure 17.
+<p>If skew is of concern in a univariate dataset, the function allows
+for the transformation of a variable for a univariate dataset. For
+example, to render the <code>hp</code> dataset more symmetrical, we can
+apply a log transformation via the argument <code>p = 0</code> as shown
+in Figure 15.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">am</span>,  q <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  The mid 90.0% of residuals covers about 1.28 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 0.33 units, or about 25.7% of the mid 90.0% of residuals.</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="rfs_files/figure-html/unnamed-chunk-18-1.png" alt="Figure 15. An rfs plot of log transformed horsepower values in the mtcars dataset conditioned on transmission type (am variable in the dataset). Results are reported in the transformed variable units." width="480"><p class="caption">
+Figure 15. An rfs plot of log transformed horsepower values in the
+mtcars dataset conditioned on transmission type (am variable in the
+dataset). Results are reported in the transformed variable units.
 </p>
 </div>
 <p>The power transformation used with the data is displayed in the upper
 right-hand side of the residual quantile plot. To hide the parameter
-from the plot, set <code>show.par</code> to FALSE.</p>
+from the plot, set <code>show.par = FALSE</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="rfs-plots-for-bivariate-analysis">Rfs plots for bivariate analysis<a class="anchor" aria-label="anchor" href="#rfs-plots-for-bivariate-analysis"></a>
@@ -446,61 +429,61 @@ from the plot, set <code>show.par</code> to FALSE.</p>
 fitted model such as a regression line may have in explaining the
 variability in the data.</p>
 <p>As is the case with univariate analysis, we are seeking an estimate
-of a variable <code>y</code> in such a way as to minimize the
-uncertainty surrounding that estimate. For example, if we want to
-estimate the miles-per-gallon consumed by a vehicle from the
-<code>mtcars</code> built-in dataset, we could start with the simplest
-estimate–that being the mean.</p>
+of a variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+in such a way as to minimize the uncertainty surrounding that estimate.
+For example, if we want to estimate the miles-per-gallon consumed by a
+vehicle from the <code>mtcars</code> built-in dataset, we could start
+with the simplest estimate–that being the mean.</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-24-1.png" alt="Figure 18. A jitter plot of 32 miles-per-gallon measurements from the mtcars dataset. The mean value is fitted to the data giving us a first estimate of the variable." width="268.8"><p class="caption">
-Figure 18. A jitter plot of 32 miles-per-gallon measurements from the
+<img src="rfs_files/figure-html/unnamed-chunk-19-1.png" alt="Figure 16. A jitter plot of 32 miles-per-gallon measurements from the mtcars dataset. The mean value is fitted to the data giving us a first estimate of the variable." width="268.8"><p class="caption">
+Figure 16. A jitter plot of 32 miles-per-gallon measurements from the
 mtcars dataset. The mean value is fitted to the data giving us a first
 estimate of the variable.
 </p>
 </div>
 <p>There is, as expected, some variability that covers a range of about
-4 miles-per-gallon.</p>
-<p>We can improve on this estimate by adding another variable to the
-dataset. But, instead of adding a categorical variable as was proposed
-in the first example of this tutorial, we can add a continuous variable
-to help us improve on this estimate. For example. we can see if a
-vehicles horsepower can help us hone in on a more precise estimate of
-miles-per-gallon (i.e. one that minimizes the uncertainty surrounding
-this estimate). Figure 19 gives us a scatter plot of miles-per-gallon vs
-horsepower.</p>
+24 miles-per-gallon.</p>
+<p>We can improve on this estimate by adding another handle to the data.
+But, instead of adding a categorical variable as was proposed in the
+first example of this tutorial, we can add another continuous variable
+to help us improve on this estimate. For example, we can see if a
+vehicle’s horsepower can help us home in on a more precise estimate of
+miles-per-gallon. Figure 17 gives us a scatter plot of miles-per-gallon
+vs horsepower.</p>
+<center>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-25-1.png" alt="Figure 19. A scatter plot of milese-per gallon (mpg) vs. horsepower (hp)." width="268.8"><p class="caption">
-Figure 19. A scatter plot of milese-per gallon (mpg) vs. horsepower
-(hp).
+<img src="rfs_files/figure-html/R.options-1.png" alt="Figure 17. A scatter plot of miles-per gallon (mpg) vs. horsepower (hp)." width="268.8"><p class="caption">
+Figure 17. A scatter plot of miles-per gallon (mpg) vs. horsepower (hp).
 </p>
 </div>
-<p>The pattern in the scatter plot suggests that <code>mpg</code> varies
-as a function of <code>hp</code>. In other words, an typical value of
-<code>mpg</code> is greater for lower horsepower than higher horsepower.
-This suggests that our estimate of <code>hp</code> should decrease with
-increasing <code>hp</code>. We could split the data into sub-groups of
-<code>hp</code> values and compute separate means was was done with the
-univariate example or, we could fit a linear model to the data whereby
-the fitted line qould provide us with a unique estimate at any location
-along the <code>hp</code> axis. A common model fitting strategy is the
-least-squares regression technique (see Figure 20).</p>
+</center>
+<p>The pattern in the scatter plot suggests that <code>mpg</code>
+decreases as a function of increasing <code>hp</code>.</p>
+<p>We could split the data into sub-groups of <code>hp</code> values and
+compute separate means as was done with the univariate example or, we
+could fit a linear model to the data whereby the fitted line would
+provide us with a unique estimate of <code>mpg</code> for any unique
+value of <code>hp</code>. A common model fitting strategy is the
+least-squares regression technique (see Figure 18).</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-26-1.png" alt="Figure 20. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp) with a fitted linear model. The vertical grey dashed lines highlight the error or uncertainty in the estimated values." width="268.8"><p class="caption">
-Figure 20. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp)
+<img src="rfs_files/figure-html/unnamed-chunk-20-1.png" alt="Figure 18. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp) with a fitted linear model. The vertical grey dashed lines highlight the error in the estimated values." width="268.8"><p class="caption">
+Figure 18. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp)
 with a fitted linear model. The vertical grey dashed lines highlight the
-error or uncertainty in the estimated values.
+error in the estimated values.
 </p>
 </div>
 <p>The estimate for <code>mpg</code> is <em>conditioned</em> on the
-value of <code>hp</code>. The estimate ranges from about 7
-miles-per-gallon to about 26 miles-per-gallon. An rfs plot can help us
-assess how much of the variability can be explained by this newly fitted
-model and how it compares to the residuals (Figure 21).</p>
+value of <code>hp</code>. The estimate (extracted from the red line in
+the plot) ranges from about 7 miles-per-gallon to about 26
+miles-per-gallon. An rfs plot can help us assess how much of the
+variability in <code>mpg</code> can be explained by this newly fitted
+model and how it compares to the residuals (Figure 19).</p>
 <div class="figure" style="text-align: center">
-<img src="rfs_files/figure-html/unnamed-chunk-27-1.png" alt="Figure 20. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp) with a fitted linear model. The vertical grey dashed lines highlight the error or uncertainty in the estimated values." width="480"><p class="caption">
-Figure 20. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp)
-with a fitted linear model. The vertical grey dashed lines highlight the
-error or uncertainty in the estimated values.
+<img src="rfs_files/figure-html/unnamed-chunk-21-1.png" alt="Figure 19. An rfs plot of the bivariate model whereby the fitted values are plotted on the left quantile plot and the residuals are plotted on the right quantile plot." width="480"><p class="caption">
+Figure 19. An rfs plot of the bivariate model whereby the fitted values
+are plotted on the left quantile plot and the residuals are plotted on
+the right quantile plot.
 </p>
 </div>
 <p>The fit-minus-mean plot looks different from a univariate rfs plot,
@@ -513,39 +496,42 @@ the largest <code>hp</code> value of <code>335</code> is
 <code>7.24</code> and the residual is <code>+7.75</code> <code>hp</code>
 units.</p>
 <div class="float">
-<img src="rfs_lm_1.png" alt="Figure 18. Example of how a fitted value and its residual are mapped to an RFS plot. The red points on the fitted line represent the estimated value for all 32 observations in the mtcars dataset."><div class="figcaption">Figure 18. Example of how a fitted value and its
-residual are mapped to an RFS plot. The red points on the fitted line
-represent the estimated value for all 32 observations in the mtcars
+<img src="rfs_lm_1.png" alt="Figure 20. Example of how a fitted model and its residuals are mapped to an rfs plot. The red points on the fitted line represent the estimated values for all 32 observations in the mtcars dataset."><div class="figcaption">Figure 20. Example of how a fitted model and its
+residuals are mapped to an rfs plot. The red points on the fitted line
+represent the estimated values for all 32 observations in the mtcars
 dataset.</div>
 </div>
+<p><cr></cr></p>
 <p>We can see that the spread in the fitted model and the residuals is
 comparable with the fitted model explaining a bit more of the
 variability than the residuals when focusing on the full range of
-values.</p>
+residual values.</p>
 <div class="section level4">
 <h4 id="using-eda_rfs-with-a-regression-model">Using eda_rfs() with a regression model<a class="anchor" aria-label="anchor" href="#using-eda_rfs-with-a-regression-model"></a>
 </h4>
-<p>You must first create a model using either the buil-in
+<p>You must first create a model using either the built-in
 <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function or this package’s <code>eda_lm</code> or
 <code>eda_rline</code> functions. For example, to evaluate the effect a
 linear model has in estimating the miles per gallon (<code>mpg</code>)
 from a vehicle’s horsepower (<code>hp</code>), we first define the
-model, then pass that model to the rfs function. Here, we’ll use the
-package’s <code>eda_lm</code> function.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+model, then pass that model to the <code>eda_rfs</code> function. Here,
+we’ll use the package’s <code>eda_lm</code> function.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_lm.html">eda_lm</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">mpg</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="rfs_files/figure-html/unnamed-chunk-29-1.png" alt="Figure 19. A scatter plot of miles-per-gallon vs horsepower from the built-in mtcars dataset. A linear model is fitted to the data." width="480"><p class="caption">
-Figure 19. A scatter plot of miles-per-gallon vs horsepower from the
+<div class="figure" style="text-align: center">
+<img src="rfs_files/figure-html/unnamed-chunk-23-1.png" alt="Figure 21. A scatter plot of miles-per-gallon vs horsepower from the built-in mtcars dataset. A linear model is fitted to the data." width="480"><p class="caption">
+Figure 21. A scatter plot of miles-per-gallon vs horsepower from the
 built-in mtcars dataset. A linear model is fitted to the data.
 </p>
 </div>
-<p>The resulting rfs plot is shown in Figure 19.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">M1</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="rfs_files/figure-html/unnamed-chunk-30-1.png" alt="Figure 20. A scatter plot of miles-per-gallon vs horsepower from the built-in mtcars dataset. A linear model is fitted to the data." width="480"><p class="caption">
-Figure 20. A scatter plot of miles-per-gallon vs horsepower from the
+<p>The resulting rfs plot is shown in Figure 22.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_rfs.html">eda_rfs</a></span><span class="op">(</span><span class="va">M1</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  The mid 90.0% of residuals covers about 12.79 units.</span></span>
+<span><span class="co">#&gt;  The fitted values cover a range of 19.31 units, or about 150.9% of the mid 90.0% of residuals.</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="rfs_files/figure-html/unnamed-chunk-24-1.png" alt="Figure 22. A scatter plot of miles-per-gallon vs horsepower from the built-in mtcars dataset. A linear model is fitted to the data." width="480"><p class="caption">
+Figure 22. A scatter plot of miles-per-gallon vs horsepower from the
 built-in mtcars dataset. A linear model is fitted to the data.
 </p>
 </div>

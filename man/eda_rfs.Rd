@@ -16,11 +16,12 @@ eda_rfs(
   pch = 21,
   p.col = "grey50",
   p.fill = "grey80",
-  inner = 0.6826,
+  inner = 0.9,
   q = FALSE,
   size = 0.8,
   alpha = 0.7,
-  ylim = NULL
+  ylim = NULL,
+  bar = FALSE
 )
 }
 \arguments{
@@ -55,7 +56,7 @@ univariate values (i.e. for summarizing groups). \code{stat} can be either
 ranging from 21-25).}
 
 \item{inner}{Fraction of values that should be captured by the inner color
-band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
+band of the normal and density plots. Defaults to 0.9 (inner 90\% of
 values).}
 
 \item{q}{Boolean determining if grey quantile boxes should be plotted.}
@@ -66,17 +67,52 @@ values).}
 applicable if \code{rgb()} is not used to define point colors.}
 
 \item{ylim}{Define custom y axis limits.}
+
+\item{bar}{Boolean determining if spread comparison stacked bar should be
+plotted.}
+}
+\value{
+{No values are returned}
 }
 \description{
 \code{eda_rfs} generates a Cleveland residual-fit spread plot
    for univariate or bivariate data.
+}
+\details{
+The \code{eda_rfs} function generates a residual-fit spread plot for
+univariate and bivariate data. Input can be a dataframe with one column
+storing the continuous variable and another column storing the categorical
+(grouping) variable or, for a bivariate dataset, a model output from an
+\code{lm()}, \code{eda_lm()} or \code{eda_rline()} function.\cr
+\cr
+The \code{stat} argument only applies to univariate data and allows the user
+to choose the summary statistic to fit to the data (either mean or median).
+This statistic is also used to recenter the fitted values in the rfs plot.\cr
+\cr
+The \code{q} argument, when set to \code{TRUE}, will add a shaded region to
+the residual quantile plot highlighting the mid portion of the data defined
+by the \code{inner} argument (set to 90% of the mid values, by default). The
+range defined by the mid portion of the data is highlighted in the left plot
+for comparison with the the full range defined by the fitted values. \cr
+\cr
+The \code{inner} argument is the fraction of mid values to display with the
+shaded region if \code{q = TRUE} and the fraction used to define the
+residual's spread in the console output.\cr
+\cr
+The \code{bar} option, when set to \code{TRUE}, adds a narrow stacked barplot
+that compares the spread covered by the residuals (red bar) with the spread
+covered by the fitted values (green bar). The residual spread is computed
+for the portion of the residuals defined by the \code{inner} argument. The
+values outputted in the console are those used in computing the vertical
+bars.\cr
+\cr
 }
 \examples{
 
 # Generate a basic residual-fit spread plot
 eda_rfs(mtcars,mpg, cyl)
 
-# Add inner 68.4\% region to residuals (grey boxes in plot)
+# Add inner 90\% region to residuals (grey boxes in plot)
 # Vertical grey box shows matching y-values
 eda_rfs(mtcars,mpg, cyl, q = TRUE)
 

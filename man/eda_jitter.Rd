@@ -29,7 +29,6 @@ eda_jitter(
   size = 0.8,
   alpha = 0.8,
   reorder = TRUE,
-  reorder.stat = "median",
   show.par = TRUE,
   ylim = NULL
 )
@@ -42,7 +41,7 @@ eda_jitter(
 \item{fac}{Column name assigned to the factor the values are to be
 conditioned on}
 
-\item{jitter}{Jittering paramater. A fraction of the group width
+\item{jitter}{Jittering parameter. A fraction of the group width
 (\code{0} to \code{1})}
 
 \item{p}{Power transformation to apply to variable}
@@ -75,7 +74,7 @@ or width of line if \code{stat.type = "l"}.}
 \item{stat.pch}{Point statistical summary type (1 through 25). Ignored if
 \code{stat.type = "l"}.}
 
-\item{stat.pad}{Fraction to add to the lenght of the line statistical summary,
+\item{stat.pad}{Fraction to add to the length of the line statistical summary,
 Ignore if \code{stat.type = "p"}.}
 
 \item{xlab}{X label for output plot}
@@ -97,13 +96,7 @@ ranging from 21-25).}
 applicable if \code{rgb()} is not used to define point colors.}
 
 \item{reorder}{Boolean determining if factors have to be reordered based
-on \code{reorder.type}.}
-
-\item{reorder.stat}{Statistic to reorder level by if \code{reorder} is set to
-\code{TRUE}. Either \code{"mean"}, \code{"median"}, \code{"upper"}
-(for upper quartile) or \code{"lower"} (for lower quartile). If \code{type}
-is set to a value other than \code{"none"}, the this argument is ignored
-and the stat defaults to \code{"median"}.}
+on \code{stat}.}
 
 \item{show.par}{Boolean determining if power transformation should be
 displayed in the plot.}
@@ -117,13 +110,17 @@ displayed in the plot.}
 \code{eda_jitter} creates jitter plot conditioned on one variable.
 }
 \details{
-\itemize{
-  \item By default, the jitter plots are re-ordered by their median values.
-  \item To prevent re-ordering of the factors, set \code{reorder=FALSE}}
+Function generates jitter plot from a univariate dataset. If no categorical
+variable is passed to the function, a single jitter plot is created from the
+data. \cr
+\cr
+By default, the plots are ordered based on the statistic used to generate
+the central value.
 }
 \examples{
 
-# A basic jitter plot for a single variable
+# A basic jitter plot for a single variable where the mean is automatically
+# fitted to the data
 eda_jitter(iris, Sepal.Width)
 
 # A basic jitter plot conditioned on a categorical variable
@@ -131,4 +128,8 @@ eda_jitter(iris, Sepal.Width, Species)
 
 # Use line instead of point for summary statistic
 eda_jitter(iris, Sepal.Width, Species, stat.type = "l")
+
+# You can apply a transformation to the data. The summary statistic will be
+# computed after the data are transformed.
+eda_jitter(mtcars, hp, cyl, p = 0)
 }
