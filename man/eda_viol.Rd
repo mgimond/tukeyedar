@@ -60,8 +60,9 @@ values).}
 \item{kernel}{Kernel parameter passed to the \code{density()}
 function.}
 
-\item{stat}{Statistical summary to display in plot. Choice of median or mean.
-Defaults to both.}
+\item{stat}{Statistical summary to display in the plot. Choice of "median",
+"mean", "both" or "none".
+  Defaults to both.}
 
 \item{pch}{Point symbol type.}
 

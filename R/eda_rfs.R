@@ -66,6 +66,15 @@
 #' values outputted in the console are those used in computing the vertical
 #' bars.\cr
 #' \cr
+#' A stacked bar plot (\code{bar = TRUE}) can be added to the plot to highlight
+#' the relative spreads between fitted values and residuals. Note that the
+#' residual spread is defined by the \code{inner} argument. The red bar is
+#' the relative spread of the residuals and the green bar is the relative
+#' spread of the fitted values. The stacked bar plot can be helpful in quickly
+#' gauging the effect the fitted values have in explaining the variability in
+#' the data. The longer the green bar relative to the red bar, the greater the
+#' grouping variable's (for univariate data) or linear model's (for bivariate
+#' data) effect in minimizing the uncertainty in the estimated value.
 #'
 #' @references
 #'
@@ -90,6 +99,10 @@
 #'
 #' # Apply power transformation of -1 to mpg. Defaults to box-cox method.
 #' eda_rfs(mtcars,mpg, cyl, p = -1)
+#'
+#' # Display a stacked bar plot showing relative importance in spreads
+#' # between fitted values and residuals.
+#' eda_rfs(mtcars,mpg, cyl, bar = TRUE)
 #'
 #' # Generate rfs plot for bivariate model output. Model can be generated from
 #' # lm(), eda_lm() or eda_rline()

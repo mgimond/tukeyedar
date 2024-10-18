@@ -21,7 +21,8 @@
 #' @param bw Bandwidth parameter passed to the \code{density()} function.
 #' @param kernel Kernel parameter passed to the \code{density()}
 #'   function.
-#' @param stat Statistical summary to display in plot. Choice of median or mean.
+#' @param stat Statistical summary to display in the plot. Choice of "median",
+#' "mean", "both" or "none".
 #'   Defaults to both.
 #' @param pch Point symbol type.
 #' @param size Point side.

@@ -213,6 +213,14 @@ eda_rfs(mtcars, hp, am,  q = TRUE, p = 0)
 
 The power transformation used with the data is displayed in the upper right-hand side of the residual quantile plot. To hide the parameter from the plot, set `show.par = FALSE`.
 
+A stacked bar plot can be added to the plot to highlight the relative spreads between  fitted values and residuals. Note that the residual spread is defined by the `inner` argument. To enable the bar plot, set `bar` to `TRUE`.
+
+```{r fig.height=3.5, fig.width=5, fig.cap="Figure 15. An rfs plot of log transformed horsepower values in the mtcars dataset conditioned on transmission type (am variable in the dataset). Results are reported in the transformed variable units.", fig.align="center",}
+eda_rfs(mtcars, hp, cyl,  bar = TRUE)
+```
+
+The red bar is the relative spread of the residuals and the green bar is the relative spread of the fitted values. The stacked bar plot can be helpful in quickly gauging the effect the fitted values have in explaining the variability in the data. The longer the green bar relative to the red bar, the greater the fitted value's effect in minimizing the uncertainty in the estimated value.
+
 ## Rfs plots for bivariate analysis
 
 The rfs plot can be used with bivariate data to evaluate the effect a fitted model such as a regression line may have in explaining the variability in the data.

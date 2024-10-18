@@ -114,7 +114,7 @@ Function generates jitter plot from a univariate dataset. If no categorical
 variable is passed to the function, a single jitter plot is created from the
 data. \cr
 \cr
-By default, the plots are ordered based on the statistic used to generate
+By default, the plots are ordered based on the statistic, \code{stat}, used to generate
 the central value.
 }
 \examples{
