@@ -16,6 +16,7 @@
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
 #'   algorithms. (See \code{quantile}tile function).
+#' @param xylim X and Y axes limits.
 #' @param plot Boolean determining if plot should be generated.
 #' @param show.par Boolean determining if parameters such as power
 #'   transformation or formula should be displayed.
@@ -32,8 +33,6 @@
 #'   IQR. Two values are needed.
 #' @param l.val Quantiles to define the quantile line parameters. Defaults to
 #'   the mid 75\% of values. Two values are needed.
-#' @param switch Boolean determining if the axes should be swapped. Only applies
-#'   to dataframe input. Ignored if vectors are passed to the function.
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param title Title to add to plot.
@@ -74,14 +73,13 @@
 #'  eda_qq(dat, height, voice.part)
 #'
 
-eda_qqmat <- function(dat, x, fac, p = 1L,
-                   tukey = FALSE,
-                   q.type = 5, plot = TRUE,
-                   show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
-                   b.val = c(0.25,0.75), l.val = c(0.125, 0.875),
-                   switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
-                   t.size = 1.2, ...) {
+eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
+                      xylim = NULL, resid = FALSE, stat = mean,
+                      plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
+                      p.col = "grey50", p.fill = "grey80", size = 0.8,
+                      alpha = 0.8, q = TRUE, b.val = c(0.25,0.75),
+                      l.val = c(0.125, 0.875), xlab = NULL, ylab = NULL,
+                      title = NULL, t.size = 1.2, ...) {
 
   # Check for invalid arguments
   input <- names(list(...))
@@ -92,6 +90,8 @@ eda_qqmat <- function(dat, x, fac, p = 1L,
   # Parameters check
   if (length(b.val)!= 2) stop("The b.val argument must have two values.")
   if (length(l.val)!= 2) stop("The b.val argument must have two values.")
+  if (! as.character(substitute(stat)) %in% c("mean", "median"))
+    stop("Stat must be either the mean or the median")
 
   # Extract data ----
   # Get values and factors
@@ -125,113 +125,159 @@ eda_qqmat <- function(dat, x, fac, p = 1L,
     }
   }
 
+  # Get orginal plot state
+  .pardef <- par(no.readonly = TRUE)
+
   # Get lines-to-inches ratio
   in2line <- ( par("mar") / par("mai") )[2]
+
 
   # Create a dummy plot to extract y-axis labels
   pdf(NULL)
   plot(x = x, y = x, type = "n", xlab = "", ylab = "", xaxt = "n",
        yaxt='n', main = NULL)
-  #  y.labs <- range(axTicks(2))
+
   y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
 
   # Loop through each pairs of factors
   lst <- split(x, fac)
+  if(resid == TRUE){
+    lst <- lapply(lst, FUN = function(x){x - mean(x)})
+  }
   fac_un <- unique(fac)
   fac_num <- length(fac_un)
-  combo <- combn(as.character(fac_un), 2)
-  combo <- cbind(combo, combo[c(2,1), ])
-print(combo)
+
+
+
   # Set plot parameters
-  .pardef <- par(pty = "s", col = plotcol, mar = c(0,0,0,0),
-                 oma = c(3, y.wid,3,1), mfrow = c(fac_num,fac_num))
+  lmin <- min(dev.size("cm")) # Get smallest plot window dimension
+  dim.cm <- lmin / fac_num * 1.3 # plot width and height
+  num.plots <- (fac_num^2)   # Number of plots
+
+  layout(matrix(1:num.plots, nrow = fac_num),
+         widths = rep(lcm(dim.cm), num.plots),
+         heights = rep(lcm(dim.cm), num.plots))
+  # Get orginal plot state
+#  .pardef <- par()
+
+  par(pty = "s", col = plotcol, mar = c(0,0,0,0), xpd = FALSE )
   on.exit(par(.pardef))
 
-  for(i in 1:ncol(combo)){
-    x <- unlist(lst[as.character(combo[,i])][1])
-    y <- unlist(lst[as.character(combo[,i])][2])
-
-    # Generate qqplot using base function
-    qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
-    x <- qq$x
-    y <- qq$y
-
-  # Compute x and y values ----
-  # zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
-  #
-  # zd <- data.frame(y = zl$y - zl$x, x = zl$x)
-  # zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
-
-  # Set plot elements color
-  plotcol <- rgb(1-grey, 1-grey, 1-grey)
-
-  # Set point color parameters.
-  if(!is.null(alpha)){
-    if(p.col %in% colors() & p.fill %in% colors() ){
-      p.col  <- adjustcolor( p.col,  alpha.f = alpha)
-      p.fill <- adjustcolor( p.fill, alpha.f = alpha)
-    }
-  }
-
-  # Generate plots ----
-
-  # Get lines-to-inches ratio
-  in2line <- ( par("mar") / par("mai") )[2]
-
-  # QQ plot ----
-
-    # Get quantile parameters
-    qx <- quantile(x, b.val, qtype = q.type)
-    qy <- quantile(y, b.val, qtype = q.type)
-
-    lx <- quantile(x, l.val, qtype = q.type)
-    ly <- quantile(y, l.val, qtype = q.type)
-
-    medx <- median(x)
-    medy <- median(y)
-
-    # Generate plot
-    xylim <- range(x,y)
-
-    # QQ plot: Empirical ----
-    plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-          xlim = xylim, ylim = xylim)
-
-    box(col=plotcol)
-    axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
-         tck = -0.02)
-
-    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
-    title(xlab = xlab, line =1.8, col.lab=plotcol)
-
-    if(!is.null(title)){
-      title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
+  # Get axes limits for plots
+  if(is.null(xylim)){
+      xylim <- range(unlist(lst))
     }
 
-    # Add empirical QQ line ----
+
+
+  for(i in as.character(fac_un)){
+    for(j in as.character(fac_un)){
+      x <- unlist(lst[i])
+      y <- unlist(lst[j])
+
+      # Center on mean or median if requested
+      if (resid == TRUE){
+        x <- x - stat(x)
+        y <- y - stat(y)
+      }
+
+      # Generate qqplot using base function
+      qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
+      x <- qq$x
+      y <- qq$y
+
+      # Set plot elements color
+      plotcol <- rgb(1-grey, 1-grey, 1-grey)
+
+      # Set point color parameters.
+      if(!is.null(alpha)){
+        if(p.col %in% colors() & p.fill %in% colors() ){
+          p.col  <- adjustcolor( p.col,  alpha.f = alpha)
+          p.fill <- adjustcolor( p.fill, alpha.f = alpha)
+        }
+      }
+
+      # Generate plots ----
+
+      # Get lines-to-inches ratio
+      # in2line <- ( par("mar") / par("mai") )[2]
+
+      # QQ plot ----
+
+      # Get quantile parameters
+      qx <- quantile(x, b.val, qtype = q.type)
+      qy <- quantile(y, b.val, qtype = q.type)
+
+      lx <- quantile(x, l.val, qtype = q.type)
+      ly <- quantile(y, l.val, qtype = q.type)
+
+      medx <- median(x)
+      medy <- median(y)
+
+      # Generate plot
+
+      # If factors are identical
+      if(i == j){
+        plot(NULL, type="n", xlab="", ylab="", xlim=xylim, ylim=xylim, asp = 1,
+             yaxt='n', xaxt='n')
+        box(col=plotcol)
+        axis(3,col=plotcol, col.axis=plotcol, padj = 0.0, pos=par("usr")[3],
+             labels = TRUE)
+        axis(2,col=plotcol, col.axis=plotcol, padj = -0.01, pos=par("usr")[4],
+             labels = TRUE, las = 2)
+        next
+      }
+
+
+      # QQ plot: Empirical ----
+      plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+            xlim = xylim, ylim = xylim, asp = 1)
+
+      box(col=plotcol)
+
+    #  axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
+      axis(1,col=plotcol, col.axis=plotcol, padj = -0.5,
+           labels =  FALSE)
+
+      # axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
+      #      tck = -0.02)
+      axis(2,col=plotcol, col.axis=plotcol, las=1, hadj = 0.9, tck = -0.02,
+           labels = if (j == i) TRUE else FALSE)
+
+   #   mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
+   #   title(xlab = xlab, line =1.8, col.lab=plotcol)
+
+      if(!is.null(title)){
+        title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
+      }
+
+      # Add empirical QQ line ----
       abline(0, 1, col = plotcol)
 
-    # Add medians  ----
+      # Add medians  ----
       abline(v = medx, col = "grey80", lty = 2)
       abline(h = medy, col = "grey80", lty = 2)
 
-    # Add core boxes ----
-    sq <- par("usr") # get plot corners
-    if(q == TRUE){
-      rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-           col = rgb(0,0,0,0.05), border = NA)
-      rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
-           col = rgb(0,0,0,0.05), border = NA)
-      abline(v = lx, lty = 3, col = "grey90")
-      abline(h = ly, lty = 3, col = "grey90")
+      # Add core boxes ----
+      sq <- par("usr") # get plot corners
+      if(q == TRUE){
+        rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
+             col = rgb(0,0,0,0.05), border = NA)
+        rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
+             col = rgb(0,0,0,0.05), border = NA)
+        abline(v = lx, lty = 3, col = "grey90")
+        abline(h = ly, lty = 3, col = "grey90")
+      }
     }
   }
 
   # Add power  parameters to plot
-  mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
+  mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65, outer = TRUE)
+
+  # Add axes labels
+  mtext(fac_un, outer = TRUE, side = 1)
 
   # Reset plot parameters and  output values
   par(.pardef)
