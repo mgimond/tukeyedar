@@ -1,95 +1,59 @@
-.pardef <- par(no.readonly = TRUE)
-on.exit(par(.pardef))
+library(grid)
 
-w   <-  dev.size("in")[1]
-h   <-  dev.size("in")[2]
-lmin <- min(w,h)
-if(h < w){
-  omi.w <- (w - lmin)/2
-  omi.l <- 0.0 * lmin
-} else {
-  omi.l <- (h - lmin)/2
-  omi.w <- 0.0 *lmin
+x <- runif(20, 0, 1000)
+y <- runif(20, 0, 2000)
+lim.buffer = 0.05
+xylim <- range(x,y)
+xylim <- c(xylim[1] - diff(xylim) * lim.buffer  , xylim[2] + diff(xylim) * lim.buffer)
+
+x.plots <- 3
+y.plots <- 3
+
+# Compute margins needed to accomodate labels
+label <- as.character(max(xylim))
+label_width <- convertWidth(stringWidth(label), "lines", valueOnly = TRUE)
+x_margin <- unit(label_width + 0.5, "lines")
+y_margin <- unit(4, "lines")  # Horizontal margin for x-axis text
+
+grid.newpage()
+
+
+#main <- viewport(width = 0.90, height = 0.90, layout=grid.layout(3, 3, respect = TRUE))
+main <- viewport(width = unit(1, "npc") - x_margin,
+                 height = unit(1, "npc") - y_margin,
+                 layout=grid.layout(3, 3, respect = TRUE))
+pushViewport(main)
+
+for (j in 1:x.plots){
+  for (i in 1:y.plots){
+    vp<-viewport(layout.pos.col = i, layout.pos.row = j, xscale = xylim, yscale = xylim)
+    pushViewport(vp)
+    grid.rect()
+
+    if( i != j){
+      grid.points(x=unit(x,"native"), y=unit(y,"native"), gp = gpar(fill = "red", col = "green"), pch = 20)
+      grid.lines()
+    } else {
+      grid.text("DIAG", gp = gpar(col = "grey"))
+    }
+
+    # Add y-axis
+    if( (i == 1) & (j %% 2 !=0)) {
+      grid.yaxis(gp = gpar(cex = 0.8))
+    } else if( (i == x.plots) & (j %% 2 ==0)) {
+      grid.yaxis(gp = gpar(cex = 0.8), main = FALSE)
+    }
+
+    # Add x-axis
+    if(j == 1 & (i %% 2 == 0)) {
+      grid.xaxis(main = FALSE, gp = gpar(cex = 0.8))
+    } else if (j == y.plots & (i %% 2 != 0)){
+      grid.xaxis( gp = gpar(cex = 0.8))
+    }
+    #  grid.text(paste(i,j)) # Used to debug plot placement
+
+    upViewport()
+  }
 }
 
-# Set the margins to zero
-par(mar = c(0,0,0,0), pty = "s", mfrow = c(3,3),
-    omi = c(omi.l,omi.w,omi.l,omi.w),
-    mai = c(0, 0 ,0 ,0 ))
-
-# Create the plots within the grid
-for (i in 1:9) {
-  plot(1:10, main = paste("Plot", i), xaxt = "s", yaxt = "s")
-}
-#par(mfrow = c(1,1))
-par(.pardef)
-
-
-###############################
-
-
-
-eda_qqmat(mtcars, mpg, cyl)
-eda_qqmat(mtcars, mpg, am, resid= TRUE)
-
-
-lst <- split(mtcars$mpg, mtcars$cyl)
-lst2 <- lapply(lst, FUN = function(x){x - mean(x)})
-range(unlist(lst2))
-
-
-fac_num <- 4
-
-#graphics.off()
-
-num.plots <- (fac_num^2)
-
-# Note that the layout/lcm combo can generate an invalid graphics state
-# when the plot window is resized (as expected). But when rerunning the
-# code chunk that extracts the new plot window size and regenerates a layout
-# R will continue complaining that the plot device is in an invalid state.
-# The workaround seems to be to generate a bnak plot before recreating the
-# layout
-#
-.pardef <- par(no.readonly = TRUE)
-on.exit(par(.pardef))
-tryCatch({
-  layout1(fac_num, num.plots)
-}, error = function(e) {
-  cat("Error:", e$message, "\n")
-  # Handle the error, e.g., provide alternative visualization or log the issue
-  par(mfrow = c(1,1))
-  plot(0, type='n',axes=FALSE,ann=FALSE)
-  layout1(fac_num, num.plots)
-})
-
-# Set the margins to zero
-par(mar = c(0,0,0,0), pty = "s")
-
-# Create the plots within the grid
-for (i in 1:num.plots) {
-  plot(1:10, main = paste("Plot", i))
-}
-#par(mfrow = c(1,1))
-par(.pardef)
-
-##
-par("mfrow")
-##
-
-layout1 <- function(fac_num, num.plots){
-  lmin <- min(dev.size("cm")) # Get smallest window side in cm
-  dim.cm <- lmin / fac_num * 1.3
-  layout(matrix(1:num.plots, nrow = fac_num),
-         widths = rep(lcm(dim.cm), num.plots),
-         heights = rep(lcm(dim.cm), num.plots))
-}
-
-layout2 <- function(fac_num, num.plots){
-  lmin <- min(dev.size("cm")) # Get smallest window side in cm
-  dim.cm <- lmin / fac_num * 1.3
-  layout(matrix(1:num.plots, nrow = fac_num),
-         widths = 1,
-         heights = 1)
-}
-
+popViewport(0)
