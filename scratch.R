@@ -50,10 +50,18 @@ for (j in 1:x.plots){
     } else if (j == y.plots & (i %% 2 != 0)){
       grid.xaxis( gp = gpar(cex = 0.8))
     }
-    #  grid.text(paste(i,j)) # Used to debug plot placement
+      grid.text(paste(i,j)) # Used to debug plot placement
 
     upViewport()
   }
 }
 
 popViewport(0)
+
+# Data
+singer <- lattice::singer
+eda_qqmat(singer, height, voice.part, size = 0.5)
+eda_qqmat(singer, height, voice.part, size = 0.5, diag = FALSE)
+eda_qqmat(mtcars, mpg, cyl, size = 0.5)
+eda_qqmat(mtcars, mpg, cyl, size = 0.5, resid = T)
+eda_qqmat(iris, Petal.Length, Species, size = 0.5, resid = TRUE, p = 0)
