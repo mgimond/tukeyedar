@@ -76,7 +76,7 @@
 eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                       xylim = NULL, resid = FALSE, stat = mean,
                       plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
-                      p.col = "grey50", p.fill = "grey80", size = 0.8,
+                      p.col = "grey50", p.fill = "grey80", size = 0.7,
                       alpha = 0.8, q = TRUE, b.val = c(0.25,0.75),
                       l.val = c(0.125, 0.875), xlab = NULL, ylab = NULL,
                       title = NULL, t.size = 1.2, ...) {
@@ -117,7 +117,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
-
+  print(plotcol)
   # Set point color parameters.
   if(!is.null(alpha)){
     if(p.col %in% colors() & p.fill %in% colors() ){
@@ -149,32 +149,30 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   fac_un <- unique(fac)
   fac_num <- length(fac_un)
 
-
-
   # Set plot parameters
   lmin <- min(dev.size("cm")) # Get smallest plot window dimension
   dim.cm <- lmin / fac_num * 1.3 # plot width and height
   num.plots <- (fac_num^2)   # Number of plots
 
-  # layout(matrix(1:num.plots, nrow = fac_num),
-  #        widths = rep(lcm(dim.cm), num.plots),
-  #        heights = rep(lcm(dim.cm), num.plots))
-  # Get orginal plot state
-#  .pardef <- par()
-
-  # par(pty = "s", col = plotcol, mar = c(0,0,0,0), xpd = FALSE )
-  # on.exit(par(.pardef))
-
-  # Get axes limits for plots
+   # Get axes limits for plots
+  lim.buffer = 0.05
   if(is.null(xylim)){
-      xylim <- range(x)
+      xylim <- range(unlist(lst))
+      xylim <- c(xylim[1] - diff(xylim) * lim.buffer  , xylim[2] + diff(xylim) * lim.buffer)
     }
 
   grid.newpage()
+
+  # Compute margins needed to accomodate labels
+  label <- as.character(max(xylim))
+  label_width <- convertWidth(stringWidth(label), "lines", valueOnly = TRUE)
+  x_margin <- unit(label_width + 0.5, "lines")
+  y_margin <- unit(4, "lines")  # Horizontal margin for x-axis text
+
   #main <- viewport(width = 0.90, height = 0.90, layout=grid.layout(3, 3, respect = TRUE))
   main <- viewport(width = unit(1, "npc") - x_margin,
                    height = unit(1, "npc") - y_margin,
-                   layout=grid.layout(3, 3, respect = TRUE))
+                   layout=grid.layout(fac_num, fac_num, respect = TRUE))
   pushViewport(main)
 
   for(jj in 1:fac_num){
@@ -194,9 +192,6 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
       qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
       x <- qq$x
       y <- qq$y
-
-      # Set plot elements color
-      plotcol <- rgb(1-grey, 1-grey, 1-grey)
 
       # Set point color parameters.
       if(!is.null(alpha)){
@@ -225,25 +220,16 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
 
       # Generate plot
 
-      # Compute margins needed to accomodate labels
-      label <- as.character(max(xylim))
-      label_width <- convertWidth(stringWidth(label), "lines", valueOnly = TRUE)
-      x_margin <- unit(label_width + 0.5, "lines")
-      y_margin <- unit(4, "lines")  # Horizontal margin for x-axis text
-
-
-
           vp <- viewport(layout.pos.col = ii, layout.pos.row = jj, xscale = xylim, yscale = xylim)
           pushViewport(vp)
-          grid.rect()
+          grid.rect(gp = gpar(col = plotcol))
 
           if( ii != jj){
             grid.points(x=unit(x,"native"), y=unit(y,"native"),
-                        gp = gpar(fill = p.fill, col = p.col), pch = pch)
+                        gp = gpar(fill = p.fill, col = p.col,cex = size), pch = pch)
             grid.lines(gp = gpar(cex = 0.8, col = plotcol))
           } else {
-            #grid.text("DIAG", gp = gpar(col = "grey"))
-            grid.text(i, gp = gpar(col = "grey"))
+            grid.text(i, gp = gpar(col = "grey", cex = size))
           }
 
           # Add y-axis
@@ -257,7 +243,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
           if(jj == 1 & (ii %% 2 == 0)) {
             grid.xaxis(main = FALSE, gp = gpar(cex = 0.8))
           } else if (jj == fac_num & (ii %% 2 != 0)){
-            grid.xaxis( gp = gpar(cex = 0.8))
+            grid.xaxis( gp = gpar(cex = 0.8, col = plotcol))
           }
           #  grid.text(paste(i,j)) # Used to debug plot placement
 
