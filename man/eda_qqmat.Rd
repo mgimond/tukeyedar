@@ -21,11 +21,15 @@ eda_qqmat(
   p.col = "grey50",
   p.fill = "grey80",
   size = 0.5,
+  tail.pch = 21,
+  tail.p.col = "grey50",
+  tail.p.fill = NULL,
   tic.size = 0.7,
   alpha = 0.8,
   q = TRUE,
+  tails = TRUE,
   show.med = TRUE,
-  inner = 0.75,
+  inner = 0.9,
   ...
 )
 }
@@ -68,17 +72,29 @@ ranging from 21-25).}
 
 \item{size}{Point symbol size (0-1)}
 
+\item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
+
+\item{tail.p.col}{Tail-end color for point symbol (See \code{tails}).}
+
+\item{tail.p.fill}{Tail-end point fill color passed to \code{bg}
+(Only used for \code{pch} ranging from 21-25).}
+
 \item{tic.size}{Size of tic symbols (defaults to 0.8)}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
 
-\item{q}{Boolean determining if grey quantile boxes should be plotted.}
+\item{q}{Boolean determining if grey box highilighting the \code{inner}
+should be displayed.}
+
+\item{tails}{Boolean determining if points outside of the \code{inner} region
+ should be symbolized differently. Tail-end points are symbolized via the
+\code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{show.med}{Boolean determining if median lines should be drawn.}
 
-\item{inner}{Fraction of mid-values to display in the quantile box. Defaults
-to the inner 75\% of values.}
+\item{inner}{Fraction of mid-values to highilight in the \code{inner} region.
+Defaults to the inner 90\% of values.}
 
 \item{...}{Not used}
 }

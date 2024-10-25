@@ -27,14 +27,22 @@
 #' @param p.col Color for point symbol.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'   ranging from 21-25).
+#' @param tail.pch Tail-end point symbol type (See \code{tails}).
+#' @param tail.p.col Tail-end color for point symbol (See \code{tails}).
+#' @param tail.p.fill Tail-end point fill color passed to \code{bg}
+#'   (Only used for \code{pch} ranging from 21-25).
 #' @param size Point symbol size (0-1)
 #' @param tic.size Size of tic symbols (defaults to 0.8)
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param show.med Boolean determining if median lines should be drawn.
-#' @param q Boolean determining if grey quantile boxes should be plotted.
-#' @param inner Fraction of mid-values to display in the quantile box. Defaults
-#'   to the inner 75\% of values.
+#' @param q Boolean determining if grey box highilighting the \code{inner}
+#'   should be displayed.
+#' @param tails Boolean determining if points outside of the \code{inner} region
+#'   should be symbolized differently. Tail-end points are symbolized via the
+#'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
+#' @param inner Fraction of mid-values to highilight in the \code{inner} region.
+#'   Defaults to the inner 90\% of values.
 #' @param ... Not used
 #'
 #' @details When the function is used to generate an empirical QQ plots, the plot
@@ -73,8 +81,9 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
                       xylim = NULL, resid = FALSE, stat = mean,
                       plot = TRUE, grey = 0.6, pch = 21,
                       p.col = "grey50", p.fill = "grey80", size = 0.5,
-                      tic.size = 0.7, alpha = 0.8, q = TRUE,
-                      show.med = TRUE, inner = 0.75, ...) {
+                      tail.pch = 21, tail.p.col = "grey50", tail.p.fill = NULL,
+                      tic.size = 0.7, alpha = 0.8, q = TRUE, tails = TRUE,
+                      show.med = TRUE, inner = 0.9, ...) {
 
   if (!requireNamespace("grid", quietly = TRUE)) {
     stop(
@@ -92,6 +101,8 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
   # Parameters check
   if (! as.character(substitute(stat)) %in% c("mean", "median"))
     stop("Stat must be either the mean or the median")
+  if (inner < 0.25)
+    stop("The inner parameter must be greater than 0.25.")
 
   # Extract data ----
   # Get values and factors
@@ -130,6 +141,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
 
   # Loop through each pairs of factors
   lst <- split(x, fac)
+
   if(resid == TRUE){
     lst <- lapply(lst, FUN = function(x){x - mean(x)})
   }
@@ -167,10 +179,12 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
 
   pushViewport(main)
 
-  for(jj in 1:fac_num){
-    for(ii in 1:fac_num){
-      i <- fac_un[ii]
-      j <- fac_un[jj]
+  jj <- 0
+  for(j in levels(fac_un)){
+    jj <- jj + 1
+    ii <- 0
+    for(i in levels(fac_un)){
+      ii <- ii + 1
       x <- unlist(lst[i])
       y <- unlist(lst[j])
 
@@ -204,6 +218,25 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
         qx <- quantile(x, b.val, qtype = q.type)
         qy <- quantile(y, b.val, qtype = q.type)
 
+        if(tails == TRUE){
+          # If tails are to be plotted separately, identify points outside of the
+          # inner region
+          if (!is.na(table(x < qx[1])["TRUE"]) & !is.na(table(y < qy[1])["TRUE"])){
+            lower.tail <- min(table(x < qx[1])["TRUE"], table(y < qy[1])["TRUE"])
+          } else{
+            lower.tail <- 0
+          }
+
+          if (!is.na(table(x > qx[2])["TRUE"]) & !is.na(table(y > qy[2])["TRUE"])){
+            upper.tail <-  max(table(x > qx[2])["TRUE"], table(y > qy[2])["TRUE"])
+          } else {
+            upper.tail <- 0
+          }
+
+          inner.tails <- (lower.tail+1):(length(x) - upper.tail)
+          outer.tails <- -inner.tails
+        }
+
         # Compute median values
         medx <- median(x)
         medy <- median(y)
@@ -214,10 +247,26 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
           pushViewport(vp)
           grid.rect(gp = gpar(col = plotcol))
 
+          # Add points
           if( ii != jj){
-            grid.points(x=unit(x,"native"), y=unit(y,"native"),
-                        gp = gpar(fill = p.fill, col = p.col,cex = size), pch = pch)
+            if(tails != TRUE){
+              grid.points(x=unit(x,"native"), y=unit(y,"native"),
+                          gp = gpar(fill = p.fill, col = p.col,cex = size), pch = pch)
+            } else {
+              grid.points(x=unit(x[inner.tails],"native"),
+                          y=unit(y[inner.tails],"native"),
+                          gp = gpar(fill = p.fill, col = p.col,cex = size), pch = pch)
+              if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
+                grid.points(x=unit(x[outer.tails],"native"),
+                            y=unit(y[outer.tails],"native"),
+                            gp = gpar(fill = tail.p.fill, col = tail.p.col,cex = size), pch = tail.pch)
+              }
+
+            }
+
+            # Add diagonal (1:1) line
             grid.lines(gp = gpar(cex = 0.8, col = plotcol))
+
           } else {
             # Print labels on diagonal
             # Compute factor label size based on label text width
@@ -228,6 +277,9 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
             if(font_size > 2) font_size <- 2
             grid.text(i, gp = gpar(col = "grey40", cex = font_size))
           }
+
+
+
 
           # Add y-axis
           if( (ii == 1) & (jj %% 2 !=0)) {
