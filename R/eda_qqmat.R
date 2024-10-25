@@ -34,7 +34,7 @@
 #' @param show.med Boolean determining if median lines should be drawn.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param inner Fraction of mid-values to display in the quantile box. Defaults
-#'   to the IQR.
+#'   to the inner 75\% of values.
 #' @param ... Not used
 #'
 #' @details When the function is used to generate an empirical QQ plots, the plot
@@ -63,8 +63,10 @@
 #' singer <- lattice::singer
 #' eda_qqmat(singer, height, voice.part)
 #' eda_qqmat(singer, height, voice.part, diag = FALSE)
-#' eda_qqmat(singer, height, voice.part, diag = FALSE, resid = TRUE)
+#' eda_qqmat(singer, height, voice.part, diag = FALSE, resid = TRUE, q = FALSE)
 #' eda_qqmat(mtcars, mpg, cyl,resid = TRUE, q = FALSE)
+#' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0)
+#'
 
 
 eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRUE,
@@ -74,7 +76,12 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
                       tic.size = 0.7, alpha = 0.8, q = TRUE,
                       show.med = TRUE, inner = 0.75, ...) {
 
-  library(grid)
+  if (!requireNamespace("grid", quietly = TRUE)) {
+    stop(
+      "Package \"grid\" must be installed to use this function.",
+      call. = FALSE
+    )
+  }
 
   # Check for invalid arguments
   input <- names(list(...))
@@ -219,7 +226,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
             font_size <- max_width / max(nchar(as.character(fac_un)))  # Estimate font size by dividing by text length
 
             if(font_size > 2) font_size <- 2
-            grid.text(i, gp = gpar(col = "grey", cex = font_size))
+            grid.text(i, gp = gpar(col = "grey40", cex = font_size))
           }
 
           # Add y-axis

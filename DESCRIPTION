@@ -19,7 +19,8 @@ Imports:
     grDevices,
     MASS,
     stats,
-    lattice
+    lattice,
+    grid
 Suggests: 
     knitr,
     rmarkdown,

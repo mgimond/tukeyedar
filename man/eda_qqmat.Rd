@@ -78,7 +78,7 @@ applicable if \code{rgb()} is not used to define point colors.}
 \item{show.med}{Boolean determining if median lines should be drawn.}
 
 \item{inner}{Fraction of mid-values to display in the quantile box. Defaults
-to the IQR.}
+to the inner 75\% of values.}
 
 \item{...}{Not used}
 }
@@ -107,8 +107,10 @@ When the function is used to generate an empirical QQ plots, the plot
 singer <- lattice::singer
 eda_qqmat(singer, height, voice.part)
 eda_qqmat(singer, height, voice.part, diag = FALSE)
-eda_qqmat(singer, height, voice.part, diag = FALSE, resid = TRUE)
+eda_qqmat(singer, height, voice.part, diag = FALSE, resid = TRUE, q = FALSE)
 eda_qqmat(mtcars, mpg, cyl,resid = TRUE, q = FALSE)
+eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0)
+
 }
 \references{
 \itemize{
