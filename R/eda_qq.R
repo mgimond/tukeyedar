@@ -42,8 +42,8 @@
 #' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param inner Fraction of mid-values to display in the quantile box. Defaults
 #'   to the IQR.
-#' @param l.val Quantiles to define the quantile line parameters. Defaults to
-#'   the mid 75\% of values. Two values are needed.
+#' @param inner.l Fraction of mid-values to display between the quantile lines.
+#'   Defaults to the mid 75\% of values.
 #' @param switch Boolean determining if the axes should be swapped. Only applies
 #'   to dataframe input. Ignored if vectors are passed to the function.
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
@@ -56,14 +56,14 @@
 #'   will displays the IQR via grey boxes for both x and y values. The box
 #'   widths can be changed via the  \code{inner} argument. The plot will also
 #'   display the mid 75\% of values via light colored dashed lines. The line
-#'   positions can be changed via the \code{l.val} argument. The middle dashed
+#'   positions can be changed via the \code{inner.l} argument. The middle dashed
 #'   line represents each batch's median value. Console output prints the
 #'   suggested multiplicative and additive offsets. See the QQ plot vignette for
 #'   an introduction on its use and interpretation.\cr
 #'   \cr
 #'   The function can generate a Normal QQ plot when the
 #'   \code{norm} argument is set to  \code{TRUE}. In such a case, the line
-#'   parameters \code{l.val} are overridden and are set to +/- 1 standard
+#'   parameters \code{inner.l} are overridden and are set to +/- 1 standard
 #'   deviations. Note that the "suggested offsets" output is disabled, nor
 #'   can you generate an M-D version of the Normal QQ plot. Also note
 #'   that the formula argument is ignored in this mode.\cr
@@ -74,7 +74,7 @@
 #'   using the batch's median as the cutoff point. The values for each half are
 #'   the distances of each observation to the median value in \code{x}'s units.
 #'   The distance starts at 0 in the bottom-left corner of the plot. The grey
-#'   box width, \code{inner}, and outer quantile line, \code{l.val}, will be
+#'   box width, \code{inner}, and outer quantile line, \code{inner.l}, will be
 #'   measured from the origin given that the batch's center of mass is at 0.
 #'   Power transformations can be applied to \code{x} but any formula passed
 #'   via \code{fx} or \code{fy} is ignored. This plot is inspired from the
@@ -156,7 +156,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                    q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                    p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
-                   inner = 0.5, l.val = c(0.125, 0.875),
+                   inner = 0.5, inner.l = 0.75,
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
                    t.size = 1.2, ...) {
 
@@ -167,7 +167,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                                    paste(input[!check], collapse = ", ")))
 
   # Parameters check
-  if (length(l.val)!= 2) stop("The b.val argument must have two values.")
   if ("data.frame" %in% class(x) & norm == TRUE)
     stop("x needs to be a vector if norm=TRUE")
   if(norm == TRUE & md == TRUE)
@@ -268,6 +267,9 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
   # Get upper/lower bounds of quantil box
   b.val = c(.5 - inner / 2 , .5 + inner / 2)
+
+  # Get upper/lower bounds of end lines
+  l.val = c(.5 - inner.l / 2 , .5 + inner.l / 2)
 
   # If a symmetry QQ plot is requested, split x in half
   if(sym == TRUE) {
