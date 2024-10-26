@@ -1,5 +1,7 @@
 library(grid)
 
+cex = 1
+
 x <- runif(20, 0, 1000)
 y <- runif(20, 0, 2000)
 lim.buffer = 0.05
@@ -17,6 +19,7 @@ y_margin <- unit(4, "lines")  # Horizontal margin for x-axis text
 
 grid.newpage()
 
+#point_size <- min(par("pin") ) * 3 * cex
 
 #main <- viewport(width = 0.90, height = 0.90, layout=grid.layout(3, 3, respect = TRUE))
 main <- viewport(width = unit(1, "npc") - x_margin,
@@ -30,8 +33,14 @@ for (j in 1:x.plots){
     pushViewport(vp)
     grid.rect()
 
+    # Define point size based in plot window size
+    vp_width <- convertX(unit(1, "npc"), "inches", valueOnly = TRUE)
+    vp_height <- convertY(unit(1, "npc"), "inches", valueOnly = TRUE)
+    point_size <- min(vp_width, vp_height) * 10
+
     if( i != j){
-      grid.points(x=unit(x,"native"), y=unit(y,"native"), gp = gpar(fill = "red", col = "green"), pch = 20)
+      grid.points(x=unit(x,"native"), y=unit(y,"native"),size = unit(point_size, "points"),
+                  gp = gpar(fill = "red", col = "green"), pch = 20)
       grid.lines()
     } else {
       grid.text("DIAG", gp = gpar(col = "grey"))
@@ -60,8 +69,11 @@ popViewport(0)
 
 # Data
 singer <- lattice::singer
-eda_qqmat(singer, height, voice.part, size = 0.5)
+eda_qqmat(singer, height, voice.part)
 eda_qqmat(singer, height, voice.part, size = 0.5, diag = FALSE)
-eda_qqmat(mtcars, mpg, cyl, size = 0.5)
-eda_qqmat(mtcars, mpg, cyl, size = 0.5, resid = T)
-eda_qqmat(iris, Petal.Length, Species, size = 0.5, resid = TRUE, p = 0)
+eda_qqmat(mtcars, mpg, cyl)
+eda_qqmat(mtcars, mpg, cyl, size = 0.5, resid = T, q = FALSE)
+eda_qqmat(iris, Petal.Length, Species, size = 0.5, resid = TRUE, p = 0, q=F)
+
+library(lattice)
+qq(Petal.Length~ Species, iris)

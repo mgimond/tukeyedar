@@ -32,33 +32,45 @@
 #' @param tail.p.fill Tail-end point fill color passed to \code{bg}
 #'   (Only used for \code{pch} ranging from 21-25).
 #' @param size Point symbol size (0-1)
-#' @param tic.size Size of tic symbols (defaults to 0.8)
+#' @param tic.size Size of tic labels (defaults to 0.8).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
-#' @param show.med Boolean determining if median lines should be drawn.
-#' @param q Boolean determining if grey box highilighting the \code{inner}
+#' @param med Boolean determining if median lines should be drawn.
+#' @param q Boolean determining if grey box highlighting the \code{inner}
 #'   should be displayed.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
 #'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
-#' @param inner Fraction of mid-values to highilight in the \code{inner} region.
+#' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 90\% of values.
 #' @param ... Not used
 #'
-#' @details When the function is used to generate an empirical QQ plots, the plot
-#'   will displays the IQR via grey boxes for both x and y values. The box
-#'   widths can be changed via the  \code{inner} argument.  The middle dashed
-#'   line represents each batch's median value. \cr
-#'   \cr
+#' @details The function will generate an empirical QQ plot matrix from a
+#' dataframe of continuous values and matching categories. The function is
+#' designed to place emphasis on the mid portion of the data. The mid portion
+#' range is defined by \code{inner} (the inner fraction of the data. By default,
+#' the points outside of the middle region are symbolized differently. You can
+#' also highlight the mid region in light grey by setting \code{q = TRUE}. The
+#' median of both batches are shown in vertical and horizontal dashed lines.For
+#' a plain vanilla QQ plot matrix you can remove all guides by setting
+#' \code{tails = FALSE} and  \code{mid = FALSE}.
+#'
+#' The QQ plot matrix is most effective in comparing residuals after the data
+#' are fitted by the mean or median. To plot the residuals, set
+#' \code{resid=TRUE}. By default, the \code{mean} is used. You can change the
+#' statistic to the median by setting \code{stat=median}.
+#'
+#' The function also allows for batch transformation of values via the
+#' \code{p} argument. The transformation is applied to the data prior to
+#' computing the residuals.
 #'
 #' @returns Returns a list with the following components:
 #'
 #' \itemize{
 #'   \item \code{data}: List with input \code{x} and \code{y} values for each
-#'   group.
-#'   May be interpolated to smallest quantile batch.
-#'   Values will reflect power transformation defined in \code{p}.
-#'   \item \code{p}: Re-expression applied to original values.}
+#'   group. May be interpolated to smallest quantile batch if batch sizes
+#'   don't match. Values will reflect power transformation defined in \code{p}.
+#'   \item \code{p}: Transformation applied to original values.}
 #'
 #' @references
 #'
@@ -68,22 +80,43 @@
 #'
 #' @examples
 #'
+#' # Default output
 #' singer <- lattice::singer
 #' eda_qqmat(singer, height, voice.part)
+#'
+#' # Limit to bottom diagonal
 #' eda_qqmat(singer, height, voice.part, diag = FALSE)
-#' eda_qqmat(singer, height, voice.part, diag = FALSE, resid = TRUE, q = FALSE)
-#' eda_qqmat(mtcars, mpg, cyl,resid = TRUE, q = FALSE)
+#'
+#' # Plot residuals after fitting mean model
+#' eda_qqmat(singer, height, voice.part, resid = TRUE)
+#'
+#' # Generate plain vanilla QQ plot matrix
+#' eda_qqmat(mtcars, mpg, cyl,resid = TRUE, tails = FALSE, med = FALSE)
+#'
+#' # Log transform the data, then plot the residuals after fitting the mean model
 #' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0)
 #'
-
+#' # Fit the median model instead of the mean
+#' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, stat = median)
+#'
+#' # Fill inner region with grey boxes
+#' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, q = TRUE, p = 0)
+#'
+#' # Change tail point symbol
+#' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, tail.pch = 3)
+#'
+#' # Change inner region point symbols to dark orange and reduce size of all
+#' # point symbols
+#' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, size = 0.8,
+#'           tail.pch = 3, p.fill = "darkorange")
 
 eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRUE,
                       xylim = NULL, resid = FALSE, stat = mean,
                       plot = TRUE, grey = 0.6, pch = 21,
-                      p.col = "grey50", p.fill = "grey80", size = 0.5,
-                      tail.pch = 21, tail.p.col = "grey50", tail.p.fill = NULL,
-                      tic.size = 0.7, alpha = 0.8, q = TRUE, tails = TRUE,
-                      show.med = TRUE, inner = 0.9, ...) {
+                      p.col = "grey40", p.fill = "grey60", size = 1,
+                      tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
+                      tic.size = 0.7, alpha = 0.8, q = FALSE, tails = TRUE,
+                      med = TRUE, inner = 0.9, ...) {
 
   if (!requireNamespace("grid", quietly = TRUE)) {
     stop(
@@ -136,14 +169,14 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
     }
   }
 
-  # Get upper/lower bounds of quantil box
+  # Get upper/lower bounds of quantile box
   b.val = c(.5 - inner / 2 , .5 + inner / 2)
 
   # Loop through each pairs of factors
   lst <- split(x, fac)
 
   if(resid == TRUE){
-    lst <- lapply(lst, FUN = function(x){x - mean(x)})
+    lst <- lapply(lst, FUN = function(x){x - stat(x)})
   }
   fac_un <- unique(fac)
   fac_num <- length(fac_un)
@@ -169,8 +202,9 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
   # Compute margins needed to accommodate labels
   label <- as.character(max(xylim))
   label_width <- convertWidth(stringWidth(label), "lines", valueOnly = TRUE)
-  x_margin <- unit(label_width + 0.5, "lines")
-  y_margin <- unit(4, "lines")  # Horizontal margin for x-axis text
+  label_height <- convertWidth(stringHeight(label), "lines", valueOnly = TRUE)
+  x_margin <- unit(label_width + 2, "lines")
+  y_margin <- unit(label_height + 5, "lines")  # Horizontal margin for x-axis text
 
   # Define main viewport
   main <- viewport(width = unit(1, "npc") - x_margin,
@@ -247,19 +281,26 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
           pushViewport(vp)
           grid.rect(gp = gpar(col = plotcol))
 
+          # Define point size based in plot window size
+          vp_width <- convertX(unit(1, "npc"), "inches", valueOnly = TRUE)
+          vp_height <- convertY(unit(1, "npc"), "inches", valueOnly = TRUE)
+          point_size <- min(vp_width, vp_height) * 10 * size
+
           # Add points
           if( ii != jj){
             if(tails != TRUE){
-              grid.points(x=unit(x,"native"), y=unit(y,"native"),
-                          gp = gpar(fill = p.fill, col = p.col,cex = size), pch = pch)
+              grid.points(x=unit(x,"native"), y=unit(y,"native"), size = unit(point_size, "points"),
+                          gp = gpar(fill = p.fill, col = p.col), pch = pch)
             } else {
               grid.points(x=unit(x[inner.tails],"native"),
                           y=unit(y[inner.tails],"native"),
-                          gp = gpar(fill = p.fill, col = p.col,cex = size), pch = pch)
+                          size = unit(point_size, "points"),
+                          gp = gpar(fill = p.fill, col = p.col), pch = pch)
               if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
                 grid.points(x=unit(x[outer.tails],"native"),
                             y=unit(y[outer.tails],"native"),
-                            gp = gpar(fill = tail.p.fill, col = tail.p.col,cex = size), pch = tail.pch)
+                            size = unit(point_size, "points"),
+                            gp = gpar(fill = tail.p.fill, col = tail.p.col), pch = tail.pch)
               }
 
             }
@@ -278,9 +319,6 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
             grid.text(i, gp = gpar(col = "grey40", cex = font_size))
           }
 
-
-
-
           # Add y-axis
           if( (ii == 1) & (jj %% 2 !=0)) {
             grid.yaxis(gp = gpar(cex = tic.size, col = plotcol))
@@ -297,7 +335,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
           #  grid.text(paste(i,j)) # Used to debug plot placement
 
           # Add medians
-          if(show.med == TRUE& ii != jj){
+          if(med == TRUE& ii != jj){
             grid.segments(x0 = medx, x1 = medx, y0 = xylim[1], y1 = xylim[2],
                           default.units = "native", gp = gpar(col = "grey80", lty = 2))
             grid.segments(y0 = medy, y1 = medy, x0 = xylim[1], x1 = xylim[2],

@@ -18,17 +18,17 @@ eda_qqmat(
   plot = TRUE,
   grey = 0.6,
   pch = 21,
-  p.col = "grey50",
-  p.fill = "grey80",
-  size = 0.5,
+  p.col = "grey40",
+  p.fill = "grey60",
+  size = 1,
   tail.pch = 21,
-  tail.p.col = "grey50",
+  tail.p.col = "grey70",
   tail.p.fill = NULL,
   tic.size = 0.7,
   alpha = 0.8,
-  q = TRUE,
+  q = FALSE,
   tails = TRUE,
-  show.med = TRUE,
+  med = TRUE,
   inner = 0.9,
   ...
 )
@@ -79,21 +79,21 @@ ranging from 21-25).}
 \item{tail.p.fill}{Tail-end point fill color passed to \code{bg}
 (Only used for \code{pch} ranging from 21-25).}
 
-\item{tic.size}{Size of tic symbols (defaults to 0.8)}
+\item{tic.size}{Size of tic labels (defaults to 0.8).}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
 
-\item{q}{Boolean determining if grey box highilighting the \code{inner}
+\item{q}{Boolean determining if grey box highlighting the \code{inner}
 should be displayed.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
  should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
-\item{show.med}{Boolean determining if median lines should be drawn.}
+\item{med}{Boolean determining if median lines should be drawn.}
 
-\item{inner}{Fraction of mid-values to highilight in the \code{inner} region.
+\item{inner}{Fraction of mid-values to highlight in \code{q} or \code{tails}.
 Defaults to the inner 90\% of values.}
 
 \item{...}{Not used}
@@ -103,30 +103,64 @@ Returns a list with the following components:
 
 \itemize{
   \item \code{data}: List with input \code{x} and \code{y} values for each
-  group.
-  May be interpolated to smallest quantile batch.
-  Values will reflect power transformation defined in \code{p}.
-  \item \code{p}: Re-expression applied to original values.}
+  group. May be interpolated to smallest quantile batch if batch sizes
+  don't match. Values will reflect power transformation defined in \code{p}.
+  \item \code{p}: Transformation applied to original values.}
 }
 \description{
 \code{eda_qqmat} Generates a matrix of empirical QQ plots
 }
 \details{
-When the function is used to generate an empirical QQ plots, the plot
-  will displays the IQR via grey boxes for both x and y values. The box
-  widths can be changed via the  \code{inner} argument.  The middle dashed
-  line represents each batch's median value. \cr
-  \cr
+The function will generate an empirical QQ plot matrix from a
+dataframe of continuous values and matching categories. The function is
+designed to place emphasis on the mid portion of the data. The mid portion
+range is defined by \code{inner} (the inner fraction of the data. By default,
+the points outside of the middle region are symbolized differently. You can
+also highlight the mid region in light grey by setting \code{q = TRUE}. The
+median of both batches are shown in vertical and horizontal dashed lines.For
+a plain vanilla QQ plot matrix you can remove all guides by setting
+\code{tails = FALSE} and  \code{mid = FALSE}.
+
+The QQ plot matrix is most effective in comparing residuals after the data
+are fitted by the mean or median. To plot the residuals, set
+\code{resid=TRUE}. By default, the \code{mean} is used. You can change the
+statistic to the median by setting \code{stat=median}.
+
+The function also allows for batch transformation of values via the
+\code{p} argument. The transformation is applied to the data prior to
+computing the residuals.
 }
 \examples{
 
+# Default output
 singer <- lattice::singer
 eda_qqmat(singer, height, voice.part)
+
+# Limit to bottom diagonal
 eda_qqmat(singer, height, voice.part, diag = FALSE)
-eda_qqmat(singer, height, voice.part, diag = FALSE, resid = TRUE, q = FALSE)
-eda_qqmat(mtcars, mpg, cyl,resid = TRUE, q = FALSE)
+
+# Plot residuals after fitting mean model
+eda_qqmat(singer, height, voice.part, resid = TRUE)
+
+# Generate plain vanilla QQ plot matrix
+eda_qqmat(mtcars, mpg, cyl,resid = TRUE, tails = FALSE, med = FALSE)
+
+# Log transform the data, then plot the residuals after fitting the mean model
 eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0)
 
+# Fit the median model instead of the mean
+eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, stat = median)
+
+# Fill inner region with grey boxes
+eda_qqmat(iris, Petal.Length, Species, resid = TRUE, q = TRUE, p = 0)
+
+# Change tail point symbol
+eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, tail.pch = 3)
+
+# Change inner region point symbols to dark orange and reduce size of all
+# point symbols
+eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, size = 0.8,
+          tail.pch = 3, p.fill = "darkorange")
 }
 \references{
 \itemize{
