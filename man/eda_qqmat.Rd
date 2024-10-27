@@ -21,6 +21,7 @@ eda_qqmat(
   p.col = "grey40",
   p.fill = "grey60",
   size = 1,
+  text.size = 1,
   tail.pch = 21,
   tail.p.col = "grey70",
   tail.p.fill = NULL,
@@ -71,6 +72,8 @@ are computed using the \code{stat} parameter.}
 ranging from 21-25).}
 
 \item{size}{Point symbol size (0-1)}
+
+\item{text.size}{Size for category text in diagonal box.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
 

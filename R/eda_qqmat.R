@@ -43,6 +43,7 @@
 #'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 90\% of values.
+#' @param text.size Size for category text in diagonal box.
 #' @param ... Not used
 #'
 #' @details The function will generate an empirical QQ plot matrix from a
@@ -113,7 +114,7 @@
 eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRUE,
                       xylim = NULL, resid = FALSE, stat = mean,
                       plot = TRUE, grey = 0.6, pch = 21,
-                      p.col = "grey40", p.fill = "grey60", size = 1,
+                      p.col = "grey40", p.fill = "grey60", size = 1, text.size = 1,
                       tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
                       tic.size = 0.7, alpha = 0.8, q = FALSE, tails = TRUE,
                       med = TRUE, inner = 0.9, ...) {
@@ -316,7 +317,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
             font_size <- max_width / max(nchar(as.character(fac_un)))  # Estimate font size by dividing by text length
 
             if(font_size > 2) font_size <- 2
-            grid.text(i, gp = gpar(col = "grey40", cex = font_size))
+            grid.text(i, gp = gpar(col = "grey40", cex = font_size * text.size))
           }
 
           # Add y-axis
