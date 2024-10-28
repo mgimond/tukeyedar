@@ -30,7 +30,7 @@ eda_qqmat(
   q = FALSE,
   tails = TRUE,
   med = TRUE,
-  inner = 0.9,
+  inner = 0.75,
   ...
 )
 }
@@ -97,7 +97,7 @@ should be displayed.}
 \item{med}{Boolean determining if median lines should be drawn.}
 
 \item{inner}{Fraction of mid-values to highlight in \code{q} or \code{tails}.
-Defaults to the inner 90\% of values.}
+Defaults to the inner 75\% of values.}
 
 \item{...}{Not used}
 }

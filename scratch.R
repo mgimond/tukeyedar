@@ -74,6 +74,10 @@ eda_qqmat(singer, height, voice.part, size = 0.5, diag = FALSE)
 eda_qqmat(mtcars, mpg, cyl)
 eda_qqmat(mtcars, mpg, cyl, size = 0.5, resid = T, q = FALSE)
 eda_qqmat(iris, Petal.Length, Species, size = 0.5, resid = TRUE, p = 0, q=F)
+eda_qqmat(PlantGrowth, weight, group, resid = TRUE,  q=F)
 
-library(lattice)
-qq(Petal.Length~ Species, iris)
+dat <- singer[singer$voice.part  %in% c("Bass 2", "Tenor 1"), ]
+eda_qq(dat, height, voice.part)
+
+bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
+eda_qq(bass2, norm = TRUE)

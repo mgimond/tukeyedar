@@ -50,7 +50,6 @@ eda_qq(x,y)
 * Each point represents matching quantiles from each batch. 
 * The *shaded boxes* represent each batch's interquartile range (mid 50% of values).
 * The *Solid dashed lines* inside the shaded boxes represent each batch's medians.
-* The *lightly shaded dashed dots* represent each batch's 12.5^th^ and 87.5^th^ quantiles (i.e. they show the ends of the mid 80% of values).
 * The *upper right-hand text* indicates the power transformation applied to the both batches (default is a power of `1` which is original measurement scale). If a formula is applied to one or both batches, it too will appear in the upper right-hand text.
 * The `eda_qq` will also output the *suggested relationship*  between the y variable and the x variable in the console. It bases this on each batch's interquartile values.
 * If the output is assigned to a new object, that object will store a list of the following values: the `x` value (interpolated if needed), the `y` value (interpolated if needed), the power parameter, the formula applied to x variable, and the formula applied to y variable.
@@ -86,14 +85,14 @@ Q <- eda_qq(x,y, plot = FALSE)
 Q
 ```
 
-## Setting the grey box and dashed line parameters
+## Setting the grey box
 
-The grey box highlights the interquartile ranges for both batches. Its boundary can be modified via the `b.val` argument. Likewise, the lightly shaded dashed dots that highlight the mid 80% of values can be modified via the `l.val` argument. 
+The grey box highlights the interquartile ranges for both batches. Its boundary can be modified via the `b.val` argument. 
 
-For example, to highlight the mid 68% of values using the grey boxes and the mid 95% of values using the lightly shaded dashed dots, type:
+For example, to highlight the mid 68% of values, type:
 
 ```{r  fig.width=3, fig.height=3, results='hide'}
-eda_qq(x, y, b.val = c(0.16, 0.84), l.val = c(0.025, 0.975))
+eda_qq(x, y, b.val = c(0.16, 0.84))
 ```
 
 You can suppress the plotting of the grey box and the lightly shaded dashed dots by setting `q = FALSE`. This does not affect the median dashed lines.

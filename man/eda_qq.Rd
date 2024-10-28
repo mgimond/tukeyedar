@@ -27,8 +27,11 @@ eda_qq(
   size = 0.8,
   alpha = 0.8,
   q = TRUE,
-  inner = 0.5,
-  inner.l = 0.75,
+  inner = 0.75,
+  tails = TRUE,
+  tail.pch = 21,
+  tail.p.col = "grey70",
+  tail.p.fill = NULL,
   switch = FALSE,
   xlab = NULL,
   ylab = NULL,
@@ -93,8 +96,16 @@ applicable if \code{rgb()} is not used to define point colors.}
 \item{inner}{Fraction of mid-values to display in the quantile box. Defaults
 to the IQR.}
 
-\item{inner.l}{Fraction of mid-values to display between the quantile lines.
-Defaults to the mid 75\% of values.}
+\item{tails}{Boolean determining if points outside of the \code{inner} region
+ should be symbolized differently. Tail-end points are symbolized via the
+\code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
+
+\item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
+
+\item{tail.p.col}{Tail-end color for point symbol (See \code{tails}).}
+
+\item{tail.p.fill}{Tail-end point fill color passed to \code{bg}
+(Only used for \code{pch} ranging from 21-25).}
 
 \item{switch}{Boolean determining if the axes should be swapped. Only applies
 to dataframe input. Ignored if vectors are passed to the function.}
@@ -127,18 +138,15 @@ plot.
 }
 \details{
 When the function is used to generate an empirical QQ plot, the plot
-  will displays the IQR via grey boxes for both x and y values. The box
-  widths can be changed via the  \code{inner} argument. The plot will also
-  display the mid 75\% of values via light colored dashed lines. The line
-  positions can be changed via the \code{inner.l} argument. The middle dashed
-  line represents each batch's median value. Console output prints the
-  suggested multiplicative and additive offsets. See the QQ plot vignette for
-  an introduction on its use and interpretation.\cr
+  will displays the inner 75% of the data via grey boxes for both x and y
+  values. The inner values can be changed via the  \code{inner} argument.
+  The middle dashed line represents each batch's median value.
+  Console output prints the suggested multiplicative and additive offsets.
+  See the QQ plot vignette for an introduction on its use and interpretation.\cr
   \cr
   The function can generate a Normal QQ plot when the
-  \code{norm} argument is set to  \code{TRUE}. In such a case, the line
-  parameters \code{inner.l} are overridden and are set to +/- 1 standard
-  deviations. Note that the "suggested offsets" output is disabled, nor
+  \code{norm} argument is set to  \code{TRUE}.
+   Note that the "suggested offsets" output is disabled, nor
   can you generate an M-D version of the Normal QQ plot. Also note
   that the formula argument is ignored in this mode.\cr
   \cr
@@ -148,7 +156,7 @@ When the function is used to generate an empirical QQ plot, the plot
   using the batch's median as the cutoff point. The values for each half are
   the distances of each observation to the median value in \code{x}'s units.
   The distance starts at 0 in the bottom-left corner of the plot. The grey
-  box width, \code{inner}, and outer quantile line, \code{inner.l}, will be
+  box width, \code{inner},  will be
   measured from the origin given that the batch's center of mass is at 0.
   Power transformations can be applied to \code{x} but any formula passed
   via \code{fx} or \code{fy} is ignored. This plot is inspired from the

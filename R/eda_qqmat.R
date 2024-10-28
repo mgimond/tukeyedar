@@ -42,7 +42,7 @@
 #'   should be symbolized differently. Tail-end points are symbolized via the
 #'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
-#'   Defaults to the inner 90\% of values.
+#'   Defaults to the inner 75\% of values.
 #' @param text.size Size for category text in diagonal box.
 #' @param ... Not used
 #'
@@ -117,7 +117,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
                       p.col = "grey40", p.fill = "grey60", size = 1, text.size = 1,
                       tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
                       tic.size = 0.7, alpha = 0.8, q = FALSE, tails = TRUE,
-                      med = TRUE, inner = 0.9, ...) {
+                      med = TRUE, inner = 0.75, ...) {
 
   if (!requireNamespace("grid", quietly = TRUE)) {
     stop(

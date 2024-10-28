@@ -36,14 +36,19 @@
 #' @param p.col Color for point symbol.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'   ranging from 21-25).
+#' @param tail.pch Tail-end point symbol type (See \code{tails}).
+#' @param tail.p.col Tail-end color for point symbol (See \code{tails}).
+#' @param tail.p.fill Tail-end point fill color passed to \code{bg}
+#'   (Only used for \code{pch} ranging from 21-25).
 #' @param size Point size (0-1)
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param inner Fraction of mid-values to display in the quantile box. Defaults
 #'   to the IQR.
-#' @param inner.l Fraction of mid-values to display between the quantile lines.
-#'   Defaults to the mid 75\% of values.
+#' @param tails Boolean determining if points outside of the \code{inner} region
+#'   should be symbolized differently. Tail-end points are symbolized via the
+#'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param switch Boolean determining if the axes should be swapped. Only applies
 #'   to dataframe input. Ignored if vectors are passed to the function.
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
@@ -53,18 +58,15 @@
 #' @param ... Not used
 #'
 #' @details When the function is used to generate an empirical QQ plot, the plot
-#'   will displays the IQR via grey boxes for both x and y values. The box
-#'   widths can be changed via the  \code{inner} argument. The plot will also
-#'   display the mid 75\% of values via light colored dashed lines. The line
-#'   positions can be changed via the \code{inner.l} argument. The middle dashed
-#'   line represents each batch's median value. Console output prints the
-#'   suggested multiplicative and additive offsets. See the QQ plot vignette for
-#'   an introduction on its use and interpretation.\cr
+#'   will displays the inner 75% of the data via grey boxes for both x and y
+#'   values. The inner values can be changed via the  \code{inner} argument.
+#'   The middle dashed line represents each batch's median value.
+#'   Console output prints the suggested multiplicative and additive offsets.
+#'   See the QQ plot vignette for an introduction on its use and interpretation.\cr
 #'   \cr
 #'   The function can generate a Normal QQ plot when the
-#'   \code{norm} argument is set to  \code{TRUE}. In such a case, the line
-#'   parameters \code{inner.l} are overridden and are set to +/- 1 standard
-#'   deviations. Note that the "suggested offsets" output is disabled, nor
+#'   \code{norm} argument is set to  \code{TRUE}.
+#'    Note that the "suggested offsets" output is disabled, nor
 #'   can you generate an M-D version of the Normal QQ plot. Also note
 #'   that the formula argument is ignored in this mode.\cr
 #'   \cr
@@ -74,7 +76,7 @@
 #'   using the batch's median as the cutoff point. The values for each half are
 #'   the distances of each observation to the median value in \code{x}'s units.
 #'   The distance starts at 0 in the bottom-left corner of the plot. The grey
-#'   box width, \code{inner}, and outer quantile line, \code{inner.l}, will be
+#'   box width, \code{inner},  will be
 #'   measured from the origin given that the batch's center of mass is at 0.
 #'   Power transformations can be applied to \code{x} but any formula passed
 #'   via \code{fx} or \code{fy} is ignored. This plot is inspired from the
@@ -156,7 +158,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                    q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                    p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
-                   inner = 0.5, inner.l = 0.75,
+                   inner = 0.75, tails = TRUE,
+                   tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
                    t.size = 1.2, ...) {
 
@@ -265,11 +268,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
   }
 
-  # Get upper/lower bounds of quantil box
+  # Get upper/lower bounds of inner values
   b.val = c(.5 - inner / 2 , .5 + inner / 2)
-
-  # Get upper/lower bounds of end lines
-  l.val = c(.5 - inner.l / 2 , .5 + inner.l / 2)
 
   # If a symmetry QQ plot is requested, split x in half
   if(sym == TRUE) {
@@ -282,8 +282,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     xlab <- "lower half"
     ylab <- "upper half"
 
-    # Modify grey box and line parameters
-    l.val <- c(0, diff(l.val))
+    # Modify grey box parameters
     b.val <- c(0, diff(b.val))
 
     # Ignore any functions applied to the data
@@ -342,7 +341,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   if(norm != TRUE){
     qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
   } else {
-    qq <- qqnorm(x, plot.it = FALSE)
+    qq <- qqnorm(sort(x), plot.it = FALSE)
   }
 
   x <- qq$x
@@ -361,9 +360,29 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
 
-  # Compute the margin width (returned in inches before converting to lines)
-  # y.wid <- max( strwidth( y.labs[1], units="inches"),
-  #               strwidth( y.labs[2], units="inches")) * in2line + 1
+  # Get quantile parameters
+  qx <- quantile(x, b.val, qtype = q.type)
+  qy <- quantile(y, b.val, qtype = q.type)
+
+  # If tail points  are to be plotted differently, identify them
+  if(tails == TRUE){
+    # If tails are to be plotted separately, identify points outside of the
+    # inner region
+    if (!is.na(table(x < qx[1])["TRUE"]) & !is.na(table(y < qy[1])["TRUE"])){
+      lower.tail <- min(table(x < qx[1])["TRUE"], table(y < qy[1])["TRUE"])
+    } else{
+      lower.tail <- 0
+    }
+
+    if (!is.na(table(x > qx[2])["TRUE"]) & !is.na(table(y > qy[2])["TRUE"])){
+      upper.tail <-  max(table(x > qx[2])["TRUE"], table(y > qy[2])["TRUE"])
+    } else {
+      upper.tail <- 0
+    }
+
+    inner.tails <- (lower.tail+1):(length(x) - upper.tail)
+    outer.tails <- -inner.tails
+  }
 
   # Set plot parameters
   .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
@@ -372,34 +391,51 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   # QQ plot ----
   if(plot == TRUE & md == FALSE & qd == FALSE){
 
-
-    # Get quantile parameters
-    qx <- quantile(x, b.val, qtype = q.type)
-    qy <- quantile(y, b.val, qtype = q.type)
-    if(norm != TRUE){
-      lx <- quantile(x, l.val, qtype = q.type)
-      ly <- quantile(y, l.val, qtype = q.type)
-    } else {
-      lx <- c(-1,1)
-      ly <- c(1,-1) * sd(y) + mean(y)
-    }
-
     medx <- median(x)
     medy <- median(y)
 
     # Generate plot
-    xylim <- range(x,y)
+    if(norm != TRUE){
+      xylim <- range(x,y)
+    } else {
+      xlim <- range(x)
+      ylim <- range(y)
+    }
 
     # QQ plot: Empirical ----
     if(norm == FALSE){
-      plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-            xlim = xylim, ylim = xylim)
+      if(tails != TRUE){
+        plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+              xlim = xylim, ylim = xylim)
+      } else {
+        plot( x=x[inner.tails], y=y[inner.tails],  ylab=NA, las=1,
+              yaxt='n', xaxt='n', xlab=NA,
+              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+              xlim = xylim, ylim = xylim)
+
+        if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
+          points( x=x[outer.tails], y=y[outer.tails],
+                col.lab=plotcol, pch = tail.pch, col = tail.p.col,
+                bg = tail.p.fill, cex = size)
+        }
+      }
 
       # QQ plot: Normal ----
     } else {
-      plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+      if(tails != TRUE){
+        plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+      } else {
+        plot( x=x[inner.tails], y=y[inner.tails], ylab=NA, las = 1,
+              yaxt='n', xaxt='n', xlab=NA, xlim = xlim, ylim = ylim,
+              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+        if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
+          points( x=x[outer.tails], y=y[outer.tails], yaxt='n', xaxt='n',
+                  col.lab=plotcol, pch = tail.pch, col = tail.p.col,
+                  bg = tail.p.fill, cex = size)
+        }
+      }
     }
 
     box(col=plotcol)
@@ -426,6 +462,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
       slope <- diff(yy) / diff(xx)
       int <- yy[[1L]] - slope * xx[[1L]]
       abline(int, slope, col = plotcol)
+      abline(v = c(-1,1), col = "grey90", lty = 3)
     }
 
     # Add medians (omit id sym == TRUE) ----
@@ -441,8 +478,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
            col = rgb(0,0,0,0.05), border = NA)
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
            col = rgb(0,0,0,0.05), border = NA)
-      abline(v = lx, lty = 3, col = "grey90")
-      abline(h = ly, lty = 3, col = "grey90")
     }
 
     # Add power/formula parameters to plot
@@ -468,17 +503,28 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
     # Get quantile parameters
     qy <- quantile(md.y, b.val, qtype = q.type)
-    ly <- quantile(md.y, l.val, qtype = q.type)
-    lx <- quantile(md.x, l.val, qtype = q.type)
     medx <- median(md.x)
     medy <- median(md.y)
 
     # Generate plot
     ylim <- range(md.y, 0)
+    xlim <- range(md.x)
 
-    plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-          ylim = ylim)
+    if(tails != TRUE){
+      plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+            ylim = ylim, xlim = xlim)
+    } else {
+      plot( x=md.x[inner.tails], y=md.y[inner.tails],  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+            xlim = xlim, ylim = ylim, col.lab=plotcol)
+      if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
+        points( x=md.x[outer.tails], y=md.y[outer.tails], yaxt='n', xaxt='n',
+                col.lab=plotcol, pch = tail.pch, col = tail.p.col,
+                bg = tail.p.fill, cex = size)
+      }
+    }
+
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
@@ -491,8 +537,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     abline(h = 0,  col = plotcol)
     abline(v = medx, col = "grey80", lty = 2)
     abline(h = medy, col = "grey80", lty = 2)
-    abline(h = ly, col = "grey90", lty = 3)
-    abline(v = lx, col = "grey90", lty = 3)
     sq <- par("usr") # get plot corners
     if(q == TRUE){
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
@@ -517,9 +561,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
     # Get quantile parameters
     qy <- quantile(md.y, b.val, qtype = q.type)
-    ly <- quantile(md.y, l.val, qtype = q.type)
     lx <- c(0.25, 0.5, 0.75) # Vertical lines showing IQR an median
-    print(lx)
+
     medx <- median(md.x)
     medy <- median(md.y)
 
@@ -528,10 +571,23 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
     # Generate plot
     ylim <- range(md.y, 0)
+    xlim <- range(md.x)
 
-    plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-          ylim = ylim)
+    if(tails != TRUE){
+      plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+            ylim = ylim)
+    } else {
+      plot( x=md.x[inner.tails], y=md.y[inner.tails],  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+            xlim = xlim, ylim = ylim, col.lab=plotcol)
+      if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
+        points( x=md.x[outer.tails], y=md.y[outer.tails], yaxt='n', xaxt='n',
+                col.lab=plotcol, pch = tail.pch, col = tail.p.col,
+                bg = tail.p.fill, cex = size)
+      }
+    }
+
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=lx, at=lx, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
@@ -544,7 +600,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     abline(h = 0,  col = plotcol)
     abline(v = medx, col = "grey80", lty = 2)
     abline(h = medy, col = "grey80", lty = 2)
-    abline(h = ly, col = "grey90", lty = 3)
     abline(v = lx, col = "grey90", lty = 3)
     sq <- par("usr") # get plot corners
     if(q == TRUE){
