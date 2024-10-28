@@ -2,14 +2,15 @@
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
 *  Added the `eda_viol` function that generates a violin plot.
 *  Added the `eda_jitter` function that generates a jitter plot from univariate datasets.
-*  Added the `eda_qq` function that generates a qq plot matrix.
+*  Added the `eda_qqmat` function that generates a qq plot matrix.
 * `eda_lm` now outputs an `eda_lm` class.
 * `eda_rline` now outputs `fitted.values` class.
 * `eda_lm` now accepts `poly = 0`. This generates a flat line. Can be used with `robust = TRUE`.
 * Following changes were made to the `eda_qq` function:
      *  It now generates different point symbols for values outside of the `inner` region
      *  The `inner` region default is now 75%.
-     *  The outer bounds dashed line argument, `l.val` was removed (this to declutter the plot)
+     *  The outer bounds dashed line argument, `l.val` was removed (this to de-clutter the plot)
+     *  Removed the quantile-difference plot. Its interpretation is tricky when dealing with a multiplicative offset.  
 
 # tukeyedar 0.2.6
 * Added the quantile-difference plot to the `eda_qq` function.

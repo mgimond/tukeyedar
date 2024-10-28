@@ -14,7 +14,6 @@ eda_qq(
   p = 1L,
   tukey = FALSE,
   md = FALSE,
-  qd = FALSE,
   q.type = 5,
   fx = NULL,
   fy = NULL,
@@ -26,9 +25,10 @@ eda_qq(
   p.fill = "grey80",
   size = 0.8,
   alpha = 0.8,
+  med = TRUE,
   q = TRUE,
+  tails = FALSE,
   inner = 0.75,
-  tails = TRUE,
   tail.pch = 21,
   tail.p.col = "grey70",
   tail.p.fill = NULL,
@@ -60,17 +60,14 @@ variable if \code{x} is a dataframe.}
 \item{md}{Boolean determining if Tukey mean-difference plot should be
 generated.}
 
-\item{qd}{Boolean determining if a quantile-difference plot should be
-generated (overrides the \code{md} option).}
-
 \item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
 algorithms. (See \code{quantile}tile function).}
 
-\item{fx}{Formula to apply to x variable. This is computed after any
-transformation is applied to the x variable.}
+\item{fx}{Formula to apply to x variable before pairing up with y. This is
+computed after any transformation is applied to the x variable.}
 
-\item{fy}{Formula to apply to y variable. This is computed after any
-transformation is applied to the y variable.}
+\item{fy}{Formula to apply to y variable before pairing up with x. This is
+computed after any transformation is applied to the y variable.}
 
 \item{plot}{Boolean determining if plot should be generated.}
 
@@ -91,14 +88,17 @@ ranging from 21-25).}
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
 
-\item{q}{Boolean determining if grey quantile boxes should be plotted.}
+\item{med}{Boolean determining if median lines should be drawn.}
 
-\item{inner}{Fraction of mid-values to display in the quantile box. Defaults
-to the IQR.}
+\item{q}{Boolean determining if grey quantile boxes should be plotted.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
  should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
+
+\item{inner}{Fraction of mid-values to display in the quantile box. Defaults
+to the 75\%. This parameter is also used to identify which of the outer
+points are to be symbolized as tail-end points.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
 
@@ -138,17 +138,22 @@ plot.
 }
 \details{
 When the function is used to generate an empirical QQ plot, the plot
-  will displays the inner 75% of the data via grey boxes for both x and y
-  values. The inner values can be changed via the  \code{inner} argument.
-  The middle dashed line represents each batch's median value.
+  will displays the inner 75\% of the data via grey boxes for both x and y
+  values. The inner values can be changed via the  \code{inner} argument. Its
+  purpose is to prevent tail-end values from disproportionately biasing our
+  interpretation of the distributions. If the shaded regions are too
+  distracting, you can opt to have the tail-end points symbolized differently
+  by setting \code{tails = TRUE} and \code{q = FALSE}.
+  The middle dashed line represents each batch's median value.\cr
+  \cr
   Console output prints the suggested multiplicative and additive offsets.
   See the QQ plot vignette for an introduction on its use and interpretation.\cr
   \cr
   The function can generate a Normal QQ plot when the
   \code{norm} argument is set to  \code{TRUE}.
-   Note that the "suggested offsets" output is disabled, nor
-  can you generate an M-D version of the Normal QQ plot. Also note
-  that the formula argument is ignored in this mode.\cr
+  Note that for the Normal QQ plot the "suggested offsets" output is
+  disabled, nor can you generate an M-D version of the Normal QQ plot.
+  Also note that the formula argument is ignored in this mode.\cr
   \cr
   The function can be used to generate a symmetry QQ plot when the
   \code{sym} argument is set to  \code{TRUE}. This plot helps assess the
@@ -170,26 +175,35 @@ When the function is used to generate an empirical QQ plot, the plot
  dat <- singer[singer$voice.part  \%in\% c("Bass 2", "Tenor 1"), ]
  eda_qq(dat, height, voice.part)
 
+# If the shaded region is too distracting, you can apply a different symbol
+# to the tail-end points
+eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE)
+
+# For a more traditional look to the QQ plot
+eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
+
 # Passing data as two separate vector objects
  bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
 
  eda_qq(bass2, tenor1)
 
- # There seems to be an additive offset of about 2 inches
+ # There seems to be an additive offset of about 2 inches. By subtracting 2
+ # from the x variable, we should have points line up with the x=y line
  eda_qq(bass2, tenor1, fx = "x - 2")
 
  # We can fine-tune by generating the Tukey mean-difference plot
  eda_qq(bass2, tenor1, fx = "x - 2", md = TRUE)
 
- # An alternative to the mean-difference plot is the quantile-difference plot
- # where the quantile (instead of the mean) is mapped to the x-axis
- eda_qq(bass2, tenor1, fx = "x - 2", qd = TRUE)
-
  # An offset of another 0.5 inches seems warranted
  # We can say that overall, bass2 singers are 2.5 inches taller than  tenor1.
  # The offset is additive.
  eda_qq(bass2, tenor1, fx = "x - 2.5", md = TRUE)
+
+ # Note that the "suggested offset" in the console could have also been
+ # applied to the data (though this formula is a bit more difficult to
+ # interpret than our simple additive model)
+ eda_qq(bass2, tenor1, fx = "x * 1.04 -5.2", md = TRUE)
 
  # Example 2: Sepal width
  setosa <- subset(iris, Species == "setosa", select = Petal.Width, drop = TRUE)
@@ -197,7 +211,7 @@ When the function is used to generate an empirical QQ plot, the plot
 
  eda_qq(setosa, virginica)
 
- # The points are not completely parallel to the  1:1 line suggesting a
+ # The points are not completely parallel to the  x=y line suggesting a
  # multiplicative offset. The slope may be difficult to eyeball. The function
  # outputs a suggested slope and intercept. We can start with that
  eda_qq(setosa, virginica, fx = "x *  1.7143")

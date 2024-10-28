@@ -66,16 +66,16 @@ df <- data.frame(y = rnorm(60, mean = c(10,11, 12), sd = 0.5),
 eda_jitter(df, y, show.par = FALSE)
 ```
 
-An overarching objective in data analysis is to reduce data to some summary that best characterizes the set of values. In this example, we can use the batch's mean value of `r round(mean(df$y),2)` (red point in figure 1) as an estimate of a typical value for $y$. This is a good first approximation as to what to expect as a "typical" value for $y$. But, not all values in $y$ are exactly equal `r round(mean(df$y),2)`. There is some variability around this estimate. The variability ranges from `r round(range(df$y),0)[1]` to `r round(range(df$y),0)[2]` for an overall range of about `r round(diff(range(df$y)))` $y$ units. This uncertainty about the fitted mean value is often characterized as the **residuals**--the difference between the actual value and the fitted value.
+An overarching objective in data analysis is to reduce data to some summary that best characterizes the set of values. In this example, we can use the batch's mean value of `r round(mean(df$y),2)` (red point in figure 1) as an estimate of a typical value for $y$. This is a good first approximation as to what to expect as a "typical" value for $y$. But, not all values in $y$ are exactly equal `r round(mean(df$y),2)`. There is some variability around this estimate. The variability ranges from `r round(range(df$y),0)[1]` to `r round(range(df$y),0)[2]` for an overall range of about `r round(diff(range(df$y)))` $y$ units. This variability about the fitted mean value is often characterized as the **residuals**--the difference between the actual value and the fitted value.
 
-If we want to improve our estimation of a value in $y$ (i.e. to reduce the uncertainty in our estimation of $y$), we may want to add a grouping variable to the dataset. In essence, we are adding another *handle* to the data in the hopes of chipping away at the uncertainty that accompanies the estimate. Figure 2 shows the groups each value in $y$ belongs to.
+If we want to improve our estimation of a value in $y$ (i.e. to reduce the uncertainty in our estimation of $y$), we may want to add a grouping variable to the dataset. In essence, we are adding another *handle* to the data in the hopes of chipping away at the variability that accompanies the estimate. Figure 2 shows the groups each value in $y$ belongs to.
 
 ```{r fig.height=3, fig.width=2.3, echo = FALSE, fig.cap="Figure 2. Same batch of values split across three groups with each group's mean displayed as an orange point.", fig.align="center"}
 
 eda_jitter(df, y, groups, show.par = FALSE)
 ```
 
-Knowing what group an observation belongs to can generate one of three completely different estimates of $y$ that range from about 10 to 12 units. This reduces the uncertainty in our estimation of $y$ by about 2 units, which is an improvement over our earlier model that generated just one estimate for all observations. The range in residual values about each fitted mean seems to have also diminished. Ideally, we want the uncertainty surrounding the fitted means to be as small as possible relative to the range of fitted means. However, the jitter plot in Figure 2 is not very effective in comparing both spreads. A better plot is one that limits the emphasis on the comparison between spreads in fitted values and their residuals. Such a plot does away with the absolute values of the fitted means and their residuals, instead, it centers both spreads around $0$. Another characteristic of an ideal plot is to help quantify the relative difference in spreads between the fitted values and the residuals. A good candidate for such a plot is a side-by-side quantile plot of fitted values centered (roughly) around zero on the left and the residual values centered on their respective group fitted values. This gives us the rfs plot shown in Figure 3.
+Knowing what group an observation belongs to can generate one of three completely different estimates of $y$ that range from about 10 to 12 units. This reduces the uncertainty in our estimation of $y$ by about 2 units, which is an improvement over our earlier model that generated just one estimate for all observations. The range in residual values about each fitted mean seems to have also diminished. Ideally, we want the variability surrounding the fitted means to be as small as possible relative to the range of fitted means. However, the jitter plot in Figure 2 is not very effective in comparing the three spreads. A better plot is one that limits the emphasis on the comparison between spreads in fitted values and their residuals. Such a plot does away with the absolute values of the fitted means and their residuals, instead, it centers both spreads around $0$. Another characteristic of an ideal plot is to help quantify the relative difference in spreads between the fitted values and the residuals. A good candidate for such a plot is a side-by-side quantile plot of fitted values centered (roughly) around zero on the left and the residual values centered on their respective group fitted values. This gives us the rfs plot shown in Figure 3.
 
 ```{r fig.height=3.5, fig.width=5, echo = FALSE, fig.cap="Figure 3. A residual-fit spread plot. Each observation is split between a quantile plot of fitted value minus group mean (left plot) and a quantile plot of residuals (right plot). The x-axis displays the fraction of values (f-value) in each plot that are at or below the matching value on the y-axis.", fig.align="center", results='hide'}
 eda_rfs(df, y, groups, show.par = FALSE)
@@ -102,7 +102,7 @@ points(x=3, y=11.05, cex=1.5, col = "green3", pch=16)
 
 The rfs plot facilitates the comparison of both spreads by sharing the same y axis and by having both spreads centered on 0. In this working example, the spreads are about identical suggesting that the grouping variable $groups$ can help explain some of the variability in the data.
 
-To help develop an intuitive feel for the interpretation of the rfs plot, we can explore two extreme scenarios. In this first scenario, we assign groups to the values in $y$ in such a way as to maximize the separation in each group (see Figure 5).
+To help develop an intuitive feel for the interpretation of the rfs plot, we can explore two extreme scenarios. In this next scenario, we assign groups to the values in $y$ in such a way as to maximize the separation in each group (see Figure 5).
 
 <center>
 
@@ -115,13 +115,13 @@ eda_jitter(df2, y, groups, show.par = FALSE)
 
 </center>
 
-Figure 6 shows the matching rfs plot. Here, the spread in fitted values is greater than the spread in residuals defined by its minimum and maximum values. If we ignore the extreme values and focus solely on the inner 95% of the residuals, we see that the uncertainty is reduced to just about 1 unit in $y$ or half the spread defined by the fitted values.
+Figure 6 shows the matching rfs plot. Here, the spread in fitted values is greater than the spread in residuals defined by its minimum and maximum values. If we ignore the extreme values and focus solely on the inner 90% of the residuals, we see that the variability is reduced to just about 1 unit in $y$ or half the spread defined by the fitted values.
 
 ```{r fig.height=3.5, fig.width=5, echo = FALSE, fig.cap="Figure 6. The spread in the fitted mean values spans 2 units along the y-axis. The residuals span about 1 unit when ignoring the extreme values suggesting that the grouping variable does a good job in improving our estimation of y.", fig.align="center", results='hide'}
 eda_rfs(df2, y, groups, show.par = FALSE)
 ```
 
-In this next example, we look at the other extreme: one where the spread in fitted means is small relative to the uncertainty surrounding each fitted value. The original $y$ batch of values is used while re-assigning the grouping variables in such a way so as to minimize the importance of the grouping variable in estimating $y$ (See Figure 7).
+In this next example, we look at the other extreme: one where the spread in fitted means is small relative to the variability surrounding each fitted value. The original $y$ batch of values is used while re-assigning the grouping variables in such a way so as to minimize the importance of the grouping variable in estimating $y$ (See Figure 7).
 
 ```{r fig.height=2.8, fig.width=2.4, echo = FALSE, fig.cap="Figure 7. An example of a dataset that does not exhibit a clear separation in grouped values of y.", fig.align="center"}
 set.seed(423)
@@ -137,7 +137,7 @@ The matching rfs plot is shown in Figure 8.
 eda_rfs(df2, y, groups, show.par = FALSE)
 ```
 
-With this last dataset, the spread in residuals is quite important relative to the spread in fitted values. This suggests that the grouping variable does not improve in our estimation of $y$. Its effect in estimating $y$ is small.
+With this last dataset, the spread in residuals is quite important relative to the spread in fitted values. This suggests that the grouping variable does not improve in our estimation of $y$. Its effect in estimating $y$ is small. In other words, if we did away with the grouping variable and used an overall mean value to estimate $y$, the spread in residuals would be nearly identical. 
 
 ## Generating an rfs plot with eda_rfs
 
@@ -159,22 +159,22 @@ eda_rfs(df, y, groups)
 ``` 
 
 
-In addition to generating a plot, the function will also output information about the spreads in the console. It compares the spread in the mid 90% of residuals to the range of fitted values. 
+In addition to generating a plot, the function will also output information about the spreads in the console. It extracts the range of values associated with the mid 90% of the residuals.
 
-The plot and the console output indicate that mid 90% of the residuals fall between -0.75 and +0.75, roughly. This encompasses a spread close to 1.5 units. This is about half the spread covered by the fitted values.
+The plot and the console output indicate that the mid 90% of the residuals cover a range of about 1.6 units, roughly. This is about 15% less than the spread covered by the estimates.
 
 The reason the mid 90% of values is chosen is to prevent outliers or extreme values in the residuals from disproportionately exaggerating the spread in residuals. For example, you'll note an extreme outlier of a little more than 1.5 units which is clearly not representative of the bulk of the residuals.
 
 A shaded region highlighting the inner 90% of residuals can be added to the plot by setting `q = TRUE`.
 
-```{r fig.height=3.5, fig.width=5, fig.cap="Figure 10. An rfs plot generated using the eda_rfs() function with the inner 90%  region displayed as a grey vertical block in the residuals quantile plot. The horizontal grey region shows the matching values on the y-axis.", fig.align="center", results='hide'}
+```{r fig.height=3.5, fig.width=5, fig.cap="Figure 10. An rfs plot generated using the eda_rfs() function with the inner 90%  region displayed as a shaded region in the residuals quantile plot. The horizontal grey region shows the matching values on the y-axis.", fig.align="center", results='hide'}
 eda_rfs(df, y, groups, q = TRUE)
 ```
 
 You can change what constitutes the mid portion of the residuals by assigning a fraction ranging from 0 to 1 to the `inner` argument. For example, if 95% of the inner residual spread is to be compared to the spread in fitted values, set `inner = 0.95` as shown in the following example.
 
-```{r fig.height=3.5, fig.width=5, fig.cap="Figure 11. An rfs plot generated using the eda_rfs() function with the inner 95% region displayed as a grey vertical region in the Residuals quantile plot. The horizontal grey region shows the matching values on the y-axis.", fig.align="center", echo = FALSE}
-eda_rfs(df, y, groups, q = TRUE)
+```{r fig.height=3.5, fig.width=5, fig.cap="Figure 11. An rfs plot generated using the eda_rfs() function with the inner 95% region displayed as a grey vertical region in the Residuals quantile plot. The horizontal grey region shows the matching values on the y-axis.", fig.align="center"}
+eda_rfs(df, y, groups, q = TRUE, inner = 0.95)
 ```
 
 Adding the grouping variable improves our estimation of $y$ by reducing the uncertainty around our estimate. Had we not split the data into groups and stuck with one overall mean value, we would have ended up with a larger residual spread as shown in Figure 12.
@@ -196,7 +196,7 @@ Another `eda_rfs` option modifies the summary statistic used with univariate dat
 eda_rfs(mtcars, hp, am, q = TRUE)
 ```
 
-Adopting the median will minimize the influence the extremes $hp$ value will have in fitting the central values to each $am$ group as shown in Figure 14.
+Adopting the median will minimize the influence the extreme $hp$ values will have in fitting the central values to each $am$ group as shown in Figure 14.
 
 
 ```{r fig.height=3.5, fig.width=5, fig.cap="Figure 14. An rfs plot of horsepower values in the mtcars dataset conditioned on transmission type (am variable in the dataset). Here, the optional median statistic is used to compute the central values.", fig.align="center",}
@@ -205,7 +205,7 @@ eda_rfs(mtcars, hp, am, stat = median, q = TRUE)
 
 > It's important to remember that the use of an rfs plot only makes sense when the residuals across all groups share the same distribution. This is a common assumption with many popular parametric statistical procedures.
 
-If skew is of concern in a univariate dataset, the function allows for the transformation of a variable for a univariate dataset. For example, to render the `hp` dataset more symmetrical, we can apply a log transformation via the argument `p = 0` as shown in Figure 15.
+If skew is of concern in a univariate dataset, the function allows for the transformation of the variable. For example, to render the `hp` dataset more symmetrical, we can apply a log transformation via the argument `p = 0` as shown in Figure 15.
 
 ```{r fig.height=3.5, fig.width=5, fig.cap="Figure 15. An rfs plot of log transformed horsepower values in the mtcars dataset conditioned on transmission type (am variable in the dataset). Results are reported in the transformed variable units.", fig.align="center",}
 eda_rfs(mtcars, hp, am,  q = TRUE, p = 0)
@@ -233,7 +233,7 @@ eda_jitter(mtcars, mpg, show.par = FALSE)
 
 There is, as expected, some variability that covers a range of about `r round(diff(range(mtcars$mpg)))` miles-per-gallon.
 
-We can improve on this estimate by adding another handle to the data. But, instead of adding a categorical variable as was proposed in the first example of this tutorial, we can add another continuous variable to help us improve on this estimate. For example, we can see if a vehicle's horsepower can help us home in on a more precise estimate of miles-per-gallon. Figure 17 gives us a scatter plot of miles-per-gallon vs horsepower.
+We can improve on this estimate by adding another handle to the data. But, instead of adding a categorical variable as was proposed in the first example of this tutorial, we can add another *continuous* variable to help us improve on this estimate. For example, we can see if a vehicle's horsepower can help us home in on a more precise estimate of miles-per-gallon. Figure 17 gives us a scatter plot of miles-per-gallon vs horsepower.
 
 <center>
 ```{r fig.height=3.5, fig.width=2.8, echo = FALSE, fig.cap="Figure 17. A scatter plot of miles-per gallon (mpg) vs. horsepower (hp).", fig.align="center", results='hide', fig.align="center",R.options}
@@ -256,7 +256,7 @@ OP2 <- par(mar = c(0,0,0,0))
 par(OP2)
 ```
 
-The estimate for `mpg` is *conditioned* on the value of `hp`. The estimate (extracted from the red line in the plot) ranges from about 7 miles-per-gallon to about 26 miles-per-gallon. An rfs plot can help us assess how much of the variability in `mpg` can be explained by this newly fitted model and how it compares to the residuals (Figure 19).
+The estimate for `mpg` is *conditioned* on the value of `hp`. The estimate (extracted from the red line in the plot) ranges from about 7 miles-per-gallon to about 26 miles-per-gallon. The residuals are highlighted by the vertical dashed lines in Figure 18. An rfs plot can help us assess how much of the variability in `mpg` can be explained by this newly fitted model and how it compares to the residuals (Figure 19).
 
 ```{r fig.height=3.5, fig.width=5, echo = FALSE, fig.cap="Figure 19. An rfs plot of the bivariate model whereby the fitted values are plotted on the left quantile plot and the residuals are plotted on the right quantile plot.", fig.align="center", results='hide'}
 eda_rfs(M1)
@@ -282,7 +282,8 @@ par(OP2)
 
 <cr/>  
   
-We can see that the spread in the fitted model and the residuals is comparable with the fitted model explaining a bit more of the variability than the residuals when focusing on the full range of residual values.
+We can see that the spread in the fitted model and the residuals is comparable with the fitted model explaining a bit more of the variability in the data than adopting the much simpler *mean* model in Figure 16.
+
 
 ### Using eda_rfs() with a regression model
 

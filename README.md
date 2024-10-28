@@ -21,8 +21,8 @@ You can install the development version of tukeyedar from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("mgimond/tukeyedar")
+install.packages("remotes")
+remotes::install_github("mgimond/tukeyedar")
 ```
 
 Note that the vignettes will not be automatically generated with the
@@ -31,14 +31,14 @@ above command; note too that the vignettes are available on this website
 the `build_vignettes = TRUE` parameter.
 
 ``` r
-devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
+remotes::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
 ```
 
 If, for some reason the vignettes are not created, you might want to
 re-install the package with the `force=TRUE` parameter.
 
 ``` r
-devtools::install_github("mgimond/tukeyedar", build_vignettes = TRUE, force=TRUE)
+remotes::install_github("mgimond/tukeyedar", build_vignettes = TRUE, force=TRUE)
 ```
 
 ## Vignettes

@@ -22,12 +22,10 @@
 #'   algorithms. (See \code{quantile}tile function).
 #' @param md Boolean determining if Tukey mean-difference plot should be
 #'   generated.
-#' @param qd Boolean determining if a quantile-difference plot should be
-#'   generated (overrides the \code{md} option).
-#' @param fx Formula to apply to x variable. This is computed after any
-#'   transformation is applied to the x variable.
-#' @param fy Formula to apply to y variable. This is computed after any
-#'   transformation is applied to the y variable.
+#' @param fx Formula to apply to x variable before pairing up with y. This is
+#'   computed after any transformation is applied to the x variable.
+#' @param fy Formula to apply to y variable before pairing up with x. This is
+#'   computed after any transformation is applied to the y variable.
 #' @param plot Boolean determining if plot should be generated.
 #' @param show.par Boolean determining if parameters such as power
 #'   transformation or formula should be displayed.
@@ -43,9 +41,11 @@
 #' @param size Point size (0-1)
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
+#' @param med Boolean determining if median lines should be drawn.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param inner Fraction of mid-values to display in the quantile box. Defaults
-#'   to the IQR.
+#'   to the 75\%. This parameter is also used to identify which of the outer
+#'   points are to be symbolized as tail-end points.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
 #'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
@@ -58,17 +58,22 @@
 #' @param ... Not used
 #'
 #' @details When the function is used to generate an empirical QQ plot, the plot
-#'   will displays the inner 75% of the data via grey boxes for both x and y
-#'   values. The inner values can be changed via the  \code{inner} argument.
-#'   The middle dashed line represents each batch's median value.
+#'   will displays the inner 75\% of the data via grey boxes for both x and y
+#'   values. The inner values can be changed via the  \code{inner} argument. Its
+#'   purpose is to prevent tail-end values from disproportionately biasing our
+#'   interpretation of the distributions. If the shaded regions are too
+#'   distracting, you can opt to have the tail-end points symbolized differently
+#'   by setting \code{tails = TRUE} and \code{q = FALSE}.
+#'   The middle dashed line represents each batch's median value.\cr
+#'   \cr
 #'   Console output prints the suggested multiplicative and additive offsets.
 #'   See the QQ plot vignette for an introduction on its use and interpretation.\cr
 #'   \cr
 #'   The function can generate a Normal QQ plot when the
 #'   \code{norm} argument is set to  \code{TRUE}.
-#'    Note that the "suggested offsets" output is disabled, nor
-#'   can you generate an M-D version of the Normal QQ plot. Also note
-#'   that the formula argument is ignored in this mode.\cr
+#'   Note that for the Normal QQ plot the "suggested offsets" output is
+#'   disabled, nor can you generate an M-D version of the Normal QQ plot.
+#'   Also note that the formula argument is ignored in this mode.\cr
 #'   \cr
 #'   The function can be used to generate a symmetry QQ plot when the
 #'   \code{sym} argument is set to  \code{TRUE}. This plot helps assess the
@@ -106,26 +111,35 @@
 #'  dat <- singer[singer$voice.part  %in% c("Bass 2", "Tenor 1"), ]
 #'  eda_qq(dat, height, voice.part)
 #'
+#' # If the shaded region is too distracting, you can apply a different symbol
+#' # to the tail-end points
+#' eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE)
+#'
+#' # For a more traditional look to the QQ plot
+#' eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
+#'
 #' # Passing data as two separate vector objects
 #'  bass2 <- subset(singer, voice.part == "Bass 2", select = height, drop = TRUE )
 #'  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
 #'
 #'  eda_qq(bass2, tenor1)
 #'
-#'  # There seems to be an additive offset of about 2 inches
+#'  # There seems to be an additive offset of about 2 inches. By subtracting 2
+#'  # from the x variable, we should have points line up with the x=y line
 #'  eda_qq(bass2, tenor1, fx = "x - 2")
 #'
 #'  # We can fine-tune by generating the Tukey mean-difference plot
 #'  eda_qq(bass2, tenor1, fx = "x - 2", md = TRUE)
 #'
-#'  # An alternative to the mean-difference plot is the quantile-difference plot
-#'  # where the quantile (instead of the mean) is mapped to the x-axis
-#'  eda_qq(bass2, tenor1, fx = "x - 2", qd = TRUE)
-#'
 #'  # An offset of another 0.5 inches seems warranted
 #'  # We can say that overall, bass2 singers are 2.5 inches taller than  tenor1.
 #'  # The offset is additive.
 #'  eda_qq(bass2, tenor1, fx = "x - 2.5", md = TRUE)
+#'
+#'  # Note that the "suggested offset" in the console could have also been
+#'  # applied to the data (though this formula is a bit more difficult to
+#'  # interpret than our simple additive model)
+#'  eda_qq(bass2, tenor1, fx = "x * 1.04 -5.2", md = TRUE)
 #'
 #'  # Example 2: Sepal width
 #'  setosa <- subset(iris, Species == "setosa", select = Petal.Width, drop = TRUE)
@@ -133,7 +147,7 @@
 #'
 #'  eda_qq(setosa, virginica)
 #'
-#'  # The points are not completely parallel to the  1:1 line suggesting a
+#'  # The points are not completely parallel to the  x=y line suggesting a
 #'  # multiplicative offset. The slope may be difficult to eyeball. The function
 #'  # outputs a suggested slope and intercept. We can start with that
 #'  eda_qq(setosa, virginica, fx = "x *  1.7143")
@@ -154,11 +168,11 @@
 
 
 eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
-                   tukey = FALSE, md = FALSE, qd = FALSE,
+                   tukey = FALSE, md = FALSE,
                    q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8, q = TRUE,
-                   inner = 0.75, tails = TRUE,
+                   p.fill = "grey80", size = 0.8, alpha = 0.8,
+                   med = TRUE, q = TRUE, tails = FALSE, inner = 0.75,
                    tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
                    t.size = 1.2, ...) {
@@ -174,8 +188,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     stop("x needs to be a vector if norm=TRUE")
   if(norm == TRUE & md == TRUE)
     stop("A rotated version of Normal QQ plot is not yet implemented.")
-  if(norm == TRUE & qd == TRUE)
-    stop("A rotated version of Normal QQ plot is not yet implemented.")
   if(norm == TRUE & sym == TRUE)
     stop(paste("This function cannot combine a normal QQ plot with a symmetry QQ plot.",
                " Either set norm to FALSE or sym to FALSE."))
@@ -185,9 +197,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     cat(" This is a symmetry QQ plot.\n",
         "Values are distances from each observation to the median value\n",
         "Function arguments (fx and fy) are ignored")
-   if(md == TRUE & qd == TRUE)
-     warning(paste("Both md and qd are set to TRUE. ",
-                   "qd will override md."))
    if(!"data.frame" %in% class(x) & switch == TRUE)
      warning(paste("The argument switch was set to TRUE yet the input dataset ",
                    "is not a dataframe. Switch only applies to data stored ",
@@ -389,7 +398,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   on.exit(par(.pardef))
 
   # QQ plot ----
-  if(plot == TRUE & md == FALSE & qd == FALSE){
+  if(plot == TRUE & md == FALSE ){
 
     medx <- median(x)
     medy <- median(y)
@@ -466,7 +475,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
 
     # Add medians (omit id sym == TRUE) ----
-    if(sym != TRUE){
+    if(sym != TRUE & med == TRUE){
       abline(v = medx, col = "grey80", lty = 2)
       abline(h = medy, col = "grey80", lty = 2)
     }
@@ -491,7 +500,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
 
 
     #  M-D plot ----
-  } else if(plot == TRUE & md == TRUE & norm == FALSE & qd == FALSE) {
+  } else if(plot == TRUE & md == TRUE & norm == FALSE) {
 
     # Generate labels
     xlab2 <- paste("Mean of", xlab, "and", ylab)
@@ -535,8 +544,13 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
 
     abline(h = 0,  col = plotcol)
-    abline(v = medx, col = "grey80", lty = 2)
-    abline(h = medy, col = "grey80", lty = 2)
+
+    # Add median lines
+    if(med == TRUE){
+      abline(v = medx, col = "grey80", lty = 2)
+      abline(h = medy, col = "grey80", lty = 2)
+    }
+
     sq <- par("usr") # get plot corners
     if(q == TRUE){
       rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
@@ -548,69 +562,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
       mtext(side = 3, text=params, adj=1, cex = 0.65)
     }
 
-    #  Q-D plot  ----
-  } else if(plot == TRUE & qd == TRUE){
-
-    # Generate labels
-    xlab2 <- paste("Quantile")
-    ylab2 <- paste(ylab,"-", xlab)
-
-    # Compute q-d variables
-    md.y  <- (y - x)
-    md.x  <- (1:length(y) - 0.5) /length(y)
-
-    # Get quantile parameters
-    qy <- quantile(md.y, b.val, qtype = q.type)
-    lx <- c(0.25, 0.5, 0.75) # Vertical lines showing IQR an median
-
-    medx <- median(md.x)
-    medy <- median(md.y)
-
-    # If f-vall type is not 5, print warning
-    if(q.type != 5) warning("Currently, only q.type = 5 is implemented.")
-
-    # Generate plot
-    ylim <- range(md.y, 0)
-    xlim <- range(md.x)
-
-    if(tails != TRUE){
-      plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-            ylim = ylim)
-    } else {
-      plot( x=md.x[inner.tails], y=md.y[inner.tails],  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-            xlim = xlim, ylim = ylim, col.lab=plotcol)
-      if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-        points( x=md.x[outer.tails], y=md.y[outer.tails], yaxt='n', xaxt='n',
-                col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-                bg = tail.p.fill, cex = size)
-      }
-    }
-
-    box(col=plotcol)
-    axis(1,col=plotcol, col.axis=plotcol, labels=lx, at=lx, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext(ylab2, side=3, adj= -0.06 ,col=plotcol,  padj = -1.1, cex = par("cex"))
-    title(xlab = xlab2, line =1.8, col.lab=plotcol)
-    if(!is.null(title)){
-      title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
-    }
-
-    abline(h = 0,  col = plotcol)
-    abline(v = medx, col = "grey80", lty = 2)
-    abline(h = medy, col = "grey80", lty = 2)
-    abline(v = lx, col = "grey90", lty = 3)
-    sq <- par("usr") # get plot corners
-    if(q == TRUE){
-      rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
-           col = rgb(0,0,0,0.05), border = NA)
-    }
-    if(show.par == TRUE){
-      params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
-      params <- gsub("\\; \\;", ";", params)
-      mtext(side = 3, text=params, adj=1, cex = 0.65)
-    }
   }
 
   # Reset plot parameters and  output values

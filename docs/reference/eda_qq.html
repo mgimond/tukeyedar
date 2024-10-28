@@ -62,7 +62,6 @@ plot.</p>
 <span>  p <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  tukey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  md <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  qd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  q.type <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  fx <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fy <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -74,9 +73,13 @@ plot.</p>
 <span>  p.fill <span class="op">=</span> <span class="st">"grey80"</span>,</span>
 <span>  size <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  med <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  q <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  b.val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span>,</span>
-<span>  l.val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.125</span>, <span class="fl">0.875</span><span class="op">)</span>,</span>
+<span>  tails <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  inner <span class="op">=</span> <span class="fl">0.75</span>,</span>
+<span>  tail.pch <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>  tail.p.col <span class="op">=</span> <span class="st">"grey70"</span>,</span>
+<span>  tail.p.fill <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  switch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -125,24 +128,19 @@ variable if <code>x</code> is a dataframe.</p></dd>
 generated.</p></dd>
 
 
-<dt id="arg-qd">qd<a class="anchor" aria-label="anchor" href="#arg-qd"></a></dt>
-<dd><p>Boolean determining if a quantile-difference plot should be
-generated (overrides the <code>md</code> option).</p></dd>
-
-
 <dt id="arg-q-type">q.type<a class="anchor" aria-label="anchor" href="#arg-q-type"></a></dt>
 <dd><p>An integer between 1 and 9 selecting one of the nine quantile
 algorithms. (See <code>quantile</code>tile function).</p></dd>
 
 
 <dt id="arg-fx">fx<a class="anchor" aria-label="anchor" href="#arg-fx"></a></dt>
-<dd><p>Formula to apply to x variable. This is computed after any
-transformation is applied to the x variable.</p></dd>
+<dd><p>Formula to apply to x variable before pairing up with y. This is
+computed after any transformation is applied to the x variable.</p></dd>
 
 
 <dt id="arg-fy">fy<a class="anchor" aria-label="anchor" href="#arg-fy"></a></dt>
-<dd><p>Formula to apply to y variable. This is computed after any
-transformation is applied to the y variable.</p></dd>
+<dd><p>Formula to apply to y variable before pairing up with x. This is
+computed after any transformation is applied to the y variable.</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
@@ -180,18 +178,37 @@ ranging from 21-25).</p></dd>
 applicable if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb()</a></code> is not used to define point colors.</p></dd>
 
 
+<dt id="arg-med">med<a class="anchor" aria-label="anchor" href="#arg-med"></a></dt>
+<dd><p>Boolean determining if median lines should be drawn.</p></dd>
+
+
 <dt id="arg-q">q<a class="anchor" aria-label="anchor" href="#arg-q"></a></dt>
 <dd><p>Boolean determining if grey quantile boxes should be plotted.</p></dd>
 
 
-<dt id="arg-b-val">b.val<a class="anchor" aria-label="anchor" href="#arg-b-val"></a></dt>
-<dd><p>Quantiles to define the quantile box parameters. Defaults to the
-IQR. Two values are needed.</p></dd>
+<dt id="arg-tails">tails<a class="anchor" aria-label="anchor" href="#arg-tails"></a></dt>
+<dd><p>Boolean determining if points outside of the <code>inner</code> region
+ should be symbolized differently. Tail-end points are symbolized via the
+<code>tail.pch</code>,  <code>tail.p.col</code> and <code>tail.p.fill</code> arguments.</p></dd>
 
 
-<dt id="arg-l-val">l.val<a class="anchor" aria-label="anchor" href="#arg-l-val"></a></dt>
-<dd><p>Quantiles to define the quantile line parameters. Defaults to
-the mid 75% of values. Two values are needed.</p></dd>
+<dt id="arg-inner">inner<a class="anchor" aria-label="anchor" href="#arg-inner"></a></dt>
+<dd><p>Fraction of mid-values to display in the quantile box. Defaults
+to the 75%. This parameter is also used to identify which of the outer
+points are to be symbolized as tail-end points.</p></dd>
+
+
+<dt id="arg-tail-pch">tail.pch<a class="anchor" aria-label="anchor" href="#arg-tail-pch"></a></dt>
+<dd><p>Tail-end point symbol type (See <code>tails</code>).</p></dd>
+
+
+<dt id="arg-tail-p-col">tail.p.col<a class="anchor" aria-label="anchor" href="#arg-tail-p-col"></a></dt>
+<dd><p>Tail-end color for point symbol (See <code>tails</code>).</p></dd>
+
+
+<dt id="arg-tail-p-fill">tail.p.fill<a class="anchor" aria-label="anchor" href="#arg-tail-p-fill"></a></dt>
+<dd><p>Tail-end point fill color passed to <code>bg</code>
+(Only used for <code>pch</code> ranging from 21-25).</p></dd>
 
 
 <dt id="arg-switch">switch<a class="anchor" aria-label="anchor" href="#arg-switch"></a></dt>
@@ -232,26 +249,27 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>When the function is used to generate an empirical QQ plot, the plot
-  will displays the IQR via grey boxes for both x and y values. The box
-  widths can be changed via the  <code>b.val</code> argument. The plot will also
-  display the mid 75% of values via light colored dashed lines. The line
-  positions can be changed via the <code>l.val</code> argument. The middle dashed
-  line represents each batch's median value. Console output prints the
-  suggested multiplicative and additive offsets. See the QQ plot vignette for
-  an introduction on its use and interpretation.<br><br>
+  will displays the inner 75% of the data via grey boxes for both x and y
+  values. The inner values can be changed via the  <code>inner</code> argument. Its
+  purpose is to prevent tail-end values from disproportionately biasing our
+  interpretation of the distributions. If the shaded regions are too
+  distracting, you can opt to have the tail-end points symbolized differently
+  by setting <code>tails = TRUE</code> and <code>q = FALSE</code>.
+  The middle dashed line represents each batch's median value.<br><br>
+  Console output prints the suggested multiplicative and additive offsets.
+  See the QQ plot vignette for an introduction on its use and interpretation.<br><br>
   The function can generate a Normal QQ plot when the
-  <code>norm</code> argument is set to  <code>TRUE</code>. In such a case, the line
-  parameters <code>l.val</code> are overridden and are set to +/- 1 standard
-  deviations. Note that the "suggested offsets" output is disabled, nor
-  can you generate an M-D version of the Normal QQ plot. Also note
-  that the formula argument is ignored in this mode.<br><br>
+  <code>norm</code> argument is set to  <code>TRUE</code>.
+  Note that for the Normal QQ plot the "suggested offsets" output is
+  disabled, nor can you generate an M-D version of the Normal QQ plot.
+  Also note that the formula argument is ignored in this mode.<br><br>
   The function can be used to generate a symmetry QQ plot when the
   <code>sym</code> argument is set to  <code>TRUE</code>. This plot helps assess the
   symmetry of a variable by splitting it into two halves, upper and lower,
   using the batch's median as the cutoff point. The values for each half are
   the distances of each observation to the median value in <code>x</code>'s units.
   The distance starts at 0 in the bottom-left corner of the plot. The grey
-  box width, <code>b.val</code>, and outer quantile line, <code>l.val</code>, will be
+  box width, <code>inner</code>,  will be
   measured from the origin given that the batch's center of mass is at 0.
   Power transformations can be applied to <code>x</code> but any formula passed
   via <code>fx</code> or <code>fy</code> is ignored. This plot is inspired from the
@@ -273,26 +291,35 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 <span> <span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">singer</span><span class="op">[</span><span class="va">singer</span><span class="op">$</span><span class="va">voice.part</span>  <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bass 2"</span>, <span class="st">"Tenor 1"</span><span class="op">)</span>, <span class="op">]</span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">dat</span>, <span class="va">height</span>, <span class="va">voice.part</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># If the shaded region is too distracting, you can apply a different symbol</span></span>
+<span><span class="co"># to the tail-end points</span></span>
+<span><span class="fu">eda_qq</span><span class="op">(</span><span class="va">dat</span>, <span class="va">height</span>, <span class="va">voice.part</span>, q <span class="op">=</span> <span class="cn">FALSE</span>, tails <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For a more traditional look to the QQ plot</span></span>
+<span><span class="fu">eda_qq</span><span class="op">(</span><span class="va">dat</span>, <span class="va">height</span>, <span class="va">voice.part</span>, med <span class="op">=</span> <span class="cn">FALSE</span>, q <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># Passing data as two separate vector objects</span></span>
 <span> <span class="va">bass2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">singer</span>, <span class="va">voice.part</span> <span class="op">==</span> <span class="st">"Bass 2"</span>, select <span class="op">=</span> <span class="va">height</span>, drop <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span>
 <span> <span class="va">tenor1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">singer</span>, <span class="va">voice.part</span> <span class="op">==</span> <span class="st">"Tenor 1"</span>, select <span class="op">=</span> <span class="va">height</span>, drop <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span>
 <span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span><span class="op">)</span></span>
 <span></span>
-<span> <span class="co"># There seems to be an additive offset of about 2 inches</span></span>
+<span> <span class="co"># There seems to be an additive offset of about 2 inches. By subtracting 2</span></span>
+<span> <span class="co"># from the x variable, we should have points line up with the x=y line</span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x - 2"</span><span class="op">)</span></span>
 <span></span>
 <span> <span class="co"># We can fine-tune by generating the Tukey mean-difference plot</span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x - 2"</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span> <span class="co"># An alternative to the mean-difference plot is the quantile-difference plot</span></span>
-<span> <span class="co"># where the quantile (instead of the mean) is mapped to the x-axis</span></span>
-<span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x - 2"</span>, qd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
 <span> <span class="co"># An offset of another 0.5 inches seems warranted</span></span>
 <span> <span class="co"># We can say that overall, bass2 singers are 2.5 inches taller than  tenor1.</span></span>
 <span> <span class="co"># The offset is additive.</span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x - 2.5"</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span> <span class="co"># Note that the "suggested offset" in the console could have also been</span></span>
+<span> <span class="co"># applied to the data (though this formula is a bit more difficult to</span></span>
+<span> <span class="co"># interpret than our simple additive model)</span></span>
+<span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">bass2</span>, <span class="va">tenor1</span>, fx <span class="op">=</span> <span class="st">"x * 1.04 -5.2"</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span> <span class="co"># Example 2: Sepal width</span></span>
 <span> <span class="va">setosa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span> <span class="op">==</span> <span class="st">"setosa"</span>, select <span class="op">=</span> <span class="va">Petal.Width</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -300,7 +327,7 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 <span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">setosa</span>, <span class="va">virginica</span><span class="op">)</span></span>
 <span></span>
-<span> <span class="co"># The points are not completely parallel to the  1:1 line suggesting a</span></span>
+<span> <span class="co"># The points are not completely parallel to the  x=y line suggesting a</span></span>
 <span> <span class="co"># multiplicative offset. The slope may be difficult to eyeball. The function</span></span>
 <span> <span class="co"># outputs a suggested slope and intercept. We can start with that</span></span>
 <span> <span class="fu">eda_qq</span><span class="op">(</span><span class="va">setosa</span>, <span class="va">virginica</span>, fx <span class="op">=</span> <span class="st">"x *  1.7143"</span><span class="op">)</span></span>
