@@ -26,9 +26,9 @@ remotes::install_github("mgimond/tukeyedar")
 ```
 
 Note that the vignettes will not be automatically generated with the
-above command; note too that the vignettes are available on this website
-(see next section). If you want a local version of the vignettes, add
-the `build_vignettes = TRUE` parameter.
+above command, however, the vignettes are available on this website (see
+next section). If you want a local version of the vignettes, add the
+`build_vignettes = TRUE` parameter.
 
 ``` r
 remotes::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
@@ -74,8 +74,7 @@ library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-Note that most functions are *pipe* friendly. For example, the following
-works:
+Note that most functions are *pipe* friendly. For examples:
 
 ``` r
 # Using R >= 4.1

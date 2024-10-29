@@ -82,15 +82,15 @@
 
 
 <dl><dt id="arg-dat">dat<a class="anchor" aria-label="anchor" href="#arg-dat"></a></dt>
-<dd><p>Vector of values, or a dataframe.</p></dd>
+<dd><p>Single continuous variable vector, or a dataframe.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Column of values if <code>dat</code> is a dataframe, ignored otherwise.</p></dd>
+<dd><p>Continuous variable if <code>dat</code> is a dataframe, ignored otherwise.</p></dd>
 
 
 <dt id="arg-grp">grp<a class="anchor" aria-label="anchor" href="#arg-grp"></a></dt>
-<dd><p>Column of grouping variables if <code>dat</code> is a dataframe, ignored
+<dd><p>Categorical Variable if <code>dat</code> is a dataframe, ignored
 otherwise.</p></dd>
 
 
@@ -138,7 +138,7 @@ function.</p></dd>
 
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
-<dd><p>Point side.</p></dd>
+<dd><p>Point size.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
@@ -161,19 +161,19 @@ ranging from 21-25).</p></dd>
 
 
 <dt id="arg-col-ends">col.ends<a class="anchor" aria-label="anchor" href="#arg-col-ends"></a></dt>
-<dd><p>Fill color for ends of the Normal distribution.</p></dd>
+<dd><p>Fill color for tail-ends of the distribution.</p></dd>
 
 
 <dt id="arg-col-mid">col.mid<a class="anchor" aria-label="anchor" href="#arg-col-mid"></a></dt>
-<dd><p>Fill color for middle band of the Normal distribution.</p></dd>
+<dd><p>Fill color for mid-portion of the distribution.</p></dd>
 
 
 <dt id="arg-col-ends-dens">col.ends.dens<a class="anchor" aria-label="anchor" href="#arg-col-ends-dens"></a></dt>
-<dd><p>Fill color for ends of the density distribution.</p></dd>
+<dd><p>Fill color for tail-ends of the density distribution.</p></dd>
 
 
 <dt id="arg-col-mid-dens">col.mid.dens<a class="anchor" aria-label="anchor" href="#arg-col-mid-dens"></a></dt>
-<dd><p>Fill color for middle band of the density distribution.</p></dd>
+<dd><p>Fill color for mid-portion of the density distribution.</p></dd>
 
 
 <dt id="arg-offset">offset<a class="anchor" aria-label="anchor" href="#arg-offset"></a></dt>
@@ -204,12 +204,12 @@ right side plots. Ignored if <code>dens</code> is <code>FALSE</code>.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function will generate a violin plot from the data.  It
-  implements the internal <code>density</code> function when generating the shape of the
+  implements the <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">stats::density</a></code> function when generating the shape of the
   plots. As such the <code>bw</code> and <code>kernel</code> arguments are passed on to
-  the <code>density</code> function.<br><br>
+  the <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">stats::density</a></code> function.<br><br>
   The plots have two fill colors: one for the inner band and the other for
   the outer band. The inner band shows the area of the curve that encompasses
-  the desired fraction of values defined by <code>inner</code>. By default, this
+  the desired fraction of mid-values defined by <code>inner</code>. By default, this
   value is 0.6826, or 68.26% (this is roughly the percentage of values
   covered by +/- 1 standard deviations of a Normal distribution). The range
   is computed from the actual values and not from a fitted normal
@@ -306,7 +306,7 @@ right side plots. Ignored if <code>dens</code> is <code>FALSE</code>.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
 </div>
 
     </footer></div>

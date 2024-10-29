@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_lsum.R
 \name{eda_lsum}
 \alias{eda_lsum}
-\title{Tukey's letter value summaries}
+\title{Tukey's letter value summary}
 \usage{
 eda_lsum(x, l = 5, all = TRUE)
 }
@@ -15,7 +15,7 @@ eda_lsum(x, l = 5, all = TRUE)
 mid summaries if FALSE}
 }
 \value{
-Returns a dataframe of letter value summaries.
+Returns a dataframe of letter value summary.
 }
 \description{
 \code{eda_lsum} The letter value summary was introduced by John
@@ -24,7 +24,7 @@ the batch for depth levels other than the half (median) or the fourth
 (quartiles).
 }
 \details{
-Outputs a data frame of letter value summaries.
+Outputs a data frame of letter value summary.
 }
 \examples{
 x <- c(22, 8, 11, 3, 26, 1, 14, 18, 20, 25, 24)

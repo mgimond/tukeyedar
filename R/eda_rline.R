@@ -12,8 +12,9 @@
 #' @param px  Power transformation to apply to the x-variable.
 #' @param py  Power transformation to apply to the y-variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted.
+#'    (FALSE adopts a Box-Cox transformation)
 #' @param maxiter Maximum number of iterations to run.
-#'   (FALSE adopts a Box-Cox transformation)
+#'
 #'
 #' @return Returns a list of class \code{eda_rline} with the following named
 #'   components:
@@ -41,8 +42,8 @@
 #'   built-in \code{stat::line} function in its fitting strategy but it outputs
 #'   additional parameters.
 #'
-#'   \cr See the accompanying vignette \code{Resistant Line} for a detailed
-#'   breakdown of the resistant line technique.
+#'   \cr See the accompanying \href{../articles/RLine.html}{resistant line
+#'   article} for a detailed breakdown of the resistant line technique.
 #'
 #' @references
 #'   \itemize{

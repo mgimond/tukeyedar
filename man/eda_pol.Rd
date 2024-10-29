@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_pol.R
 \name{eda_pol}
 \alias{eda_pol}
-\title{Polish two-way tables}
+\title{Median polish of two-way tables}
 \usage{
 eda_pol(
   x,
@@ -95,9 +95,9 @@ A list of class \code{eda_polish} with the following named
 }
 \details{
 The function performs a polish on a two way table. By default, it
-  applies a median polish, but other statistical summaries such as the mean
-  can be passed to the function via the \code{stat = } parameter. The
-  function returns a list of row/column effects along with global and
+  applies a median polish, but other statistical summaries such
+  as the mean can be passed to the function via the \code{stat = } argument.
+  The function returns a list of row/column effects along with global and
   residual values. It will also generate a colored table if \code{plot =
   TRUE}.
 }
@@ -109,4 +109,9 @@ perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
 
 M <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE)
 plot(M)
+}
+\references{
+\itemize{
+  \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley
+  \item \href{../articles/polish.html}{Median polish article}}
 }

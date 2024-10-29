@@ -34,11 +34,11 @@ eda_viol(
 )
 }
 \arguments{
-\item{dat}{Vector of values, or a dataframe.}
+\item{dat}{Single continuous variable vector, or a dataframe.}
 
-\item{x}{Column of values if \code{dat} is a dataframe, ignored otherwise.}
+\item{x}{Continuous variable if \code{dat} is a dataframe, ignored otherwise.}
 
-\item{grp}{Column of grouping variables if \code{dat} is a dataframe, ignored
+\item{grp}{Categorical Variable if \code{dat} is a dataframe, ignored
 otherwise.}
 
 \item{p}{Power transformation to apply to all values.}
@@ -66,7 +66,7 @@ function.}
 
 \item{pch}{Point symbol type.}
 
-\item{size}{Point side.}
+\item{size}{Point size.}
 
 \item{alpha}{Fill transparency (0 = transparent, 1 = opaque). Only applicable
 if \code{rgb()} is not used to define fill colors.}
@@ -79,13 +79,13 @@ ranging from 21-25).}
 \item{grey}{Grey level to apply to plot elements such as axes, labels, etc...
 (0 to 1 with 1 = black).}
 
-\item{col.ends}{Fill color for ends of the Normal distribution.}
+\item{col.ends}{Fill color for tail-ends of the distribution.}
 
-\item{col.mid}{Fill color for middle band of the Normal distribution.}
+\item{col.mid}{Fill color for mid-portion of the distribution.}
 
-\item{col.ends.dens}{Fill color for ends of the density distribution.}
+\item{col.ends.dens}{Fill color for tail-ends of the density distribution.}
 
-\item{col.mid.dens}{Fill color for middle band of the density distribution.}
+\item{col.mid.dens}{Fill color for mid-portion of the density distribution.}
 
 \item{offset}{A value (in x-axis units) that defines the gap between left and
 right side plots. Ignored if \code{dens} is \code{FALSE}.}
@@ -106,13 +106,13 @@ Does not return a value.
 }
 \details{
 This function will generate a violin plot from the data.  It
-  implements the internal \code{density} function when generating the shape of the
+  implements the \code{stats::density} function when generating the shape of the
   plots. As such the \code{bw} and \code{kernel} arguments are passed on to
-  the \code{density} function.\cr
+  the \code{stats::density} function.\cr
   \cr
   The plots have two fill colors: one for the inner band and the other for
   the outer band. The inner band shows the area of the curve that encompasses
-  the desired fraction of values defined by \code{inner}. By default, this
+  the desired fraction of mid-values defined by \code{inner}. By default, this
   value is 0.6826, or 68.26\% (this is roughly the percentage of values
   covered by +/- 1 standard deviations of a Normal distribution). The range
   is computed from the actual values and not from a fitted normal

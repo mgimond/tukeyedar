@@ -17,10 +17,10 @@ eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20)
 
 \item{py}{Power transformation to apply to the y-variable.}
 
-\item{tukey}{Boolean determining if a Tukey transformation should be adopted.}
-
-\item{maxiter}{Maximum number of iterations to run.
+\item{tukey}{Boolean determining if a Tukey transformation should be adopted.
 (FALSE adopts a Box-Cox transformation)}
+
+\item{maxiter}{Maximum number of iterations to run.}
 }
 \value{
 Returns a list of class \code{eda_rline} with the following named
@@ -55,8 +55,8 @@ This is an R implementation of the \code{RLIN.F} FORTRAN code in
   built-in \code{stat::line} function in its fitting strategy but it outputs
   additional parameters.
 
-  \cr See the accompanying vignette \code{Resistant Line} for a detailed
-  breakdown of the resistant line technique.
+  \cr See the accompanying \href{../articles/RLine.html}{resistant line
+  article} for a detailed breakdown of the resistant line technique.
 }
 \examples{
 

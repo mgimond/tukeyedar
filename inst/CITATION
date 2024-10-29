@@ -5,7 +5,7 @@ citEntry(
   title    = "tukeyedar: A package of Tukey inspired EDA functions",
   author   = as.person("Manuel Gimond"),
   url      = "https://mgimond.github.io/tukeyedar/",
-  year     = "2021",
+  year     = "2024",
   textVersion = "text"
 
 )

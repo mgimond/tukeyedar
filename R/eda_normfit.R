@@ -1,14 +1,14 @@
 #' @export
 #' @import grDevices
 #' @importFrom utils modifyList
-#' @title Normal fit vs density plot.
+#' @title Normal fit vs density plot
 #'
 #' @description \code{eda_normfit} generates a fitted Normal distribution to the
 #'   data with the option to compare it to a density distribution.
 #'
-#' @param dat Vector of values, or a dataframe.
-#' @param x  Column of values if \code{dat} is a dataframe, ignored otherwise.
-#' @param grp Column of grouping variables if \code{dat} is a dataframe, ignored
+#' @param dat Vector of continuous values, or a dataframe.
+#' @param x  Continuous value column if \code{dat} is a dataframe, ignored otherwise.
+#' @param grp Categorical variable column if \code{dat} is a dataframe, ignored
 #'   otherwise.
 #' @param p  Power transformation to apply to all values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
@@ -25,7 +25,7 @@
 #' @param kernel Kernel parameter passed to the \code{density()}
 #'   function.
 #' @param pch Point symbol type.
-#' @param size Point side.
+#' @param size Point size.
 #' @param alpha Fill transparency (0 = transparent, 1 = opaque). Only applicable
 #'   if \code{rgb()} is not used to define fill colors.
 #' @param p.col Color for point symbol.
@@ -33,8 +33,8 @@
 #'   ranging from 21-25).
 #' @param grey Grey level to apply to plot elements such as axes, labels, etc...
 #'   (0 to 1 with 1 = black).
-#' @param col.ends Fill color for ends of the Normal distribution.
-#' @param col.mid Fill color for middle band of the Normal distribution.
+#' @param col.ends Fill color for tail-ends of the Normal distribution.
+#' @param col.mid Fill color for \code{inner} region of the Normal distribution.
 #' @param col.ends.dens Fill color for ends of the density distribution.
 #' @param col.mid.dens Fill color for middle band of the density distribution.
 #' @param offset A value (in x-axis units) that defines the gap between left and
@@ -46,7 +46,7 @@
 #'
 #' @return Does not return a value.
 #'
-#' @details This function will generate a (symmetrical) Normal distribution
+#' @details This function will generate a mirrored Normal distribution
 #'   fitted to the data if \code{dens} is set to \code{FALSE} or a side-by-side
 #'   density/Normal fit plot if \code{dens} is set to \code{TRUE}. If the
 #'   latter, the density plot will be on the left side and the Normal fit will
@@ -71,8 +71,8 @@
 #'   curves. \cr
 #'   \cr
 #'   Measures of centrality are computed differently for the Normal fit and
-#'   density plots. The mean is computed for the Normal fit plot and the median
-#'   is computed for the density plot. These measures of centrality are shown as
+#'   density plots. The mean is added to the Normal fit plot and the median
+#'   is added to the density plot. These measures of centrality are shown as
 #'   black horizontal lines in the plot.\cr
 #'   \cr
 #'   The areas under the density and Normal fit plots are scaled to their

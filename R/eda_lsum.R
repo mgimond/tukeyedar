@@ -1,5 +1,5 @@
 #' @export
-#' @title Tukey's letter value summaries
+#' @title Tukey's letter value summary
 #'
 #' @description \code{eda_lsum} The letter value summary was introduced by John
 #' Tukey and extends the boxplot's 5 number summary by exploring the symmetry of
@@ -11,9 +11,9 @@
 #' @param all Generate upper, lower and mid summaries if TRUE or just generate
 #'   mid summaries if FALSE
 #'
-#' @return Returns a dataframe of letter value summaries.
+#' @return Returns a dataframe of letter value summary.
 #'
-#' @details Outputs a data frame of letter value summaries.
+#' @details Outputs a data frame of letter value summary.
 #'
 #' @seealso \url{https://mgimond.github.io/ES218/letter_values.html}
 #'

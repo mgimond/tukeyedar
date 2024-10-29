@@ -1,5 +1,5 @@
 #' @export
-#' @title Polish two-way tables
+#' @title Median polish of two-way tables
 #'
 #' @description \code{eda_pol} Polishes two-way tables using median, means, or
 #'   any customizable functions.
@@ -46,11 +46,17 @@
 #' \item \code{IQ_col}  Ratio between interquartile column effect values and 80th quantile of residuals.}
 #'
 #' @details The function performs a polish on a two way table. By default, it
-#'   applies a median polish, but other statistical summaries such as the mean
-#'   can be passed to the function via the \code{stat = } parameter. The
-#'   function returns a list of row/column effects along with global and
+#'   applies a median polish, but other statistical summaries such
+#'   as the mean can be passed to the function via the \code{stat = } argument.
+#'   The function returns a list of row/column effects along with global and
 #'   residual values. It will also generate a colored table if \code{plot =
 #'   TRUE}.
+#'
+#' @references
+#'
+#' \itemize{
+#'   \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley
+#'   \item \href{../articles/polish.html}{Median polish article}}
 #'
 #' @examples
 #' df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),

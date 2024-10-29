@@ -2,20 +2,22 @@
 #' @import grDevices
 #' @import lattice
 #' @importFrom utils modifyList
-#' @title Quantile-Quantile plot, mean-difference Tukey plot, and symmetry QQ
-#' plot
+#' @title Quantile-Quantile plot, Quantile-Normal plot, Tukey mean-difference
+#' plot, and symmetry Quantile-Quantile plot
 #'
-#' @description \code{eda_qq} Generates an empirical or Normal QQ plot as well
-#' as a Tukey mean-difference plot. Can also be used to generate a symmetry QQ
-#' plot.
+#' @description \code{eda_qq} Generates an empirical,  Normal,
+#'  symmetry or Tukey mean-difference plot
 #'
-#' @param x  Vector for first variable or a dataframe.
-#' @param y  Vector for second variable or column defining the continuous
-#'   variable if \code{x} is a dataframe.
-#' @param fac Column defining the grouping variable if \code{x} is a dataframe.
+#' @param x  Vector for first variable, or a dataframe.
+#' @param y  Vector for second variable, or column defining the continuous
+#'   variable if \code{x} is a dataframe. Ignored if \code{x} is a vector and
+#'   either \code{norm=TRUE} or \code{sym=TRUE}.
+#' @param fac Column defining the categorical variable if \code{x} is a
+#' dataframe. Ignored if \code{x} is a vector and either \code{norm=TRUE} or
+#' \code{sym=TRUE}.
 #' @param norm Boolean determining if a Normal QQ plot is to be generated.
 #' @param sym Boolean determining if a symmetry QQ plot is to be generated.
-#' @param p  Power transformation to apply to both sets of values.
+#' @param p  Power transformation to apply to continuous variable(s).
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
@@ -37,20 +39,21 @@
 #' @param tail.pch Tail-end point symbol type (See \code{tails}).
 #' @param tail.p.col Tail-end color for point symbol (See \code{tails}).
 #' @param tail.p.fill Tail-end point fill color passed to \code{bg}
-#'   (Only used for \code{pch} ranging from 21-25).
+#'   (Only used for \code{tail.pch} ranging from 21-25).
 #' @param size Point size (0-1)
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param med Boolean determining if median lines should be drawn.
-#' @param q Boolean determining if grey quantile boxes should be plotted.
-#' @param inner Fraction of mid-values to display in the quantile box. Defaults
-#'   to the 75\%. This parameter is also used to identify which of the outer
-#'   points are to be symbolized as tail-end points.
+#' @param q Boolean determining if \code{inner} data region should be shaded.
+#' @param inner Fraction of the data considered as "mid values". Defaults to
+#'  75\%. Used  to define shaded region boundaries, \code{q}, or to identify
+#'  which of the tail-end points are to be symbolized differently, \code{tails}.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
 #'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
-#' @param switch Boolean determining if the axes should be swapped. Only applies
-#'   to dataframe input. Ignored if vectors are passed to the function.
+#' @param switch Boolean determining if the axes should be swapped in an
+#'  empirical QQ plot. Only applies to dataframe input. Ignored if vectors are
+#'  passed to the function or if \code{sym=TRUE} or if \code{norm=TRUE}
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param title Title to add to plot.
@@ -58,12 +61,14 @@
 #' @param ... Not used
 #'
 #' @details When the function is used to generate an empirical QQ plot, the plot
-#'   will displays the inner 75\% of the data via grey boxes for both x and y
-#'   values. The inner values can be changed via the  \code{inner} argument. Its
-#'   purpose is to prevent tail-end values from disproportionately biasing our
-#'   interpretation of the distributions. If the shaded regions are too
-#'   distracting, you can opt to have the tail-end points symbolized differently
-#'   by setting \code{tails = TRUE} and \code{q = FALSE}.
+#'   will highlight the inner 75\% of the data via a shaded region for both x
+#'   and y variables. The inner range can be changed via the  \code{inner}
+#'   argument. Its purpose is to prevent tail-end values from disproportionately
+#'   biasing our interpretation of the distributions.  If the shaded regions are
+#'   too distracting, you can opt to have the tail-end points symbolized differently
+#'   by setting \code{tails = TRUE} and \code{q = FALSE}. The \code{inner} value
+#'   has no impact in the computation of the quantile values.\cr
+#'   \cr
 #'   The middle dashed line represents each batch's median value.\cr
 #'   \cr
 #'   Console output prints the suggested multiplicative and additive offsets.
@@ -71,7 +76,7 @@
 #'   \cr
 #'   The function can generate a Normal QQ plot when the
 #'   \code{norm} argument is set to  \code{TRUE}.
-#'   Note that for the Normal QQ plot the "suggested offsets" output is
+#'   Note that for the Normal QQ plot, the "suggested offsets" output is
 #'   disabled, nor can you generate an M-D version of the Normal QQ plot.
 #'   Also note that the formula argument is ignored in this mode.\cr
 #'   \cr
@@ -80,13 +85,12 @@
 #'   symmetry of a variable by splitting it into two halves, upper and lower,
 #'   using the batch's median as the cutoff point. The values for each half are
 #'   the distances of each observation to the median value in \code{x}'s units.
-#'   The distance starts at 0 in the bottom-left corner of the plot. The grey
-#'   box width, \code{inner},  will be
-#'   measured from the origin given that the batch's center of mass is at 0.
-#'   Power transformations can be applied to \code{x} but any formula passed
-#'   via \code{fx} or \code{fy} is ignored. This plot is inspired from the
-#'   symmetry plot described by Chambers et al. in section 2.8 of their book
-#'   (see reference).
+#'   The distance starts at 0 in the bottom-left corner of the plot. The shaded
+#'   region \code{inner},  will be measured from the origin given that the
+#'   batch's center of mass is at 0. Power transformations can be applied to
+#'   \code{x} but any formula passed via \code{fx} or \code{fy} is ignored.
+#'   This plot is inspired from the symmetry plot described by Chambers et al.
+#'   in section 2.8 of their book (see reference).
 #'
 #' @returns Returns a list with the following components:
 #'
@@ -102,7 +106,9 @@
 #'
 #' \itemize{
 #'   \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-#'   Graphical Methods for Data Analysis (1983)}
+#'   Graphical Methods for Data Analysis (1983)
+#'   \item \href{../articles/qq.html}{Quantile-Quantile plot article}
+#'   \item \href{../articles/symqq.html}{Symmetry quantile plot article}}
 #'
 #' @examples
 #'

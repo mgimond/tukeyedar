@@ -2,20 +2,21 @@
 #' @import grDevices
 #' @import grid
 #' @importFrom utils modifyList
-#' @title Matrix QQ plot
+#' @title QQ plot matrix
 #'
 #' @description \code{eda_qqmat} Generates a matrix of empirical QQ plots
 #'
-#' @param dat  Data frame
-#' @param x    Column name assigned to the values
-#' @param fac  Column name assigned to the factor the values are to be
-#' conditioned on
-#' @param p  Power transformation to apply to both sets of values.
+#' @param dat  Data frame.
+#' @param x    Continuous variable.
+#' @param fac  Categorical variable.
+#' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
 #'   algorithms. (See \code{quantile}tile function).
-#' @param diag  Boolean determining if upper diagonal should be plotted
+#' @param diag  Boolean determining if both upper and lower triangular matrix
+#' should be plotted. If set to \code{FALSE}, only the lower triangular matrix
+#' is plotted.
 #' @param xylim X and Y axes limits.
 #' @param resid Boolean determining if residuals should be plotted. Residuals
 #'   are computed using the \code{stat} parameter.
@@ -30,17 +31,17 @@
 #' @param tail.pch Tail-end point symbol type (See \code{tails}).
 #' @param tail.p.col Tail-end color for point symbol (See \code{tails}).
 #' @param tail.p.fill Tail-end point fill color passed to \code{bg}
-#'   (Only used for \code{pch} ranging from 21-25).
-#' @param size Point symbol size (0-1)
+#'   (Only used for \code{tail.pch} ranging from 21-25).
+#' @param size Point symbol size (0-1).
 #' @param tic.size Size of tic labels (defaults to 0.8).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param med Boolean determining if median lines should be drawn.
 #' @param q Boolean determining if grey box highlighting the \code{inner}
-#'   should be displayed.
+#'   region should be displayed.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
-#'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
+#'  \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 75\% of values.
 #' @param text.size Size for category text in diagonal box.
@@ -49,12 +50,12 @@
 #' @details The function will generate an empirical QQ plot matrix from a
 #' dataframe of continuous values and matching categories. The function is
 #' designed to place emphasis on the mid portion of the data. The mid portion
-#' range is defined by \code{inner} (the inner fraction of the data. By default,
-#' the points outside of the middle region are symbolized differently. You can
-#' also highlight the mid region in light grey by setting \code{q = TRUE}. The
-#' median of both batches are shown in vertical and horizontal dashed lines.For
-#' a plain vanilla QQ plot matrix you can remove all guides by setting
-#' \code{tails = FALSE} and  \code{mid = FALSE}.
+#' range is defined by \code{inner} (the inner fraction of the data). By default,
+#' the points outside of the mid portion of the data are symbolized differently.
+#' You can also highlight the mid region in light grey by setting
+#' \code{q = TRUE}. The median of both batches are shown in vertical and
+#' horizontal dashed lines. For a plain vanilla QQ plot matrix you can remove
+#' all guides by setting \code{tails = FALSE} and  \code{mid = FALSE}.
 #'
 #' The QQ plot matrix is most effective in comparing residuals after the data
 #' are fitted by the mean or median. To plot the residuals, set
@@ -85,7 +86,7 @@
 #' singer <- lattice::singer
 #' eda_qqmat(singer, height, voice.part)
 #'
-#' # Limit to bottom diagonal
+#' # Limit to lower triangular matrix
 #' eda_qqmat(singer, height, voice.part, diag = FALSE)
 #'
 #' # Plot residuals after fitting mean model
@@ -223,7 +224,7 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5, diag = TRU
       x <- unlist(lst[i])
       y <- unlist(lst[j])
 
-      # Check if only lower diagonal should be plotted
+      # Check if only lower triangular matrix.
       if(diag == TRUE | ii <= jj){
         # Center on mean or median if requested
         if (resid == TRUE){

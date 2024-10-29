@@ -27,7 +27,8 @@
 #' @details
 #'  \itemize{
 #'   \item Note that this function is not to be confused with William Cleveland's
-#'   spread-location function.\cr
+#'   spread-location function. A descripion of this plot can be found on page
+#'   77 of *Hoaglan et. al's* book.\cr
 #'   \item If \code{fac} is not categorical, the output will produce many or all NA's.
 #'   \item On page 59, Hoaglan et. al define the fourth-spread as the the range
 #'   defined by the upper fourth and lower fourth. The \code{eda_lsum} function is used
@@ -37,11 +38,11 @@
 #' @references Understanding Robust and Exploratory Data Analysis, Hoaglin,
 #' David C., Frederick Mosteller, and John W. Tukey, 1983.
 #' @examples
-#' dat <- read.csv("http://mgimond.github.io/ES218/Data/Food_web.csv")
-#' sl <- eda_sl(dat, mean.length, dimension)
+#' sl <- eda_sl(iris, Petal.Length, Species)
 #'
 #' # The output can be passed to a model fitting function like eda_lm
 #' # The output slope can be used to help identify a power transformation
+#' # The suggested power transformation is 1 - slope.
 #' eda_lm(sl, Level, Spread)
 #'
 

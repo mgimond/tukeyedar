@@ -8,7 +8,7 @@
 #'
 #' @param dat An eda_lm model, an lm model or a dataframe of univariate data.
 #' @param x   Column of values if \code{dat} is a dataframe, ignored otherwise.
-#' @param grp Column of grouping variables if \code{dat} is a dataframe, ignored
+#' @param grp Column of categorical variable if \code{dat} is a dataframe, ignored
 #'   otherwise.
 #' @param p  Power transformation to apply to univariate data. Ignored if linear
 #'   model is passed to function.
@@ -20,9 +20,8 @@
 #'   values around 0. The \code{stat} parameter is also used for fitting
 #'   univariate values (i.e. for summarizing groups). \code{stat} can be either
 #'   \code{mean} or \code{median}.
-#' @param inner Fraction of values that should be captured by the inner color
-#'   band of the normal and density plots. Defaults to 0.9 (inner 90\% of
-#'   values).
+#' @param inner Fraction of values that should be captured by the shaded region.
+#'   Defaults to inner 90\% of values.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -33,7 +32,7 @@
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
 #' @param ylim Define custom y axis limits.
-#' @param bar Boolean determining if spread comparison stacked bar should be
+#' @param bar Boolean determining if spread comparison stacked bars should be
 #'   plotted.
 #'
 #' @return {No values are returned}
@@ -51,35 +50,28 @@
 #' \cr
 #' The \code{q} argument, when set to \code{TRUE}, will add a shaded region to
 #' the residual quantile plot highlighting the mid portion of the data defined
-#' by the \code{inner} argument (set to 90% of the mid values, by default). The
+#' by the \code{inner} argument (set to 90\% of the mid values, by default). The
 #' range defined by the mid portion of the data is highlighted in the left plot
 #' for comparison with the the full range defined by the fitted values. \cr
-#' \cr
-#' The \code{inner} argument is the fraction of mid values to display with the
-#' shaded region if \code{q = TRUE} and the fraction used to define the
-#' residual's spread in the console output.\cr
 #' \cr
 #' The \code{bar} option, when set to \code{TRUE}, adds a narrow stacked barplot
 #' that compares the spread covered by the residuals (red bar) with the spread
 #' covered by the fitted values (green bar). The residual spread is computed
 #' for the portion of the residuals defined by the \code{inner} argument. The
 #' values outputted in the console are those used in computing the vertical
-#' bars.\cr
-#' \cr
-#' A stacked bar plot (\code{bar = TRUE}) can be added to the plot to highlight
-#' the relative spreads between fitted values and residuals. Note that the
-#' residual spread is defined by the \code{inner} argument. The red bar is
-#' the relative spread of the residuals and the green bar is the relative
-#' spread of the fitted values. The stacked bar plot can be helpful in quickly
-#' gauging the effect the fitted values have in explaining the variability in
-#' the data. The longer the green bar relative to the red bar, the greater the
-#' grouping variable's (for univariate data) or linear model's (for bivariate
-#' data) effect in minimizing the uncertainty in the estimated value.
+#' bars. The red bar is the relative spread of the residuals and the green bar
+#' is the relative spread of the fitted values. The stacked bar plot can be
+#' helpful in quickly gauging the effect the fitted values have in explaining
+#' the variability in the data. The longer the green bar relative to the red
+#' bar, the greater the grouping variable's (for univariate data) or linear
+#' model's (for bivariate data) effect in minimizing the uncertainty in the
+#' estimated value.
 #'
 #' @references
 #'
 #' \itemize{
-#'   \item William S. Cleveland. Visualizing Data. Hobart Press (1993)}
+#'   \item William S. Cleveland. Visualizing Data. Hobart Press (1993)
+#'   \item \href{../articles/rfs.html}{Residual-fit spread article}}
 #'
 #' @examples
 #'
