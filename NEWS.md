@@ -1,4 +1,4 @@
-# tukeyedar 0.2.7
+# tukeyedar 0.3.0
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
 *  Added the `eda_viol` function that generates a violin plot.
 *  Added the `eda_jitter` function that generates a jitter plot from univariate datasets.

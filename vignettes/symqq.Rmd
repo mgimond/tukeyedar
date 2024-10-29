@@ -34,8 +34,12 @@ knitr::opts_chunk$set(echo = TRUE, dev.args=list(pointsize=10))
 
 The symmetry QQ plot is inspired by Chambers *et al.*'s **symmetry plot** which pairs the quantiles of the lower half of a batch of values with matching quantiles of the batch's upper half of values. The median value is used to define the halves as follows:
 
+
 $$
-lower\ half = median - x_i \\
+lower\ half = median - x_i
+$$
+
+$$
 upper\ half = x_{n+1-i} - median
 $$
 

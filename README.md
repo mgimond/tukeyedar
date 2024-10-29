@@ -54,6 +54,8 @@ accessed from this website:
   plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
 - [The symmetry QQ
   plot](https://mgimond.github.io/tukeyedar/articles/symqq.html)
+- [The residual-fit spread
+  plot](https://mgimond.github.io/tukeyedar/articles/rfs.html)
 
 If you chose to have the vignettes locally created when you installed
 the package, then you can view them locally via
