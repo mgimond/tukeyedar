@@ -41,7 +41,7 @@ eda_lm(
 )
 }
 \arguments{
-\item{dat}{Data frame.}
+\item{dat}{Dataframe.}
 
 \item{x}{Column assigned to the x axis.}
 
@@ -148,11 +148,11 @@ The function will plot a regression line and, if requested, a loess
   theory, if both x and y values follow a perfectly Normal distribution,
   roughly 68 percent of the points should fall in between these lines.
   \cr \cr
-  The true 68 percent of values can be displayed as grey rectangles by
+  The true 68 percent of values can be displayed as a shaded region by
   setting \code{q=TRUE}. It uses the \code{quantile} function to compute
   the upper and lower bounds defining the inner 68 percent of values. If the
   data follow a Normal distribution, the grey rectangle edges should coincide
-  with the +/- 1SD dashed lines.\cr
+  with the +/- 1SD dashed lines.
   If you wish to show the interquartile ranges (IQR) instead of the inner
   68 percent of values, simply set \code{q.val = c(0.25,0.75)}.
   \cr \cr
@@ -162,12 +162,11 @@ The function will plot a regression line and, if requested, a loess
    removed from the plot. This will result in fewer observations being
    plotted. If observations are removed as result of a re-expression a
    warning message will be displayed in the console.
-   \cr
-   There-expression powers are shown in the upper right side of the plot. To
+   The re-expression powers are shown in the upper right side of the plot. To
   suppress the display of the re-expressions set \code{show.par = FALSE}.
   \cr\cr
   If the \code{robust} argument is set to TRUE, \code{MASS}'s
-  built-in robust fitting model, \code{rlm} is used to fit the regression
+  built-in robust fitting model, \code{rlm}, is used to fit the regression
   line to the data. \code{rlm} arguments can be passed as a list via the
   \code{rlm.d} argument.
 }
@@ -182,7 +181,7 @@ eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE)
 # Show the IQR box
 eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, q.val = c(0.25,0.75))
 
-# Fit an OLS to the Income for Female vs Male
+# Fit an OLS to income for Female vs Male
 df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
 eda_lm(df2, x=B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             loe = TRUE)
@@ -199,7 +198,7 @@ eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
 eda_lm(mtcars, hp, mpg, poly = 2)
 
 # Fit a robust regression model
-eda_lm(mtcars, hp, mpg, robust = TRUE)
+eda_lm(mtcars, hp, mpg, robust = TRUE, poly = 2)
 }
 \seealso{
 \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
