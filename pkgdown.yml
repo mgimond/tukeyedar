@@ -4,9 +4,10 @@ pkgdown_sha: ~
 articles:
   polish: polish.html
   qq: qq.html
+  rfs: rfs.html
   RLine: RLine.html
   symqq: symqq.html
-last_built: 2024-09-24T19:26Z
+last_built: 2024-10-30T15:26Z
 urls:
   reference: https://mgimond.github.io/tukeyedar/reference
   article: https://mgimond.github.io/tukeyedar/articles

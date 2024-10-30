@@ -25,7 +25,7 @@ direction of re-expression for both X and Y values on the ladder of powers."></h
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,7 @@ direction of re-expression for both X and Y values on the ladder of powers."></h
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
     <li><a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a></li>
+    <li><a class="dropdown-item" href="../articles/rfs.html">The residual-fit spread plot</a></li>
     <li><a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a></li>
     <li><a class="dropdown-item" href="../articles/symqq.html">The symmetry QQ plot</a></li>
   </ul></li>
@@ -100,28 +101,28 @@ direction of re-expression for both X and Y values on the ladder of powers.</p>
 
 
 <dl><dt id="arg-dat">dat<a class="anchor" aria-label="anchor" href="#arg-dat"></a></dt>
-<dd><p>Data frame</p></dd>
+<dd><p>Dataframe.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Column name assigned the x axis</p></dd>
+<dd><p>Variable assigned the x axis.</p></dd>
 
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
-<dd><p>Column name assigned the y axis</p></dd>
+<dd><p>Variable assigned the y axis.</p></dd>
 
 
 <dt id="arg-px">px<a class="anchor" aria-label="anchor" href="#arg-px"></a></dt>
-<dd><p>Power transformation to apply to the x-variable</p></dd>
+<dd><p>Power transformation to apply to the x-variable.</p></dd>
 
 
 <dt id="arg-py">py<a class="anchor" aria-label="anchor" href="#arg-py"></a></dt>
-<dd><p>Power transformation to apply to the y-variable</p></dd>
+<dd><p>Power transformation to apply to the y-variable.</p></dd>
 
 
 <dt id="arg-tukey">tukey<a class="anchor" aria-label="anchor" href="#arg-tukey"></a></dt>
 <dd><p>Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)</p></dd>
+(FALSE adopts a Box-Cox transformation).</p></dd>
 
 
 <dt id="arg-axes">axes<a class="anchor" aria-label="anchor" href="#arg-axes"></a></dt>
@@ -129,11 +130,11 @@ direction of re-expression for both X and Y values on the ladder of powers.</p>
 
 
 <dt id="arg-pch">pch<a class="anchor" aria-label="anchor" href="#arg-pch"></a></dt>
-<dd><p>Point symbol type</p></dd>
+<dd><p>Point symbol type.</p></dd>
 
 
 <dt id="arg-equal">equal<a class="anchor" aria-label="anchor" href="#arg-equal"></a></dt>
-<dd><p>Boolean determining if axes lengths should match (i.e. squate
+<dd><p>Boolean determining if axes lengths should match (i.e. square
 plot).</p></dd>
 
 
@@ -147,7 +148,7 @@ ranging from 21-25).</p></dd>
 
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
-<dd><p>Point size (0-1)</p></dd>
+<dd><p>Point size (0-1).</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
@@ -156,20 +157,20 @@ if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rg
 
 
 <dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
-<dd><p>X label for output plot</p></dd>
+<dd><p>X label for output plot.</p></dd>
 
 
 <dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
-<dd><p>Y label for output plot</p></dd>
+<dd><p>Y label for output plot.</p></dd>
 
 
 <dt id="arg-dir">dir<a class="anchor" aria-label="anchor" href="#arg-dir"></a></dt>
 <dd><p>Boolean indicating if suggested ladder of power direction should
-be displayed</p></dd>
+be displayed.</p></dd>
 
 
 <dt id="arg-grey">grey<a class="anchor" aria-label="anchor" href="#arg-grey"></a></dt>
-<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black)</p></dd>
+<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black).</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

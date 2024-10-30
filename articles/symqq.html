@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
     <li><a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a></li>
+    <li><a class="dropdown-item" href="../articles/rfs.html">The residual-fit spread plot</a></li>
     <li><a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a></li>
     <li><a class="dropdown-item" href="../articles/symqq.html">The symmetry QQ plot</a></li>
   </ul>
@@ -63,7 +64,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-09-24</h4>
+            <h4 data-toc-skip class="date">2024-10-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/vignettes/symqq.Rmd" class="external-link"><code>vignettes/symqq.Rmd</code></a></small>
       <div class="d-none name"><code>symqq.Rmd</code></div>
@@ -79,10 +80,12 @@ Gimond</h4>
 half of a batch of values with matching quantiles of the batch’s upper
 half of values. The median value is used to define the halves as
 follows:</p>
-<p><span class="math display">$$
-lower\ half = median - y_i\\
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>w</mi><mi>e</mi><mi>r</mi><mspace width="0.222em"></mspace><mi>h</mi><mi>a</mi><mi>l</mi><mi>f</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">
+lower\ half = median - x_i
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>r</mi><mspace width="0.222em"></mspace><mi>h</mi><mi>a</mi><mi>l</mi><mi>f</mi><mo>=</mo><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">
 upper\ half = x_{n+1-i} - median
-$$</span></p>
+</annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
 is the number of values in
@@ -101,16 +104,18 @@ if
 is odd.</p>
 <p>The plot is interpreted no differently than a QQ plot. If the data
 are symmetrical about the batch’s median value, the points will hug the
-1:1 line. For example, given a batch of 1000 normally distributed values
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
+line. For example, given a batch of 1000 normally distributed values
 shown in the left density plot, we would expect the symmetry QQ plot to
-show the points very close to the 1:1 line as shown in the right
-plot.</p>
+show the points very close to the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
+line as shown in the right plot.</p>
 <p><img src="symqq_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
-<p>The axes show the distance of each observation in the batch to that
-batch’s median value. The units are those of the batch. Points that are
-close to 0 are those observations closest to the median. Points that are
-furthest from 0 are those that are at both tail ends of the
-distribution.</p>
+<p>The axes in the symmetry QQ plot show the distance of each
+observation in the batch to that batch’s median value. The units are
+those of the batch. Points that are close to 0 are those observations
+closest to the median. Points that are furthest from 0 are those that
+are at both tail ends of the distribution.</p>
 </div>
 <div class="section level2">
 <h2 id="the-symmetry-qq-plot-function">The symmetry QQ plot function<a class="anchor" aria-label="anchor" href="#the-symmetry-qq-plot-function"></a>
@@ -130,16 +135,14 @@ skewed towards large values).</p>
 <span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-4-1.png" width="288"></p>
 <p>If you are familiar with the use of <code>eda_qq</code> as an
-empirical QQ plot function, you are familiar with the grey boxes and
-dashed lines that highlight the IQR and mid 75 percent of the batch,
-respectively. Here, given that the x and y axes are mapping the lower
-and upper halves of the batch, the lower and upper parts of the IQR are
-bounded by <code>0</code> given that <code>0</code> is the central value
-of <code>x</code>. The dashed lines are to be interpreted similarly–75%
-of the values are to the left of the vertical dashed line and below the
-horizontal dashed line.</p>
-<p>In this example, the points do not hug the 1:1 line, especially
-outside of the IQR region–they curve upward away from the 1:1 line. This
+empirical QQ plot function, you are familiar with the grey boxes that
+highlight the mid 75% of the values. Here, given that the x and y axes
+are mapping the lower and upper halves of the batch, the lower part of
+the grey region is bounded by <code>0</code> given that <code>0</code>
+is the central value of <code>x</code>.</p>
+<p>In this example, the points do not hug the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
+line, even inside the inner 75% region defined by the grey region. This
 is to be expected given that we generated a right skewed dataset. For
 example, a point in the lower half of <code>x</code> that is about
 <code>1</code> unit away of the median has a matching quantile in the
@@ -159,28 +162,33 @@ using a power transformation. For example, if we wanted to render
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
 <p>Here, the square root transformation does a good job in rendering
-<code>x</code> more symmetrical. Note that the points do not hug the 1:1
+<code>x</code> more symmetrical. Note that the points do not hug the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
 exactly–this is fine. What we don’t want to see is a systematic bend in
-the points away from the 1:1 line. For example, if we were too
-aggressive with the power transformation and chose a log transformation
-(<code>p = 0</code>), we would end up with a left skewed batch of
-values.</p>
+the points away from the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
+line. For example, if we were too aggressive with the power
+transformation and chose a log transformation (<code>p = 0</code>), we
+would end up with a left skewed batch of values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" width="288"></p>
 <p>The symmetry QQ plot can leverage <code>eda_qq</code>’s built-in
 Tukey mean-difference plot (<code>md = TRUE</code>) if a finer grain
-resolution of the points vis-a-vis the 1:1 line is desired. Note that
-with the Tukey mean-difference plot, the x and y axes values are
-different, but this need not matter since we are simply leveraging this
-plot to help identify a power transformation that will give us a
-symmetrical distribution.</p>
+resolution of the points vis-a-vis the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
+line is desired. Note that with the Tukey mean-difference plot, the x
+and y axes values are different, but this need not matter since we are
+simply leveraging this plot to help identify a power transformation that
+will give us a symmetrical distribution in the points.</p>
 <p>Here is the original (untransformed) data in a Tukey mean-difference
 plot:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-7-1.png" width="288"></p>
-<p>The 1:1 line is now the horizontal black line centered on 0.</p>
+<p>The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
+line is now the horizontal black line centered on 0.</p>
 <p>Here’s the transformed version of the data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>

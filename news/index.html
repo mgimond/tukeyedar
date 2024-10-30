@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
     <li><a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a></li>
+    <li><a class="dropdown-item" href="../articles/rfs.html">The residual-fit spread plot</a></li>
     <li><a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a></li>
     <li><a class="dropdown-item" href="../articles/symqq.html">The symmetry QQ plot</a></li>
   </ul></li>
@@ -39,6 +40,25 @@
       <small>Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="tukeyedar-030">tukeyedar 0.3.0<a class="anchor" aria-label="anchor" href="#tukeyedar-030"></a></h2>
+<ul><li>Added the <code>eda_rfs</code> function (the Cleveland residual-fit spread plot).</li>
+<li>Added the <code>eda_viol</code> function that generates a violin plot.</li>
+<li>Added the <code>eda_jitter</code> function that generates a jitter plot from univariate datasets.</li>
+<li>Added the <code>eda_qqmat</code> function that generates a qq plot matrix.</li>
+<li>
+<code>eda_lm</code> now outputs an <code>eda_lm</code> class.</li>
+<li>
+<code>eda_rline</code> now outputs <code>fitted.values</code> class.</li>
+<li>
+<code>eda_lm</code> now accepts <code>poly = 0</code>. This generates a flat line. Can be used with <code>robust = TRUE</code>.</li>
+<li>Following changes were made to the <code>eda_qq</code> function:
+<ul><li>It now generates different point symbols for values outside of the <code>inner</code> region</li>
+<li>The <code>inner</code> region default is now 75%.</li>
+<li>The outer bounds dashed line argument, <code>l.val</code> was removed (this to de-clutter the plot)</li>
+<li>Removed the quantile-difference plot. Its interpretation is tricky when dealing with a multiplicative offset.</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.6" id="tukeyedar-026">tukeyedar 0.2.6<a class="anchor" aria-label="anchor" href="#tukeyedar-026"></a></h2>
 <ul><li>Added the quantile-difference plot to the <code>eda_qq</code> function.</li>
