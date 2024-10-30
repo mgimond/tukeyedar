@@ -25,12 +25,12 @@ eda_dens(
 )
 }
 \arguments{
-\item{x}{Vector for first variable or a dataframe.}
+\item{x}{Vector for first variable, or a dataframe.}
 
-\item{y}{Vector for second variable or column defining the continuous
+\item{y}{Vector for second variable, or column defining the continuous
 variable if \code{x} is a dataframe.}
 
-\item{fac}{Column defining the grouping variable if \code{x} is a dataframe.}
+\item{fac}{Column defining the categorical variable if \code{x} is a dataframe.}
 
 \item{p}{Power transformation to apply to both sets of values.}
 

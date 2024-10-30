@@ -98,7 +98,7 @@
 
 
 <dl><dt id="arg-dat">dat<a class="anchor" aria-label="anchor" href="#arg-dat"></a></dt>
-<dd><p>Data frame.</p></dd>
+<dd><p>Dataframe.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
@@ -195,13 +195,15 @@ applicable if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="extern
 
 
 <dt id="arg-q">q<a class="anchor" aria-label="anchor" href="#arg-q"></a></dt>
-<dd><p>Boolean determining if grey quantile boxes should be plotted.</p></dd>
+<dd><p>Boolean determining if shaded region showing the mid-portion of the
+data should be added to the plot.</p></dd>
 
 
 <dt id="arg-q-val">q.val<a class="anchor" aria-label="anchor" href="#arg-q-val"></a></dt>
-<dd><p>F-values to use to define the quantile box parameters. Defaults
-to mid 68<!-- % of values. If more than 2 f-values are defined, the first two -->
-are used to generate the box.</p></dd>
+<dd><p>Upper and lower bounds of the shaded region shown by <code>q</code>.
+Defaults to the mid 68<!-- % of values. Upper and lower values are defined by -->
+fractions ranging from 0 to 1 and are passed to the argument via a
+<code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> function. Defaults to <code>c(0.16,0.84)</code>.</p></dd>
 
 
 <dt id="arg-q-type">q.type<a class="anchor" aria-label="anchor" href="#arg-q-type"></a></dt>
@@ -264,11 +266,11 @@ function.</p></dd>
   theory, if both x and y values follow a perfectly Normal distribution,
   roughly 68 percent of the points should fall in between these lines.
   <br><br>
-  The true 68 percent of values can be displayed as grey rectangles by
+  The true 68 percent of values can be displayed as a shaded region by
   setting <code>q=TRUE</code>. It uses the <code>quantile</code> function to compute
   the upper and lower bounds defining the inner 68 percent of values. If the
   data follow a Normal distribution, the grey rectangle edges should coincide
-  with the +/- 1SD dashed lines.<br>
+  with the +/- 1SD dashed lines.
   If you wish to show the interquartile ranges (IQR) instead of the inner
   68 percent of values, simply set <code>q.val = c(0.25,0.75)</code>.
   <br><br>
@@ -278,12 +280,11 @@ function.</p></dd>
    removed from the plot. This will result in fewer observations being
    plotted. If observations are removed as result of a re-expression a
    warning message will be displayed in the console.
-   <br>
-   There-expression powers are shown in the upper right side of the plot. To
+   The re-expression powers are shown in the upper right side of the plot. To
   suppress the display of the re-expressions set <code>show.par = FALSE</code>.
   <br><br>
   If the <code>robust</code> argument is set to TRUE, <code>MASS</code>'s
-  built-in robust fitting model, <code>rlm</code> is used to fit the regression
+  built-in robust fitting model, <code>rlm</code>, is used to fit the regression
   line to the data. <code>rlm</code> arguments can be passed as a list via the
   <code>rlm.d</code> argument.</p>
     </div>
@@ -314,7 +315,7 @@ function.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       int      wt^1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 37.285126 -5.344472 </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Fit an OLS to the Income for Female vs Male</span></span></span>
+<span class="r-in"><span><span class="co"># Fit an OLS to income for Female vs Male</span></span></span>
 <span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"https://mgimond.github.io/ES218/Data/Income_education.csv"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">df2</span>, x<span class="op">=</span><span class="va">B20004013</span>, y <span class="op">=</span> <span class="va">B20004007</span>, xlab <span class="op">=</span> <span class="st">"Female"</span>, ylab <span class="op">=</span> <span class="st">"Male"</span>,</span></span>
 <span class="r-in"><span>            loe <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -343,10 +344,10 @@ function.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40.4091172029 -0.2133082599  0.0004208156 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Fit a robust regression model</span></span></span>
-<span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">mpg</span>, robust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eda_lm</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">hp</span>, <span class="va">mpg</span>, robust <span class="op">=</span> <span class="cn">TRUE</span>, poly <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_lm-8.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         int        hp^1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29.26131143 -0.06603765 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           int          hp^1          hp^2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39.3003734539 -0.2062942523  0.0004113048 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

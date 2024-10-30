@@ -33,10 +33,12 @@
 #' @param size Point size (0-1).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
-#' @param q Boolean determining if grey quantile boxes should be plotted.
-#' @param q.val F-values to use to define the quantile box parameters. Defaults
-#'   to mid 68% of values. If more than 2 f-values are defined, the first two
-#'   are used to generate the box.
+#' @param q Boolean determining if shaded region showing the mid-portion of the
+#' data should be added to the plot.
+#' @param q.val Upper and lower bounds of the shaded region shown by \code{q}.
+#'   Defaults to the mid 68% of values. Upper and lower values are defined by
+#'   fractions ranging from 0 to 1 and are passed to the argument via a
+#'   \code{c()} function. Defaults to \code{c(0.16,0.84)}.
 #' @param q.type Quantile type. Defaults to 5 (Cleveland's f-quantile
 #'   definition).
 #' @param loe Boolean indicating if a loess curve should be fitted.

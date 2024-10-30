@@ -2,31 +2,30 @@
 #' @import lattice
 #' @title Boxplots equalized by level and spread
 #'
-#' @description \code{eda_boxls} creates boxplots conditioned on one variable
-#'   while providing the option to level the data or equalize the spreads.
+#' @description \code{eda_boxls} creates boxplots conditioned on a categorical
+#'   variable while providing the option to level the data or equalize the spreads.
 #'
-#' @param dat  Data frame
-#' @param x    Column name assigned to the values
-#' @param fac  Column name assigned to the factor the values are to be
-#'   conditioned on
-#' @param p  Power transformation to apply to variable
+#' @param dat  Dataframe.
+#' @param x    Continuous variable.
+#' @param fac  Categorical variable.
+#' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation)
-#' @param outlier Boolean indicating if outliers should be plotted
+#'   (FALSE adopts a Box-Cox transformation).
+#' @param outlier Boolean indicating if outliers should be plotted.
 #' @param out.txt Column whose values are to be used to label outliers. If
 #'   set to \code{NULL} (the default), the record number is displayed.
 #' @param type Plot type. "none" = no equalization ; "l" = equalize by level;
-#'   "ls" = equalize by both level and spread
+#'   "ls" = equalize by both level and spread.
 #' @param notch Boolean determining if notches should be added.
-#' @param horiz  plot horizontally (TRUE) or vertically (FALSE)
-#' @param xlab X label for output plot
-#' @param ylab Y label for output plot
-#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
-#' @param fill Boxplot fill color
-#' @param boxcol Boxplot outline color
-#' @param outcol Outlier color
-#' @param whiskcol Whisker line color
-#' @param medcol Median line color
+#' @param horiz  plot horizontally (TRUE) or vertically (FALSE).
+#' @param xlab X label for output plot.
+#' @param ylab Y label for output plot.
+#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
+#' @param fill Boxplot fill color.
+#' @param boxcol Boxplot outline color.
+#' @param outcol Outlier color.
+#' @param whiskcol Whisker line color.
+#' @param medcol Median line color.
 #' @param reorder Boolean determining if factors have to be reordered based
 #'   on median, upper quartile or lower quartile (set in \code{reorder.type}).
 #' @param reorder.stat Statistic to reorder level by if \code{reorder} is set to

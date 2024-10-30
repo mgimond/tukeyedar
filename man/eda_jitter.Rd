@@ -34,29 +34,28 @@ eda_jitter(
 )
 }
 \arguments{
-\item{dat}{Data frame}
+\item{dat}{Dataframe.}
 
-\item{x}{Column name assigned to the values}
+\item{x}{Continuous variable.}
 
-\item{fac}{Column name assigned to the factor the values are to be
-conditioned on}
+\item{fac}{Categorical variable.}
 
 \item{jitter}{Jittering parameter. A fraction of the group width
-(\code{0} to \code{1})}
+(\code{0} to \code{1}).}
 
 \item{p}{Power transformation to apply to variable}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation)}
 
-\item{horiz}{plot horizontally (TRUE) or vertically (FALSE)}
+\item{horiz}{Plot horizontally (TRUE) or vertically (FALSE)}
 
 \item{stat}{Choice of summary statistic to use when centering the fitted
 values around 0. \code{stat} can be either \code{mean} or \code{median}. DO
 NOT wrap stat parameter in quotes.}
 
 \item{show.stat}{Boolean determining if a summary statistic of the batches
-should be shown.}
+should be plotted.}
 
 \item{stat.type}{Symbol to use to display statistical summary. Can be either
 a point, \code{"p"}, or a line, \code{"l"}.}
@@ -101,7 +100,7 @@ on \code{stat}.}
 \item{show.par}{Boolean determining if power transformation should be
 displayed in the plot.}
 
-\item{ylim}{Define custom y axis limits (x limits if \code{horiz=TRUE}.}
+\item{ylim}{Define custom y axis limits (or x limits if \code{horiz=TRUE}).}
 }
 \value{
 {No values are returned}

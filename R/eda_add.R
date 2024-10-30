@@ -5,13 +5,13 @@
 #' @description \code{eda_add}  adds graphical EDA elements to a scatter plot.
 #'   Currently only adds \code{eda_rline} fit and points.
 #'
-#' @param x Object of class \code{eda_rline}
-#' @param pch Point symbol type
-#' @param p.col Point color passed to \code{col}
+#' @param x Object of class \code{eda_rline}.
+#' @param pch Point symbol type.
+#' @param p.col Point color passed to \code{col}.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
-#'   ranging from 21-25)
-#' @param lty Line type
-#' @param l.col Line color
+#'   ranging from 21-25).
+#' @param lty Line type.
+#' @param l.col Line color.
 #'
 #' @return Returns the \code{eda_rline} intercept and slope.
 #'
@@ -22,8 +22,8 @@
 #' @details  This function adds an eda_rline slope and 3-pt summary points to an
 #'   existing scatter plot.
 #'
-#'   \cr See the accompanying vignette \code{Resistant Line} for a detailed
-#'   breakdown of the resistant line technique.
+#'   \cr See the \href{../articles/polish.html}{Resistant Line article} for a
+#'   detailed breakdown of the resistant line technique.
 #'
 #' @examples
 #'

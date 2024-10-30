@@ -29,45 +29,44 @@ eda_boxls(
 )
 }
 \arguments{
-\item{dat}{Data frame}
+\item{dat}{Dataframe.}
 
-\item{x}{Column name assigned to the values}
+\item{x}{Continuous variable.}
 
-\item{fac}{Column name assigned to the factor the values are to be
-conditioned on}
+\item{fac}{Categorical variable.}
 
-\item{p}{Power transformation to apply to variable}
+\item{p}{Power transformation to apply to the continuous variable.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)}
+(FALSE adopts a Box-Cox transformation).}
 
-\item{outlier}{Boolean indicating if outliers should be plotted}
+\item{outlier}{Boolean indicating if outliers should be plotted.}
 
 \item{out.txt}{Column whose values are to be used to label outliers. If
 set to \code{NULL} (the default), the record number is displayed.}
 
 \item{type}{Plot type. "none" = no equalization ; "l" = equalize by level;
-"ls" = equalize by both level and spread}
+"ls" = equalize by both level and spread.}
 
 \item{notch}{Boolean determining if notches should be added.}
 
-\item{horiz}{plot horizontally (TRUE) or vertically (FALSE)}
+\item{horiz}{plot horizontally (TRUE) or vertically (FALSE).}
 
-\item{xlab}{X label for output plot}
+\item{xlab}{X label for output plot.}
 
-\item{ylab}{Y label for output plot}
+\item{ylab}{Y label for output plot.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
-\item{fill}{Boxplot fill color}
+\item{fill}{Boxplot fill color.}
 
-\item{boxcol}{Boxplot outline color}
+\item{boxcol}{Boxplot outline color.}
 
-\item{outcol}{Outlier color}
+\item{outcol}{Outlier color.}
 
-\item{whiskcol}{Whisker line color}
+\item{whiskcol}{Whisker line color.}
 
-\item{medcol}{Median line color}
+\item{medcol}{Median line color.}
 
 \item{reorder}{Boolean determining if factors have to be reordered based
 on median, upper quartile or lower quartile (set in \code{reorder.type}).}
@@ -85,8 +84,8 @@ displayed in the plot.}
 {No values are returned}
 }
 \description{
-\code{eda_boxls} creates boxplots conditioned on one variable
-  while providing the option to level the data or equalize the spreads.
+\code{eda_boxls} creates boxplots conditioned on a categorical
+  variable while providing the option to level the data or equalize the spreads.
 }
 \details{
 \itemize{

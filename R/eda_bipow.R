@@ -5,12 +5,12 @@
 #'  Re-expresses a vector on the ladder of powers.
 #'  Requires \code{eda_3pt()} function.
 #'
-#' @param dat Data frame
-#' @param x   Column name assigned the x axis
-#' @param y   Column name assigned the y axis
-#' @param p   Vector of powers
+#' @param dat Dataframe.
+#' @param x   Variable assigned to the x axis.
+#' @param y   Variable assigned to the y axis.
+#' @param p   Vector of powers.
 #' @param tukey If set to TRUE, then adopt Tukey's power transformation. If FALSE,
-#' adopt Box-Cox transformation.
+#'   adopt Box-Cox transformation.
 #' @param ... Other parameters passed to the graphics::plot function.
 #'
 #' @details
@@ -18,9 +18,9 @@
 #' re-expressions of both x and y values. The 3-point summary and
 #' associated half-slopes are also plotted (this function makes use
 #' of the eda_3pt function). The values are re-expressed using either
-#' the Tukey power transformation (default) or the Box-Cox transformation
-#' (see eda_re for more information on these transformation techniques). Axes
-#' labels are omitted to reduce plot clutter.
+#' the Tukey power transformation or the Box-Cox transformation (the default).
+#' See \code{eda_re} for more information on these transformation techniques.
+#' Axes labels are omitted to reduce plot clutter.
 #'
 #' @return {No return value}
 #'

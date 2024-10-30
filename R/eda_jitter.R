@@ -3,21 +3,20 @@
 #'
 #' @description \code{eda_jitter} creates jitter plot conditioned on one variable.
 #'
-#' @param dat  Data frame
-#' @param x    Column name assigned to the values
-#' @param fac  Column name assigned to the factor the values are to be
-#'   conditioned on
+#' @param dat  Dataframe.
+#' @param x    Continuous variable.
+#' @param fac  Categorical variable.
 #' @param jitter Jittering parameter. A fraction of the group width
-#'   (\code{0} to \code{1})
+#'   (\code{0} to \code{1}).
 #' @param p  Power transformation to apply to variable
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
-#' @param horiz  plot horizontally (TRUE) or vertically (FALSE)
+#' @param horiz  Plot horizontally (TRUE) or vertically (FALSE)
 #' @param stat Choice of summary statistic to use when centering the fitted
 #'   values around 0. \code{stat} can be either \code{mean} or \code{median}. DO
 #'   NOT wrap stat parameter in quotes.
 #' @param show.stat Boolean determining if a summary statistic of the batches
-#'   should be shown.
+#'   should be plotted.
 #' @param stat.type Symbol to use to display statistical summary. Can be either
 #'   a point, \code{"p"}, or a line, \code{"l"}.
 #' @param stat.col Symbol color to use to display statistical summary. If
@@ -45,7 +44,7 @@
 #'   on \code{stat}.
 #' @param show.par Boolean determining if power transformation should be
 #'   displayed in the plot.
-#' @param ylim Define custom y axis limits (x limits if \code{horiz=TRUE}.
+#' @param ylim Define custom y axis limits (or x limits if \code{horiz=TRUE}).
 #'
 #' @return {No values are returned}
 #'

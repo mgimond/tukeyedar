@@ -7,13 +7,13 @@
 eda_bipow(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...)
 }
 \arguments{
-\item{dat}{Data frame}
+\item{dat}{Dataframe.}
 
-\item{x}{Column name assigned the x axis}
+\item{x}{Variable assigned to the x axis.}
 
-\item{y}{Column name assigned the y axis}
+\item{y}{Variable assigned to the y axis.}
 
-\item{p}{Vector of powers}
+\item{p}{Vector of powers.}
 
 \item{tukey}{If set to TRUE, then adopt Tukey's power transformation. If FALSE,
 adopt Box-Cox transformation.}
@@ -32,9 +32,9 @@ Generates a matrix of scatter plots and boxplots of various
 re-expressions of both x and y values. The 3-point summary and
 associated half-slopes are also plotted (this function makes use
 of the eda_3pt function). The values are re-expressed using either
-the Tukey power transformation (default) or the Box-Cox transformation
-(see eda_re for more information on these transformation techniques). Axes
-labels are omitted to reduce plot clutter.
+the Tukey power transformation or the Box-Cox transformation (the default).
+See \code{eda_re} for more information on these transformation techniques.
+Axes labels are omitted to reduce plot clutter.
 }
 \examples{
 

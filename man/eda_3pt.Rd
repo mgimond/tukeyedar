@@ -26,24 +26,24 @@ eda_3pt(
 )
 }
 \arguments{
-\item{dat}{Data frame}
+\item{dat}{Dataframe.}
 
-\item{x}{Column name assigned the x axis}
+\item{x}{Variable assigned the x axis.}
 
-\item{y}{Column name assigned the y axis}
+\item{y}{Variable assigned the y axis.}
 
-\item{px}{Power transformation to apply to the x-variable}
+\item{px}{Power transformation to apply to the x-variable.}
 
-\item{py}{Power transformation to apply to the y-variable}
+\item{py}{Power transformation to apply to the y-variable.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)}
+(FALSE adopts a Box-Cox transformation).}
 
 \item{axes}{Boolean determining if axes are to be drawn.}
 
-\item{pch}{Point symbol type}
+\item{pch}{Point symbol type.}
 
-\item{equal}{Boolean determining if axes lengths should match (i.e. squate
+\item{equal}{Boolean determining if axes lengths should match (i.e. square
 plot).}
 
 \item{p.col}{Color for point symbol.}
@@ -51,19 +51,19 @@ plot).}
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
 ranging from 21-25).}
 
-\item{size}{Point size (0-1)}
+\item{size}{Point size (0-1).}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only applicable
 if \code{rgb()} is not used to define point colors.}
 
-\item{xlab}{X label for output plot}
+\item{xlab}{X label for output plot.}
 
-\item{ylab}{Y label for output plot}
+\item{ylab}{Y label for output plot.}
 
 \item{dir}{Boolean indicating if suggested ladder of power direction should
-be displayed}
+be displayed.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black)}
+\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
 \item{...}{Other parameters passed to the graphics::plot function.}
 }

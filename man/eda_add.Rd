@@ -14,18 +14,18 @@ eda_add(
 )
 }
 \arguments{
-\item{x}{Object of class \code{eda_rline}}
+\item{x}{Object of class \code{eda_rline}.}
 
-\item{pch}{Point symbol type}
+\item{pch}{Point symbol type.}
 
-\item{p.col}{Point color passed to \code{col}}
+\item{p.col}{Point color passed to \code{col}.}
 
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25)}
+ranging from 21-25).}
 
-\item{lty}{Line type}
+\item{lty}{Line type.}
 
-\item{l.col}{Line color}
+\item{l.col}{Line color.}
 }
 \value{
 Returns the \code{eda_rline} intercept and slope.
@@ -42,8 +42,8 @@ Returns the \code{eda_rline} intercept and slope.
 This function adds an eda_rline slope and 3-pt summary points to an
   existing scatter plot.
 
-  \cr See the accompanying vignette \code{Resistant Line} for a detailed
-  breakdown of the resistant line technique.
+  \cr See the \href{../articles/polish.html}{Resistant Line article} for a
+  detailed breakdown of the resistant line technique.
 }
 \examples{
 

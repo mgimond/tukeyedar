@@ -6,10 +6,10 @@
 #' @description \code{eda_dens} generates overlapping density distributions for
 #'   two variables.
 #'
-#' @param x  Vector for first variable or a dataframe.
-#' @param y  Vector for second variable or column defining the continuous
+#' @param x  Vector for first variable, or a dataframe.
+#' @param y  Vector for second variable, or column defining the continuous
 #'   variable if \code{x} is a dataframe.
-#' @param fac Column defining the grouping variable if \code{x} is a dataframe.
+#' @param fac Column defining the categorical variable if \code{x} is a dataframe.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).

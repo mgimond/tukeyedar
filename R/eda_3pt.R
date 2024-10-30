@@ -14,26 +14,26 @@
 #' The function will also return the half-slopes ratio \code{hsrtio} and the
 #' direction of re-expression for both X and Y values on the ladder of powers.
 #'
-#' @param dat Data frame
-#' @param x   Column name assigned the x axis
-#' @param y   Column name assigned the y axis
-#' @param px  Power transformation to apply to the x-variable
-#' @param py  Power transformation to apply to the y-variable
+#' @param dat Dataframe.
+#' @param x   Variable assigned the x axis.
+#' @param y   Variable assigned the y axis.
+#' @param px  Power transformation to apply to the x-variable.
+#' @param py  Power transformation to apply to the y-variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation)
+#'   (FALSE adopts a Box-Cox transformation).
 #' @param axes Boolean determining if axes are to be drawn.
 #' @param dir Boolean indicating if suggested ladder of power direction should
-#'   be displayed
-#' @param xlab X label for output plot
-#' @param ylab Y label for output plot
-#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
-#' @param equal Boolean determining if axes lengths should match (i.e. squate
+#'   be displayed.
+#' @param xlab X label for output plot.
+#' @param ylab Y label for output plot.
+#' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
+#' @param equal Boolean determining if axes lengths should match (i.e. square
 #'  plot).
-#' @param pch Point symbol type
+#' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'  ranging from 21-25).
-#' @param size Point size (0-1)
+#' @param size Point size (0-1).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only applicable
 #'  if \code{rgb()} is not used to define point colors.
 #' @param ... Other parameters passed to the graphics::plot function.

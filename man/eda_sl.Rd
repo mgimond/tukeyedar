@@ -61,9 +61,10 @@ univariate dataset.
 \details{
 \itemize{
   \item Note that this function is not to be confused with William Cleveland's
-  spread-location function. A descripion of this plot can be found on page
+  spread-location function. A description of this plot can be found on page
   77 of *Hoaglan et. al's* book.\cr
-  \item If \code{fac} is not categorical, the output will produce many or all NA's.
+  \item If \code{fac} is not categorical, the output will produce many or all
+   \code{NA}'s.
   \item On page 59, Hoaglan et. al define the fourth-spread as the the range
   defined by the upper fourth and lower fourth. The \code{eda_lsum} function is used
   to compute the upper/lower fourths.
