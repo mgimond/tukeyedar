@@ -19,6 +19,7 @@ eda_dens(
   alpha = 0.4,
   xlab = NULL,
   ylab = NULL,
+  xaxis = NULL,
   switch = FALSE,
   legend = TRUE,
   ...
@@ -55,9 +56,13 @@ transformation or formula should be displayed.}
 \item{alpha}{Fill transparency (0 = transparent, 1 = opaque). Only applicable
 if \code{rgb()} is not used to define fill colors.}
 
-\item{xlab}{X variable label. Ignored if \code{x} is a dataframe.}
+\item{xlab}{X variable label. Ignored if \code{x} is a dataframe. This is
+not the x-axis label!}
 
-\item{ylab}{Y variable label. Ignored if \code{x} is a dataframe.}
+\item{ylab}{Y variable label. Ignored if \code{x} is a dataframe. This is
+not the y-axis label!}
+
+\item{xaxis}{Label for x-axis. Defaults to \code{"Value"}.}
 
 \item{switch}{Boolean determining if the axes should be swapped. Only applies
 to dataframe input. Ignored if vectors are passed to the function.}

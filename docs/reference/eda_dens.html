@@ -65,6 +65,7 @@
 <span>  alpha <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xaxis <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  switch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -130,11 +131,17 @@ if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rg
 
 
 <dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
-<dd><p>X variable label. Ignored if <code>x</code> is a dataframe.</p></dd>
+<dd><p>X variable label. Ignored if <code>x</code> is a dataframe. This is
+not the x-axis label!</p></dd>
 
 
 <dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
-<dd><p>Y variable label. Ignored if <code>x</code> is a dataframe.</p></dd>
+<dd><p>Y variable label. Ignored if <code>x</code> is a dataframe. This is
+not the y-axis label!</p></dd>
+
+
+<dt id="arg-xaxis">xaxis<a class="anchor" aria-label="anchor" href="#arg-xaxis"></a></dt>
+<dd><p>Label for x-axis. Defaults to <code>"Value"</code>.</p></dd>
 
 
 <dt id="arg-switch">switch<a class="anchor" aria-label="anchor" href="#arg-switch"></a></dt>
@@ -169,13 +176,11 @@ to dataframe input. Ignored if vectors are passed to the function.</p></dd>
 <span class="r-in"><span> <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">1000</span>,<span class="fl">2</span>,<span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">1.5</span> <span class="op">+</span> <span class="fl">0.1</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_dens</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_dens-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Passing data as a dataframe</span></span></span>
 <span class="r-in"><span> <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                   grp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"y"</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_dens</span><span class="op">(</span><span class="va">dat</span>, <span class="va">val</span>, <span class="va">grp</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_dens-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
