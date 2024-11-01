@@ -39,7 +39,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Overlapping density distributions for two variables</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.3.0/R/eda_dens.R" class="external-link"><code>R/eda_dens.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/R/eda_dens.R" class="external-link"><code>R/eda_dens.R</code></a></small>
       <div class="d-none name"><code>eda_dens.Rd</code></div>
     </div>
 
@@ -65,6 +65,7 @@
 <span>  alpha <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ylab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xaxis <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  switch <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -130,11 +131,17 @@ if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rg
 
 
 <dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
-<dd><p>X variable label. Ignored if <code>x</code> is a dataframe.</p></dd>
+<dd><p>X variable label. Ignored if <code>x</code> is a dataframe. This is
+not the x-axis label!</p></dd>
 
 
 <dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
-<dd><p>Y variable label. Ignored if <code>x</code> is a dataframe.</p></dd>
+<dd><p>Y variable label. Ignored if <code>x</code> is a dataframe. This is
+not the y-axis label!</p></dd>
+
+
+<dt id="arg-xaxis">xaxis<a class="anchor" aria-label="anchor" href="#arg-xaxis"></a></dt>
+<dd><p>Label for x-axis. Defaults to <code>"Value"</code>.</p></dd>
 
 
 <dt id="arg-switch">switch<a class="anchor" aria-label="anchor" href="#arg-switch"></a></dt>
