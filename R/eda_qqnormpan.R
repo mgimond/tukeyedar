@@ -43,6 +43,7 @@
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 75\% of values.
 #' @param text.size Size for category text above the plot.
+#' @param title Title to display. If title is not desired, set to \code{FALSE}.
 #' @param ... Not used
 #'
 #' @details The function will generate a panel or Normal QQ plots from a
@@ -74,7 +75,7 @@ eda_qqnormpan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                       p.col = "grey40", p.fill = "grey60", size = 1, text.size = 0.8,
                       tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
                       tic.size = 0.7, alpha = 0.8, q = FALSE, tails = TRUE,
-                      med = TRUE, inner = 0.75, ...) {
+                      med = FALSE, inner = 0.75, title = "Normal QQ plot", ...) {
 
   if (!requireNamespace("grid", quietly = TRUE)) {
     stop(
@@ -156,9 +157,6 @@ eda_qqnormpan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   # Create empty list (to be used for data output)
   lstout <- list()
 
-  # Reset plot window
-  grid.newpage()
-
   # Compute margins needed to accommodate labels
   label <- as.character(max(ylim))
   label_width <- convertWidth(stringWidth(label), "lines", valueOnly = TRUE)
@@ -169,13 +167,32 @@ eda_qqnormpan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   # Define number of rows and columns
   ncol = ceiling(fac_num / nrow)
 
-  # Set up a layout for 4 plots in a 1x4 grid
-  layout(matrix(1:fac_num, nrow = nrow, ncol = ncol, byrow = TRUE))
-  par(mar = c(0, 0, 3, 0), oma = c(3, 3.5, 4, 2))  # Adjust inner and outer margins
+  # If layout matrix has more slots than plots, expand list with NULLs
+  numpanel <- ncol * nrow
+  if(numpanel > (fac_num + (ncol -1)))
+    stop("You have too many plot panels for the number of QQ plots. Reduce nrow.")
+  if(numpanel > fac_num){
+    for(i in 1:(numpanel - fac_num ) ) lst <- append(lst, list(data.frame()))
+  }
 
-  for (i in 1:fac_num){
+  # Set up a layout for plot
+  top.mar = 1
+  if (title != FALSE ) top.mar = 3
+  .pardef <- par(no.readonly = TRUE)
+  layout(matrix(1:numpanel, nrow = nrow, ncol = ncol, byrow = TRUE))
+  par(mar = c(0, 0, 3, 0), oma = c(3, 3.5, top.mar, 2))  # Adjust inner and outer margins
+  on.exit(par(.pardef))
+
+  for (i in 1:numpanel){
+
       y <- unlist(lst[[i]])
 
+
+      if(is.null(y)){
+        print(i)
+        plot(1:10, type = "n", axes = FALSE, xlab = NULL, ylab = NULL, main = NULL)
+      }
+      else{
         # Center on mean or median if requested
         if (resid == TRUE){
           y <- y - stat(y)
@@ -253,40 +270,42 @@ eda_qqnormpan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
             }
           }
 
-          # Add axes
+          # Add x-axis
           axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-          if( i == 1){
+
+          # Add y-axis if marginal plot
+          if( i %in% seq(1,fac_num, by=ncol)){
             axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
                  tck = -0.02)
           }
 
-
-            # Add diagonal (1:1) line
-            #grid.lines(gp = gpar(cex = 0.8, col = plotcol))
-            abline(int, slope, col = plotcol)
-
+          # Add IQR line
+          abline(int, slope, col = plotcol)
 
           #  grid.text(paste(i,j)) # Used to debug plot placement
 
           # Add medians
-            if( med == TRUE){
-              abline(v = medx, col = "grey80", lty = 2)
-              abline(h = medy, col = "grey80", lty = 2)
-            }
+          if( med == TRUE){
+            abline(v = medx, col = "grey80", lty = 2)
+            abline(h = medy, col = "grey80", lty = 2)
+          }
 
           # Add core boxes ----
-            # Add core boxes ----
-            sq <- par("usr") # get plot corners
-            if(q == TRUE){
-              rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-                   col = rgb(0,0,0,0.05), border = NA)
-              rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
-                   col = rgb(0,0,0,0.05), border = NA)
-            }
+          # Add core boxes ----
+          sq <- par("usr") # get plot corners
+          if(q == TRUE){
+            rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
+                 col = rgb(0,0,0,0.05), border = NA)
+            rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
+                 col = rgb(0,0,0,0.05), border = NA)
+          }
 
 
-            # Add factor name above each plot
-            mtext(fac_un[i], side = 3, line = 0.5, cex = text.size)
+          # Add factor name above each plot
+          mtext(fac_un[i], side = 3, line = 0.5, cex = text.size)
+      }
+
+
 
         }  # Close plot loop
     }   # Close  loop
@@ -294,17 +313,34 @@ eda_qqnormpan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   # Add power/formula parameters to plot
   if(show.par == TRUE){
     params <- gsub(";\\s*;?\\s*$", "",  paste0("p=",p))
-    mtext(side = 3, text=params, adj=1, cex = 0.65, outer = TRUE)
+    mtext(side = 3, text=params, adj=1, cex = 0.65, outer = TRUE, col = "grey30", padj = 1)
   }
-  mtext("Normal QQ plot", side = 3, outer = TRUE, line = 2, cex = 1.5)
-  names(lstout) <- fac_un
+
+  # Add title unless requested
+  if(title != FALSE){
+    title(main = title, line =0, col.main=plotcol, outer = TRUE, cex.main = 1.8, adj = 0)
+   # mtext("Normal QQ plot", side = 3, outer = TRUE, line = 0, cex = 1.5,
+   #       col = "grey30", padj = 0)
+  }
+
+
   # Remind user if power parameter was set to value other than 1
   if ( p !=1 )
   message(paste0("Note that a power transformation of ",p," was applied to the data",
           " before they were processed for the plot."))
+  # Reset plot parameters and  output values
+  par(.pardef)
+
+  # Output list
+  names(lstout) <- fac_un
   invisible(lstout)
 }
 
-out <- eda_qqnormpan(df, height, voice.part, resid = T, text.size = 0.8)
+df <- lattice::singer
+out <- eda_qqnormpan(df, height, voice.part, resid = F, text.size = 0.8, nrow = 3)
 out <- eda_qqnormpan(iris, Petal.Width, Species, resid = T)
 
+sop1 <- subset(df, subset = voice.part == "Soprano 1", select = height, drop = TRUE)
+tukeyedar::eda_qq(sop1, norm = TRUE)
+
+lst <- split(df$height, df$voice.part)
