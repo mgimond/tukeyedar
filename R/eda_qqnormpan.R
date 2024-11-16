@@ -45,17 +45,19 @@
 #'  \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 75\% of values.
+#' @param iqr Boolean determining if an IQR line should be fitted to the points.
 #' @param text.size Size for category text above the plot.
 #' @param title Title to display. If set to \code{TRUE}, defaults to
 #'   \code{"Normal QQ plot"}. If set to \code{FALSE}, omits title from output.
 #'   Custom title can also be passed to this argument.
-#' @param xlab X-axis label
-#' @param ylab Y-axis label
+#' @param xlab X-axis label.
+#' @param ylab Y-axis label.
 #' @param ... Not used
 #'
 #' @details The function will generate a multi-panel theoretical QQ plot.
-#'  Currently, only the Normal QQ plot (\code{dist="norm"}), and exponential
-#'  QQ plot (\code{dist="exp"}) are supported
+#'  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
+#'  QQ plot (\code{dist="exp"}), and the uniform QQ plot (\code{dist="unif"})
+#'  are supported.
 #'
 #'
 #' @returns Returns a list with the following components:
@@ -74,10 +76,17 @@
 #'
 #' # Default output
 #' singer <- lattice::singer
-#' eda_qqnormpan(singer, height, voice.part)
+#' eda_qqtheopan(singer, height, voice.part)
 #'
 #' # Split into two rows
-#' eda_qqnormpan(singer, height, voice.part, nrow = 2)
+#' eda_qqtheopan(singer, height, voice.part, nrow = 2)
+#'
+#' # Compare to a uniform distribution
+#' eda_qqtheopan(singer, height, voice.part, nrow = 2, dist = "unif")
+#'
+#' # A uniform QQ plot is analgous to a Q(f) plot
+#' eda_qqtheopan(singer, height, voice.part, nrow = 2, dist = "unif",
+#'               iqr = FALSE, xlab = "f-value")
 #'
 #' # Normal QQ plots of Waterville daily averages. Mean monthly values are
 #' # subtracted from the data to recenter all batches around 0.  Color and point
@@ -85,18 +94,19 @@
 #' # inner 80% of values)
 #' wat <- tukeyedar::wat05
 #' wat$month <- format(wat$date,"%b")
-#' eda_qqnormpan(wat,avg, month, resid = TRUE, nrow = 4, inner = 0.8 ,
+#' eda_qqtheopan(wat,avg, month, resid = TRUE, nrow = 4, inner = 0.8 ,
 #'                     tails = T, tail.pch = 3, p.fill = "coral")
 
 eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                           dist = "norm", dist.l = list(), ylim = NULL,
                           resid = FALSE, stat = mean, show.par = FALSE,
-                      plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
-                      p.col = "grey40", p.fill = "grey60", size = 1,
-                      text.size = 0.8, tail.pch = 21, tail.p.col = "grey70",
-                      tail.p.fill = NULL, tic.size = 0.7, alpha = 0.8,
-                      q = FALSE, tails = FALSE, med = FALSE, inner = 0.75,
-                      title = FALSE, xlab = NULL, ylab=NULL, ...) {
+                          plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
+                          p.col = "grey40", p.fill = "grey60", size = 1,
+                          text.size = 0.8, tail.pch = 21, tail.p.col = "grey70",
+                          tail.p.fill = NULL, tic.size = 0.7, alpha = 0.8,
+                          q = FALSE, tails = FALSE, med = FALSE, inner = 0.75,
+                          iqr = TRUE, title = FALSE,
+                          xlab = NULL, ylab=NULL, ...) {
 
   if (!requireNamespace("grid", quietly = TRUE)) {
     stop(
@@ -104,6 +114,11 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
       call. = FALSE
     )
   }
+
+  # Currently accepted distributions
+  axes_names <- c(norm = "Normal",
+                  exp  = "Exponential",
+                  unif = "Uniform")
 
   # Check for invalid arguments
   input <- names(list(...))
@@ -116,11 +131,11 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
     stop("Stat must be either the mean or the median")
   if (inner < 0.25)
     stop("The inner parameter must be greater than 0.25.")
+  if (!dist %in% names(axes_names))
+    stop(paste("Distribution argument, dist, should be one of",
+               names(axes_names)))
 
   # Define axes labels based on distribution type
-  axes_names <- c(norm = "Normal",
-                 exp  = "Exponential",
-                 unif = "Uniform")
   if(is.null(xlab)) xlab <- axes_names[dist]
   if(is.null(ylab)){
     ylab <- deparse(substitute(x))
@@ -213,13 +228,12 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   if(numpanel > fac_num){
     for(i in 1:(numpanel - fac_num ) ) lst <- append(lst, list(none = vector()))
   }
-print(lst)
-  # Create a dummy plot to extract y-axis labels
+
+  # Create a dummy plot to extract y-axis width
   in2line <- ( par("mar") / par("mai") )[2]
   pdf(NULL)
   plot(x, type = "n", xlab = "", ylab = "", xaxt = "n",
        yaxt='n', main = NULL, ylim = ylim)
-  #y.labs <- range(axTicks(2))
   y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
 
@@ -231,11 +245,11 @@ print(lst)
   par(mar = c(0, 0, 3, 0), oma = c(4, y.wid, top.mar, 2))  # Adjust inner and outer margins
   on.exit(par(.pardef))
 
-  j = 0  # Used to skip over empty panel
+  j <- 0  # Used to skip over empty panel
+
   for (i in 1:numpanel){
        j = j + 1
       if(length(lst[[i]]) == 0){
-        print(i)
         plot(1:10, type = "n", axes = FALSE, xlab = NULL, ylab = NULL, main = NULL)
         j = j - 1
       }
@@ -249,7 +263,7 @@ print(lst)
         # Get IQR line parameters
         probs = c(0.25, 0.75)
         yy <- as.vector(quantile(y, probs, names = FALSE, type = q.type))
-        xx <- qnorm(probs)
+        xx <- qtheo(probs)
         slope <- diff(yy) / diff(xx)
         int <- yy[[1L]] - slope * xx[[1L]]
 
@@ -290,7 +304,6 @@ print(lst)
 
         # Generate plot ----
         if(plot == TRUE){
-
           if(tails != TRUE){
             plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
                   xlim = xlim, ylim = ylim,
@@ -306,8 +319,12 @@ print(lst)
             }
           }
 
-          # Add x-axis
-          axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.7)
+          # Add x-axis. To prevent overlapping labels remove end labels
+          ticks <- pretty(x)
+          labels <- ticks
+          labels[c(1, length(labels))] <- ""
+          axis(1,col=plotcol, col.axis=plotcol,  padj = -0.7,
+               labels = TRUE)
 
           # Add y-axis if marginal plot
           if( i %in% seq(1,fac_num, by=ncol)){
@@ -316,7 +333,9 @@ print(lst)
           }
 
           # Add IQR line
-          abline(int, slope, col = plotcol)
+          if(iqr == TRUE){
+            abline(int, slope, col = plotcol)
+          }
 
           # Add medians
           if( med == TRUE){
@@ -333,11 +352,9 @@ print(lst)
                  col = rgb(0,0,0,0.05), border = NA)
           }
 
-
           # Add factor name above each plot
-          mtext(fac_un[j], side = 3, line = 0.2, cex = text.size, col=plotcol)
+          mtext(fac_un[j], side = 3, line = 0.1, cex = text.size, col=plotcol)
       }
-
     }  # Close plot loop
    }   # Close  loop
 
@@ -352,14 +369,14 @@ print(lst)
   mtext(side = 1, text=xlab, cex = 1, outer = TRUE, col = plotcol,line = 2)
 
   # Add y-axis title
-  mtext(side = 3, text = ylab, adj= -0.01 ,col=plotcol,  padj = 3,
+  mtext(side = 3, text = ylab, adj= 0 ,col=plotcol,  padj = 1.8,
         cex = 1, outer = TRUE)
 
-  # Add title unless requested
-  if(title == TRUE) title <- "Normal QQ plot"
+  # Add title unless not requested
+  if(title == TRUE) title <- paste(xlab, "QQ plot")
   if(title != FALSE){
-    title(main = title, line =0, col.main=plotcol, outer = TRUE, cex.main = 1.8,
-          adj = 0)
+    mtext(side = 3, text = title, adj= 0 ,col=plotcol,  padj = 0,
+          cex = 1.4, outer = TRUE)
   }
 
   # Remind user if power parameter was set to value other than 1
@@ -376,14 +393,16 @@ print(lst)
 df <- lattice::singer
 #df$voice.part <- as.character(df$voice.part)
 out <- eda_qqtheopan(df, height, voice.part, resid = T, text.size = 0.8,
-                     nrow = 3, med = F, tails = T)
-out <- eda_qqtheopan(iris, Petal.Width, Species, resid = T, nrow = 2)
+                     nrow = 3, med = F, tails = T, ylab = "Heigth (inches)", title = F)
+out <- eda_qqtheopan(df, height, voice.part, resid = T, text.size = 0.8,
+                     nrow = 3, med = F, tails = T, title = TRUE)
+out <- eda_qqtheopan(iris, Petal.Width, Species, resid = T, nrow = 2, title = T)
 
 sop1 <- subset(df, subset = voice.part == "Soprano 1", select = height, drop = TRUE)
 tukeyedar::eda_qq(sop1, norm = TRUE)
 
 # Normal QQ plots of Waterville daily averages. Color and point symbols are used
-# to place empahsis on the inner core of the data (here set to the inner 80% of
+# to place emphasis on the inner core of the data (here set to the inner 80% of
 # values)
 wat <- tukeyedar::wat05
 wat$month <- format(wat$date,"%b")
@@ -391,3 +410,4 @@ wat$temp <- wat$avg * 100000
 out <- eda_qqtheopan(wat,avg, month, resid = F, q = F, nrow = 4, inner = 0.8 ,
                      tails = T, tail.pch = 3, p.fill = "coral")
 out <- eda_qqtheopan(wat,temp, month, nrow = 3)
+out <- eda_qqtheopan(wat,temp, month, nrow = 3, dist = "unif")
