@@ -119,42 +119,14 @@ values are used to trim a dataframe (applies to <code>*_df</code> functions only
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Trim a vector by 10% (i.e. 10% of the smallest and 10% of the largest</span></span></span>
-<span class="r-in"><span><span class="co"># values)</span></span></span>
-<span class="r-in"><span><span class="fu">eda_trim</span><span class="op">(</span> <span class="va">mtcars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, prop<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 14.7 15.0 15.2 15.2 15.5 15.8 16.4 17.3 17.8 18.1 18.7 19.2 19.2 19.7 21.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 21.0 21.4 21.4 21.5 22.8 22.8 24.4 26.0 27.3</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Trim a data frame by 10% using the mpg column(i.e. 10% of the smallest</span></span></span>
-<span class="r-in"><span><span class="co"># and 10% of the largest mpg values)</span></span></span>
-<span class="r-in"><span><span class="fu">eda_trim_df</span><span class="op">(</span> <span class="va">mtcars</span>, <span class="va">mpg</span>, prop<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora     15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC       15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin       15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger  15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L    15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant           18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280          19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird  19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino      19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E        21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona     21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230          22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2     26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9         27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span></span>
+<span><span class="co"># Trim a vector by 10% (i.e. 10% of the smallest and 10% of the largest</span></span>
+<span><span class="co"># values)</span></span>
+<span><span class="fu">eda_trim</span><span class="op">(</span> <span class="va">mtcars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, prop<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Trim a data frame by 10% using the mpg column(i.e. 10% of the smallest</span></span>
+<span><span class="co"># and 10% of the largest mpg values)</span></span>
+<span><span class="fu">eda_trim_df</span><span class="op">(</span> <span class="va">mtcars</span>, <span class="va">mpg</span>, prop<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -165,7 +137,7 @@ values are used to trim a dataframe (applies to <code>*_df</code> functions only
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

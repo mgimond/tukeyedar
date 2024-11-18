@@ -201,31 +201,15 @@ book (see reference).</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">hsratio</span> <span class="op">&lt;-</span> <span class="fu">eda_3pt</span><span class="op">(</span><span class="va">cars</span>, <span class="va">speed</span>, <span class="va">dist</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">hsratio</span> <span class="op">&lt;-</span> <span class="fu">eda_3pt</span><span class="op">(</span><span class="va">cars</span>, <span class="va">speed</span>, <span class="va">dist</span>, py <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, ylab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Dist"</span><span class="op">^</span><span class="op">{</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#' # This next example models gas consumption as a function of engine displacement.</span></span></span>
-<span class="r-in"><span><span class="co"># It applies a transformation to both variables via the px and py arguments.</span></span></span>
-<span class="r-in"><span><span class="fu">eda_3pt</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span>,  px <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, py <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span></span>
-<span class="r-in"><span>       ylab <span class="op">=</span> <span class="st">"gal/mi"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Displacement"</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $slope1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.3633401</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $slope2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4098173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hsrtio</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.127916</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $xmed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1405721 0.1813741 0.2190819</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ymed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.06690834 0.05208333 0.03663004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span></span>
+<span><span class="va">hsratio</span> <span class="op">&lt;-</span> <span class="fu">eda_3pt</span><span class="op">(</span><span class="va">cars</span>, <span class="va">speed</span>, <span class="va">dist</span><span class="op">)</span></span>
+<span><span class="va">hsratio</span> <span class="op">&lt;-</span> <span class="fu">eda_3pt</span><span class="op">(</span><span class="va">cars</span>, <span class="va">speed</span>, <span class="va">dist</span>, py <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, ylab<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Dist"</span><span class="op">^</span><span class="op">{</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' # This next example models gas consumption as a function of engine displacement.</span></span>
+<span><span class="co"># It applies a transformation to both variables via the px and py arguments.</span></span>
+<span><span class="fu">eda_3pt</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">disp</span>, <span class="va">mpg</span>,  px <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span>, py <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>       ylab <span class="op">=</span> <span class="st">"gal/mi"</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Displacement"</span><span class="op">^</span><span class="op">{</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -236,7 +220,7 @@ book (see reference).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

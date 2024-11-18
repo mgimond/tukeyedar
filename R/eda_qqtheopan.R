@@ -2,10 +2,10 @@
 #' @import grDevices
 #' @import grid
 #' @importFrom utils modifyList
-#' @title Multi-panel theoretical QQ distribution plots
+#' @title Multi-panel theoretical QQ plots
 #'
-#' @description \code{eda_qqmulti} Generates a multi-panel Normal QQ plots for
-#'   a variable conditioned on a grouping variable
+#' @description \code{eda_qqmulti} Generates multi-panel theoretical QQ plots
+#'   for a continuous variable conditioned on a grouping variable.
 #'
 #' @param dat  Data frame.
 #' @param x    Continuous variable.
@@ -37,6 +37,7 @@
 #' @param tic.size Size of tic labels (defaults to 0.8).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
+#' @param nrow  Define the number of rows for panel layout.
 #' @param med Boolean determining if median lines should be drawn.
 #' @param q Boolean determining if grey box highlighting the \code{inner}
 #'   region should be displayed.
@@ -50,6 +51,8 @@
 #' @param title Title to display. If set to \code{TRUE}, defaults to
 #'   \code{"Normal QQ plot"}. If set to \code{FALSE}, omits title from output.
 #'   Custom title can also be passed to this argument.
+#' @param show.par Boolean determining if power transformation should be
+#'   displayed in the plot.
 #' @param xlab X-axis label.
 #' @param ylab Y-axis label.
 #' @param ... Not used
@@ -58,7 +61,6 @@
 #'  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
 #'  QQ plot (\code{dist="exp"}), and the uniform QQ plot (\code{dist="unif"})
 #'  are supported.
-#'
 #'
 #' @returns Returns a list with the following components:
 #'
@@ -79,12 +81,12 @@
 #' eda_qqtheopan(singer, height, voice.part)
 #'
 #' # Split into two rows
-#' eda_qqtheopan(singer, height, voice.part, nrow = 2)
+#' eda_qqtheopan(singer, height, voice.part, nrow = 2, title = TRUE)
 #'
 #' # Compare to a uniform distribution
 #' eda_qqtheopan(singer, height, voice.part, nrow = 2, dist = "unif")
 #'
-#' # A uniform QQ plot is analgous to a Q(f) plot
+#' # A uniform QQ plot is analogous to a Q(f) plot
 #' eda_qqtheopan(singer, height, voice.part, nrow = 2, dist = "unif",
 #'               iqr = FALSE, xlab = "f-value")
 #'
@@ -95,7 +97,7 @@
 #' wat <- tukeyedar::wat05
 #' wat$month <- format(wat$date,"%b")
 #' eda_qqtheopan(wat,avg, month, resid = TRUE, nrow = 4, inner = 0.8 ,
-#'                     tails = T, tail.pch = 3, p.fill = "coral")
+#'                     tails = TRUE, tail.pch = 3, p.fill = "coral")
 
 eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                           dist = "norm", dist.l = list(), ylim = NULL,
@@ -390,24 +392,4 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   invisible(lstout)
 }
 
-df <- lattice::singer
-#df$voice.part <- as.character(df$voice.part)
-out <- eda_qqtheopan(df, height, voice.part, resid = T, text.size = 0.8,
-                     nrow = 3, med = F, tails = T, ylab = "Heigth (inches)", title = F)
-out <- eda_qqtheopan(df, height, voice.part, resid = T, text.size = 0.8,
-                     nrow = 3, med = F, tails = T, title = TRUE)
-out <- eda_qqtheopan(iris, Petal.Width, Species, resid = T, nrow = 2, title = T)
 
-sop1 <- subset(df, subset = voice.part == "Soprano 1", select = height, drop = TRUE)
-tukeyedar::eda_qq(sop1, norm = TRUE)
-
-# Normal QQ plots of Waterville daily averages. Color and point symbols are used
-# to place emphasis on the inner core of the data (here set to the inner 80% of
-# values)
-wat <- tukeyedar::wat05
-wat$month <- format(wat$date,"%b")
-wat$temp <- wat$avg * 100000
-out <- eda_qqtheopan(wat,avg, month, resid = F, q = F, nrow = 4, inner = 0.8 ,
-                     tails = T, tail.pch = 3, p.fill = "coral")
-out <- eda_qqtheopan(wat,temp, month, nrow = 3)
-out <- eda_qqtheopan(wat,temp, month, nrow = 3, dist = "unif")
