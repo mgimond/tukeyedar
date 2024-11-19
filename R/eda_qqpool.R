@@ -4,7 +4,7 @@
 #' @importFrom utils modifyList
 #' @title Multi-panel pooled residuals QQ plots
 #'
-#' @description \code{eda_qqmulti} Generates multi-panel pooled residuals QQ plots
+#' @description \code{eda_qqpool} Generates multi-panel pooled residuals QQ plots
 #'   for a continuous variable conditioned on a grouping variable.
 #'
 #' @param dat  Data frame.
@@ -70,10 +70,10 @@
 #'
 #' # Default output
 #' singer <- lattice::singer
-#' eda_qqpoolpan(singer, height, voice.part)
+#' eda_qqpool(singer, height, voice.part)
 #'
 
-eda_qqpoolpan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
+eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                           resid = TRUE, stat = mean, show.par = FALSE,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
                           p.col = "grey40", p.fill = "grey60", size = 1,

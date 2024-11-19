@@ -4,7 +4,7 @@
 #' @importFrom utils modifyList
 #' @title Multi-panel theoretical QQ plots
 #'
-#' @description \code{eda_qqmulti} Generates multi-panel theoretical QQ plots
+#' @description \code{eda_theopan} Generates multi-panel theoretical QQ plots
 #'   for a continuous variable conditioned on a grouping variable.
 #'
 #' @param dat  Data frame.
@@ -13,9 +13,8 @@
 #' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
-#' @param q.type An integer between 1 and 9 selecting one of the nine quantile
-#'   algorithms (See \code{quantile} function). Used for the fitting the line
-#'   to the points and for computing the boundaries for the shaded region.
+#' @param q.type An integer between 4 and 9 selecting one of the nine quantile
+#'   algorithms. (See \code{quantile}tile function).
 #' @param dist Theoretical distribution to use. Defaults to Normal distribution.
 #' @param dist.l List of parameters passed to the distribution quantile function.
 #' @param ylim Y axes limits.
@@ -49,8 +48,8 @@
 #' @param iqr Boolean determining if an IQR line should be fitted to the points.
 #' @param text.size Size for category text above the plot.
 #' @param title Title to display. If set to \code{TRUE}, defaults to
-#'   \code{"Normal QQ plot"}. If set to \code{FALSE}, omits title from output.
-#'   Custom title can also be passed to this argument.
+#'   theoretical distribution type. If set to \code{FALSE}, omits title
+#'   from output. Custom title can also be passed to this argument.
 #' @param show.par Boolean determining if power transformation should be
 #'   displayed in the plot.
 #' @param xlab X-axis label.
@@ -78,16 +77,16 @@
 #'
 #' # Default output
 #' singer <- lattice::singer
-#' eda_qqtheopan(singer, height, voice.part)
+#' eda_theopan(singer, height, voice.part)
 #'
 #' # Split into two rows
-#' eda_qqtheopan(singer, height, voice.part, nrow = 2, title = TRUE)
+#' eda_theopan(singer, height, voice.part, nrow = 2, title = TRUE)
 #'
 #' # Compare to a uniform distribution
-#' eda_qqtheopan(singer, height, voice.part, nrow = 2, dist = "unif")
+#' eda_theopan(singer, height, voice.part, nrow = 2, dist = "unif")
 #'
 #' # A uniform QQ plot is analogous to a Q(f) plot
-#' eda_qqtheopan(singer, height, voice.part, nrow = 2, dist = "unif",
+#' eda_theopan(singer, height, voice.part, nrow = 2, dist = "unif",
 #'               iqr = FALSE, xlab = "f-value")
 #'
 #' # Normal QQ plots of Waterville daily averages. Mean monthly values are
@@ -96,10 +95,10 @@
 #' # inner 80% of values)
 #' wat <- tukeyedar::wat05
 #' wat$month <- format(wat$date,"%b")
-#' eda_qqtheopan(wat,avg, month, resid = TRUE, nrow = 4, inner = 0.8 ,
+#' eda_theopan(wat,avg, month, resid = TRUE, nrow = 4, inner = 0.8 ,
 #'                     tails = TRUE, tail.pch = 3, p.fill = "coral")
 
-eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
+eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                           dist = "norm", dist.l = list(), ylim = NULL,
                           resid = FALSE, stat = mean, show.par = FALSE,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
@@ -194,13 +193,13 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   # Setup the type of theoretical distribution to use.
   qtheo <- get(paste0("q", dist), mode = "function")
 
-  # Add matching normal quantiles to each dataframe in the list
+  # Add matching theoretical quantiles to each dataframe in the list
   lstout <- lapply(names(lst), function(grp) {
     y <- sort(na.omit(lst[[grp]]))  # Remove NAs and sort
-    prob <- ppoints(y)
-    dfqq <- data.frame(y , theo = do.call(qtheo, c(list(p=prob), dist.l))
-    )
-    names(dfqq) <- c(xname, "Normal")
+   #  prob <- ppoints(y)
+    prob <- eda_fval(y, qtype = q.type)
+    dfqq <- data.frame(y , theo = do.call(qtheo, c(list(p=prob), dist.l)))
+    names(dfqq) <- c(xname, xlab)
     dfqq
   })
 
@@ -218,7 +217,8 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
       ylim <- range(unlist(lst))
       ylim <- c(ylim[1] - diff(ylim) * lim.buffer  , ylim[2] + diff(ylim) * lim.buffer)
   }
-  xlim <- range(unlist(lapply(lstout, function(df) df$Normal)))
+
+  xlim <- range(unlist(lapply(lstout, function(df) df[,2])))
 
   # Define number of rows and columns
   ncol = ceiling(fac_num / nrow)
@@ -358,7 +358,7 @@ eda_qqtheopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
           mtext(fac_un[j], side = 3, line = 0.1, cex = text.size, col=plotcol)
       }
     }  # Close plot loop
-   }   # Close  loop
+   }  # Close  loop
 
   # Add power/formula parameters to plot
   if(show.par == TRUE){
