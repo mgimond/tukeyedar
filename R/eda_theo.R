@@ -37,7 +37,7 @@
 #' @param med Boolean determining if median lines should be drawn.
 #' @param q Boolean determining if \code{inner} data region should be shaded.
 #' @param iqr Boolean determining if an IQR line should be fitted to the points.
-#' @paramgrid Boolean determining if a grid should be added.
+#' @param grid Boolean determining if a grid should be added.
 #' @param inner Fraction of the data considered as "mid values". Defaults to
 #'  75\%. Used  to define shaded region boundaries, \code{q}, or to identify
 #'  which of the tail-end points are to be symbolized differently, \code{tails}.
@@ -82,16 +82,14 @@
 #'           iqr = FALSE, grid = TRUE, xlab = "f-value")
 
 
-eda_theo <- function(x, y = NULL, fac = NULL, p = 1L,
-                   tukey = FALSE, md = FALSE,
-                   q.type = 5, dist = "norm", dist.l = list(), ylim = NULL,
-                   resid = FALSE, stat = mean, plot = TRUE,
-                   show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8,
-                   med = TRUE, q = TRUE, iqr = TRUE, grid = FALSE, tails = FALSE,
-                   inner = 0.75, tail.pch = 21, tail.p.col = "grey70",
-                   tail.p.fill = NULL, xlab = NULL, ylab = NULL, title = NULL,
-                   t.size = 1.2, ...) {
+eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5, dist = "norm",
+                     dist.l = list(), resid = FALSE, stat = mean, plot = TRUE,
+                     show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
+                     p.fill = "grey80", size = 1, alpha = 0.8,
+                     med = TRUE, q = TRUE, iqr = TRUE, grid = FALSE, tails = FALSE,
+                     inner = 0.75, tail.pch = 21, tail.p.col = "grey70",
+                     tail.p.fill = NULL, xlab = NULL, ylab = NULL, title = NULL,
+                     t.size = 1.2, ...) {
 
   # Check for invalid arguments
   input <- names(list(...))

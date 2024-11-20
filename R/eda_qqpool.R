@@ -70,7 +70,7 @@
 #'
 #' # Default output
 #' singer <- lattice::singer
-#' eda_qqpool(singer, height, voice.part)
+#' eda_qqpool(singer, height, voice.part, nrow = 2)
 #'
 
 eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
@@ -88,7 +88,6 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
       call. = FALSE
     )
   }
-
 
   # Check for invalid arguments
   input <- names(list(...))
@@ -202,7 +201,7 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   in2line <- ( par("mar") / par("mai") )[2]
   pdf(NULL)
   plot(pooled.res, x, type = "n", xlab = "", ylab = "", xaxt = "n",
-       yaxt='n', main = NULL, ylim = xylim)
+       yaxt='n', main = NULL, xlim = xylim, ylim = xylim)
   y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   dev.off()
 
@@ -269,11 +268,11 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
         if(plot == TRUE){
           if(tails != TRUE){
             plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-                  ylim = xylim,
+                  ylim = xylim, xlim = xylim,
                   col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
           } else {
             plot( x=x[inner.tails], y=y[inner.tails], ylab=NA, las = 1,
-                  yaxt='n', xaxt='n', xlab=NA, ylim = xylim,
+                  yaxt='n', xaxt='n', xlab=NA, ylim = xylim, xlim = xylim,
                   col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
             if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
               points( x=x[outer.tails], y=y[outer.tails], yaxt='n', xaxt='n',
