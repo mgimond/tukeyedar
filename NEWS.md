@@ -1,8 +1,11 @@
 # tukeyedar 0.3.1
+*  Took out the normal and symmetry options from `eda_qq` and created their own functions:
+   `eda_qqsym` and `eda_theo`. The latter allows for theoretical distributions other
+   than Normal.
 *  Added the `eda_fval` function that generates f-values (probabilities) based on one of six algorithms
-*  Added the `eda_theo` function that generates theoretical QQ plots.
 *  Added the `eda_theopan` function that generates multi-panel theoretical QQ plots.
 *  Added the `eda_qqpool` function that generates multi-panel pooled residual plots.
+
 
 # tukeyedar 0.3.0
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).

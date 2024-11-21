@@ -52,11 +52,18 @@
 #'
 #' @details  The function generates a theoretical QQ plot.
 #'  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
-#'  QQ plot (\code{dist="exp"}), and the uniform QQ plot (\code{dist="unif"})
-#'  are supported.
+#'  QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}) and the
+#'  gamma QQ plot (\code{dist="gamma"}) are supported. By default, the Normal
+#'  QQ plot maps the unit Normal quantiles to the x-axis (i.e. centered on a
+#'  mean of 0 and standard deviation of 1 unit). \cr \cr
+#'  Note that arguments can be passed to the respective quantile functions via
+#'  the \code{d.list} argument. Some quantile functions require at least one
+#'  argument. For example, the \code{qgamma} function requires that the shape
+#'  parameter be specified. See the example below.
 #'
 #' @returns A dataframe with the input vector elements and matching theoretical
-#'   quantiles.
+#'   quantiles. Any transformations applied to both output vectors are reflected
+#'   in the output.
 #'
 #'
 #' @references
@@ -74,6 +81,12 @@
 #'  # Generate a normal QQ plot
 #'  eda_theo(bass2)
 #'
+#'  # Generate a gamma QQ plot. Note that gamma requires at the least the
+#'  # shape parameter
+#'  waiting <- faithful$waiting
+#'  eda_theo(waiting, dist = "gamma", dist.l = list(shape = 2.13, rate = 0.03))
+#'  eda_theo(waiting, dist = "exp")
+#'
 #'  # Generate a uniform QQ plot
 #'  eda_theo(bass2, dist = "unif")
 #'
@@ -82,14 +95,14 @@
 #'           iqr = FALSE, grid = TRUE, xlab = "f-value")
 
 
-eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5, dist = "norm",
-                     dist.l = list(), resid = FALSE, stat = mean, plot = TRUE,
-                     show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                     p.fill = "grey80", size = 1, alpha = 0.8,
-                     med = TRUE, q = FALSE, iqr = TRUE, grid = FALSE, tails = FALSE,
-                     inner = 0.75, tail.pch = 21, tail.p.col = "grey70",
-                     tail.p.fill = NULL, xlab = NULL, ylab = NULL, title = NULL,
-                     t.size = 1.2, ...) {
+eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5,
+                     dist = "norm", dist.l = list(), resid = FALSE, stat = mean,
+                     plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
+                     p.col = "grey50", p.fill = "grey80", size = 1, alpha = 0.8,
+                     med = TRUE, q = FALSE, iqr = TRUE, grid = FALSE,
+                     tails = FALSE, inner = 0.75, tail.pch = 21,
+                     tail.p.col = "grey70", tail.p.fill = NULL, xlab = NULL,
+                     ylab = NULL, title = NULL, t.size = 1.2, ...) {
 
   # Check for invalid arguments
   input <- names(list(...))
@@ -100,7 +113,8 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5, dist = "norm",
   # Currently accepted distributions
   axes_names <- c(norm = "Normal",
                   exp  = "Exponential",
-                  unif = "Uniform")
+                  unif = "Uniform",
+                  gamma = "Gamma")
 
   # Parameters check
   if (! as.character(substitute(stat)) %in% c("mean", "median"))
@@ -150,7 +164,8 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5, dist = "norm",
   qtheo <- get(paste0("q", dist), mode = "function")
 
   # Add matching normal quantiles to each dataframe in the list
-  prob <- eda_fval(x, qtype = q.type)
+  prob <- eda_fval(x, q.type = q.type)
+
   dfqq <- data.frame(x, do.call(qtheo, c(list(p=prob), dist.l)))
   names(dfqq) <- c(xname, xlab)
 
@@ -246,7 +261,7 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5, dist = "norm",
     if (iqr == TRUE){
       probs = c(0.25, 0.75)
       yy <- as.vector(quantile(y, probs, names = FALSE, type = q.type))
-      xx <- qtheo(probs)
+      xx <- do.call(qtheo, c(list(p=probs), dist.l))
       slope <- diff(yy) / diff(xx)
       int <- yy[[1L]] - slope * xx[[1L]]
       abline(int, slope, col = plotcol)

@@ -6,7 +6,7 @@
 #'  symmetry or Tukey mean-difference plot
 #'
 #' @param x  Vector whose f-values are to be computed.
-#' @param qtype  Quantile algorithm.
+#' @param q.type  Quantile algorithm.
 #'
 #' @details
 #' For each value \eqn{i} in \code{x}, \code{eda_fval} computes the
@@ -41,11 +41,11 @@
 #'  set.seed(321)
 #'  z <- runif(10, 1, 20)
 #'  eda_fval(z)  # Cleveland's f-values
-#'  eda_fval(z, qtype = 7)  # Algorithm used by the quantile() function.
+#'  eda_fval(z, q.type = 7)  # Algorithm used by the quantile() function.
 
-eda_fval <- function(x, qtype = 5) {
+eda_fval <- function(x, q.type = 5) {
   # Check if algorithm is between 4 and 9
-  if (!qtype %in% 4:9) {
+  if (!q.type %in% 4:9) {
     stop("Algorithm must be a number between 4 and 9.")
   }
 
@@ -58,7 +58,7 @@ eda_fval <- function(x, qtype = 5) {
   n <- length(x)
   ord <- order(x)
   # Calculate the probabilities based on the algorithm
-  fval <- switch(as.character(qtype),
+  fval <- switch(as.character(q.type),
                   `4` = (1:n) / n,
                   `5` = (1:n - 0.5) / n,
                   `6` = (1:n) / (n + 1),
