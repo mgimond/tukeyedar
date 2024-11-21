@@ -86,7 +86,7 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5, dist = "norm",
                      dist.l = list(), resid = FALSE, stat = mean, plot = TRUE,
                      show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                      p.fill = "grey80", size = 1, alpha = 0.8,
-                     med = TRUE, q = TRUE, iqr = TRUE, grid = FALSE, tails = FALSE,
+                     med = TRUE, q = FALSE, iqr = TRUE, grid = FALSE, tails = FALSE,
                      inner = 0.75, tail.pch = 21, tail.p.col = "grey70",
                      tail.p.fill = NULL, xlab = NULL, ylab = NULL, title = NULL,
                      t.size = 1.2, ...) {
