@@ -2,21 +2,19 @@
 #' @import grDevices
 #' @import lattice
 #' @importFrom utils modifyList
-#' @title Quantile-Quantile plot, Quantile-Normal plot, Tukey mean-difference
-#' plot, and symmetry Quantile-Quantile plot
+#' @title Quantile-Quantile and Tukey mean-difference plots
 #'
-#' @description \code{eda_qq} Generates an empirical,  Normal,
-#'  symmetry or Tukey mean-difference plot
+#' @description \code{eda_qq} Generates an empirical QQ plot and a Tukey
+#'   mean-difference plot
 #'
 #' @param x  Vector for first variable, or a dataframe.
 #' @param y  Vector for second variable, or column defining the continuous
 #'   variable if \code{x} is a dataframe. Ignored if \code{x} is a vector and
 #'   either \code{norm=TRUE} or \code{sym=TRUE}.
 #' @param fac Column defining the categorical variable if \code{x} is a
-#' dataframe. Ignored if \code{x} is a vector and either \code{norm=TRUE} or
-#' \code{sym=TRUE}.
-#' @param norm Boolean determining if a Normal QQ plot is to be generated.
-#' @param sym Boolean determining if a symmetry QQ plot is to be generated.
+#' dataframe. Ignored if \code{x} is a vector.
+#' @param norm Defunct. Use \code{eda_theo} instead.
+#' @param sym Defunct. Use \code{eda_sym} instead.
 #' @param p  Power transformation to apply to continuous variable(s).
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -118,8 +116,10 @@
 #'  eda_qq(dat, height, voice.part)
 #'
 #' # If the shaded region is too distracting, you can apply a different symbol
-#' # to the tail-end points
-#' eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE)
+#' # to the tail-end points and different color to the points falling in the
+#' # inner region.
+#' eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE, tail.pch = 3,
+#'        p.fill = "coral", size = 1, med = FALSE)
 #'
 #' # For a more traditional look to the QQ plot
 #' eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
@@ -166,11 +166,7 @@
 #'  # species' petal widths.
 #'  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 #'
-#'  # Function can generate a Normal QQ plot
-#'  eda_qq(bass2, norm = TRUE)
-#'
-#'  # Function can also generate a symmetry QQ plot
-#'  eda_qq(tenor1, sym = TRUE)
+
 
 
 eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
@@ -190,20 +186,11 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                                    paste(input[!check], collapse = ", ")))
 
   # Parameters check
-  if ("data.frame" %in% class(x) & norm == TRUE)
-    stop("x needs to be a vector if norm=TRUE")
-  if(norm == TRUE & md == TRUE)
-    stop("A rotated version of Normal QQ plot is not yet implemented.")
-  if(norm == TRUE & sym == TRUE)
-    stop(paste("This function cannot combine a normal QQ plot with a symmetry QQ plot.",
-               " Either set norm to FALSE or sym to FALSE."))
-   if(sym == TRUE & ("data.frame" %in% class(x)) )
-    stop("x must be avector and not a dataframe to generate a symmetry QQ plot")
-   if(sym == TRUE)
-    cat(" This is a symmetry QQ plot.\n",
-        "Values are distances from each observation to the median value\n",
-        "Function arguments (fx and fy) are ignored")
-   if(!"data.frame" %in% class(x) & switch == TRUE)
+  if(norm == TRUE)
+    stop("This function no longer generates a Normal QQ plot. Use eda_theo() instead.")
+  if(sym == TRUE)
+    stop("This function no longer generates a symmetry QQ plot. Use eda_sym() instead.")
+  if(!"data.frame" %in% class(x) & switch == TRUE)
      warning(paste("The argument switch was set to TRUE yet the input dataset ",
                    "is not a dataframe. Switch only applies to data stored ",
                    "in a dataframe."))
@@ -240,20 +227,14 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     y <- val[fac == g[2]]
     xlab <- g[1]
     ylab <- g[2]
-  } else if (sym != TRUE){
+  } else {
 
     if(is.null(xlab)){
-      if( norm == FALSE) {
-        xlab = deparse(substitute(x))
-      } else {
-        xlab = "Normal quantile"
-      }
+      xlab = deparse(substitute(x))
     }
 
-    if(is.null(ylab) & norm == FALSE){
+    if(is.null(ylab)){
       ylab <- deparse(substitute(y))
-    } else if (is.null(ylab) & norm == TRUE){
-      ylab <- substitute(x)
     }
   }
 
@@ -263,83 +244,51 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   }
   x.isna <- is.na(x)
   rm.nan <- ifelse( any(x.isna), 1 , 0)
-  if(norm == FALSE & sym == FALSE) {
-    y <- eda_re(y, p = p, tukey = tukey)
-    y.isna <- is.na(y)
-    rm.nan <- ifelse( any(y.isna), 1 , 0) + rm.nan
-  }
+  y <- eda_re(y, p = p, tukey = tukey)
+  y.isna <- is.na(y)
+  rm.nan <- ifelse( any(y.isna), 1 , 0) + rm.nan
 
   # Re-expression may produce NaN values. Output warning if TRUE
   if( rm.nan > 0 ) {
     warning(paste("\nRe-expression produced NaN values. These observations will",
                   "be removed from output. This will result in fewer points",
                   "in the ouptut."))
-    if( norm == FALSE){
-      bad <- x.isna | y.isna
-      x <- x[!bad]
-      y <- y[!bad]
-    } else {
-      x <- x[!x.isna]
-    }
+
+  bad <- x.isna | y.isna
+  x <- x[!bad]
+  y <- y[!bad]
+
   }
 
   # Get upper/lower bounds of inner values
   b.val = c(.5 - inner / 2 , .5 + inner / 2)
 
-  # If a symmetry QQ plot is requested, split x in half
-  if(sym == TRUE) {
-    med <- median(x)
-    len <- length(x)
-    x.sort <- sort(x)
-    n2 <- ifelse( len%%2 == 0, len/2, (len + 1)/2)
-    x <- med - x.sort[1:n2]
-    y <- x.sort[ (len + 1) - (1:n2) ] - med
-    xlab <- "lower half"
-    ylab <- "upper half"
-
-    # Modify grey box parameters
-    b.val <- c(0, diff(b.val))
-
-    # Ignore any functions applied to the data
-    fx <- NULL
-    fy <- NULL
-  }
-
   # Compute x and y values ----
-  if(norm == FALSE){
-    zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
-  } else {
-    zl <- qqnorm(x, plot.it = FALSE)  # Get Normal quantiles
-  }
+  zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
 
   zd <- data.frame(y = zl$y - zl$x, x = zl$x)
   zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
 
   # Get suggested multiplier and offset (only for empirical data)
-  if(norm == FALSE & sym == FALSE ){
-    z <- eda_rline(zd,x,y)
-    x.multi <-  1 + z$b
-    x.add <- median(zl$y - sort(zl$x * x.multi))
-  }
-
+  z <- eda_rline(zd,x,y)
+  x.multi <-  1 + z$b
+  x.add <- median(zl$y - sort(zl$x * x.multi))
 
   # Apply formula if present
-  if(!is.null(fx) & !is.null(fy) & norm == FALSE)
+  if(!is.null(fx) & !is.null(fy))
     warning(paste("You should apply a formula to just one axis.\n",
                   "You are applying the formula", fx,"to the x-axis",
                   "and the formula",fy ,"to the y-axis."))
-  if(!is.null(fx) & norm == FALSE){
+  if(!is.null(fx)){
     fx <- tolower(fx)
     if(!grepl("x", fx)) stop("Formula fx does not contain \"x\" variable.")
     x <- eval(parse(text=fx))
   }
-  if(!is.null(fy) & norm == FALSE){
+  if(!is.null(fy)){
     fy <- tolower(fy)
     if(!grepl("y", fy)) stop("Formula fx does not contain \"y\" variable.")
     y <- eval(parse(text=fy))
   }
-  if( (!is.null(fx) | !is.null(fy)) & norm == TRUE)
-    warning("Formula is ignored when generating a Normal QQ plot")
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
@@ -353,11 +302,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   }
 
   # Generate qqplot using base function
-  if(norm != TRUE){
-    qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
-  } else {
-    qq <- qqnorm(sort(x), plot.it = FALSE)
-  }
+  qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
 
   x <- qq$x
   y <- qq$y
@@ -410,20 +355,14 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     medy <- median(y)
 
     # Generate plot
-    if(norm != TRUE){
-      xylim <- range(x,y)
-    } else {
-      xlim <- range(x)
-      ylim <- range(y)
-    }
+    xylim <- range(x,y)
 
     # QQ plot: Empirical ----
-    if(norm == FALSE){
-      if(tails != TRUE){
+    if(tails != TRUE){
         plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
               col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
               xlim = xylim, ylim = xylim)
-      } else {
+    } else {
         plot( x=x[inner.tails], y=y[inner.tails],  ylab=NA, las=1,
               yaxt='n', xaxt='n', xlab=NA,
               col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
@@ -434,23 +373,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                 col.lab=plotcol, pch = tail.pch, col = tail.p.col,
                 bg = tail.p.fill, cex = size)
         }
-      }
-
-      # QQ plot: Normal ----
-    } else {
-      if(tails != TRUE){
-        plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
-      } else {
-        plot( x=x[inner.tails], y=y[inner.tails], ylab=NA, las = 1,
-              yaxt='n', xaxt='n', xlab=NA, xlim = xlim, ylim = ylim,
-              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
-        if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-          points( x=x[outer.tails], y=y[outer.tails], yaxt='n', xaxt='n',
-                  col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-                  bg = tail.p.fill, cex = size)
-        }
-      }
     }
 
     box(col=plotcol)
@@ -466,22 +388,10 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
 
     # Add empirical QQ line ----
-    if(norm != TRUE){
-      abline(0, 1, col = plotcol)
-
-      # Add Normal QQ line ----
-    } else {
-      probs = c(0.25, 0.75)
-      yy <- as.vector(quantile(y, probs, names = FALSE, type = q.type))
-      xx <- qnorm(probs)
-      slope <- diff(yy) / diff(xx)
-      int <- yy[[1L]] - slope * xx[[1L]]
-      abline(int, slope, col = plotcol)
-      abline(v = c(-1,1), col = "grey90", lty = 3)
-    }
+    abline(0, 1, col = plotcol)
 
     # Add medians (omit id sym == TRUE) ----
-    if(sym != TRUE & med == TRUE){
+    if(med == TRUE){
       abline(v = medx, col = "grey80", lty = 2)
       abline(h = medy, col = "grey80", lty = 2)
     }
@@ -496,17 +406,12 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
 
     # Add power/formula parameters to plot
-    if(norm != TRUE & show.par == TRUE){
-      params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
-      params <- gsub("\\; \\;", ";", params)
-      mtext(side = 3, text=params, adj=1, cex = 0.65)
-    } else if (show.par == TRUE) {
-      mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
-    }
-
+    params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
+    params <- gsub("\\; \\;", ";", params)
+    mtext(side = 3, text=params, adj=1, cex = 0.65)
 
     #  M-D plot ----
-  } else if(plot == TRUE & md == TRUE & norm == FALSE) {
+  } else if(plot == TRUE & md == TRUE) {
 
     # Generate labels
     xlab2 <- paste("Mean of", xlab, "and", ylab)

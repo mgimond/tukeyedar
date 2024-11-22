@@ -4,7 +4,7 @@
 #' @importFrom utils modifyList
 #' @title Symmetry QQ plot
 #'
-#' @description \code{eda_qq} Generates a symmetry QQ plot.
+#' @description \code{eda_sym} Generates a symmetry QQ plot.
 #'
 #' @param x  Vector of sample
 #' @param p  Power transformation to apply to continuous variable(s).
@@ -57,15 +57,15 @@
 #'  singer <- lattice::singer
 #'  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
 #'
-#'  eda_qqsym(tenor1)
+#'  eda_sym(tenor1)
 
 
-eda_qqsym <- function(x, p = 1L, tukey = FALSE, q.type = 5, plot = TRUE,
+eda_sym <- function(x, p = 1L, tukey = FALSE, q.type = 5, plot = TRUE,
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                    p.fill = "grey80", size = 0.8, alpha = 0.8,
                    q = TRUE, tails = FALSE, inner = 0.75,
                    tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
-                   switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
+                   xlab = NULL, ylab = NULL, title = NULL,
                    t.size = 1.2, ...) {
 
   # Check for invalid arguments

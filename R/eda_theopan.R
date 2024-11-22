@@ -58,8 +58,11 @@
 #'
 #' @details The function will generate a multi-panel theoretical QQ plot.
 #'  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
-#'  QQ plot (\code{dist="exp"}), and the uniform QQ plot (\code{dist="unif"})
-#'  are supported.
+#'  QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
+#'  gamma QQ plot (\code{dist="gamma"}), and the chi-squared QQ plot
+#'  (\code{dist="chisq"}) are currently supported. By default, the Normal
+#'  QQ plot maps the unit Normal quantiles to the x-axis (i.e. centered on a
+#'  mean of 0 and standard deviation of 1 unit).
 #'
 #' @returns Returns a list with the following components:
 #'
@@ -119,7 +122,9 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   # Currently accepted distributions
   axes_names <- c(norm = "Normal",
                   exp  = "Exponential",
-                  unif = "Uniform")
+                  unif = "Uniform",
+                  gamma = "Gamma",
+                  chisq = "Chi-Squared")
 
   # Check for invalid arguments
   input <- names(list(...))
@@ -197,7 +202,7 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   lstout <- lapply(names(lst), function(grp) {
     y <- sort(na.omit(lst[[grp]]))  # Remove NAs and sort
    #  prob <- ppoints(y)
-    prob <- eda_fval(y, qtype = q.type)
+    prob <- eda_fval(y, q.type = q.type)
     dfqq <- data.frame(y , theo = do.call(qtheo, c(list(p=prob), dist.l)))
     names(dfqq) <- c(xname, xlab)
     dfqq

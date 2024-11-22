@@ -4,12 +4,12 @@
 \alias{eda_fval}
 \title{Calculate Quantile f-values}
 \usage{
-eda_fval(x, qtype = 5)
+eda_fval(x, q.type = 5)
 }
 \arguments{
 \item{x}{Vector whose f-values are to be computed.}
 
-\item{qtype}{Quantile algorithm.}
+\item{q.type}{Quantile algorithm.}
 }
 \value{
 A vector of \eqn{f-values} in the same order a vector \code{x}.
@@ -44,7 +44,7 @@ in \code{stats::quantile}. The algorithms used are: \cr \cr
  set.seed(321)
  z <- runif(10, 1, 20)
  eda_fval(z)  # Cleveland's f-values
- eda_fval(z, qtype = 7)  # Algorithm used by the quantile() function.
+ eda_fval(z, q.type = 7)  # Algorithm used by the quantile() function.
 }
 \references{
 \itemize{

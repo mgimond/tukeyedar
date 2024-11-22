@@ -2,8 +2,7 @@
 % Please edit documentation in R/eda_qq.R
 \name{eda_qq}
 \alias{eda_qq}
-\title{Quantile-Quantile plot, Quantile-Normal plot, Tukey mean-difference
-plot, and symmetry Quantile-Quantile plot}
+\title{Quantile-Quantile and Tukey mean-difference plots}
 \usage{
 eda_qq(
   x,
@@ -48,12 +47,11 @@ variable if \code{x} is a dataframe. Ignored if \code{x} is a vector and
 either \code{norm=TRUE} or \code{sym=TRUE}.}
 
 \item{fac}{Column defining the categorical variable if \code{x} is a
-dataframe. Ignored if \code{x} is a vector and either \code{norm=TRUE} or
-\code{sym=TRUE}.}
+dataframe. Ignored if \code{x} is a vector.}
 
-\item{norm}{Boolean determining if a Normal QQ plot is to be generated.}
+\item{norm}{Defunct. Use \code{eda_theo} instead.}
 
-\item{sym}{Boolean determining if a symmetry QQ plot is to be generated.}
+\item{sym}{Defunct. Use \code{eda_sym} instead.}
 
 \item{p}{Power transformation to apply to continuous variable(s).}
 
@@ -136,8 +134,8 @@ Returns a list with the following components:
   \item \code{fy}: Formula applied to y variable.}
 }
 \description{
-\code{eda_qq} Generates an empirical,  Normal,
- symmetry or Tukey mean-difference plot
+\code{eda_qq} Generates an empirical QQ plot and a Tukey
+  mean-difference plot
 }
 \details{
 When the function is used to generate an empirical QQ plot, the plot
@@ -180,8 +178,10 @@ When the function is used to generate an empirical QQ plot, the plot
  eda_qq(dat, height, voice.part)
 
 # If the shaded region is too distracting, you can apply a different symbol
-# to the tail-end points
-eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE)
+# to the tail-end points and different color to the points falling in the
+# inner region.
+eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE, tail.pch = 3,
+       p.fill = "coral", size = 1, med = FALSE)
 
 # For a more traditional look to the QQ plot
 eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
@@ -228,11 +228,6 @@ eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
  # species' petal widths.
  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 
- # Function can generate a Normal QQ plot
- eda_qq(bass2, norm = TRUE)
-
- # Function can also generate a symmetry QQ plot
- eda_qq(tenor1, sym = TRUE)
 }
 \references{
 \itemize{

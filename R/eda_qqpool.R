@@ -160,7 +160,7 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   f.val <- unlist(
     lapply(split(x, fac), function(x) {
  #     (seq_along(x) - 0.5) / length(x)
-      eda_fval(seq_along(x), qtype = q.type)
+      eda_fval(seq_along(x), q.type = q.type)
     }) )
 
   pooled.res <- quantile(x, probs = f.val)

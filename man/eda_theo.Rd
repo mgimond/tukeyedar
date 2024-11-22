@@ -22,7 +22,7 @@ eda_theo(
   size = 1,
   alpha = 0.8,
   med = TRUE,
-  q = TRUE,
+  q = FALSE,
   iqr = TRUE,
   grid = FALSE,
   tails = FALSE,
@@ -112,7 +112,8 @@ which of the tail-end points are to be symbolized differently, \code{tails}.}
 }
 \value{
 A dataframe with the input vector elements and matching theoretical
-  quantiles.
+  quantiles. Any transformations applied to both output vectors are reflected
+  in the output.
 }
 \description{
 \code{eda_theo} Generates a theoretical QQ plot for many common
@@ -121,8 +122,16 @@ A dataframe with the input vector elements and matching theoretical
 \details{
 The function generates a theoretical QQ plot.
  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
- QQ plot (\code{dist="exp"}), and the uniform QQ plot (\code{dist="unif"})
- are supported.
+ QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
+ gamma QQ plot (\code{dist="gamma"}), and the chi-squared QQ plot
+ (\code{dist="chisq"}) are currently supported. By default, the Normal
+ QQ plot maps the unit Normal quantiles to the x-axis (i.e. centered on a
+ mean of 0 and standard deviation of 1 unit). \cr \cr
+ Note that arguments can be passed to the respective quantile functions via
+ the \code{d.list} argument. Some quantile functions require at least one
+ argument. For example, the \code{qgamma} function requires that the shape
+ parameter be specified and the \code{qchisq} function requires that  the
+ degrees of freedom, \code{df} be specified. See the examples below.
 }
 \examples{
 
@@ -131,6 +140,16 @@ The function generates a theoretical QQ plot.
 
  # Generate a normal QQ plot
  eda_theo(bass2)
+
+ # Generate a chi-squared QQ plot. The distribution requires that the degrees
+ # of freedom be specified. The inner 70\% shaded region is added.
+ set.seed(270); x <- rchisq(100, df =3)
+ eda_theo(x, dist = "chisq", dist.l = list(df = 3), q = TRUE)
+
+ # Generate a gamma QQ plot. Note that gamma requires at the very least the
+ # shape parameter. The chi-squared distribion is a special case of the
+ # gamma distribution where shape = df/2 and rate = 1/2.
+ eda_theo(x, dist = "gamma", dist.l = list(shape = 3/2, rate = 1/2), q = TRUE)
 
  # Generate a uniform QQ plot
  eda_theo(bass2, dist = "unif")
