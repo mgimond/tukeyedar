@@ -4,15 +4,15 @@
 #' @importFrom utils modifyList
 #' @title Theoretical QQ plot
 #'
-#' @description \code{eda_theo} Generates a theoretical QQ plot for many common
-#'   distributions including the Normal, uniform and exponential distributions.
+#' @description \code{eda_theo} generates a theoretical QQ plot for many common
+#'   distributions including the Normal, uniform and gamma distributions.
 #'
 #' @param x  Vector of continuous values.
-#' @param p  Power transformation to apply to continuous variable(s).
+#' @param p  Power transformation to apply to \code{x}.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param q.type An integer between 4 and 9 selecting one of the nine quantile
-#'   algorithms. (See \code{quantile}tile function).
+#'   algorithms. (See the \code{stats::quantile} function).
 #' @param dist Choice of theoretical distribution.
 #' @param dist.l List of parameters passed to the distribution quantile function.
 #' @param resid Boolean determining if residuals should be plotted. Residuals
@@ -53,19 +53,20 @@
 #' @details  The function generates a theoretical QQ plot.
 #'  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
 #'  QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
-#'  gamma QQ plot (\code{dist="gamma"}), and the chi-squared QQ plot
-#'  (\code{dist="chisq"}) are currently supported. By default, the Normal
-#'  QQ plot maps the unit Normal quantiles to the x-axis (i.e. centered on a
-#'  mean of 0 and standard deviation of 1 unit). \cr \cr
+#'  gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
+#'  (\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
+#'  currently supported. By default, the Normal QQ plot maps the unit Normal
+#'  quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
+#'  of 1 unit). \cr \cr
 #'  Note that arguments can be passed to the respective quantile functions via
 #'  the \code{d.list} argument. Some quantile functions require at least one
 #'  argument. For example, the \code{qgamma} function requires that the shape
 #'  parameter be specified and the \code{qchisq} function requires that  the
-#'  degrees of freedom, \code{df} be specified. See the examples below.
+#'  degrees of freedom, \code{df}, be specified. See examples.
 #'
 #' @returns A dataframe with the input vector elements and matching theoretical
-#'   quantiles. Any transformations applied to both output vectors are reflected
-#'   in the output.
+#'   quantiles. Any transformation applied to \code{x} is reflected in the
+#'   output.
 #'
 #'
 #' @references
@@ -121,7 +122,8 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5,
                   exp  = "Exponential",
                   unif = "Uniform",
                   gamma = "Gamma",
-                  chisq = "Chi-Squared")
+                  chisq = "Chi-Squared",
+                  weibull = "Weibull")
 
   # Parameters check
   if (! as.character(substitute(stat)) %in% c("mean", "median"))
@@ -134,9 +136,7 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5,
 
   # Define axes labels based on distribution type
   if(is.null(xlab)) xlab <- axes_names[dist]
-  if(is.null(ylab)){
-    ylab <- deparse(substitute(x))
-  }
+  if(is.null(ylab)) ylab <- deparse(substitute(x))
 
   # Get values and factors
   xname <- deparse(substitute(x))
@@ -257,7 +257,7 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5,
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
          tck = -0.02)
 
-    mtext(xname, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
+    mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
     title(xlab = xlab, line =1.8, col.lab=plotcol)
 
     if(!is.null(title)){

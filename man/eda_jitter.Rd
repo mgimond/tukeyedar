@@ -46,26 +46,27 @@ eda_jitter(
 \item{p}{Power transformation to apply to variable}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation)}
+(\code{FALSE} adopts a Box-Cox transformation).}
 
-\item{horiz}{Plot horizontally (TRUE) or vertically (FALSE)}
+\item{horiz}{Plot horizontally (\code{TRUE}) or vertically (\code{FALSE}).}
 
-\item{stat}{Choice of summary statistic to use when centering the fitted
-values around 0. \code{stat} can be either \code{mean} or \code{median}. DO
+\item{stat}{Choice of summary statistic to use when fitting a central value
+to the data. \code{stat} can be either \code{mean} or \code{median}. DO
 NOT wrap stat parameter in quotes.}
 
-\item{show.stat}{Boolean determining if a summary statistic of the batches
-should be plotted.}
+\item{show.stat}{Boolean determining if a summary statistic should be added
+to jitter plot.}
 
 \item{stat.type}{Symbol to use to display statistical summary. Can be either
 a point, \code{"p"}, or a line, \code{"l"}.}
 
 \item{stat.col}{Symbol color to use to display statistical summary. If
 \code{stat.type} is a point, then the color will be passed to its outline
-if the point symbol type is 21 through 25.}
+if the point symbol type, \code{stat.pch}, is 21 through 25.}
 
-\item{stat.fill}{Fill color to use for the point statistical summary if
-point symbol type is 21 through 25. Ignored if \code{stat.type = "l"}.}
+\item{stat.fill}{Fill color to use for the point statistical summary if the
+point symbol type, \code{stat.pch}, is 21 through 25. Ignored if
+\code{stat.type = "l"}.}
 
 \item{stat.size}{Size of point statistical summary if \code{stat.type = "p"},
 or width of line if \code{stat.type = "l"}.}
@@ -73,8 +74,8 @@ or width of line if \code{stat.type = "l"}.}
 \item{stat.pch}{Point statistical summary type (1 through 25). Ignored if
 \code{stat.type = "l"}.}
 
-\item{stat.pad}{Fraction to add to the length of the line statistical summary,
-Ignore if \code{stat.type = "p"}.}
+\item{stat.pad}{Fraction to add to the length of the line statistical
+summary. Ignored if \code{stat.type = "p"}.}
 
 \item{xlab}{X label for output plot}
 
@@ -106,7 +107,8 @@ displayed in the plot.}
 {No values are returned}
 }
 \description{
-\code{eda_jitter} creates jitter plot conditioned on one variable.
+\code{eda_jitter} creates a jitter plot from a continuous
+ variable conditioned on a categorical variable.
 }
 \details{
 Function generates jitter plot from a univariate dataset. If no categorical
@@ -130,5 +132,5 @@ eda_jitter(iris, Sepal.Width, Species, stat.type = "l")
 
 # You can apply a transformation to the data. The summary statistic will be
 # computed after the data are transformed.
-eda_jitter(mtcars, hp, cyl, p = 0)
+eda_jitter(mtcars, hp, cyl, stat.type = "l", p = 0)
 }

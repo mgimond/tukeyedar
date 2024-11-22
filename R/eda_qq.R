@@ -9,18 +9,18 @@
 #'
 #' @param x  Vector for first variable, or a dataframe.
 #' @param y  Vector for second variable, or column defining the continuous
-#'   variable if \code{x} is a dataframe. Ignored if \code{x} is a vector and
-#'   either \code{norm=TRUE} or \code{sym=TRUE}.
+#'   variable if \code{x} is a dataframe.
 #' @param fac Column defining the categorical variable if \code{x} is a
-#' dataframe. Ignored if \code{x} is a vector.
+#'   dataframe. The categorical column must be limited to two levels (groups).
+#' dataframe. Ignored if \code{x} and \code{y} are vectors.
 #' @param norm Defunct. Use \code{eda_theo} instead.
 #' @param sym Defunct. Use \code{eda_sym} instead.
 #' @param p  Power transformation to apply to continuous variable(s).
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
-#'   algorithms. (See \code{quantile}tile function).
-#' @param md Boolean determining if Tukey mean-difference plot should be
+#'   algorithms. (See \code{quantile} function).
+#' @param md Boolean determining if a Tukey mean-difference plot should be
 #'   generated.
 #' @param fx Formula to apply to x variable before pairing up with y. This is
 #'   computed after any transformation is applied to the x variable.
@@ -28,7 +28,7 @@
 #'   computed after any transformation is applied to the y variable.
 #' @param plot Boolean determining if plot should be generated.
 #' @param show.par Boolean determining if parameters such as power
-#'   transformation or formula should be displayed.
+#'   transformation and formula should be displayed.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -40,61 +40,57 @@
 #'   (Only used for \code{tail.pch} ranging from 21-25).
 #' @param size Point size (0-1)
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
-#'   applicable if \code{rgb()} is not used to define point colors.
+#'   applicable if \code{rgb()} is not used to define point color.
 #' @param med Boolean determining if median lines should be drawn.
 #' @param q Boolean determining if \code{inner} data region should be shaded.
 #' @param inner Fraction of the data considered as "mid values". Defaults to
 #'  75\%. Used  to define shaded region boundaries, \code{q}, or to identify
-#'  which of the tail-end points are to be symbolized differently, \code{tails}.
+#'  which of the tail-end points are to be symbolized differently,
+#'  \code{tails=TRUE}.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
 #'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param switch Boolean determining if the axes should be swapped in an
 #'  empirical QQ plot. Only applies to dataframe input. Ignored if vectors are
-#'  passed to the function or if \code{sym=TRUE} or if \code{norm=TRUE}
+#'  passed to the function.
 #' @param xlab X label for output plot. Ignored if \code{x} is a dataframe.
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param title Title to add to plot.
 #' @param t.size Title size.
 #' @param ... Not used
 #'
-#' @details When the function is used to generate an empirical QQ plot, the plot
-#'   will highlight the inner 75\% of the data via a shaded region for both x
-#'   and y variables. The inner range can be changed via the  \code{inner}
-#'   argument. Its purpose is to prevent tail-end values from disproportionately
-#'   biasing our interpretation of the distributions.  If the shaded regions are
-#'   too distracting, you can opt to have the tail-end points symbolized differently
-#'   by setting \code{tails = TRUE} and \code{q = FALSE}. The \code{inner} value
-#'   has no impact in the computation of the quantile values.\cr
+#' @details By default, the QQ plot will highlight the inner 75\% of the data
+#'   for both x and y axes to mitigate the visual influence of extreme values.
+#'   The \code{inner} argument controls the extent of this region. For example
+#'   \code{inner = 0.5} will highlight the IQR region. \cr
 #'   \cr
-#'   The middle dashed line represents each batch's median value.\cr
+#'   If the shaded regions are too distracting, you can opt to have the
+#'   tail-end points symbolized differently by setting \code{tails = TRUE} and
+#'   \code{q = FALSE}. The tail-end point symbols can be customized via the
+#'   \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
 #'   \cr
-#'   Console output prints the suggested multiplicative and additive offsets.
-#'   See the QQ plot vignette for an introduction on its use and interpretation.\cr
+#'   The middle dashed line represents each batch's median value. It can be
+#'   turned off by setting \code{med = FALSE}\cr
 #'   \cr
-#'   The function can generate a Normal QQ plot when the
-#'   \code{norm} argument is set to  \code{TRUE}.
-#'   Note that for the Normal QQ plot, the "suggested offsets" output is
-#'   disabled, nor can you generate an M-D version of the Normal QQ plot.
-#'   Also note that the formula argument is ignored in this mode.\cr
-#'   \cr
-#'   The function can be used to generate a symmetry QQ plot when the
-#'   \code{sym} argument is set to  \code{TRUE}. This plot helps assess the
-#'   symmetry of a variable by splitting it into two halves, upper and lower,
-#'   using the batch's median as the cutoff point. The values for each half are
-#'   the distances of each observation to the median value in \code{x}'s units.
-#'   The distance starts at 0 in the bottom-left corner of the plot. The shaded
-#'   region \code{inner},  will be measured from the origin given that the
-#'   batch's center of mass is at 0. Power transformations can be applied to
-#'   \code{x} but any formula passed via \code{fx} or \code{fy} is ignored.
-#'   This plot is inspired from the symmetry plot described by Chambers et al.
-#'   in section 2.8 of their book (see reference).
+#'   Console output prints the suggested multiplicative and additive offsets. It
+#'   adopts a resistant line fitting technique to derive the coefficients. The
+#'   suggested offsets output applies to the raw or re-expressed data but it
+#'   ignores any \code{fx} or \code{fy} transformations applied to the data.
+#'   Note that the suggested offsets may not always be the most parsimonious fit.
+#'   Eyeballing the offsets may sometimes result in a more satisfactory
+#'   characterization of the differences between batches. See the QQ plot
+#'   article for an introduction on its use and interpretation.
+#'   \cr \cr
+#'   To generate a Tukey mean-difference plot, set \code{med = TRUE}.
+#'   \cr \cr
+#'   For more information on this function and on interpreting a QQ plot see
+#'   the \href{../articles/qq.html}{QQ plot article}.
 #'
 #' @returns Returns a list with the following components:
 #'
 #' \itemize{
 #'   \item \code{data}: Dataframe with input \code{x} and \code{y} values.
-#'   May be interpolated to smallest quantile batch.
+#'   Data will be interpolated to smallest quantile batch if batch sizes differ.
 #'   Values will reflect power transformation defined in \code{p}.
 #'   \item \code{p}: Re-expression applied to original values.
 #'   \item \code{fx}: Formula applied to x variable.
@@ -105,8 +101,7 @@
 #' \itemize{
 #'   \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
 #'   Graphical Methods for Data Analysis (1983)
-#'   \item \href{../articles/qq.html}{Quantile-Quantile plot article}
-#'   \item \href{../articles/symqq.html}{Symmetry quantile plot article}}
+#'   \item \href{../articles/qq.html}{Quantile-Quantile plot article}}
 #'
 #' @examples
 #'
@@ -119,7 +114,7 @@
 #' # to the tail-end points and different color to the points falling in the
 #' # inner region.
 #' eda_qq(dat, height, voice.part, q = FALSE, tails = TRUE, tail.pch = 3,
-#'        p.fill = "coral", size = 1, med = FALSE)
+#'        p.fill = "coral", size = 1.2, med = FALSE)
 #'
 #' # For a more traditional look to the QQ plot
 #' eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
@@ -130,6 +125,11 @@
 #'
 #'  eda_qq(bass2, tenor1)
 #'
+#'  # The function suggests an offset of the form y = x * 1.04 - 5.2
+#'  eda_qq(bass2, tenor1, fx = "x * 1.04 - 5.2")
+#'
+#'  # The suggested offset helps align the points along the x=y line, but we
+#'  # we might come up with a better characterization of this offset.
 #'  # There seems to be an additive offset of about 2 inches. By subtracting 2
 #'  # from the x variable, we should have points line up with the x=y line
 #'  eda_qq(bass2, tenor1, fx = "x - 2")
@@ -173,7 +173,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
                    tukey = FALSE, md = FALSE,
                    q.type = 5, fx = NULL, fy = NULL, plot = TRUE,
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8,
+                   p.fill = "grey80", size = 1, alpha = 0.8,
                    med = TRUE, q = TRUE, tails = FALSE, inner = 0.75,
                    tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
@@ -211,6 +211,12 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     } else {
       g <- levels(fac)
     }
+
+    # Check if there are more than 2 unique groups
+    if(length(g) > 2)
+       stop(cat("You must limit the category to just 2 unique groups.",
+                "You currenlty have",length(g),"groups:",
+                paste(g, collapse = ","),"\n"))
 
     # Switch axes if requested
     if (switch == TRUE){
@@ -406,9 +412,12 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
 
     # Add power/formula parameters to plot
-    params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
-    params <- gsub("\\; \\;", ";", params)
-    mtext(side = 3, text=params, adj=1, cex = 0.65)
+    if(show.par == TRUE){
+      params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
+      params <- gsub("\\; \\;", ";", params)
+      mtext(side = 3, text=params, adj=1, cex = 0.65)
+    }
+
 
     #  M-D plot ----
   } else if(plot == TRUE & md == TRUE) {

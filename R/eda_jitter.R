@@ -1,7 +1,8 @@
 #' @export
 #' @title Jitter plot
 #'
-#' @description \code{eda_jitter} creates jitter plot conditioned on one variable.
+#' @description \code{eda_jitter} creates a jitter plot from a continuous
+#'  variable conditioned on a categorical variable.
 #'
 #' @param dat  Dataframe.
 #' @param x    Continuous variable.
@@ -10,26 +11,27 @@
 #'   (\code{0} to \code{1}).
 #' @param p  Power transformation to apply to variable
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation)
-#' @param horiz  Plot horizontally (TRUE) or vertically (FALSE)
-#' @param stat Choice of summary statistic to use when centering the fitted
-#'   values around 0. \code{stat} can be either \code{mean} or \code{median}. DO
+#'   (\code{FALSE} adopts a Box-Cox transformation).
+#' @param horiz  Plot horizontally (\code{TRUE}) or vertically (\code{FALSE}).
+#' @param show.stat Boolean determining if a summary statistic should be added
+#'   to jitter plot.
+#' @param stat Choice of summary statistic to use when fitting a central value
+#'   to the data. \code{stat} can be either \code{mean} or \code{median}. DO
 #'   NOT wrap stat parameter in quotes.
-#' @param show.stat Boolean determining if a summary statistic of the batches
-#'   should be plotted.
 #' @param stat.type Symbol to use to display statistical summary. Can be either
 #'   a point, \code{"p"}, or a line, \code{"l"}.
 #' @param stat.col Symbol color to use to display statistical summary. If
 #'   \code{stat.type} is a point, then the color will be passed to its outline
-#'   if the point symbol type is 21 through 25.
-#' @param stat.fill Fill color to use for the point statistical summary if
-#'   point symbol type is 21 through 25. Ignored if \code{stat.type = "l"}.
+#'   if the point symbol type, \code{stat.pch}, is 21 through 25.
+#' @param stat.fill Fill color to use for the point statistical summary if the
+#'   point symbol type, \code{stat.pch}, is 21 through 25. Ignored if
+#'   \code{stat.type = "l"}.
 #' @param stat.size Size of point statistical summary if \code{stat.type = "p"},
 #'   or width of line if \code{stat.type = "l"}.
 #' @param stat.pch Point statistical summary type (1 through 25). Ignored if
 #'   \code{stat.type = "l"}.
-#' @param stat.pad Fraction to add to the length of the line statistical summary,
-#'   Ignore if \code{stat.type = "p"}.
+#' @param stat.pad Fraction to add to the length of the line statistical
+#'   summary. Ignored if \code{stat.type = "p"}.
 #' @param xlab X label for output plot
 #' @param ylab Y label for output plot
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black)
@@ -70,7 +72,7 @@
 #'
 #' # You can apply a transformation to the data. The summary statistic will be
 #' # computed after the data are transformed.
-#' eda_jitter(mtcars, hp, cyl, p = 0)
+#' eda_jitter(mtcars, hp, cyl, stat.type = "l", p = 0)
 
 eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
                       horiz=FALSE, stat = mean, show.stat = TRUE, stat.type = "p",

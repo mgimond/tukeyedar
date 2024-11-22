@@ -11,7 +11,7 @@ eda_qqmat(
   p = 1L,
   tukey = FALSE,
   q.type = 5,
-  diag = TRUE,
+  upper = FALSE,
   xylim = NULL,
   resid = FALSE,
   stat = mean,
@@ -28,8 +28,8 @@ eda_qqmat(
   tic.size = 0.7,
   alpha = 0.8,
   q = FALSE,
-  tails = TRUE,
-  med = TRUE,
+  tails = FALSE,
+  med = FALSE,
   inner = 0.75,
   ...
 )
@@ -49,7 +49,7 @@ eda_qqmat(
 \item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
 algorithms. (See \code{quantile}tile function).}
 
-\item{diag}{Boolean determining if both upper and lower triangular matrix
+\item{upper}{Boolean determining if both upper and lower triangular matrix
 should be plotted. If set to \code{FALSE}, only the lower triangular matrix
 is plotted.}
 
@@ -115,24 +115,19 @@ Returns a list with the following components:
 \code{eda_qqmat} Generates a matrix of empirical QQ plots
 }
 \details{
-The function will generate an empirical QQ plot matrix from a
-dataframe of continuous values and matching categories. The function is
-designed to place emphasis on the mid portion of the data. The mid portion
-range is defined by \code{inner} (the inner fraction of the data). By default,
-the points outside of the mid portion of the data are symbolized differently.
-You can also highlight the mid region in light grey by setting
-\code{q = TRUE}. The median of both batches are shown in vertical and
-horizontal dashed lines. For a plain vanilla QQ plot matrix you can remove
-all guides by setting \code{tails = FALSE} and  \code{mid = FALSE}.
-
-The QQ plot matrix is most effective in comparing residuals after the data
-are fitted by the mean or median. To plot the residuals, set
-\code{resid=TRUE}. By default, the \code{mean} is used. You can change the
-statistic to the median by setting \code{stat=median}.
-
-The function also allows for batch transformation of values via the
-\code{p} argument. The transformation is applied to the data prior to
-computing the residuals.
+The function will generate an empirical QQ plot matrix. Most of the
+  arguments available in `eda_qq` are echoed in this function. The one
+  notable difference is the default settings. By default, `eda_qqmat` will
+  generate a plain vanilla set of plots. \cr
+  \cr
+  The QQ plot matrix is most effective in comparing residuals after the data
+  are fitted by the mean or median. To plot the residuals, set
+  \code{resid=TRUE}. By default, the \code{mean} is used. You can change the
+  statistic to the median by setting \code{stat=median}. \cr
+  \cr
+  The function also allows for batch transformation of values via the
+  \code{p} argument. The transformation is applied to the data prior to
+  computing the residuals.
 }
 \examples{
 
@@ -140,14 +135,17 @@ computing the residuals.
 singer <- lattice::singer
 eda_qqmat(singer, height, voice.part)
 
-# Limit to lower triangular matrix
-eda_qqmat(singer, height, voice.part, diag = FALSE)
+# Symbolize points outside of the "inner" region using an open point symbol
+eda_qqmat(singer, height, voice.part, tails = TRUE)
 
-# Plot residuals after fitting mean model
+# Set the inner region to cover 80\% and change the outer point symbol to "+"
+eda_qqmat(singer, height, voice.part, inner = 0.8, tails = TRUE, tail.pch = 3)
+
+# Add the upper triangle to the matrix
+eda_qqmat(singer, height, voice.part, upper = TRUE)
+
+# Plot residuals after fitting mean to each batch
 eda_qqmat(singer, height, voice.part, resid = TRUE)
-
-# Generate plain vanilla QQ plot matrix
-eda_qqmat(mtcars, mpg, cyl,resid = TRUE, tails = FALSE, med = FALSE)
 
 # Log transform the data, then plot the residuals after fitting the mean model
 eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0)
@@ -155,19 +153,17 @@ eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0)
 # Fit the median model instead of the mean
 eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, stat = median)
 
-# Fill inner region with grey boxes
+# Shade the "inner" regions (defaults to the mid 70\% of values)
 eda_qqmat(iris, Petal.Length, Species, resid = TRUE, q = TRUE, p = 0)
 
-# Change tail point symbol
-eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, tail.pch = 3)
-
-# Change inner region point symbols to dark orange and reduce size of all
-# point symbols
-eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, size = 0.8,
-          tail.pch = 3, p.fill = "darkorange")
+# Change inner region point symbols to dark orange and change inner region
+# range to cover 90\% of mid values
+eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, inner = 0.9,
+          tail.pch = 3, p.fill = "orange2")
 }
 \references{
 \itemize{
   \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)}
+  Graphical Methods for Data Analysis (1983)
+  \item \href{../articles/qq.html}{Quantile-Quantile plot article}}
 }

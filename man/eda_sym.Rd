@@ -33,10 +33,10 @@ eda_sym(
 \arguments{
 \item{x}{Vector of sample}
 
-\item{p}{Power transformation to apply to continuous variable(s).}
+\item{p}{Power transformation to apply to \code{x}.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation).}
+(\code{FALSE} adopts a Box-Cox transformation).}
 
 \item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
 algorithms used to generate inner shaded region. (See \code{quantile}tile
@@ -44,7 +44,7 @@ function).}
 
 \item{plot}{Boolean determining if plot should be generated.}
 
-\item{show.par}{Boolean determining power parameter should be displayed.}
+\item{show.par}{Boolean determining if power parameter should be displayed.}
 
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
@@ -95,7 +95,8 @@ Returns a dataframe of upper and lower halves
 }
 \details{
 Generates a symmetry quantile plot that compares the lower half
- of the sorted data to its upper half.
+ of the sorted data to its upper half. If the distribution is perfectly
+ symmetrical, the points will fall on the line.
 }
 \examples{
 

@@ -7,14 +7,14 @@
 #' @description \code{eda_sym} Generates a symmetry QQ plot.
 #'
 #' @param x  Vector of sample
-#' @param p  Power transformation to apply to continuous variable(s).
+#' @param p  Power transformation to apply to \code{x}.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation).
+#'   (\code{FALSE} adopts a Box-Cox transformation).
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
 #'   algorithms used to generate inner shaded region. (See \code{quantile}tile
 #'   function).
 #' @param plot Boolean determining if plot should be generated.
-#' @param show.par Boolean determining power parameter should be displayed.
+#' @param show.par Boolean determining if power parameter should be displayed.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -41,7 +41,8 @@
 #' @param ... Not used
 #'
 #' @details Generates a symmetry quantile plot that compares the lower half
-#'  of the sorted data to its upper half.
+#'  of the sorted data to its upper half. If the distribution is perfectly
+#'  symmetrical, the points will fall on the line.
 #'
 #' @returns Returns a dataframe of upper and lower halves
 #'

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-10-30</h4>
+            <h4 data-toc-skip class="date">2024-11-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/symqq.Rmd" class="external-link"><code>vignettes/symqq.Rmd</code></a></small>
       <div class="d-none name"><code>symqq.Rmd</code></div>
@@ -120,11 +120,11 @@ are at both tail ends of the distribution.</p>
 <div class="section level2">
 <h2 id="the-symmetry-qq-plot-function">The symmetry QQ plot function<a class="anchor" aria-label="anchor" href="#the-symmetry-qq-plot-function"></a>
 </h2>
-<p>The symmetry QQ plot is generated using the <code><a href="../reference/eda_qq.html">eda_qq()</a></code>
-function with the <code>sym = TRUE</code> argument.</p>
+<p>The symmetry QQ plot is generated using the <code><a href="../reference/eda_sym.html">eda_sym()</a></code>
+function.</p>
 <p>Before exploring the function and its output, let’s first generate
 some data. Here, we’ll create a slightly skewed dataset (one that is
-skewed towards large values).</p>
+skewed towards larger values).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> </span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">100</span>, shape <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  </span></code></pre></div>
@@ -132,19 +132,19 @@ skewed towards large values).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-4-1.png" width="288"></p>
 <p>If you are familiar with the use of <code>eda_qq</code> as an
 empirical QQ plot function, you are familiar with the grey boxes that
 highlight the mid 75% of the values. Here, given that the x and y axes
 are mapping the lower and upper halves of the batch, the lower part of
 the grey region is bounded by <code>0</code> given that <code>0</code>
-is the central value of <code>x</code>.</p>
+is defined as the batch’s mid-point.</p>
 <p>In this example, the points do not hug the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line, even inside the inner 75% region defined by the grey region. This
-is to be expected given that we generated a right skewed dataset. For
-example, a point in the lower half of <code>x</code> that is about
+line, even for the mid 75% of the values covered by the grey region.
+This is to be expected given that we generated a right skewed dataset.
+For example, a point in the lower half of <code>x</code> that is about
 <code>1</code> unit away of the median has a matching quantile in the
 upper half of <code>x</code> that is about <code>1.4</code> units away
 of the median placing it further away from the median than its lower
@@ -152,14 +152,14 @@ half counterpart. This skew becomes more pronounced as we move closer to
 the tails. The furthest point away from the median is about
 <code>1.4</code> units for the lower half and a little less than
 <code>4</code> units away for the upper half.</p>
-<p>The <code>eda_qq</code> function allows the use of a re-expression.
-This feature can be helpful if one seeks to symmetrize a batch of values
-using a power transformation. For example, if we wanted to render
-<code>x</code> more symmetrical, we could try a power of
+<p>The <code>eda_sym</code> function allows for the use of a
+re-expression. This feature can be helpful if one seeks to symmetrize a
+batch of values using a power transformation. For example, if we wanted
+to render <code>x</code> more symmetrical, we could try a power of
 <code>0.5</code> (i.e. the square root) by setting the argument
 <code>p = 0.5</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
 <p>Here, the square root transformation does a good job in rendering
 <code>x</code> more symmetrical. Note that the points do not hug the
@@ -171,28 +171,8 @@ line. For example, if we were too aggressive with the power
 transformation and chose a log transformation (<code>p = 0</code>), we
 would end up with a left skewed batch of values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" width="288"></p>
-<p>The symmetry QQ plot can leverage <code>eda_qq</code>’s built-in
-Tukey mean-difference plot (<code>md = TRUE</code>) if a finer grain
-resolution of the points vis-a-vis the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line is desired. Note that with the Tukey mean-difference plot, the x
-and y axes values are different, but this need not matter since we are
-simply leveraging this plot to help identify a power transformation that
-will give us a symmetrical distribution in the points.</p>
-<p>Here is the original (untransformed) data in a Tukey mean-difference
-plot:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-7-1.png" width="288"></p>
-<p>The
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line is now the horizontal black line centered on 0.</p>
-<p>Here’s the transformed version of the data:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, sym <span class="op">=</span> <span class="cn">TRUE</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-8-1.png" width="288"></p>
 </div>
 <div class="section level2">
 <h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>

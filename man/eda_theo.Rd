@@ -40,13 +40,13 @@ eda_theo(
 \arguments{
 \item{x}{Vector of continuous values.}
 
-\item{p}{Power transformation to apply to continuous variable(s).}
+\item{p}{Power transformation to apply to \code{x}.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
 
 \item{q.type}{An integer between 4 and 9 selecting one of the nine quantile
-algorithms. (See \code{quantile}tile function).}
+algorithms. (See the \code{stats::quantile} function).}
 
 \item{dist}{Choice of theoretical distribution.}
 
@@ -112,26 +112,27 @@ which of the tail-end points are to be symbolized differently, \code{tails}.}
 }
 \value{
 A dataframe with the input vector elements and matching theoretical
-  quantiles. Any transformations applied to both output vectors are reflected
-  in the output.
+  quantiles. Any transformation applied to \code{x} is reflected in the
+  output.
 }
 \description{
-\code{eda_theo} Generates a theoretical QQ plot for many common
-  distributions including the Normal, uniform and exponential distributions.
+\code{eda_theo} generates a theoretical QQ plot for many common
+  distributions including the Normal, uniform and gamma distributions.
 }
 \details{
 The function generates a theoretical QQ plot.
  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
  QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
- gamma QQ plot (\code{dist="gamma"}), and the chi-squared QQ plot
- (\code{dist="chisq"}) are currently supported. By default, the Normal
- QQ plot maps the unit Normal quantiles to the x-axis (i.e. centered on a
- mean of 0 and standard deviation of 1 unit). \cr \cr
+ gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
+ (\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
+ currently supported. By default, the Normal QQ plot maps the unit Normal
+ quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
+ of 1 unit). \cr \cr
  Note that arguments can be passed to the respective quantile functions via
  the \code{d.list} argument. Some quantile functions require at least one
  argument. For example, the \code{qgamma} function requires that the shape
  parameter be specified and the \code{qchisq} function requires that  the
- degrees of freedom, \code{df} be specified. See the examples below.
+ degrees of freedom, \code{df}, be specified. See examples.
 }
 \examples{
 

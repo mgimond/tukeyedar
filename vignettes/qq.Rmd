@@ -330,7 +330,7 @@ eda_qq(s1, s2, p = 0, fx = "x * 0.8501 + 0.3902")
 We can characterize the differences in indometacin plasma concentrations between subject 1 and subject 2 as $log(conc)_{s2} = log(conc)_{s1} * 0.8501 + 0.3902$
 
 
-## The Tukey mean-difference plot
+# The Tukey mean-difference plot
 
 The **Tukey mean-difference plot** is simply an extension of the QQ plot whereby the plot is rotated such that the $x=y$ line becomes horizontal. This can be useful in helping identify subtle differences between the point pattern and the line. The plot is rotated 45&deg; by mapping the difference between both batches to the y-axis, and mapping the *mean* between both batches to the x-axis. For example, the following figure on the left (the QQ plot) shows the additive offset between both batches but it fails to clearly identify the multiplicative offset. The latter can be clearly seen in the Tukey mean-difference plot (on the right) which is invoked by setting the argument `md = TRUE`.
 
@@ -348,6 +348,32 @@ Note that the mean-difference plot highlights the mid *difference* values define
 
 ```{r fig.height=3, fig.width = 3, results='hide'}
 eda_qq(x, y, md = TRUE, tails = TRUE, q = FALSE)
+```
+
+# Creating a QQ plot matrix
+
+A separate function, `eda_qqmat`, is used to create a QQ plot matrix. It adopts many of the same arguments available in the `eda_qq` function, but it does not adopt some of `eda_qq`'s default settings. For example, the inner region shading parameter `q` is set to `FALSE`--this to minimize clutter in the densely packed matrix. Instead, points Falling outside of the *inner* region are symbolized with an open point symbol. For example, to generate an empirical QQ plot matrix of singer height values conditioned of voice parts type:
+
+```{r fig.height = 7, fig.width = 7, eval = FALSE}
+singer <- lattice::singer
+eda_qqmat(singer, height, voice.part)
+```
+```{r fig.height = 7, fig.width = 7, echo = FALSE}
+singer <- lattice::singer
+eda_qqmat(singer, height, voice.part, size = 0.7)
+```
+
+You can, of course, adopt the same point symbol for all points by setting `tails = FALSE`. 
+
+The matrix limits the output to the lower triangle given that the matrix is symmetrical. If you wish to add the upper triangle, set `upper = TRUE`.
+
+Additive offsets can be distracting if the goal is to compare spreads across each group. The function offers the option to generate a residuals QQ plot matrix (`resid = TRUE`) by subtracting the input values with the group mean (`stat = mean`) or median (`stat = median`). For example, to generate a residuals QQ plot of singer height, type:
+
+```{r fig.height = 7, fig.width = 7, eval = FALSE}
+eda_qqmat(singer, height, voice.part, resid = TRUE)
+```
+```{r fig.height = 7, fig.width = 7, echo = FALSE}
+eda_qqmat(singer, height, voice.part, size = 0.7, resid = TRUE)
 ```
 
 # A working example

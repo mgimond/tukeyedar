@@ -2,19 +2,20 @@
 #' @import grDevices
 #' @import grid
 #' @importFrom utils modifyList
-#' @title Multi-panel pooled residuals QQ plots
+#' @title Multi-panel pooled values QQ plots
 #'
-#' @description \code{eda_qqpool} Generates multi-panel pooled residuals QQ plots
-#'   for a continuous variable conditioned on a grouping variable.
+#' @description \code{eda_qqpool} generates multi-panel pooled values QQ plots
+#'   for a continuous variable conditioned on a grouping variable. This plot is
+#'   most frequently used to compare residuals to pooled residuals.
 #'
 #' @param dat  Data frame.
 #' @param x    Continuous variable.
 #' @param fac  Categorical variable.
 #' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation).
+#'   (\code{FALSE} adopts a Box-Cox transformation).
 #' @param q.type An integer between 4 and 9 selecting one of the six quantile
-#'   algorithms (See \code{quantile} function). used for computing quantiles.
+#'   algorithms (See \code{eda_fval} for a list of quantile algorithms).
 #' @param resid Boolean determining if residuals should be plotted. Residuals
 #'   are computed using the \code{stat} parameter.
 #' @param stat Statistic to use if residuals are to be computed. Currently
@@ -51,15 +52,13 @@
 #' @param ylab Y and X axes labels.
 #' @param ... Not used
 #'
-#' @details The function will generate a multi-panel pooled residuals QQ plots.
-#'  The input continuous variable may
+#' @details The function will generate a multi-panel pooled values QQ plots.
+#'  The function defaults to a pooled residuals QQ plots which is the most common
+#'  use for this kind of plot.
 #'
-#' @returns Returns a list with the following components:
-#'
-#' \itemize{
-#'   \item \code{data}: List with input \code{x} and \code{y} values for each
-#'   group. May be interpolated to smallest quantile batch if batch sizes
-#'   don't match. Values will reflect power transformation defined in \code{p}}
+#' @returns Returns a dataframe with \code{x} (or its residuals if
+#' \code{resid = TRUE}), \code{fac}, the f-value (by \code{fac} group), and
+#' the matching pooled residuals.
 #'
 #' @references
 #'

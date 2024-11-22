@@ -2,46 +2,50 @@
 #' @importFrom utils modifyList
 #' @title Calculate Quantile f-values
 #'
-#' @description \code{eda_qq} Generates an empirical,  Normal,
-#'  symmetry or Tukey mean-difference plot
+#' @description \code{eda_fval} Generates f-values for quantile functions
 #'
 #' @param x  Vector whose f-values are to be computed.
 #' @param q.type  Quantile algorithm.
 #'
-#' @details
-#' For each value \eqn{i} in \code{x}, \code{eda_fval} computes the
-#' cumulative probability associated with \eqn{i}. It provides a measure of the
-#' position of a data point relative to the rest of the data scaled to the
-#' range [0,1]. This is essentially the fraction, \eqn{f-value},  of the dataset
-#' that lies below \eqn{i}. \cr
-#' \cr
-#' Different algorithms are used to compute the probability/f-value. This
-#' function offers as option algorithm type \code{4} through \code{6} documented
-#' in \code{stats::quantile}. The algorithms used are: \cr \cr
+#' @details  For each value i in \code{x}, \code{eda_fval} computes the
+#'  cumulative probability associated with i. It provides a measure of the
+#'  position of a data point relative to the rest of the data scaled to the
+#'  range [0,1]. This is essentially the fraction, f-value,  of the dataset
+#'  that lies below i. This fraction is sometimes reported as the
+#'  probability or cumulative frequency. \cr
+#'  \cr
+#'  Different algorithms are used to compute the f-value. \code{eda_fval}
+#'  offers as optional algorithm type \code{4} through \code{6} documented
+#'  in \code{stats::quantile}. The algorithms used are: \cr \cr
 #'   \itemize{
-#'     \item{\code{4}: \deqn{f = i / n,}}
-#'     \item{\code{5}: \deqn{f = (i - 0.5) / n,}}
-#'     \item{\code{6}: \deqn{f = i / (n + 1),}}
-#'     \item{\code{7}: \deqn{f = (i  - 1) / (n - 1),}}
-#'     \item{\code{8}: \deqn{f = (i - 1/3) / (n + 1/3),}}
-#'     \item{\code{9}: \deqn{f = (i - 3/8) / (n + 1/4).}}
-#'   }
-#'   Where \eqn{f} is the fraction of values that lies below \eqn{i}, and
-#'   \eqn{n} is the total number values.
+#'     \item \code{4}: f = i / n,
+#'     \item \code{5}: f = (i - 0.5) / n,
+#'     \item \code{6}: f = i / (n + 1),
+#'     \item \code{7}: f = (i  - 1) / (n - 1),
+#'     \item \code{8}: f = (i - 1/3) / (n + 1/3),
+#'     \item \code{9}: f = (i - 3/8) / (n + 1/4).}
 #'
-#' @returns A vector of \eqn{f-values} in the same order a vector \code{x}.
+#'   Where f is the fraction of values that lies below index i, and
+#'   n is the total number values.
+#'
+#' @returns A vector of f-values in the same order as vector \code{x}.
 #'
 #' @references
-#' \itemize{
-#'   \item{\link[stats]{quantile}}
-#'   \item{\link[stats]{ppoints}}}
+#'
+#'  \itemize{
+#'  \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+#'   Graphical Methods for Data Analysis (1983)}
 #'
 #' @examples
 #'
 #'  set.seed(321)
 #'  z <- runif(10, 1, 20)
-#'  eda_fval(z)  # Cleveland's f-values
-#'  eda_fval(z, q.type = 7)  # Algorithm used by the quantile() function.
+#'
+#'  # William Cleveland's f-values algorithm
+#'  eda_fval(z)
+#'
+#'  # Algorithm used by the stats::quantile() function
+#'  eda_fval(z, q.type = 7)
 
 eda_fval <- function(x, q.type = 5) {
   # Check if algorithm is between 4 and 9

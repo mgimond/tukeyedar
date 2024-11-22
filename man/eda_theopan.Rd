@@ -51,10 +51,10 @@ eda_theopan(
 \item{p}{Power transformation to apply to the continuous variable.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation).}
+(\code{FALSE} adopts a Box-Cox transformation).}
 
 \item{q.type}{An integer between 4 and 9 selecting one of the nine quantile
-algorithms. (See \code{quantile}tile function).}
+algorithms. (See \code{eda_fval} for a list of quantile algorithms).}
 
 \item{dist}{Theoretical distribution to use. Defaults to Normal distribution.}
 
@@ -130,17 +130,21 @@ Returns a list with the following components:
 \itemize{
   \item \code{data}: List with input \code{x} and \code{y} values for each
   group. May be interpolated to smallest quantile batch if batch sizes
-  don't match. Values will reflect power transformation defined in \code{p}}
+  don't match. Values will reflect power transformation defined in \code{p}}.
 }
 \description{
-\code{eda_theopan} Generates multi-panel theoretical QQ plots
+\code{eda_theopan} generates multi-panel theoretical QQ plots
   for a continuous variable conditioned on a grouping variable.
 }
 \details{
 The function will generate a multi-panel theoretical QQ plot.
  Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
- QQ plot (\code{dist="exp"}), and the uniform QQ plot (\code{dist="unif"})
- are supported.
+ QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
+ gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
+ (\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
+ currently supported. By default, the Normal QQ plot maps the unit Normal
+ quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
+ of 1 unit).
 }
 \examples{
 
@@ -163,8 +167,8 @@ eda_theopan(singer, height, voice.part, nrow = 2, dist = "unif",
 # symbols are used to emphasize the inner core of the data (here set to the
 # inner 80\% of values)
 wat <- tukeyedar::wat05
-wat$month <- format(wat$date,"\%b")
-eda_theopan(wat,avg, month, resid = TRUE, nrow = 4, inner = 0.8 ,
+wat$month <- factor(format(wat$date,"\%b"), levels = month.abb)
+eda_theopan(wat,avg, month, resid = TRUE, nrow = 3, inner = 0.8 ,
                     tails = TRUE, tail.pch = 3, p.fill = "coral")
 }
 \references{

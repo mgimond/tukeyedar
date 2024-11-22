@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_qqpool.R
 \name{eda_qqpool}
 \alias{eda_qqpool}
-\title{Multi-panel pooled residuals QQ plots}
+\title{Multi-panel pooled values QQ plots}
 \usage{
 eda_qqpool(
   dat,
@@ -46,10 +46,10 @@ eda_qqpool(
 \item{p}{Power transformation to apply to the continuous variable.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(FALSE adopts a Box-Cox transformation).}
+(\code{FALSE} adopts a Box-Cox transformation).}
 
 \item{q.type}{An integer between 4 and 9 selecting one of the six quantile
-algorithms (See \code{quantile} function). used for computing quantiles.}
+algorithms (See \code{eda_fval} for a list of quantile algorithms).}
 
 \item{resid}{Boolean determining if residuals should be plotted. Residuals
 are computed using the \code{stat} parameter.}
@@ -110,20 +110,19 @@ Custom title can also be passed to this argument.}
 \item{...}{Not used}
 }
 \value{
-Returns a list with the following components:
-
-\itemize{
-  \item \code{data}: List with input \code{x} and \code{y} values for each
-  group. May be interpolated to smallest quantile batch if batch sizes
-  don't match. Values will reflect power transformation defined in \code{p}}
+Returns a dataframe with \code{x} (or its residuals if
+\code{resid = TRUE}), \code{fac}, the f-value (by \code{fac} group), and
+the matching pooled residuals.
 }
 \description{
-\code{eda_qqpool} Generates multi-panel pooled residuals QQ plots
-  for a continuous variable conditioned on a grouping variable.
+\code{eda_qqpool} generates multi-panel pooled values QQ plots
+  for a continuous variable conditioned on a grouping variable. This plot is
+  most frequently used to compare residuals to pooled residuals.
 }
 \details{
-The function will generate a multi-panel pooled residuals QQ plots.
- The input continuous variable may
+The function will generate a multi-panel pooled values QQ plots.
+ The function defaults to a pooled residuals QQ plots which is the most common
+ use for this kind of plot.
 }
 \examples{
 
