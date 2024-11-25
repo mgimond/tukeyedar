@@ -4,7 +4,7 @@
 #' @importFrom utils modifyList
 #' @title Multi-panel theoretical QQ plots
 #'
-#' @description \code{eda_theopan} generates multi-panel theoretical QQ plots
+#' @description \code{eda_theopan} generates a multi-panel theoretical QQ plot
 #'   for a continuous variable conditioned on a grouping variable.
 #'
 #' @param dat  Data frame.
@@ -14,7 +14,8 @@
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{FALSE} adopts a Box-Cox transformation).
 #' @param q.type An integer between 4 and 9 selecting one of the nine quantile
-#'   algorithms. (See \code{eda_fval} for a list of quantile algorithms).
+#'   algorithms. (See \code{\link[tukeyedar]{eda_fval}} for a list of quantile
+#'   algorithms).
 #' @param dist Theoretical distribution to use. Defaults to Normal distribution.
 #' @param dist.l List of parameters passed to the distribution quantile function.
 #' @param ylim Y axes limits.
@@ -71,6 +72,11 @@
 #'   \item \code{data}: List with input \code{x} and \code{y} values for each
 #'   group. May be interpolated to smallest quantile batch if batch sizes
 #'   don't match. Values will reflect power transformation defined in \code{p}}.
+#'
+#' @seealso
+#'   \itemize{
+#'   \item \code{\link[tukeyedar]{eda_fval}} for computing f-values
+#'   \item \code{\link[tukeyedar]{eda_theo}} for a single theoretical QQ plot}
 #'
 #' @references
 #'

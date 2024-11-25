@@ -12,7 +12,7 @@
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param q.type An integer between 4 and 9 selecting one of the nine quantile
-#'   algorithms. (See the \code{stats::quantile} function).
+#'   algorithms. (See the \code{\link[tukeyedar]{eda_fval}} function).
 #' @param dist Choice of theoretical distribution.
 #' @param dist.l List of parameters passed to the distribution quantile function.
 #' @param resid Boolean determining if residuals should be plotted. Residuals
@@ -90,7 +90,7 @@
 #'  eda_theo(x, dist = "chisq", dist.l = list(df = 3), q = TRUE)
 #'
 #'  # Generate a gamma QQ plot. Note that gamma requires at the very least the
-#'  # shape parameter. The chi-squared distribion is a special case of the
+#'  # shape parameter. The chi-squared distribution is a special case of the
 #'  # gamma distribution where shape = df/2 and rate = 1/2.
 #'  eda_theo(x, dist = "gamma", dist.l = list(shape = 3/2, rate = 1/2), q = TRUE)
 #'

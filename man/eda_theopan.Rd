@@ -54,7 +54,8 @@ eda_theopan(
 (\code{FALSE} adopts a Box-Cox transformation).}
 
 \item{q.type}{An integer between 4 and 9 selecting one of the nine quantile
-algorithms. (See \code{eda_fval} for a list of quantile algorithms).}
+algorithms. (See \code{\link[tukeyedar]{eda_fval}} for a list of quantile
+algorithms).}
 
 \item{dist}{Theoretical distribution to use. Defaults to Normal distribution.}
 
@@ -133,7 +134,7 @@ Returns a list with the following components:
   don't match. Values will reflect power transformation defined in \code{p}}.
 }
 \description{
-\code{eda_theopan} generates multi-panel theoretical QQ plots
+\code{eda_theopan} generates a multi-panel theoretical QQ plot
   for a continuous variable conditioned on a grouping variable.
 }
 \details{
@@ -174,4 +175,9 @@ eda_theopan(wat,avg, month, resid = TRUE, nrow = 3, inner = 0.8 ,
 \references{
 \itemize{
   \item William S. Cleveland. Visualizing data. (1993)}
+}
+\seealso{
+\itemize{
+  \item \code{\link[tukeyedar]{eda_fval}} for computing f-values
+  \item \code{\link[tukeyedar]{eda_theo}} for a single theoretical QQ plot}
 }

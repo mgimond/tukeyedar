@@ -62,15 +62,14 @@ plot. Only applies to \code{type = "model"}.}
 Does not return a value.
 }
 \description{
-\code{plot.eda_rline} A plot method for lists of \code{eda_rline}
- class.
+A plot method for lists of \code{eda_rline} class.
 }
 \details{
 The function generates a scatter plot with the fitted model from an
  \code{eda_rline} object.
 }
 \examples{
-r.lm    <- eda_rline(age_height, Months, Height)
+r.lm <- eda_rline(age_height, Months, Height)
 
 plot(r.lm)
 plot(r.lm, pt3 = FALSE)

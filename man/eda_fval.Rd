@@ -2,31 +2,33 @@
 % Please edit documentation in R/eda_fval.R
 \name{eda_fval}
 \alias{eda_fval}
-\title{Calculate Quantile f-values}
+\title{Calculate quantile f-values}
 \usage{
 eda_fval(x, q.type = 5)
 }
 \arguments{
 \item{x}{Vector whose f-values are to be computed.}
 
-\item{q.type}{Quantile algorithm.}
+\item{q.type}{An integer specifying the algorithm to use for computing
+F-values.}
 }
 \value{
-A vector of f-values in the same order as vector \code{x}.
+A numeric vector of the same length as \code{x}, containing the f-values
+  for each input value. The order of the returned f-values matches the input
+  vector.
 }
 \description{
-\code{eda_fval} Generates f-values for quantile functions
+Calculates Fractional Values (f-Values).
 }
 \details{
-For each value i in \code{x}, \code{eda_fval} computes the
- cumulative probability associated with i. It provides a measure of the
- position of a data point relative to the rest of the data scaled to the
- range [0,1]. This is essentially the fraction, f-value,  of the dataset
- that lies below i. This fraction is sometimes reported as the
+This function computes the fractional value (f-value) for each
+ element in a numeric vector \code{x}. The f-value provides a measure of the
+ position of a data point relative to the rest of the data, scaled to the
+ range [0,1]. This fraction is sometimes reported as the
  probability or cumulative frequency. \cr
  \cr
  Different algorithms are used to compute the f-value. \code{eda_fval}
- offers as optional algorithm type \code{4} through \code{6} documented
+ offers as optional algorithm type \code{4} through \code{9} documented
  in \code{stats::quantile}. The algorithms used are: \cr \cr
   \itemize{
     \item \code{4}: f = i / n,
@@ -42,7 +44,8 @@ For each value i in \code{x}, \code{eda_fval} computes the
 \examples{
 
  set.seed(321)
- z <- runif(10, 1, 20)
+ z <- round(runif(10, 1, 20))
+ z
 
  # William Cleveland's f-values algorithm
  eda_fval(z)
@@ -54,4 +57,9 @@ For each value i in \code{x}, \code{eda_fval} computes the
 \itemize{
  \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
   Graphical Methods for Data Analysis (1983)}
+}
+\seealso{
+\itemize{
+  \item \code{\link[stats]{quantile}} for quantile calculations
+  \item \code{\link[tukeyedar]{eda_qq}} for QQ plots}
 }

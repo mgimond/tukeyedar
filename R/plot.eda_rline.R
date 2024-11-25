@@ -1,8 +1,7 @@
 #'@export
 #'@title Plot eda_rline model
 #'
-#'@description \code{plot.eda_rline} A plot method for lists of \code{eda_rline}
-#'  class.
+#'@description A plot method for lists of \code{eda_rline} class.
 #'
 #'@param x Object of class \code{eda_rline}.
 #'@param type Plot type. One of two: "model", "residuals".
@@ -31,7 +30,7 @@
 #'  \code{eda_rline} object.
 #'
 #' @examples
-#' r.lm    <- eda_rline(age_height, Months, Height)
+#' r.lm <- eda_rline(age_height, Months, Height)
 #'
 #' plot(r.lm)
 #' plot(r.lm, pt3 = FALSE)
@@ -42,7 +41,7 @@ plot.eda_rline <- function(x, type = "model", xlab = NULL, ylab = NULL, grey = 0
                            p.fill = "grey80", size = 0.8,
                            alpha = 0.7, model = TRUE, pt3 = TRUE, fit= TRUE, ...){
 
-  if (!inherits(x,"eda_rline")) stop("The input object must of class eda_rline")
+  if (!inherits(x,"eda_rline")) stop("The input object must be of class eda_rline")
   if (! type %in% c("residuals", "model" ))
     stop("Paramater \"type=\" must be of \"residuals\", or \"model\" ")
 

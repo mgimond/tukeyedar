@@ -235,36 +235,50 @@ Defaults to the inner 75% of values.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span></span>
-<span><span class="co"># Default output</span></span>
-<span><span class="va">singer</span> <span class="op">&lt;-</span> <span class="fu">lattice</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lattice/man/singer.html" class="external-link">singer</a></span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Symbolize points outside of the "inner" region using an open point symbol</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, tails <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Set the inner region to cover 80% and change the outer point symbol to "+"</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, inner <span class="op">=</span> <span class="fl">0.8</span>, tails <span class="op">=</span> <span class="cn">TRUE</span>, tail.pch <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Add the upper triangle to the matrix</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, upper <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot residuals after fitting mean to each batch</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Log transform the data, then plot the residuals after fitting the mean model</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fit the median model instead of the mean</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span>, stat <span class="op">=</span> <span class="va">median</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Shade the "inner" regions (defaults to the mid 70% of values)</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, q <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Change inner region point symbols to dark orange and change inner region</span></span>
-<span><span class="co"># range to cover 90% of mid values</span></span>
-<span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span>, inner <span class="op">=</span> <span class="fl">0.9</span>,</span>
-<span>          tail.pch <span class="op">=</span> <span class="fl">3</span>, p.fill <span class="op">=</span> <span class="st">"orange2"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Default output</span></span></span>
+<span class="r-in"><span><span class="va">singer</span> <span class="op">&lt;-</span> <span class="fu">lattice</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lattice/man/singer.html" class="external-link">singer</a></span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qqmat-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Symbolize points outside of the "inner" region using an open point symbol</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, tails <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qqmat-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Set the inner region to cover 80% and change the outer point symbol to "+"</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, inner <span class="op">=</span> <span class="fl">0.8</span>, tails <span class="op">=</span> <span class="cn">TRUE</span>, tail.pch <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qqmat-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add the upper triangle to the matrix</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, upper <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qqmat-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot residuals after fitting mean to each batch</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qqmat-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Log transform the data, then plot the residuals after fitting the mean model</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note that a power transformation of 0 was applied to the data before they were processed for the plot.</span>
+<span class="r-plt img"><img src="eda_qqmat-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Fit the median model instead of the mean</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span>, stat <span class="op">=</span> <span class="va">median</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note that a power transformation of 0 was applied to the data before they were processed for the plot.</span>
+<span class="r-plt img"><img src="eda_qqmat-7.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Shade the "inner" regions (defaults to the mid 70% of values)</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, q <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note that a power transformation of 0 was applied to the data before they were processed for the plot.</span>
+<span class="r-plt img"><img src="eda_qqmat-8.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Change inner region point symbols to dark orange and change inner region</span></span></span>
+<span class="r-in"><span><span class="co"># range to cover 90% of mid values</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqmat</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Species</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, p <span class="op">=</span> <span class="fl">0</span>, inner <span class="op">=</span> <span class="fl">0.9</span>,</span></span>
+<span class="r-in"><span>          tail.pch <span class="op">=</span> <span class="fl">3</span>, p.fill <span class="op">=</span> <span class="st">"orange2"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note that a power transformation of 0 was applied to the data before they were processed for the plot.</span>
+<span class="r-plt img"><img src="eda_qqmat-9.png" alt="" width="700" height="433"></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -275,7 +289,7 @@ Defaults to the inner 75% of values.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

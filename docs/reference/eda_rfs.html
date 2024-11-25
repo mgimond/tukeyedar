@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -195,38 +195,69 @@ estimated value.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span></span>
-<span><span class="co"># Generate a basic residual-fit spread plot</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Add inner 90% region to residuals (grey boxes in plot)</span></span>
-<span><span class="co"># Vertical grey box shows matching y-values</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Change guide to encompass mid 75% of residual values</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, q <span class="op">=</span> <span class="cn">TRUE</span>, inner <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Use median instead of the mean to compute group summaries and to</span></span>
-<span><span class="co"># recenter the fitted values around 0.</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, stat <span class="op">=</span> <span class="va">median</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Apply power transformation of -1 to mpg. Defaults to box-cox method.</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Display a stacked bar plot showing relative importance in spreads</span></span>
-<span><span class="co"># between fitted values and residuals.</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, bar <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Generate rfs plot for bivariate model output. Model can be generated from</span></span>
-<span><span class="co"># lm(), eda_lm() or eda_rline()</span></span>
-<span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">hp</span> <span class="op">~</span> <span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M1</span>,q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="eda_lm.html">eda_lm</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span>, <span class="va">hp</span><span class="op">)</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M2</span>,q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span>, <span class="va">hp</span><span class="op">)</span></span>
-<span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M3</span>, q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Generate a basic residual-fit spread plot</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 9.74 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 118.7% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add inner 90% region to residuals (grey boxes in plot)</span></span></span>
+<span class="r-in"><span><span class="co"># Vertical grey box shows matching y-values</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 9.74 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 118.7% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Change guide to encompass mid 75% of residual values</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, q <span class="op">=</span> <span class="cn">TRUE</span>, inner <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 75.0% of residuals covers about 7.70 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 150.1% of the mid 75.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use median instead of the mean to compute group summaries and to</span></span></span>
+<span class="r-in"><span><span class="co"># recenter the fitted values around 0.</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, stat <span class="op">=</span> <span class="va">median</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 9.99 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 10.80 units, or about 108.1% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Apply power transformation of -1 to mpg. Defaults to box-cox method.</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 0.03 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 0.03 units, or about 101.0% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Display a stacked bar plot showing relative importance in spreads</span></span></span>
+<span class="r-in"><span><span class="co"># between fitted values and residuals.</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, bar <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 9.74 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 118.7% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Generate rfs plot for bivariate model output. Model can be generated from</span></span></span>
+<span class="r-in"><span><span class="co"># lm(), eda_lm() or eda_rline()</span></span></span>
+<span class="r-in"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">hp</span> <span class="op">~</span> <span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M1</span>,q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 112.42 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units, or about 184.6% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-7.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="eda_lm.html">eda_lm</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span>, <span class="va">hp</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_rfs-8.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        int      mpg^1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 324.082314  -8.829731 </span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M2</span>,q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 112.42 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units, or about 184.6% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-9.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span>, <span class="va">hp</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M3</span>, q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 122.52 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 252.28 units, or about 205.9% of the mid 90.0% of residuals.</span>
+<span class="r-plt img"><img src="eda_rfs-10.png" alt="" width="700" height="433"></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

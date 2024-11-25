@@ -1,21 +1,21 @@
 #' @export
 #' @importFrom utils modifyList
-#' @title Calculate Quantile f-values
+#' @title Calculate quantile f-values
 #'
-#' @description \code{eda_fval} Generates f-values for quantile functions
+#' @description Calculates Fractional Values (f-Values).
 #'
 #' @param x  Vector whose f-values are to be computed.
-#' @param q.type  Quantile algorithm.
+#' @param q.type  An integer specifying the algorithm to use for computing
+#'   F-values.
 #'
-#' @details  For each value i in \code{x}, \code{eda_fval} computes the
-#'  cumulative probability associated with i. It provides a measure of the
-#'  position of a data point relative to the rest of the data scaled to the
-#'  range [0,1]. This is essentially the fraction, f-value,  of the dataset
-#'  that lies below i. This fraction is sometimes reported as the
+#' @details  This function computes the fractional value (f-value) for each
+#'  element in a numeric vector \code{x}. The f-value provides a measure of the
+#'  position of a data point relative to the rest of the data, scaled to the
+#'  range [0,1]. This fraction is sometimes reported as the
 #'  probability or cumulative frequency. \cr
 #'  \cr
 #'  Different algorithms are used to compute the f-value. \code{eda_fval}
-#'  offers as optional algorithm type \code{4} through \code{6} documented
+#'  offers as optional algorithm type \code{4} through \code{9} documented
 #'  in \code{stats::quantile}. The algorithms used are: \cr \cr
 #'   \itemize{
 #'     \item \code{4}: f = i / n,
@@ -28,7 +28,14 @@
 #'   Where f is the fraction of values that lies below index i, and
 #'   n is the total number values.
 #'
-#' @returns A vector of f-values in the same order as vector \code{x}.
+#' @returns A numeric vector of the same length as \code{x}, containing the f-values
+#'   for each input value. The order of the returned f-values matches the input
+#'   vector.
+#'
+#' @seealso
+#'   \itemize{
+#'   \item \code{\link[stats]{quantile}} for quantile calculations
+#'   \item \code{\link[tukeyedar]{eda_qq}} for QQ plots}
 #'
 #' @references
 #'
@@ -39,7 +46,8 @@
 #' @examples
 #'
 #'  set.seed(321)
-#'  z <- runif(10, 1, 20)
+#'  z <- round(runif(10, 1, 20))
+#'  z
 #'
 #'  # William Cleveland's f-values algorithm
 #'  eda_fval(z)
@@ -60,18 +68,25 @@ eda_fval <- function(x, q.type = 5) {
 
   # Sort the x
   n <- length(x)
-  ord <- order(x)
+  ord <- rank(x, ties.method = "first")
+
   # Calculate the probabilities based on the algorithm
   fval <- switch(as.character(q.type),
-                  `4` = (1:n) / n,
-                  `5` = (1:n - 0.5) / n,
-                  `6` = (1:n) / (n + 1),
-                  `7` = ((1:n) - 1)/  (n - 1),
-                  `8` = (1:n - 1/3) / (n + 1/3),
-                  `9` = (1:n - 3/8) / (n + 1/4)
+                  # `4` = (1:n) / n,
+                  # `5` = (1:n - 0.5) / n,
+                  # `6` = (1:n) / (n + 1),
+                  # `7` = ((1:n) - 1)/  (n - 1),
+                  # `8` = (1:n - 1/3) / (n + 1/3),
+                  # `9` = (1:n - 3/8) / (n + 1/4)
+                 `4` = ord / n,
+                 `5` = (ord - 0.5) / n,
+                 `6` = ord / (n + 1),
+                 `7` = (ord - 1)/  (n - 1),
+                 `8` = (ord - 1/3) / (n + 1/3),
+                 `9` = (ord - 3/8) / (n + 1/4)
   )
 
   # Return a vector corresponding fractions
-  return(fval[ord])
+  return(fval)
 }
 
