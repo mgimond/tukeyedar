@@ -28,6 +28,8 @@ eda_viol(
   col.mid.dens = "#EBC89B",
   offset = 0.02,
   tsize = 1.5,
+  reorder = FALSE,
+  reorder.stat = median,
   xlab = NULL,
   ylab = NULL,
   ...
@@ -91,6 +93,12 @@ ranging from 21-25).}
 right side plots. Ignored if \code{dens} is \code{FALSE}.}
 
 \item{tsize}{Size of plot title.}
+
+\item{reorder}{Boolean determining if factors have to be reordered based
+on \code{reoder.stat}.}
+
+\item{reorder.stat}{Choice of summary statistic to use for reordering plots.
+\code{reorder.stat} can be either \code{mean} or \code{median}.}
 
 \item{xlab}{X variable label.}
 

@@ -125,7 +125,7 @@ The function generates a theoretical QQ plot.
  QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
  gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
  (\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
- currently supported. By default, the Normal QQ plot maps the unit Normal
+ supported. By default, the Normal QQ plot maps the unit Normal
  quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
  of 1 unit). \cr \cr
  Note that arguments can be passed to the respective quantile functions via

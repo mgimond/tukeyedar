@@ -127,11 +127,12 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
 
   # Reorder levels if requested
   if(reorder == TRUE && length(levels(fac)) > 1){
-    if (!as.character(substitute(stat)) == "mean"){
-      ord.stat <- tapply(x, fac, mean )
-    } else {
-      ord.stat <- tapply(x, fac, median )
-    }
+    # if (!as.character(substitute(stat)) == "mean"){
+    #   ord.stat <- tapply(x, fac, mean )
+    # } else {
+    #   ord.stat <- tapply(x, fac, median )
+    # }
+    ord.stat <- tapply(x, fac, stat )
     new_levels <- names(sort(ord.stat))
     fac <- factor(fac, levels = new_levels)
   }
@@ -160,6 +161,7 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
   # Create stat point symbol list
   xp <-  fac.order
   yp <-  ave(x, fac, FUN=stat)
+
   if(horiz == TRUE){
     stat.point <- list(x = yp, y = xp, col = stat.col, bg = stat.fill,
                        pch = stat.pch, cex = stat.size)

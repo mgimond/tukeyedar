@@ -40,6 +40,10 @@
 #' @param offset A value (in x-axis units) that defines the gap between left and
 #'   right side plots. Ignored if \code{dens} is \code{FALSE}.
 #' @param tsize Size of plot title.
+#' @param reorder Boolean determining if factors have to be reordered based
+#'   on \code{reoder.stat}.
+#' @param reorder.stat Choice of summary statistic to use for reordering plots.
+#'  \code{reorder.stat} can be either \code{mean} or \code{median}.
 #' @param xlab X variable label.
 #' @param ylab Y variable label.
 #' @param ... Note used.
@@ -134,7 +138,8 @@ eda_viol <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
                         p.fill = "grey80",grey = 0.6,
                         col.ends = "grey90", col.mid = "#EBC89B",
                         col.ends.dens = "grey90" , col.mid.dens = "#EBC89B",
-                        offset = 0.02, tsize=1.5,
+                        offset = 0.02, tsize=1.5, reorder = FALSE,
+                        reorder.stat = median,
                         xlab = NULL, ylab = NULL, ...){
 
   # Check for invalid arguments
@@ -215,11 +220,24 @@ eda_viol <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
   lower <- (1 - inner) / 2
   upper <- 1 -lower
 
+  grp <- factor(grp)
+
+  # Reorder levels if requested
+  if(reorder == TRUE && length(levels(grp)) > 1){
+    ord.stat <- tapply(x, grp, reorder.stat )
+    new_levels <- names(sort(ord.stat))
+    grp <- factor(grp, levels = new_levels)
+  }
+
+  # Get rank number for factor
+  fac.order <- as.numeric(grp)
+
   # Get group means
   means <- sapply(split(x,grp), function(x) mean(x, na.rm = TRUE))
 
   # Create list of density distributions by group
-  grp_unique <- unique(grp)
+#  grp_unique <- unique(grp)
+  grp_unique <- levels(grp)
   xi <- split(x, grp)
   out2 <- lapply(split(x, grp), function(x)
   {dnsty <- stats::density(x, n=120, bw = bw, kernel = kernel)

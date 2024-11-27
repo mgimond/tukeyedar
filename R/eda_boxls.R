@@ -171,6 +171,7 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
     ylab <- paste(ylab, "(equalized by level/spread)")
   }
 
+
   # Generate plots ----
 
   # Get lines-to-inches ratio
@@ -184,8 +185,9 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
     fac.min <- which.min(nchar(fac.names))
     fac.max <- which.max(nchar(fac.names))
     y.labs <- c(fac.names[fac.min], fac.names[fac.max])
-    y.wid <- max(strwidth( y.labs[1], units="inches"),
-                 strwidth( y.labs[2], units="inches")) * in2line + 1.2
+    # y.wid <- max(strwidth( y.labs[1], units="inches"),
+    #              strwidth( y.labs[2], units="inches")) * in2line + 1.2
+    y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
   } else {
     # y.labs <- range(axTicks(2))
     y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
