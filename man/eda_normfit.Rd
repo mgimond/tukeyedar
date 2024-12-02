@@ -11,7 +11,7 @@ eda_normfit(
   p = 1,
   tukey = FALSE,
   show.par = TRUE,
-  sq = TRUE,
+  sq = FALSE,
   inner = 0.6826,
   dens = TRUE,
   bw = "SJ-dpi",

@@ -148,7 +148,7 @@
 
 
 eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
-                        show.par = TRUE, sq = TRUE, inner = 0.6826,
+                        show.par = TRUE, sq = FALSE, inner = 0.6826,
                         dens = TRUE, bw = "SJ-dpi", kernel = "gaussian",
                         pch = 16, size = 0.8, alpha = 0.3, p.col = "grey50",
                         p.fill = "grey80",grey = 0.7,
@@ -189,7 +189,7 @@ eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
     stop("You must specify a vector or a data frame.")
   }
 
-  # If density plot is not desried, set offset to 0
+  # If density plot is not desired, set offset to 0
   if(dens == FALSE){
     offset = 0
   }

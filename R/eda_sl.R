@@ -4,14 +4,26 @@
 #' @description The \code{eda_sl} function generates a spread-level table from a
 #' univariate dataset.
 #'
-#' @param dat Dataframe
+#' @param dat Dataframe of univariate data or output from a linear model input.
 #' @param x Continuous variable column
 #' @param fac Categorical variable column
-#' @param p  Power transformation to apply to variable
+#' @param type s-l plot type. \code{"location"} = spread-location,
+#'   \code{"level"} = spread-level. If the input is a model, a spread-level plot
+#'   is generated.
+#' @param p  Power transformation to apply to variable. Ignored if input is a
+#'   linear model.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation)
 #' @param sprd Choice of spreads. Either interquartile, \code{sprd = "IQR"} or
 #'   fourth-spread, \code{sprd = "frth"} (default).
+#' @param jitter Jittering parameter for the spread-location plot. A fraction of
+#'   the range of location values.
+#' @param robust Boolean indicating if robust regression should be used on the
+#'  spread-level plot.
+#' @param loess.d Arguments passed to the internal loess function. Applies only
+#'  to the linear model spread-level plot.
+#' @param label Boolean determining if group labels are to be added to the
+#'  spread-location plot.
 #' @param plot Boolean determining if plot should be generated.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
@@ -47,33 +59,64 @@
 #' eda_lm(sl, Level, Spread)
 #'
 
+eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
+                   sprd = "frth", jitter = 0.01, robust = TRUE,
+                   loess.d = list(family = "symmetric", degree=1, span = 1),
+                   label = TRUE, label.col = "lightsalmon", plot = TRUE,
+                   grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
+                   size = 1,  alpha = 0.8, labelxbuff = 0.05,
+                   labelybuff = 0.05) {
 
-eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
-                   plot = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 1,  alpha = 0.8) {
+  # Check that input is either an eda_lm model or a dataframe
+  if (! (inherits(dat,"data.frame") |
+         (inherits(dat,"eda_lm") |
+          inherits(dat, "lm") |
+          inherits(dat, "eda_rline"))))
+    stop("The input object must of class eda_lm or a data.frame.")
 
   # Parameters check
   if (!sprd %in% c("frth", "IQR")) stop("Argument \"sprd\" must be one of \"frth\" or \"IQR\".",
                                         call. = FALSE)
 
-  # Get values
-  x   <- eval(substitute(x), dat)
-  fac <- eval(substitute(fac), dat)
+  # Initialize some variables
+  ylim = NULL
+  xlim = NULL
 
-  # Re-express data if required
-  x <- eda_re(x, p = p, tukey = tukey)
-  x.nan <- is.na(x)
-  if( any(x.nan)){
-    x <- x[!x.nan]
-    fac <- fac[!x.nan]
-    warning(paste("\nRe-expression produced NaN values. These observations will",
-                  "be removed from output. This will result in fewer points",
-                  "in the ouptut."))
+  # Extract data
+  if(inherits(dat,"data.frame")){     # Univariate input
+    x   <- eval(substitute(x), dat)
+    fac <- eval(substitute(fac), dat)
+
+    # Check that each group has at least two values (only applies to univariate
+    # data). Remove groups with less than 2 records.
+    group_n <- table(fac)
+    x   <-   x[fac %in% names(group_n[group_n > 1])]
+    fac <- fac[fac %in% names(group_n[group_n > 1])]
+    if( any(group_n < 2) )
+      warning(paste("One or more groups was removed from the dataset",
+                  "for having less than two observations:",
+                  names(group_n[group_n < 2]), "\n"))
+  } else {   # Model input
+    type <- "model"
+    y <- dat$residuals
+    x <- dat$fitted.values
   }
 
 
-  # Split data into groups
-  x_fac <- split(x, fac)
+
+
+  # Re-express data if required (only applies to univariate data)
+  if(inherits(dat,"data.frame")){
+    x <- eda_re(x, p = p, tukey = tukey)
+    x.nan <- is.na(x)
+    if( any(x.nan)){
+      x <- x[!x.nan]
+      fac <- fac[!x.nan]
+      warning(paste("\nRe-expression produced NaN values. These observations will",
+                    "be removed from output. This will result in fewer points",
+                    "in the ouptut."))
+    }
+  }
 
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
@@ -92,15 +135,33 @@ eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
     return(lsum[2,5] - lsum[2,3])
   }
 
-  level <- log(unlist(lapply(x_fac, median)))
-
-  if( sprd == "frth"){
-    spread <- log(unlist(lapply(x_fac, frth_sprd)))
-  } else if(sprd == "IQR") {
-    spread <- log(unlist(lapply(x_fac, IQR)))
+  # Spread-location plot option
+  if(type == "location"){  # univariate spread-location
+    meds <- tapply(x, fac, median)
+    level <- meds[as.character(fac)]
+    spread <- sqrt(abs(x - level))
+    level <- jitter(level, amount = jitter * diff(range(level)))
+    spread_med <- tapply(spread, fac, median)
+    df4 <- data.frame(Level = level, Spread = spread, grp = fac)
+    ylim <- c(0, max(spread) + max(spread) * labelybuff )
+    rangex <- range(level)
+    xlim <- c(rangex[1] - diff(rangex) * labelxbuff,
+              rangex[2] + diff(rangex) * labelxbuff)
+  } else if (type == "level"){   # univariate spread-level
+    # Split data into groups
+    x_fac <- split(x, fac)
+    level <- log(unlist(lapply(x_fac, median)))
+    if( sprd == "frth"){
+      spread <- log(unlist(lapply(x_fac, frth_sprd)))
+    } else if(sprd == "IQR") {
+      spread <- log(unlist(lapply(x_fac, IQR)))
+    }
+    df4 <- data.frame(Level = level, Spread = spread)
+  } else { # linear model spread-level
+     level <- x
+     spread <- sqrt(abs(y))
+     df4 <- data.frame(Level = level, Spread = spread)
   }
-
-  df4 <- data.frame(Level = level, Spread = spread)
 
   # Generated plot (if requested)
     if(plot == TRUE){
@@ -111,7 +172,8 @@ eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
     # Create a dummy plot to extract y-axis labels
     pdf(NULL)
     plot(x = level, y = spread, type = "n", xlab = "", ylab = "", xaxt = "n",
-         yaxt='n', main = NULL)
+         yaxt='n', main = NULL, xlim=xlim, ylim=ylim)
+
     # y.labs <- range(axTicks(2))
     y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
     dev.off()
@@ -124,14 +186,57 @@ eda_sl <- function(dat, x, fac, p = 1, tukey = FALSE, sprd = "frth",
     on.exit(par(.pardef))
 
     plot( x=level, y=spread , ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+          col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+          ylim = ylim, xlim = xlim)
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
     mtext("Spread", side=3, adj= -0.1 , col=plotcol, padj = -1)
-    title(xlab = "Level", line = 1.8, col.lab=plotcol)
+
+    if (type == "location"){
+      title(xlab = "Location", line = 1.8, col.lab=plotcol)
+      lines(sort(meds),spread_med[order(meds)], col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+      points(meds, spread_med, col = rgb(1, 0.5, 0.5, 0.8), pch = 15)
+      if (label == TRUE){
+        with(df4, label_placement(Level, Spread, grp, label.col))
+      }
+    } else if (type == "level") {
+      if(robust == TRUE){
+        abline(MASS::rlm(Spread ~ Level, df4), col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+      } else {
+        abline(lm(Spread ~ Level, df4), col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+      }
+      title(xlab = "Level", line = 1.8, col.lab=plotcol)
+    } else {
+      loess.l  <- modifyList(list(), loess.d)
+      lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),
+             col=rgb(1, 0.5, 0.5, 0.9), lw=2 )
+      title(xlab = "Level", line = 1.8, col.lab=plotcol)
+    }
     par(.pardef)
   }
-
-  return(df4)
+  invisible(df4)
 }
+
+
+label_placement <- function(x,y,grp, label.col){
+  df <- data.frame(x,y,grp)
+
+  # Get range of values for each group
+  ranges <- tapply(y, grp, FUN = function(x)diff(range(x)))
+
+  # Calculate label positions
+  label_positions <- aggregate(cbind(x, y) ~  grp, df,
+                               FUN = function(x) c(mean = mean(x), max = max(x)))
+  # Loop through each group
+  for (i in 1:nrow(label_positions)) {
+    group <- label_positions$grp[i]
+    mean_level <- label_positions$x[i, "mean"]
+    max_spread <- label_positions$y[i, "max"]
+
+    # Place the text above the highest point in the cluster
+    text(x = mean_level, y = max_spread + 0.07 * ranges[i], labels = group,
+         col = label.col, cex = 0.8)
+  }
+}
+
