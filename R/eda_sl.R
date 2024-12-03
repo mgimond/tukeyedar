@@ -1,20 +1,23 @@
 #' @export
-#' @title Tukey's spread-level function
+#' @title Spread-location and spread-level plots
 #'
-#' @description The \code{eda_sl} function generates a spread-level table from a
-#' univariate dataset.
+#' @description The \code{eda_sl} function generates William Cleveland's
+#' spread-location plot for univariate and bivariate data. The function will also
+#' generate Tukeys' spread-level plot.
 #'
-#' @param dat Dataframe of univariate data or output from a linear model input.
-#' @param x Continuous variable column
-#' @param fac Categorical variable column
+#' @param dat Dataframe of univariate data or a linear model.
+#' @param x Continuous variable column (ignored if \code{dat} is a linear model).
+#' @param fac Categorical variable column (ignored if \code{dat} is a linear
+#'   model).
 #' @param type s-l plot type. \code{"location"} = spread-location,
 #'   \code{"level"} = spread-level. If the input is a model, a spread-level plot
 #'   is generated.
 #' @param p  Power transformation to apply to variable. Ignored if input is a
 #'   linear model.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
-#'   (FALSE adopts a Box-Cox transformation)
-#' @param sprd Choice of spreads. Either interquartile, \code{sprd = "IQR"} or
+#'   (FALSE adopts a Box-Cox transformation).
+#' @param sprd Choice of spreads used in the spread-versus-level plot. Either
+#'   interquartile, \code{sprd = "IQR"} or
 #'   fourth-spread, \code{sprd = "frth"} (default).
 #' @param jitter Jittering parameter for the spread-location plot. A fraction of
 #'   the range of location values.
@@ -30,42 +33,89 @@
 #' @param p.col Color for point symbol.
 #' @param p.fill Point fill color passed to \code{bg} (Only used for \code{pch}
 #'   ranging from 21-25).
-#' @param size Point size (0-1)
+#' @param size Point size (0-1).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
+#' @param label.col Color assigned to group labels (only applicable if
+#'   \code{type = location}).
+#' @param labelxbuff Buffer to add to the edges of the plot to make room for
+#'   the labels in a spread-location plot. Value is a fraction of the plot width.
+#' @param labelybuff Buffer to add to the top of the plot to make room for
+#'   the labels in a spread-location plot. Value is a fraction of the plot width.
+#' @param show.par Boolean determining if the power transformation applied to
+#'   the data should be displayed.
 #'
-#' @return Returns a dataframe of level and spreads.
+#' @return Returns a dataframe of level and spread values.
 #'
 #' @details
+#'  The function generates a few variations of the spread-location/spread-level
+#'   plots depending on the data input type and parameter passed to the
+#'   \code{type} argument. The residual spreads are mapped to the y-axis and the
+#'   levels are mapped to the x-axis. Their values are computed as follows:
 #'  \itemize{
-#'   \item Note that this function is not to be confused with William Cleveland's
-#'   spread-location function. A description of this plot can be found on page
-#'   77 of *Hoaglan et. al's* book.\cr
-#'   \item If \code{fac} is not categorical, the output will produce many or all
-#'    \code{NA}'s.
-#'   \item On page 59, Hoaglan et. al define the fourth-spread as the the range
-#'   defined by the upper fourth and lower fourth. The \code{eda_lsum} function is used
-#'   to compute the upper/lower fourths.
-#'   }
 #'
-#' @references Understanding Robust and Exploratory Data Analysis, Hoaglin,
-#' David C., Frederick Mosteller, and John W. Tukey, 1983.
+#'    \item \code{type = "location"} (univariate data):\cr\cr
+#'           William Cleveland's spread-location plot applied to univariate
+#'           data.\cr
+#'           \eqn{\ spread = \sqrt{|residuals|}} \cr
+#'           \eqn{\ location = medians}
+#'
+#'    \item \code{type = "level"} (univariate data):\cr\cr
+#'     Tukey's spread-level plot (aka spread-versus-level plot).
+#'     This plot is commonly used to help find a power transformation that will
+#'     help stabilize the spread in the data. This option will output the slope
+#'     of the fitted line in the console. By default, the fourth spread is
+#'     used to define the spread. Alternatively, the IQR can be used by setting
+#'     \code{spread = "IQR"}. The output will be nearly identical except for
+#'     small datasets where the two methods may diverge slightly in output.\cr
+#'           \eqn{\ spread = log(fourth\ spread(residuals))} \cr
+#'           \eqn{\ location = log(medians)}
+#'
+#'    \item \code{type = "location"} if input is a model of class \code{lm},
+#'          \code{eda_lm} or \code{eda_rline}:\cr\cr
+#'           William Cleveland's spread-location plot applied to residuals of
+#'           a linear model.\cr
+#'           \eqn{\ spread = \sqrt{|residuals|}} \cr
+#'           \eqn{\ location = fitted\ values}
+#'
+#'  }
+#'
+#'
+#' @references
+#'  \itemize{
+#'   \item Understanding Robust and Exploratory Data Analysis, Hoaglin,
+#'    David C., Frederick Mosteller, and John W. Tukey, 1983.
+#'    \item William S. Cleveland. Visualizing Data. Hobart Press (1993)
+#' }
+#'
 #' @examples
-#' sl <- eda_sl(iris, Petal.Length, Species)
+#' cars <- MASS::Cars93
+#' # Cleveland's spread-location plot applied to univariate data
+#' eda_sl(cars, MPG.city, Type)
 #'
-#' # The output can be passed to a model fitting function like eda_lm
-#' # The output slope can be used to help identify a power transformation
-#' # The suggested power transformation is 1 - slope.
-#' eda_lm(sl, Level, Spread)
+#' # The function can also generate Tukey's spread-level plot to identify a
+#' # power transformation that can stabilize spread across fitted values
+#' # following power = 1 - slope
+#' eda_sl(cars, MPG.city, Type, type = "level")
+#'
+#' # A slope of around 3 is computed from the s-l plot, therefore, a suggested
+#' # power is 1 - 3 = -2. We can apply a power transformation within the
+#' # function via the p argument. By default, a Box-Cox transformation method
+#' # is adopted.
+#' eda_sl(cars, MPG.city, Type, p = -2)
+#'
+#' # Spread-location plot can also be generated from residuals of a linear model
+#' M1 <- lm(mpg ~ hp, mtcars)
+#' eda_sl(M1)
 #'
 
-eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
+eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALSE,
                    sprd = "frth", jitter = 0.01, robust = TRUE,
                    loess.d = list(family = "symmetric", degree=1, span = 1),
                    label = TRUE, label.col = "lightsalmon", plot = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
                    size = 1,  alpha = 0.8, labelxbuff = 0.05,
-                   labelybuff = 0.05) {
+                   labelybuff = 0.05, show.par = TRUE) {
 
   # Check that input is either an eda_lm model or a dataframe
   if (! (inherits(dat,"data.frame") |
@@ -132,10 +182,10 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
   # Custom function
   frth_sprd <- function(x) {
     lsum <- eda_lsum(x, l=2)
-    return(lsum[2,5] - lsum[2,3])
+    return(lsum[2,6]) # Returns spread
   }
 
-  # Spread-location plot option
+  # Spread-location plot options
   if(type == "location"){  # univariate spread-location
     meds <- tapply(x, fac, median)
     level <- meds[as.character(fac)]
@@ -173,8 +223,6 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
     pdf(NULL)
     plot(x = level, y = spread, type = "n", xlab = "", ylab = "", xaxt = "n",
          yaxt='n', main = NULL, xlim=xlim, ylim=ylim)
-
-    # y.labs <- range(axTicks(2))
     y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
     dev.off()
 
@@ -182,7 +230,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
     # y.wid <- max( strwidth( y.labs[1], units="inches"),
     #               strwidth( y.labs[2], units="inches")) * in2line + 1
 
-    .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
+    .pardef <- par(col = plotcol, mar = c(3,y.wid,3,1))
     on.exit(par(.pardef))
 
     plot( x=level, y=spread , ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
@@ -191,7 +239,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext("Spread", side=3, adj= -0.1 , col=plotcol, padj = -1)
+    mtext("Spread", side=3, adj= -0.05 , col=plotcol, padj = -1)
 
     if (type == "location"){
       title(xlab = "Location", line = 1.8, col.lab=plotcol)
@@ -200,13 +248,21 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "level", p = 1, tukey = FALSE,
       if (label == TRUE){
         with(df4, label_placement(Level, Spread, grp, label.col))
       }
+      if(show.par == TRUE){
+        mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
+      }
     } else if (type == "level") {
       if(robust == TRUE){
-        abline(MASS::rlm(Spread ~ Level, df4), col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+        Mlevel <- MASS::rlm(Spread ~ Level, df4)
       } else {
-        abline(lm(Spread ~ Level, df4), col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+        Mlevel <- lm(Spread ~ Level, df4)
       }
-      title(xlab = "Level", line = 1.8, col.lab=plotcol)
+      abline(Mlevel, col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+      cat("Slope = ", Mlevel$coefficients[2])
+      title(xlab = "Location", line = 1.8, col.lab=plotcol)
+      if(show.par == TRUE){
+        mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
+      }
     } else {
       loess.l  <- modifyList(list(), loess.d)
       lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),

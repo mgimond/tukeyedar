@@ -10,7 +10,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Resistant Line">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Resistant Line">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-11-22</h4>
+            <h4 data-toc-skip class="date">2024-12-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/RLine.Rmd" class="external-link"><code>vignettes/RLine.Rmd</code></a></small>
       <div class="d-none name"><code>RLine.Rmd</code></div>
@@ -103,25 +103,20 @@ to the tail-end batches).</p>
 points in the following figure).</p>
 <p><img src="RLine_files/figure-html/unnamed-chunk-4-1.png" width="307.2"></p>
 <p>The two end medians are used to compute the slope as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mfrac><mrow><msub><mi>y</mi><mi>r</mi></msub><mo>−</mo><msub><mi>y</mi><mi>l</mi></msub></mrow><mrow><msub><mi>x</mi><mi>r</mi></msub><mo>−</mo><msub><mi>x</mi><mi>l</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 b = \frac{y_r - y_l}{x_r-x_l}
-</annotation></semantics></math></p>
-<p>where the subscripts
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
-reference the median values for the right-most and left-most
-batches.</p>
+\]</span></p>
+<p>where the subscripts <span class="math inline">\(r\)</span> and <span class="math inline">\(l\)</span> reference the median values for the
+right-most and left-most batches.</p>
 <p>Once the slope is computed, the intercept can be computed as
 follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>l</mi><mo>,</mo><mi>m</mi><mo>,</mo><mi>r</mi></mrow></msub><mo>−</mo><mi>b</mi><mo>*</mo><msub><mi>x</mi><mrow><mi>l</mi><mo>,</mo><mi>m</mi><mo>,</mo><mi>r</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 median(y_{l,m,r} - b * x_{l,m,r})
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>l</mi><mo>,</mo><mi>m</mi><mo>,</mo><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">(x,y)_{l,m,r}</annotation></semantics></math>
-are the median x and y values for each batch. This line is then used to
-compute the first set of residuals. A line is then fitted to the
-residuals following the same procedure outlined above.</p>
+\]</span></p>
+<p>where <span class="math inline">\((x,y)_{l,m,r}\)</span> are the
+median x and y values for each batch. This line is then used to compute
+the first set of residuals. A line is then fitted to the residuals
+following the same procedure outlined above.</p>
 <p><img src="RLine_files/figure-html/unnamed-chunk-5-1.png" width="528"></p>
 <p>The initial model slope and intercept are 3.412 and -69.877
 respectively and the residual’s slope and intercept are -0.873 and

@@ -10,7 +10,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="The symmetry QQ plot">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="The symmetry QQ plot">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-11-28</h4>
+            <h4 data-toc-skip class="date">2024-12-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/symqq.Rmd" class="external-link"><code>vignettes/symqq.Rmd</code></a></small>
       <div class="d-none name"><code>symqq.Rmd</code></div>
@@ -80,36 +80,21 @@ Gimond</h4>
 half of a batch of values with matching quantiles of the batch’s upper
 half of values. The median value is used to define the halves as
 follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>w</mi><mi>e</mi><mi>r</mi><mspace width="0.222em"></mspace><mi>h</mi><mi>a</mi><mi>l</mi><mi>f</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 lower\ half = median - x_i
-</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mi>p</mi><mi>p</mi><mi>e</mi><mi>r</mi><mspace width="0.222em"></mspace><mi>h</mi><mi>a</mi><mi>l</mi><mi>f</mi><mo>=</mo><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>i</mi></mrow></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">
+\]</span></p>
+<p><span class="math display">\[
 upper\ half = x_{n+1-i} - median
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-is the number of values in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-= 1 to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">n/2</annotation></semantics></math>
-if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-is even or
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-= 1 to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">(n+1)/2</annotation></semantics></math>
-if
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-is odd.</p>
+\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the number of values
+in <span class="math inline">\(x\)</span>, <span class="math inline">\(i\)</span> = 1 to <span class="math inline">\(n/2\)</span> if <span class="math inline">\(n\)</span> is even or <span class="math inline">\(i\)</span> = 1 to <span class="math inline">\((n+1)/2\)</span> if <span class="math inline">\(n\)</span> is odd.</p>
 <p>The plot is interpreted no differently than a QQ plot. If the data
 are symmetrical about the batch’s median value, the points will hug the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line. For example, given a batch of 1000 normally distributed values
-shown in the left density plot, we would expect the symmetry QQ plot to
-show the points very close to the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line as shown in the right plot.</p>
+<span class="math inline">\(x=y\)</span> line. For example, given a
+batch of 1000 normally distributed values shown in the left density
+plot, we would expect the symmetry QQ plot to show the points very close
+to the <span class="math inline">\(x=y\)</span> line as shown in the
+right plot.</p>
 <p><img src="symqq_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 <p>The axes in the symmetry QQ plot show the distance of each
 observation in the batch to that batch’s median value. The units are
@@ -140,18 +125,16 @@ highlight the mid 75% of the values. Here, given that the x and y axes
 are mapping the lower and upper halves of the batch, the lower part of
 the grey region is bounded by <code>0</code> given that <code>0</code>
 is defined as the batch’s mid-point.</p>
-<p>In this example, the points do not hug the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line, even for the mid 75% of the values covered by the grey region.
-This is to be expected given that we generated a right skewed dataset.
-For example, a point in the lower half of <code>x</code> that is about
-<code>1</code> unit away of the median has a matching quantile in the
-upper half of <code>x</code> that is about <code>1.4</code> units away
-of the median placing it further away from the median than its lower
-half counterpart. This skew becomes more pronounced as we move closer to
-the tails. The furthest point away from the median is about
-<code>1.4</code> units for the lower half and a little less than
-<code>4</code> units away for the upper half.</p>
+<p>In this example, the points do not hug the <span class="math inline">\(x=y\)</span> line, even for the mid 75% of the
+values covered by the grey region. This is to be expected given that we
+generated a right skewed dataset. For example, a point in the lower half
+of <code>x</code> that is about <code>1</code> unit away of the median
+has a matching quantile in the upper half of <code>x</code> that is
+about <code>1.4</code> units away of the median placing it further away
+from the median than its lower half counterpart. This skew becomes more
+pronounced as we move closer to the tails. The furthest point away from
+the median is about <code>1.4</code> units for the lower half and a
+little less than <code>4</code> units away for the upper half.</p>
 <p>The <code>eda_sym</code> function allows for the use of a
 re-expression. This feature can be helpful if one seeks to symmetrize a
 batch of values using a power transformation. For example, if we wanted
@@ -163,13 +146,11 @@ to render <code>x</code> more symmetrical, we could try a power of
 <p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
 <p>Here, the square root transformation does a good job in rendering
 <code>x</code> more symmetrical. Note that the points do not hug the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-exactly–this is fine. What we don’t want to see is a systematic bend in
-the points away from the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x=y</annotation></semantics></math>
-line. For example, if we were too aggressive with the power
-transformation and chose a log transformation (<code>p = 0</code>), we
-would end up with a left skewed batch of values.</p>
+<span class="math inline">\(x=y\)</span> exactly–this is fine. What we
+don’t want to see is a systematic bend in the points away from the <span class="math inline">\(x=y\)</span> line. For example, if we were too
+aggressive with the power transformation and chose a log transformation
+(<code>p = 0</code>), we would end up with a left skewed batch of
+values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" width="288"></p>
@@ -193,7 +174,7 @@ would end up with a left skewed batch of values.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
 </div>
 
     </footer>

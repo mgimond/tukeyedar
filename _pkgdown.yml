@@ -1,4 +1,5 @@
 url: https://mgimond.github.io/tukeyedar/
 template:
   bootstrap: 5
+  math-rendering: mathjax
 

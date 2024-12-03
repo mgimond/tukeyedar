@@ -5,7 +5,8 @@
 *  Added the `eda_fval` function that generates f-values (probabilities) based on one of six algorithms
 *  Added the `eda_theopan` function that generates multi-panel theoretical QQ plots.
 *  Added the `eda_qqpool` function that generates multi-panel pooled residual plots.
-
+*  `eda_sl` now outputs Cleveland's spread-location plot as well as Tukey's spread-versus-level plot.
+*  Added `eda_untie` function that splits ties in a vector by nudging them by a small amount.
 
 # tukeyedar 0.3.0
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
