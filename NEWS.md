@@ -7,6 +7,8 @@
 *  Added the `eda_qqpool` function that generates multi-panel pooled residual plots.
 *  `eda_sl` now outputs Cleveland's spread-location plot as well as Tukey's spread-versus-level plot.
 *  Added `eda_untie` function that splits ties in a vector by nudging them by a small amount.
+*  Fixed bug in `eda_rline` where incorrect residuals were returned.
+*  Fixed margin width for `eda_jitter` and `eda_boxls` plots when in horizontal mode.
 
 # tukeyedar 0.3.0
 *  Added the `eda_rfs` function (the Cleveland residual-fit spread plot).

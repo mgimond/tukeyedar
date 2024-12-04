@@ -49,9 +49,9 @@
 #' set.seed(17)
 #' singer <- lattice::singer
 #' factor <- 0.5 / diff(range(singer$height))
-#' eda_jitter(singer, height, voice.part, reorder = FALSE)
+#' eda_jitter(singer, height, voice.part)
 #' singer$notie <- eda_untie(singer, height, voice.part, f = factor)
-#' eda_jitter(singer, notie, voice.part, reorder = FALSE)
+#' eda_jitter(singer, notie, voice.part)
 
 eda_untie <-function(dat, x = NULL, fac = NULL, f=0.01, rand = TRUE, ...){
 
