@@ -141,6 +141,15 @@ eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   fac <- as.factor(eval(substitute(fac), dat))
   if(is.factor(fac)) fac <- droplevels(fac)
 
+  # Remove missing values from the data
+  which_na <- which(is.na(x))
+  if(length(which_na > 0)){
+    x <- x[-which_na]
+    fac <- fac[-which_na]
+    if(is.factor(fac)) fac <- droplevels(fac)
+    warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+  }
+
   # Re-express data if required
   if (p != 1) {
     x <- eda_re(x, p = p, tukey = tukey)

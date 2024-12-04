@@ -125,6 +125,14 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
     fac <- as.factor(rep(" ", length(x)))
   }
 
+  # Remove missing values from the data
+  which_na <- which(is.na(x))
+  if(length(which_na > 0)){
+    x <- x[-which_na]
+    fac <- fac[-which_na]
+    warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+  }
+
   # Reorder levels if requested
   if(reorder == TRUE && length(levels(fac)) > 1){
     # if (!as.character(substitute(stat)) == "mean"){

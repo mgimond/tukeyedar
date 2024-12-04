@@ -136,6 +136,16 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
   if(inherits(dat,"data.frame")){     # Univariate input
     x   <- eval(substitute(x), dat)
     fac <- eval(substitute(fac), dat)
+    if(is.factor(fac)) fac <- droplevels(fac)
+
+    # Remove missing values from the data
+    which_na <- which(is.na(x))
+    if(length(which_na > 0)){
+      x <- x[-which_na]
+      fac <- fac[-which_na]
+      if(is.factor(fac)) fac <- droplevels(fac)
+      warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+    }
 
     # Check that each group has at least two values (only applies to univariate
     # data). Remove groups with less than 2 records.

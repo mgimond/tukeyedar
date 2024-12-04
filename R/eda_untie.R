@@ -67,6 +67,7 @@ eda_untie <-function(dat, x = NULL, fac = NULL, f=0.01, rand = TRUE, ...){
 
   if("data.frame" %in% class(dat)){
     fac <- eval(substitute(fac), dat)
+    if(is.factor(fac)) fac <- droplevels(fac)
     x   <- eval(substitute(x), dat)
 
     if (is.null(fac))

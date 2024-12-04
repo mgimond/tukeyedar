@@ -109,6 +109,15 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
   fac <- as.factor(eval(substitute(fac), dat))
   fac <- droplevels(fac)
 
+  # Remove missing values from the data
+  which_na <- which(is.na(x))
+  if(length(which_na > 0)){
+    x <- x[-which_na]
+    fac <- fac[-which_na]
+    if(is.factor(fac)) fac <- droplevels(fac)
+    warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+  }
+
   # Get axis label
   if(is.null(ylab)) ylab <- xname
 

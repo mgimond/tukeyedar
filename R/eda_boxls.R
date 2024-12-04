@@ -112,6 +112,15 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
   x   <- eval(substitute(x), dat)
   fac <- as.factor(eval(substitute(fac), dat))
 
+  # Remove missing values from the data
+  which_na <- which(is.na(x))
+  if(length(which_na > 0)){
+    x <- x[-which_na]
+    fac <- fac[-which_na]
+    if(is.factor(fac)) fac <- droplevels(fac)
+    warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+  }
+
   # Reorder levels if requested
   if(reorder == TRUE){
     if(reorder.stat == "lower") {

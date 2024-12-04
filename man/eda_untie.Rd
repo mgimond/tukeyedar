@@ -7,17 +7,15 @@
 eda_untie(dat, x = NULL, fac = NULL, f = 0.01, rand = TRUE, ...)
 }
 \arguments{
-\item{dat}{A data frame or a numeric vector containing values that may
-have ties.}
+\item{dat}{A data frame or a numeric vector.}
 
-\item{x}{Column containing values that may have ties. Ignored if \code{dat}
-is a numeric vector.}
+\item{x}{Numeric column. Ignored if \code{dat} is a numeric vector.}
 
-\item{fac}{Column of categorical values . Ignored if \code{dat} is a numeric
+\item{fac}{Column of categorical values. Ignored if \code{dat} is a numeric
 vector.}
 
 \item{f}{A numeric value specifying the fraction of the range of \code{x} to
-use for adjustments. Must be between 0 and 1.}
+use for perturbing tied values. Must be between 0 and 1.}
 
 \item{rand}{A logical value. If \code{FALSE}, all adjustments are of fixed
 size based on \code{f}. If \code{TRUE}, the adjustments are randomized
@@ -26,7 +24,9 @@ within the range specified by \code{f}.}
 \item{...}{not used.}
 }
 \value{
-A numeric vector of the same length as \code{x}, with ties adjusted.
+Returns the input numeric data with ties resolved. If `dat` is a
+vector, a modified vector is returned. If `dat` is a data frame, a modified
+vector corresponding to the column specified by `x` is returned.
 }
 \description{
 Adjusts tied values in a numeric vector by adding or subtracting
@@ -34,9 +34,9 @@ Adjusts tied values in a numeric vector by adding or subtracting
 }
 \details{
 The function identifies tied values in the input vector \code{x}
-and perturbs them to break the ties.
+and perturbs them slightly to break the ties.
 If \code{rand = TRUE}, the adjustment for each tied value is randomized
-uniformly with the lower and uper bounds defined by
+uniformly with the lower and upper bounds defined by
 \code{[0, f * diff(range(x))]}. If \code{rand = FALSE}, the adjustment is
 deterministic and equal to \code{+/- f * diff(range(x))}. Alternating signs
 (\code{-1} and \code{1}) are used to distribute adjustments symmetrically.
@@ -52,7 +52,9 @@ x <- c(1, 2, 2, 2, 3, 4, 4, 5)
 x1 <- eda_untie(x, f = 0.01, rand = TRUE)
 x1
 
-# Deterministic adjustments
+# Deterministic adjustments. Given that there are three elements sharing the
+# same value (a value of 2 in this example), the data will need to be
+# processed twice.
 x2 <- eda_untie(x, f = 0.01, rand = FALSE)
 x2
 x3 <- eda_untie(x2, f = 0.01, rand = FALSE)
@@ -62,7 +64,7 @@ x3
 # singer height values
 set.seed(17)
 singer <- lattice::singer
-factor <- 0.5 / diff(range(singer$height))
+factor <- 0.5 / diff(range(singer$height)) # Get fraction that covers 0.5 inches
 eda_jitter(singer, height, voice.part)
 singer$notie <- eda_untie(singer, height, voice.part, f = factor)
 eda_jitter(singer, notie, voice.part)

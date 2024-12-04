@@ -137,6 +137,17 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRU
     type <- "univariate"
     x   <- eda_re(eval(substitute(x), dat), p = p, tukey = tukey)
     grp <- eval(substitute(grp), dat)
+    if(is.factor(grp)) grp <- droplevels(grp)
+
+    # Remove missing values from the data
+    which_na <- which(is.na(x))
+    if(length(which_na > 0)){
+      x <- x[-which_na]
+      grp <- grp[-which_na]
+      if(is.factor(grp)) grp <- droplevels(grp)
+      warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+    }
+
     model <- ave(x, grp, FUN=stat)
     res <- x - model
     x_sort <- sort(x)

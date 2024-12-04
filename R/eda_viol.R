@@ -180,6 +180,14 @@ eda_viol <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
     stop("You must specify a vector or a data frame.")
   }
 
+  # Remove missing values from the data
+  which_na <- which(is.na(x))
+  if(length(which_na > 0)){
+    x <- x[-which_na]
+    grp <- grp[-which_na]
+    warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
+  }
+
   if( !stat %in% c("none", "mean", "median", "both"))
     stop("The stat argument must be either \"none\", \"median\", \"mean\", or \"both\"")
 
