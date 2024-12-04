@@ -4,23 +4,22 @@
 #' @description Adjusts tied values in a numeric vector by adding or subtracting
 #'   a small fraction of the range.
 #'
-#' @param dat A data frame or a numeric vector containing values that may
-#'   have ties.
-#' @param x Column containing values that may have ties. Ignored if \code{dat}
-#'   is a numeric vector.
-#' @param fac Column of categorical values . Ignored if \code{dat} is a numeric
+#' @param dat A data frame or a numeric vector.
+#' @param x Numeric column. Ignored if \code{dat} is a numeric vector.
+#' @param fac Column of categorical values. Ignored if \code{dat} is a numeric
 #'   vector.
 #' @param f A numeric value specifying the fraction of the range of \code{x} to
-#'   use for adjustments. Must be between 0 and 1.
+#'   use for perturbing tied values. Must be between 0 and 1.
 #' @param rand A logical value. If \code{FALSE}, all adjustments are of fixed
 #'   size based on \code{f}. If \code{TRUE}, the adjustments are randomized
 #'   within the range specified by \code{f}.
 #' @param ... not used.
 #'
-#' @details The function identifies tied values in the input vector \code{x}
-#' and perturbs them to break the ties.
+#' @details
+#' The function identifies tied values in the input vector \code{x}
+#' and perturbs them slightly to break the ties.
 #' If \code{rand = TRUE}, the adjustment for each tied value is randomized
-#' uniformly with the lower and uper bounds defined by
+#' uniformly with the lower and upper bounds defined by
 #' \code{[0, f * diff(range(x))]}. If \code{rand = FALSE}, the adjustment is
 #' deterministic and equal to \code{+/- f * diff(range(x))}. Alternating signs
 #' (\code{-1} and \code{1}) are used to distribute adjustments symmetrically.
@@ -29,7 +28,10 @@
 #' Repeating the process on the output as needed will eliminate all remaining
 #' ties.
 #'
-#' @return A numeric vector of the same length as \code{x}, with ties adjusted.
+#' @return
+#' Returns the input numeric data with ties resolved. If `dat` is a
+#' vector, a modified vector is returned. If `dat` is a data frame, a modified
+#' vector corresponding to the column specified by `x` is returned.
 #'
 #' @examples
 #' set.seed(42)
@@ -38,7 +40,9 @@
 #' x1 <- eda_untie(x, f = 0.01, rand = TRUE)
 #' x1
 #'
-#' # Deterministic adjustments
+#' # Deterministic adjustments. Given that there are three elements sharing the
+#' # same value (a value of 2 in this example), the data will need to be
+#' # processed twice.
 #' x2 <- eda_untie(x, f = 0.01, rand = FALSE)
 #' x2
 #' x3 <- eda_untie(x2, f = 0.01, rand = FALSE)
@@ -48,7 +52,7 @@
 #' # singer height values
 #' set.seed(17)
 #' singer <- lattice::singer
-#' factor <- 0.5 / diff(range(singer$height))
+#' factor <- 0.5 / diff(range(singer$height)) # Get fraction that covers 0.5 inches
 #' eda_jitter(singer, height, voice.part)
 #' singer$notie <- eda_untie(singer, height, voice.part, f = factor)
 #' eda_jitter(singer, notie, voice.part)
@@ -67,12 +71,6 @@ eda_untie <-function(dat, x = NULL, fac = NULL, f=0.01, rand = TRUE, ...){
 
     if (is.null(fac))
       stop("You need to pass a valid factor column to the fac parameter")
-
-    # split(x, fac) <- lapply(split(x, fac),
-    #                         FUN = function(x, group) {
-    #                                   print(group)
-    #                                   eda_untie_f(x, f=f, rand=rand)},
-    #                                group = names(split(x, fac)))
 
     split(x, fac) <- lapply(seq_along(split(x, fac)), function(i) {
       group_name <- names(split(x, fac))[i]

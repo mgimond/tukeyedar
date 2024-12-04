@@ -163,6 +163,7 @@ eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
       xlab = substitute(grp)
     }
     grp <- eval(substitute(grp), dat)
+    grp <- droplevels(grp)
   }
 
   # Prep the data if input is a vector

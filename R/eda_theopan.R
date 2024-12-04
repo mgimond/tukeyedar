@@ -157,10 +157,11 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
 
 
   # Extract data ----
-  # Get values and factors
+  # Get values and factors. Drop levels not present in the data
   xname <- deparse(substitute(x))
   x   <- eval(substitute(x), dat)
   fac <- as.factor(eval(substitute(fac), dat))
+  fac <- droplevels(fac)
 
   # Re-express data if required
   if (p != 1) {

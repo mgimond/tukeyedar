@@ -102,11 +102,12 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
 
 
   # Extract data
-  # Get values and factors
+  # Get values and factors. Drop levels not present in the data
   xname <- deparse(substitute(x))
   facname <- deparse(substitute(fac))
   x   <- eval(substitute(x), dat)
   fac <- as.factor(eval(substitute(fac), dat))
+  fac <- droplevels(fac)
 
   # Get axis label
   if(is.null(ylab)) ylab <- xname
