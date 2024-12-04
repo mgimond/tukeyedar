@@ -194,9 +194,10 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
   # Create a dummy plot to extract y-axis labels
   pdf(NULL)
   if(horiz == TRUE){
-    plot(x = x, y = fac.order, type = "n", xlab = "", ylab = "", xaxt = "n",
-         yaxt='n', main = NULL, ylim = xlim, xlim = ylim)
-    y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
+     plot(x = x, y = fac.order, type = "n", xlab = "", ylab = "", xaxt = "n",
+          yaxt='n', main = NULL, ylim = xlim, xlim = ylim)
+   # y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
+    y.wid = max(nchar(as.character(fac)))/1.8
   } else {
     plot(x = fac.order, y = x, type = "n", xlab = "", ylab = "", xaxt = "n",
          yaxt='n', main = NULL, ylim = ylim, xlim = xlim)
@@ -251,9 +252,7 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
     params <- paste0("p=",round(p,2))
     mtext(side = 3, text=params, adj=1, cex = 0.65)
   }
-
   par(.pardef)
-
 }
 
 

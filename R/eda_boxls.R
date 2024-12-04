@@ -187,7 +187,8 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
     y.labs <- c(fac.names[fac.min], fac.names[fac.max])
     # y.wid <- max(strwidth( y.labs[1], units="inches"),
     #              strwidth( y.labs[2], units="inches")) * in2line + 1.2
-    y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
+    #y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
+    y.wid = max(nchar(as.character(fac)))/1.8
   } else {
     # y.labs <- range(axTicks(2))
     y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
