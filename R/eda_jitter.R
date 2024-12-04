@@ -197,7 +197,9 @@ eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
      plot(x = x, y = fac.order, type = "n", xlab = "", ylab = "", xaxt = "n",
           yaxt='n', main = NULL, ylim = xlim, xlim = ylim)
    # y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
-    y.wid = max(nchar(as.character(fac)))/1.8
+   # y.wid = max(nchar(as.character(fac)))/1.8
+    max_label_width <- max(strwidth(as.character(fac), units = "inches", cex = 1))
+    y.wid <- max_label_width / par('csi') + 1
   } else {
     plot(x = fac.order, y = x, type = "n", xlab = "", ylab = "", xaxt = "n",
          yaxt='n', main = NULL, ylim = ylim, xlim = xlim)

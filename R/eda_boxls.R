@@ -188,7 +188,9 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
     # y.wid <- max(strwidth( y.labs[1], units="inches"),
     #              strwidth( y.labs[2], units="inches")) * in2line + 1.2
     #y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
-    y.wid = max(nchar(as.character(fac)))/1.8
+    # y.wid = max(nchar(as.character(fac)))/1.8
+    max_label_width <- max(strwidth(as.character(fac), units = "inches", cex = 1))
+    y.wid <- max_label_width / par('csi') + 1
   } else {
     # y.labs <- range(axTicks(2))
     y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
