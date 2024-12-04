@@ -164,8 +164,11 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20){
   # Fitted values
   fitted.values <- a + b*(x)
 
+  # Residuals
+  residuals <- y - fitted.values
+
   # Output (include sorted y's and x's)
-  out <- list(b=b, a=a, residuals=res, x=x, y=y, xmed=xmed, ymed=ymed,
+  out <- list(b=b, a=a, residuals=residuals, x=x, y=y, xmed=xmed, ymed=ymed,
               index = index, xlab = xlab, ylab=ylab, px= px, py=py,
               iter = iter, fitted.values=fitted.values)
   class(out) <- "eda_rline"
