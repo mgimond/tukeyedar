@@ -47,6 +47,15 @@ eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...) {
     y <- eval(substitute(y), dat)
   }
 
+  # Remove missing rows
+  nodata <- c(which(is.na(x)), which(is.na(y)))
+  if(length(nodata > 0)){
+    x <-  x[-nodata]
+    y <-  y[-nodata]
+    cat(length(nodata), " rows had missing values. These were removed from the plot.")
+  }
+
+  # Check that 5 power values are passed to the function
   if (length(p) != 5) stop("You must have exactly 5 power transformations in parameter p.")
   # Define the plot layout
   nRows <- 5

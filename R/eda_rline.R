@@ -87,6 +87,14 @@ eda_rline <- function(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20){
     y <- eval(substitute(y), dat)
   }
 
+  # Remove missing rows
+  nodata <- c(which(is.na(x)), which(is.na(y)))
+  if(length(nodata > 0)){
+    x <-  x[-nodata]
+    y <-  y[-nodata]
+    cat(length(nodata), " rows had missing values. These were removed from the plot.")
+  }
+
   # Re-express data if required
   x <- eda_re(x, p = px, tukey = tukey)
   x.nan <- is.na(x)

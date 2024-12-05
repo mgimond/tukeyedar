@@ -75,6 +75,13 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, q.type = 5, plot = TRUE,
   if (any(!check)) warning(sprintf("%s is not a valid argument.",
                                    paste(input[!check], collapse = ", ")))
 
+  # Remove missing elements
+  nodata <- which(is.na(x))
+  if(length(nodata > 0)){
+    x <-  x[-nodata]
+    cat(length(nodata), " elements had missing values. These were removed from the data.")
+  }
+
   # Re-express data if required
   if (p != 1) {
     x <- eda_re(x, p = p, tukey = tukey)

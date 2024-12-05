@@ -53,8 +53,8 @@ eda_trim <- function(x,prop=.05, num = 0) {
     x     <- sort(x)
     trimx <- x[ (1+num):(length(x)-num)]
   } else{
-    lprop <- quantile(x, prob=prop)
-    rprop <- quantile(x, prob=1-prop)
+    lprop <- quantile(x, prob=prop, na.rm = TRUE)
+    rprop <- quantile(x, prob=1-prop, na.rm = TRUE)
     trimx <- x[ (x >= lprop) & (x <= rprop)  ]
     trimx <- sort(trimx)
   }
@@ -72,8 +72,8 @@ eda_trim_df <- function(dat, x, prop=.05, num = 0) {
   } else{
     dat   <- dat[order(x),]
     x <- sort(x)
-    lprop <- quantile(x, prob=prop)
-    rprop <- quantile(x, prob=1-prop)
+    lprop <- quantile(x, prob=prop, na.rm = TRUE)
+    rprop <- quantile(x, prob=1-prop, na.rm = TRUE)
     trimx <- dat[ (x >= lprop) & (x <= rprop),  ]
   }
   return(trimx)
@@ -87,7 +87,7 @@ eda_ltrim <- function(x, prop=.05, num = 0) {
     x <- sort(x)
     trimx <- x[-(1:num)]
   } else{
-    trimx <- x[x > quantile(x,prob=prop)]
+    trimx <- x[x > quantile(x,prob=prop, na.rm = TRUE)]
     trimx <- sort(trimx)
   }
   return(trimx)
@@ -104,7 +104,7 @@ eda_ltrim_df <- function(dat, x, prop=.05, num = 0) {
   } else{
     dat   <- dat[order(x),]
     x     <- sort(x)
-    trimx <- dat[ x > quantile(x,prob=prop), ]
+    trimx <- dat[ x > quantile(x,prob=prop, na.rm = TRUE), ]
   }
   return(trimx)
 }
@@ -117,7 +117,7 @@ eda_rtrim <- function(x, prop=.05, num = 0) {
     x <- sort(x)
     trimx <- x[1:(length(x)-num) ]
   } else{
-    trimx <- x[x < quantile(x,prob=(1 - prop))]
+    trimx <- x[x < quantile(x,prob=(1 - prop), na.rm = TRUE)]
     trimx <- sort(trimx)
   }
   return(trimx)
@@ -134,7 +134,7 @@ eda_rtrim_df <- function(dat, x,prop=.05, num = 0) {
   } else{
     dat   <- dat[order(x),]
     x     <- sort(x)
-    trimx <- dat[ x < quantile(x,prob=(1 - prop)), ]
+    trimx <- dat[ x < quantile(x,prob=(1 - prop), na.rm = TRUE), ]
   }
   return(trimx)
 }

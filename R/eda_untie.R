@@ -111,9 +111,9 @@ eda_untie_f <- function(x, name = NULL, f, rand){
   else print(paste(name,"had",nties,"ties."))
 
   if(rand == FALSE){
-    perc <- diff(range(x)) * f
+    perc <- diff(range(x, na.rm = TRUE)) * f
   } else {
-    perc <- runif(nties, 0, diff(range(x)) * f)
+    perc <- runif(nties, 0, diff(range(x, na.rm = TRUE)) * f)
   }
   signs <- rep(c(-1, 1), length.out = nties)
   x[ties] <- x[ties] + perc * signs

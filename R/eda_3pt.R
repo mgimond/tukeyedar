@@ -83,6 +83,14 @@ eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
   {
     x <- eval(substitute(x), dat)
     y <- eval(substitute(y), dat)
+    }
+
+  # Remove missing rows
+  nodata <- c(which(is.na(x)), which(is.na(y)))
+  if(length(nodata > 0)){
+    x <-  x[-nodata]
+    y <-  y[-nodata]
+    cat(length(nodata), " rows had missing values. These were removed from the plot.")
   }
 
   # Re-express data if required
@@ -217,5 +225,5 @@ eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
   par(.pardef)
   out <- list(slope1, slope2, hsrtio, xmed, ymed)
   names(out) <- c("slope1", "slope2","hsrtio","xmed","ymed")
-  return(out)
+  invisible(out)
 }
