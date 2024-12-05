@@ -244,10 +244,23 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
     }
   }
 
-  # Re-express data if required
-  if (p != 1) {
-    x <- eda_re(x, p = p, tukey = tukey)
+  # Remove NA values
+  nodata_x <- which(is.na(x))
+  nodata_y <- which(is.na(y))
+  x <- x[!is.na(x)]
+  y <- y[!is.na(y)]
+
+  if(length(nodata_x) > 0){
+    cat(length(nodata_x), " elements in ",xlab ,
+        "had missing values. These were removed from the plot.\n")
   }
+  if(length(nodata_y) > 0){
+    cat(length(nodata_y), " elements in ",ylab ,
+        "had missing values. These were removed from the plot.\n")
+  }
+
+  # Re-express data if required
+  x <- eda_re(x, p = p, tukey = tukey)
   x.isna <- is.na(x)
   rm.nan <- ifelse( any(x.isna), 1 , 0)
   y <- eda_re(y, p = p, tukey = tukey)

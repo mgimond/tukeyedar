@@ -48,7 +48,7 @@ eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...) {
   }
 
   # Remove missing rows
-  nodata <- c(which(is.na(x)), which(is.na(y)))
+  nodata <- unique(c(which(is.na(x)), which(is.na(y))))
   if(length(nodata > 0)){
     x <-  x[-nodata]
     y <-  y[-nodata]

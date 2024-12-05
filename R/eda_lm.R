@@ -150,11 +150,25 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
     ylab = as.character(substitute(y))
   }
 
+  if(!missing(dat))
+  {
+    x <- eval(substitute(x), dat)
+    y <- eval(substitute(y), dat)
+  }
+
+  # Remove missing rows
+  nodata <- unique(c(which(is.na(x)), which(is.na(y))))
+  if(length(nodata > 0)){
+    x <-  x[-nodata]
+    y <-  y[-nodata]
+    cat(length(nodata), " rows had missing values. These were removed from the plot.\n")
+  }
+
   # Re-express data if required
-    x <- eda_re(eval(substitute(x), dat), p = px, tukey = tukey)
-    x.nan <- is.na(x)
-    y <- eda_re(eval(substitute(y), dat), p = py, tukey = tukey)
-    y.nan <- is.na(y)
+  x <- eda_re(x, p = px, tukey = tukey)
+  x.nan <- is.na(x)
+  y <- eda_re(y, p = py, tukey = tukey)
+  y.nan <- is.na(y)
 
   # Re-expression may produce NaN values. Output warning if TRUE
     if( any(x.nan, y.nan) ) {

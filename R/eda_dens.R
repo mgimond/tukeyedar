@@ -103,6 +103,21 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
 
   }
 
+  # Remove NA values
+  nodata_x <- which(is.na(x))
+  nodata_y <- which(is.na(y))
+  x <- x[!is.na(x)]
+  y <- y[!is.na(y)]
+
+  if(length(nodata_x) > 0){
+    cat(length(nodata_x), " elements in ",xlab ,
+        "had missing values. These were removed from the plot.\n")
+  }
+  if(length(nodata_y) > 0){
+    cat(length(nodata_y), " elements in ",ylab ,
+        "had missing values. These were removed from the plot.\n")
+  }
+
   # Re-express data if required
     x <- eda_re(x, p = p, tukey = tukey)
     y <- eda_re(y, p = p, tukey = tukey)
