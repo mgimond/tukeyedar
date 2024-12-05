@@ -251,12 +251,12 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, p = 1L,
   y <- y[!is.na(y)]
 
   if(length(nodata_x) > 0){
-    cat(length(nodata_x), " elements in ",xlab ,
-        "had missing values. These were removed from the plot.\n")
+    cat(length(nodata_x), "elements in",xlab ,
+        "had missing values. These were removed from the dataset.\n")
   }
   if(length(nodata_y) > 0){
-    cat(length(nodata_y), " elements in ",ylab ,
-        "had missing values. These were removed from the plot.\n")
+    cat(length(nodata_y), "elements in",ylab ,
+        "had missing values. These were removed from the dataset.\n")
   }
 
   # Re-express data if required
