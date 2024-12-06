@@ -35,10 +35,8 @@
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if shaded region showing the mid-portion of the
 #' data should be added to the plot.
-#' @param q.val Upper and lower bounds of the shaded region shown by \code{q}.
-#'   Defaults to the mid 68% of values. Upper and lower values are defined by
-#'   fractions ranging from 0 to 1 and are passed to the argument via a
-#'   \code{c()} function. Defaults to \code{c(0.16,0.84)}.
+#' @param inner Fraction of mid-values to highlight in \code{q}.  Defaults to
+#'   the mid 68% of values.
 #' @param q.type Quantile type. Defaults to 5 (Cleveland's f-quantile
 #'   definition).
 #' @param loe Boolean indicating if a loess curve should be fitted.
@@ -111,7 +109,7 @@
 #' eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE)
 #'
 #' # Show the IQR box
-#' eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, q.val = c(0.25,0.75))
+#' eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, inner = 0.5)
 #'
 #' # Fit an OLS to income for Female vs Male
 #' df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
@@ -137,7 +135,7 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                    tukey = FALSE, show.par = TRUE, reg = TRUE, poly = 1,
                    robust = FALSE,  w=NULL, sd = TRUE, mean.l = TRUE,asp = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
-                   size = 0.8, alpha = 0.8, q = FALSE, q.val = c(0.16,0.84),
+                   size = 0.8, alpha = 0.8, q = FALSE, inner = 0.68,
                    q.type = 5, loe = FALSE, lm.col = rgb(1, 0.5, 0.5, 0.8),
                    loe.col = rgb(.3, .3, 1, 1), stats=FALSE, stat.size = 0.8,
                    loess.d=list(family = "symmetric", span=0.7, degree=1),
@@ -291,9 +289,12 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   }
 
   if(q == TRUE){
-  #  st <- summary(M)
-    qy <- quantile(y, q.val, type = q.type, na.rm=TRUE)
-    qx <- quantile(x, q.val, type = q.type, na.rm=TRUE)
+    # Get upper/lower bounds of quantile box
+    b.val = c(.5 - inner / 2 , .5 + inner / 2)
+    qx <- quantile(x, b.val, qtype = q.type)
+    qy <- quantile(y, b.val, qtype = q.type)
+    # qy <- quantile(y, q.val, type = q.type, na.rm=TRUE)
+    # qx <- quantile(x, q.val, type = q.type, na.rm=TRUE)
     rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
          col = rgb(0,0,0,0.1), border = NA)
     rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],

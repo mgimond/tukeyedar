@@ -28,7 +28,7 @@ eda_lm(
   size = 0.8,
   alpha = 0.8,
   q = FALSE,
-  q.val = c(0.16, 0.84),
+  inner = 0.68,
   q.type = 5,
   loe = FALSE,
   lm.col = rgb(1, 0.5, 0.5, 0.8),
@@ -97,10 +97,8 @@ applicable if \code{rgb()} is not used to define point colors.}
 \item{q}{Boolean determining if shaded region showing the mid-portion of the
 data should be added to the plot.}
 
-\item{q.val}{Upper and lower bounds of the shaded region shown by \code{q}.
-Defaults to the mid 68% of values. Upper and lower values are defined by
-fractions ranging from 0 to 1 and are passed to the argument via a
-\code{c()} function. Defaults to \code{c(0.16,0.84)}.}
+\item{inner}{Fraction of mid-values to highlight in \code{q}.  Defaults to
+the mid 68% of values.}
 
 \item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
 definition).}
@@ -181,7 +179,7 @@ eda_lm(mtcars, wt, mpg, loe = TRUE)
 eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE)
 
 # Show the IQR box
-eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, q.val = c(0.25,0.75))
+eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, inner = 0.5)
 
 # Fit an OLS to income for Female vs Male
 df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
