@@ -154,7 +154,7 @@ The function will plot a regression line and, if requested, a loess
   data follow a Normal distribution, the grey rectangle edges should coincide
   with the +/- 1SD dashed lines.
   If you wish to show the interquartile ranges (IQR) instead of the inner
-  68 percent of values, simply set \code{q.val = c(0.25,0.75)}.
+  68 percent of values, simply set \code{inner = 0.5)}.
   \cr \cr
   The plot has the option to re-express the values via the \code{px} and
   \code{py} arguments. But note that if the re-expression produces \code{NaN}
