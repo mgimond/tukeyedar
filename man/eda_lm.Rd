@@ -98,7 +98,7 @@ applicable if \code{rgb()} is not used to define point colors.}
 data should be added to the plot.}
 
 \item{inner}{Fraction of mid-values to highlight in \code{q}.  Defaults to
-the mid 68% of values.}
+the mid 68\% of values.}
 
 \item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
 definition).}

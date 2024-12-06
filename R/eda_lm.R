@@ -36,7 +36,7 @@
 #' @param q Boolean determining if shaded region showing the mid-portion of the
 #' data should be added to the plot.
 #' @param inner Fraction of mid-values to highlight in \code{q}.  Defaults to
-#'   the mid 68% of values.
+#'   the mid 68\% of values.
 #' @param q.type Quantile type. Defaults to 5 (Cleveland's f-quantile
 #'   definition).
 #' @param loe Boolean indicating if a loess curve should be fitted.
