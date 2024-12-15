@@ -6,6 +6,7 @@
 *  Added the `eda_theopan` function that generates multi-panel theoretical QQ plots.
 *  Added the `eda_qqpool` function that generates multi-panel pooled residual plots.
 *  Added the `eda_shuffle` function that permutes values across groups.
+*  Added the `eda_sim` function that simulates distributions.
 *  `eda_sl` now outputs Cleveland's spread-location plot as well as Tukey's spread-versus-level plot.
 *  Added `eda_untie` function that splits ties in a vector by nudging them by a small amount.
 *  Fixed bug in `eda_rline` where incorrect residuals were returned.

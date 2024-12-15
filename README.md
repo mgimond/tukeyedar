@@ -12,8 +12,14 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The `tukeyedar` package houses data exploration tools. Many functions
 are inspired by work published by Tukey (1977), Hoaglin (1983), Velleman
-and Hoaglin (1981), and Cleveland (1993). Note that this package is in
-beta mode, so use at your own discretion.
+and Hoaglin (1981), and Cleveland (1993).
+
+> This package was initially developed for an introductory course in
+> Exploratory Data Analysis (EDA). As such, many of its functions have
+> not undergone the rigorous testing and validation typically required
+> for research or production use. Users are advised to exercise caution
+> and verify results independently before applying the package in
+> critical or high-stakes contexts.
 
 ## Installation
 
