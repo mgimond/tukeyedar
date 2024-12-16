@@ -8,9 +8,9 @@
 <title>Median polish • tukeyedar</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Median polish">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Median polish">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,9 +64,9 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2024-11-01</h4>
+            <h4 data-toc-skip class="date">2024-12-16</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.4.0/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
     </div>
 
@@ -113,24 +113,15 @@ operations. Additional iterations are not deemed necessary given that
 little more can be extracted from the residuals. For a detailed
 step-by-step explanation of the workflow see <a href="https://mgimond.github.io/ES218/two_way.html#median-polish" class="external-link">here</a>.</p>
 <p>The resulting model is additive in the form of:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><msub><mi>β</mi><mi>j</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 y_{ij} = \mu + \alpha_{i} + \beta_{j} +\epsilon_{ij}
-</annotation></semantics></math> where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">y_{ij}</annotation></semantics></math>
-is the <strong>response variable</strong> for row
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-and column
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
-is the overall typical value (hereafter referred to as the
-<strong>common value</strong>),
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\alpha_{i}</annotation></semantics></math>
-is the <strong>row effect</strong>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\beta_{j}</annotation></semantics></math>
-is the <strong>column effect</strong> and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\epsilon_{ij}</annotation></semantics></math>
-is the <strong>residual</strong> or value left over after all effects
-are taken into account.</p>
+\]</span> where <span class="math inline">\(y_{ij}\)</span> is the
+<strong>response variable</strong> for row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span>, <span class="math inline">\(\mu\)</span> is the overall typical value
+(hereafter referred to as the <strong>common value</strong>), <span class="math inline">\(\alpha_{i}\)</span> is the <strong>row
+effect</strong>, <span class="math inline">\(\beta_{j}\)</span> is the
+<strong>column effect</strong> and <span class="math inline">\(\epsilon_{ij}\)</span> is the
+<strong>residual</strong> or value left over after all effects are taken
+into account.</p>
 <p>Each factor’s levels are displayed in the top row and left-most
 column. In the above example, the region is assigned to the rows and the
 father’s educational attainment is assigned to the columns. The father’s
@@ -378,17 +369,11 @@ here:</p>
 effects. If interaction is suspected, then the model is no longer a
 simple additive model; The model needs to be augmented with an
 interactive component of the form:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><msub><mi>β</mi><mi>j</mi></msub><mo>+</mo><mi>k</mi><mi>C</mi><mi>V</mi><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 y_{ij} = \mu + \alpha_{i} + \beta_{j} + kCV +\epsilon_{ij}
-</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">CV</annotation></semantics></math>
-=
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><msub><mi>β</mi><mi>j</mi></msub><mi>/</mi><mi>μ</mi></mrow><annotation encoding="application/x-tex">\alpha_{i}\beta_{j}/\mu</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-is a constant that can be estimated from the slope generated in the
-diagnostic plot.</p>
+\]</span></p>
+<p>where <span class="math inline">\(CV\)</span> = <span class="math inline">\(\alpha_{i}\beta_{j}/\mu\)</span> and <span class="math inline">\(k\)</span> is a constant that can be estimated
+from the slope generated in the diagnostic plot.</p>
 <p>A truly additive model is one where the changes in the response
 variable from one level to another level remain constant. For example,
 given the bottom-left matrix of initial response values, changes in the
@@ -446,14 +431,12 @@ interaction term in the additive model, or you should seek a
 re-expression that might help alleviate any interaction between the
 effects.</p>
 <p>If you choose to include the interaction term in your model, the
-coefficient
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-can be extracted from the slope generated in the diagnostic plot.</p>
+coefficient <span class="math inline">\(k\)</span> can be extracted from
+the slope generated in the diagnostic plot.</p>
 <p>If you choose to re-express the data in the hopes of removing any
 interaction in the data, you can try using a power transformation equal
-to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>s</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">1 - slope</annotation></semantics></math>
-(slope being derived from the diagnostic plot).</p>
+to <span class="math inline">\(1 - slope\)</span> (slope being derived
+from the diagnostic plot).</p>
 <p>The infant mortality dataset used in this exercise does not suggest
 interaction between effects in the diagnostic plot. Next, we’ll look at
 another dataset that may exhibit interaction between its effects.</p>
@@ -553,20 +536,21 @@ CV values (left) and new set of residuals (right).
 <p>These two tables provide us with all the parameters that are needed
 to construct the model. For example, the Female-NoHS earnings value can
 be recreated from the above table as follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>a</mi><mi>r</mi><mi>n</mi><mi>i</mi><mi>n</mi><mi>g</mi><msub><mi>s</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi><mo>−</mo><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>+</mo><mi>S</mi><mi>e</mi><msub><mi>x</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi></mrow></msub><mo>+</mo><mi>E</mi><mi>d</mi><mi>u</mi><mi>c</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><msub><mi>n</mi><mrow><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub><mo>+</mo><mi>k</mi><mi>C</mi><msub><mi>V</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi><mo>−</mo><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi><mo>−</mo><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
-Earnings_{Female-NoHS} = \mu + Sex_{Female} + Education_{NoHS} + kCV_{Female-NoHS} + \epsilon_{Female-NoHS}
-</annotation></semantics></math> Where:</p>
+<p><span class="math display">\[
+Earnings_{Female-NoHS} = \mu + Sex_{Female} + Education_{NoHS} +
+kCV_{Female-NoHS} + \epsilon_{Female-NoHS}
+\]</span> Where:</p>
 <ul>
-<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><msub><mi>V</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi><mo>−</mo><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub><mo>=</mo><mfrac><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mi>e</mi><msub><mi>x</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>E</mi><mi>d</mi><mi>u</mi><mi>c</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><msub><mi>n</mi><mrow><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mi>μ</mi></mfrac></mrow><annotation encoding="application/x-tex">CV_{Female-NoHS} = \frac{(Sex_{Female})(Education_{NoHS})}{\mu}</annotation></semantics></math></li>
+<li><span class="math inline">\(CV_{Female-NoHS} =
+\frac{(Sex_{Female})(Education_{NoHS})}{\mu}\)</span></li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
-is a constant that can be estimated from the diagnostic plot’s slope
-(0.94 in this example).</li>
+<span class="math inline">\(k\)</span> is a constant that can be
+estimated from the diagnostic plot’s slope (0.94 in this example).</li>
 </ul>
 <p>This gives us:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>a</mi><mi>r</mi><mi>n</mi><mi>i</mi><mi>n</mi><mi>g</mi><msub><mi>s</mi><mrow><mi>F</mi><mi>e</mi><mi>m</mi><mi>a</mi><mi>l</mi><mi>e</mi><mo>−</mo><mi>N</mi><mi>o</mi><mi>H</mi><mi>S</mi></mrow></msub><mo>=</mo><mn>41359</mn><mo>−</mo><mn>7929</mn><mo>−</mo><mn>15274</mn><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0.94</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>2928.2</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>460.5</mn></mrow><annotation encoding="application/x-tex">
+<p><span class="math display">\[
 Earnings_{Female-NoHS} = 41359 -7929 -15274 + (0.94)(2928.2) -460.5
-</annotation></semantics></math></p>
+\]</span></p>
 </div>
 <div class="section level4">
 <h4 id="re-expressing-earnings">Re-expressing earnings<a class="anchor" aria-label="anchor" href="#re-expressing-earnings"></a>
@@ -703,10 +687,9 @@ inferential statistics using the F-test can be untrustworthy.</p>
          cv 
   0.9223166</code></pre>
 <p>There is strong evidence of interaction. The slope of 0.92 can be
-used to estimate a power transformation via
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>s</mi><mi>l</mi><mi>o</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">1 - slope</annotation></semantics></math>.
-This is close to the power transformation of 0.1 we ended up adopting in
-the median polish exercise.</p>
+used to estimate a power transformation via <span class="math inline">\(1 - slope\)</span>. This is close to the power
+transformation of 0.1 we ended up adopting in the median polish
+exercise.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M4b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">df1</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , stat <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>               plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.1</span>, maxiter <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
