@@ -1,4 +1,4 @@
-# tukeyedar 0.3.1
+# tukeyedar 0.4.0
 *  Took out the normal and symmetry options from `eda_qq` and created their own functions:
    `eda_qqsym` and `eda_theo`. The latter allows for theoretical distributions other
    than Normal.
