@@ -14,7 +14,6 @@ eda_dens(
   fy = NULL,
   grey = 0.6,
   col = "red",
-  size = 0.8,
   show.par = TRUE,
   alpha = 0.4,
   xlab = NULL,
@@ -47,8 +46,6 @@ transformation is applied to the y variable.}
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
 \item{col}{Fill color for second density distribution.}
-
-\item{size}{Point size (0-1).}
 
 \item{show.par}{Boolean determining if parameters such as power
 transformation or formula should be displayed.}

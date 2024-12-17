@@ -19,7 +19,6 @@
 #'   transformation is applied to the y variable.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param col Fill color for second density distribution.
-#' @param size Point size (0-1).
 #' @param alpha Fill transparency (0 = transparent, 1 = opaque). Only applicable
 #'   if \code{rgb()} is not used to define fill colors.
 #' @param legend Boolean determining if a legend should be added to the plot.
@@ -56,7 +55,7 @@
 
 
 eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
-                     fy = NULL, grey = 0.6, col = "red", size = 0.8,
+                     fy = NULL, grey = 0.6, col = "red",
                      show.par= TRUE, alpha = 0.4, xlab = NULL, ylab = NULL,
                      xaxis = NULL, switch = FALSE, legend = TRUE, ...) {
 
