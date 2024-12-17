@@ -30,7 +30,9 @@ The function uses Fleishman's polynomial transformation of the form:
 where \code{a}, \code{b}, \code{c}, and \code{d} are coefficients determined
 to approximate the specified skewness and kurtosis. The coefficients are
 solved using a numerical optimization approach based on minimizing the
-residuals of Fleishman's equations.
+residuals of Fleishman's equations. The simulated values have a mean
+of 0, but the variance can range from 1 for normal distributions to a variance
+greater than 1 for non-normal distributions.
 }
 \examples{
 
@@ -57,23 +59,6 @@ residuals of Fleishman's equations.
   x <- eda_sim(5000, 0, 10)
   hist(x, breaks = 20)
 
-  # Distributions can be modified so as to share the same mean and
-  # variances. For example, to have x1 (a right skewed distribution) share
-  # the  same mean and variance as x2 (a left skewed distribution), type:
-  set.seed(432)
-  x1 <- eda_sim(10000, 0.5, 0)
-  x2 <- eda_sim(10000, -0.5, 0)
-
-  x1_u <- mean(x1)
-  x1_sd <- sd(x1)
-  x2_sd <- sqrt(var(x2))
-  x1b <- (x1 - x1_u) / x1_sd * x2_sd + mean(x2)
-  mean(x1b)
-  mean(x2)
-  var(x1b)
-  var(x2)
-
-eda_dens(x1b, x2)
 }
 \references{
 \itemize{
