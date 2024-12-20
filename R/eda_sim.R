@@ -10,6 +10,10 @@
 #' @param skew A numeric value specifying the desired skewness of the simulated data.
 #' @param kurt A numeric value specifying the desired excess kurtosis of the simulated data.
 #' @param check Boolean determining if the combination of skewness and kurtosis are valid.
+#' @param coefout Boolean determining if the Fleishman coefficients should be
+#'  outputted instead of the simulated values.
+#' @param coefin Vector of the four coefficients to be used in Fleishman's equation.
+#'  This bypasses the need to solve for the parameters.
 #'
 #' @return A numeric vector of simulated data points.
 #'
@@ -70,11 +74,13 @@
 #' hist(x, breaks = 30, main = "Simulated Data", xlab = "Value")
 
 
-eda_sim <- function(n, skew, kurt, check = TRUE) {
+eda_sim <- function(n, skew, kurt, check = TRUE, coefout = FALSE, coefin = NULL) {
   # Check for valid skew/kurtosis combination
   if (check == TRUE) {
     min_kurt <- -1.13168 + 1.58837 * skew^2
-    if (kurt >= min_kurt) {
+    if (!is.null(coefin)){
+      print("Skew/kurtosis arguments are ignored given that Fleishman coeffcients are provided.")
+    } else if (kurt >= min_kurt) {
       print("Skew/kurtosis combination is valid.")
     } else {
       warning(cat("Excess kurtosis is below the recommended value of ",min_kurt,
@@ -85,16 +91,26 @@ eda_sim <- function(n, skew, kurt, check = TRUE) {
 
 
   # Get Fleishman coefficients
-  coeffs <- compute_fleishman_coeffs(skew, kurt)
-  c0 <- coeffs[1]; c1 <- coeffs[2]; c2 <- coeffs[3]; c3 <- coeffs[4]
+  if(is.null(coefin)) {
+    coeffs <- compute_fleishman_coeffs(skew, kurt)
+    c0 <- coeffs[1]; c1 <- coeffs[2]; c2 <- coeffs[3]; c3 <- coeffs[4]
+  } else {
+    c0 <- coefin[1]; c1 <- coefin[2]; c2 <- coefin[3]; c3 <- coefin[4]
+  }
+
 
   # Generate standard normal data
   z <- rnorm(n)
 
   # Transform to specified distribution
   y <- c0 + c1 * z + c2 * z^2 + c3 * z^3
-  return(y)
-  #return(paste(c0, c1, c2, c3))
+
+  # Output
+  if (coefout == TRUE){
+    return(paste(c0, c1, c2, c3))
+  } else {
+    return(y)
+  }
 }
 
 

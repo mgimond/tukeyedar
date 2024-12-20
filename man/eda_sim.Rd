@@ -4,7 +4,7 @@
 \alias{eda_sim}
 \title{Simulate Data Using Fleishman Transformation (experimental)}
 \usage{
-eda_sim(n, skew, kurt, check = TRUE)
+eda_sim(n, skew, kurt, check = TRUE, coefout = FALSE, coefin = NULL)
 }
 \arguments{
 \item{n}{An integer specifying the number of random data points to generate.}
@@ -14,6 +14,12 @@ eda_sim(n, skew, kurt, check = TRUE)
 \item{kurt}{A numeric value specifying the desired excess kurtosis of the simulated data.}
 
 \item{check}{Boolean determining if the combination of skewness and kurtosis are valid.}
+
+\item{coefout}{Boolean determining if the Fleishman coefficients should be
+outputted instead of the simulated values.}
+
+\item{coefin}{Vector of the four coefficients to be used in Fleishman's equation.
+This bypasses the need to solve for the parameters.}
 }
 \value{
 A numeric vector of simulated data points.
