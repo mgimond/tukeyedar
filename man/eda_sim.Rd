@@ -2,66 +2,79 @@
 % Please edit documentation in R/eda_sim.R
 \name{eda_sim}
 \alias{eda_sim}
-\title{Generate Data with Specific Skewness and Kurtosis}
+\title{Simulate Data Using Fleishman Transformation (experimental)}
 \usage{
-eda_sim(n, skewness = 0, kurtosis = 0, ...)
+eda_sim(n, skew, kurt, check = TRUE)
 }
 \arguments{
-\item{n}{Integer. Number of data points to generate.}
+\item{n}{An integer specifying the number of random data points to generate.}
 
-\item{skewness}{Numeric. Desired skewness of the generated data.
-Default is 0 (symmetric distribution).}
+\item{skew}{A numeric value specifying the desired skewness of the simulated data.}
 
-\item{kurtosis}{Numeric. Desired kurtosis of the generated data.
-Default is 0 (normal distribution).}
+\item{kurt}{A numeric value specifying the desired excess kurtosis of the simulated data.}
 
-\item{...}{Not used.}
+\item{check}{Boolean determining if the combination of skewness and kurtosis are valid.}
 }
 \value{
-A numeric vector of length \code{n} containing the generated data.
+A numeric vector of simulated data points.
 }
 \description{
-This function generates a dataset with a specified skewness and
- kurtosis using Fleishman's polynomial transformation.
+Generates random data with the specified skewness and excess kurtosis using the
+Fleishman transformation method.
 }
 \details{
 The function uses Fleishman's polynomial transformation of the form:
+
 \deqn{Y = a + bX + cX^2 + dX^3}
+
 where \code{a}, \code{b}, \code{c}, and \code{d} are coefficients determined
-to approximate the specified skewness and kurtosis. The coefficients are
-solved using a numerical optimization approach based on minimizing the
-residuals of Fleishman's equations. The simulated values have a mean
-of 0, but the variance can range from 1 for normal distributions to a variance
-greater than 1 for non-normal distributions.
+to approximate the specified skewness and excess kurtosis, and \code{X} is a
+standard normal variable. The coefficients are solved using a numerical
+optimization approach based on minimizing the residuals of Fleishman's
+equations. An excess kurtosis is defined as the kurtosis of a Normal
+distribution (k=3) minus 3. \cr\cr
+
+The function is valid for a skewness range of -3 to 3 and an excess kurtosis
+greater than \code{-1.13168 + 1.58837 * skew ^ 2}. If \code{check = TRUE},
+the function will warn the user if an invalid combination of skewness and
+kurtosis are passed to the function. Deviation from the recommended combination
+will result in a distribution that may not reflect the desired skewness and
+kurtosis values. \cr \cr
+
+If the proper combination of skewness and kurtosis parameters are passed to the
+function, the output distribution will have a mean of around \code{0} and a
+variance of around \code{1}. But note that a strongly skewed distribution will
+require a large \code{n} to reflect the desired properties due to the
+disproportionate influence of the tail's extreme values on the various moments
+of the distribution, particularly higher-order moments like skewness and kurtosis.
+
+ \itemize{
+ \item Fleishman, A. I. (1978). A method for simulating non-normal
+ distributions. Psychometrika, 43, 521–532.
+ \item Wicklin, R. (2013). Simulating Data with SAS (Appendix D: Functions
+ for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
+ Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
 }
 \examples{
 
- # A normal distribution
- x <- eda_sim(5000, 0, 0)
- hist(x)
+# Generate a normal distribution
+set.seed(321)
+x <- eda_sim(1000, skew = 0, kurt = 0)
+eda_theo(x) # Check for normality
 
- # A right-skewed distribution
- x <- eda_sim(5000, 2, 0)
- hist(x)
+# Simulate distribution with skewness = 1.15 and kurtosis = 2
+# A larger sample size is more likely to reflect the desired parameters
+set.seed(653)
+x <- eda_sim(500000, skew = 1.15, kurt = 2)
 
- # A left-skewed distribution
- x <- eda_sim(5000, -2, 0)
- hist(x)
+# Verify skewness and excess kurtosis of the simulated data
+skewness <- sum((x - mean(x))^3) / (length(x) - 1) * sd(x)^3
+excess_kurtosis <- (sum((x - mean(x))^4) / (length(x) - 1)) / (sd(x)^2) - 3
 
- # A uniform distribution
- # Note that this is unbounded which may result in outliers
- set.seed(21)
- x <- eda_sim(5000, 0, -10)
- hist(x, breaks = 20)
+# Mean and variance should be close to 0 and 1 respectively
+mean(x)
+var(x)
 
- # A "peaky" distribution
-  set.seed(12)
-  x <- eda_sim(5000, 0, 10)
-  hist(x, breaks = 20)
-
-}
-\references{
-\itemize{
- \item Fleishman, A. I. (1978). A method for simulating non-normal
- distributions. Psychometrika, 43, 521–532.}
+# Visualize the simulated data
+hist(x, breaks = 30, main = "Simulated Data", xlab = "Value")
 }

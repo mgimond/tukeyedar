@@ -1,16 +1,19 @@
 #' @export
-#' @title Simulate Data Using Fleishman Transformation (experimental)
+#'
+#' @title
+#'  Simulate Data Using Fleishman Transformation (experimental)
 #'
 #' @description Generates simulated data with the same mean, standard deviation,
-#' skewness, and kurtosis as the input data.
+#'  skewness, and kurtosis as the input data.
 #'
 #' @param x A numeric vector representing the dataset to match moments.
 #' @param n An integer specifying the number of simulated data points to generate.
 #'
 #' @return A numeric vector of simulated data.
 #'
-#' @examples
-#' simulated_data <- simulate_fleishman_data(rnorm(1000, mean = 10, sd = 5), 1000)
+#' @seealso
+#'   \itemize{
+#'   \item \code{\link[tukeyedar]{eda_sim}} for simulating a distribution}
 #'
 #' @references
 #'
@@ -21,9 +24,14 @@
 #'  for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
 #'  Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
 #'
+#' @examples
+#' set.seed(4321)
+#' nile  <- as.vector(Nile)
+#' simnile <- eda_simdata(nile, 1000)
+#' eda_qq(nile, simnile)
 
 
-simulate_fleishman_data <- function(x, n) {
+eda_simdata <- function(x, n) {
   # Compute moments of the input data
   moments <- compute_moments(x)
   mean_x <- moments["mean"]
@@ -57,8 +65,9 @@ simulate_fleishman_data <- function(x, n) {
 #'
 #' @param x A numeric vector representing the dataset.
 #' @return A named vector with the mean, standard deviation, skewness, and excess kurtosis of the data.
-#' @examples
-#' compute_moments(rnorm(1000, mean = 10, sd = 5))
+#'
+#' @noRd
+
 compute_moments <- function(x) {
   n <- length(x)
   mean_x <- mean(x)
@@ -70,12 +79,14 @@ compute_moments <- function(x) {
 
 #' Fit Fleishman Model to Data
 #'
-#' Computes the Fleishman coefficients for transforming standard normal data to approximate the skewness and kurtosis of the input data.
+#' Computes the Fleishman coefficients for transforming standard normal data to
+#' approximate the skewness and kurtosis of the input data.
 #'
 #' @param x A numeric vector representing the dataset.
 #' @return A named vector of Fleishman coefficients: c0, c1, c2, and c3.
-#' @examples
-#' fit_fleishman(rnorm(1000, mean = 10, sd = 5))
+#'
+#' @noRd
+
 fit_fleishman <- function(x) {
   # Compute skewness and kurtosis of the data
   moments <- compute_moments(x)
@@ -91,13 +102,15 @@ fit_fleishman <- function(x) {
 
 #' Compute Fleishman Coefficients
 #'
-#' Computes the Fleishman coefficients required to generate a distribution with given skewness and kurtosis using a numerical optimization approach.
+#' Computes the Fleishman coefficients required to generate a distribution with
+#' given skewness and kurtosis using a numerical optimization approach.
 #'
 #' @param skew A numeric value specifying the desired skewness.
 #' @param kurt A numeric value specifying the desired excess kurtosis.
 #' @return A numeric vector of Fleishman coefficients: c0, c1, c2, and c3.
-#' @examples
-#' compute_fleishman_coeffs(1.15, 2)
+#'
+#' @noRd
+
 compute_fleishman_coeffs <- function(skew, kurt) {
   # Initialize coefficients
   initial_guess <- c(

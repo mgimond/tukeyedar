@@ -1,161 +1,134 @@
 #' @export
-#' @title Generate Data with Specific Skewness and Kurtosis
+#' @title
+#'  Simulate Data Using Fleishman Transformation (experimental)
 #'
 #' @description
-#'  This function generates a dataset with a specified skewness and
-#'  excess kurtosis using Fleishman's polynomial transformation.
+#' Generates random data with the specified skewness and excess kurtosis using the
+#' Fleishman transformation method.
 #'
-#' @param n Integer. Number of data points to generate.
-#' @param skewness Numeric. Desired skewness of the generated data.
-#'  Default is 0 (symmetric distribution).
-#' @param kurtosis Numeric. Desired excess kurtosis of the generated data.
-#'  Default is 0 for a Normal distribution.
-#' @param ... Not used.
+#' @param n An integer specifying the number of random data points to generate.
+#' @param skew A numeric value specifying the desired skewness of the simulated data.
+#' @param kurt A numeric value specifying the desired excess kurtosis of the simulated data.
+#' @param check Boolean determining if the combination of skewness and kurtosis are valid.
 #'
-#' @return A numeric vector of length \code{n} containing the generated data.
+#' @return A numeric vector of simulated data points.
 #'
 #' @details
 #' The function uses Fleishman's polynomial transformation of the form:
+#'
 #' \deqn{Y = a + bX + cX^2 + dX^3}
+#'
 #' where \code{a}, \code{b}, \code{c}, and \code{d} are coefficients determined
-#' to approximate the specified skewness and excess kurtosis. An excess kurtosis
-#' is defined as the kurtosis of a Normal distribution (k=3) minus 3. Hence, an
-#' excess kurtosis of 0 is that of a Normal distribution. The coefficients are
-#' solved using a numerical optimization approach based on minimizing the
-#' residuals of Fleishman's equations. The simulated values have a mean
-#' of 0, but the variance can range from 1 for normal distributions to a variance
-#' greater than 1 for non-normal distributions.
+#' to approximate the specified skewness and excess kurtosis, and \code{X} is a
+#' standard normal variable. The coefficients are solved using a numerical
+#' optimization approach based on minimizing the residuals of Fleishman's
+#' equations. An excess kurtosis is defined as the kurtosis of a Normal
+#' distribution (k=3) minus 3. \cr\cr
 #'
+#' The function is valid for a skewness range of -3 to 3 and an excess kurtosis
+#' greater than \code{-1.13168 + 1.58837 * skew ^ 2}. If \code{check = TRUE},
+#' the function will warn the user if an invalid combination of skewness and
+#' kurtosis are passed to the function. Deviation from the recommended combination
+#' will result in a distribution that may not reflect the desired skewness and
+#' kurtosis values. \cr \cr
 #'
-#' @references
+#' If the proper combination of skewness and kurtosis parameters are passed to the
+#' function, the output distribution will have a mean of around \code{0} and a
+#' variance of around \code{1}. But note that a strongly skewed distribution will
+#' require a large \code{n} to reflect the desired properties due to the
+#' disproportionate influence of the tail's extreme values on the various moments
+#' of the distribution, particularly higher-order moments like skewness and kurtosis.
 #'
 #'  \itemize{
 #'  \item Fleishman, A. I. (1978). A method for simulating non-normal
-#'  distributions. Psychometrika, 43, 521–532.}
+#'  distributions. Psychometrika, 43, 521–532.
+#'  \item Wicklin, R. (2013). Simulating Data with SAS (Appendix D: Functions
+#'  for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
+#'  Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
 #'
 #' @examples
 #'
-#'  # A normal distribution
-#'  x <- eda_sim(5000, 0, 0)
-#'  hist(x)
+#' # Generate a normal distribution
+#' set.seed(321)
+#' x <- eda_sim(1000, skew = 0, kurt = 0)
+#' eda_theo(x) # Check for normality
 #'
-#'  # A right-skewed distribution
-#'  x <- eda_sim(5000, 2, 0)
-#'  hist(x)
+#' # Simulate distribution with skewness = 1.15 and kurtosis = 2
+#' # A larger sample size is more likely to reflect the desired parameters
+#' set.seed(653)
+#' x <- eda_sim(500000, skew = 1.15, kurt = 2)
 #'
-#'  # A left-skewed distribution
-#'  x <- eda_sim(5000, -2, 0)
-#'  hist(x)
+#' # Verify skewness and excess kurtosis of the simulated data
+#' skewness <- sum((x - mean(x))^3) / (length(x) - 1) * sd(x)^3
+#' excess_kurtosis <- (sum((x - mean(x))^4) / (length(x) - 1)) / (sd(x)^2) - 3
 #'
-#'  # A uniform distribution
-#'  # Note that this is unbounded which may result in outliers
-#'  set.seed(21)
-#'  x <- eda_sim(5000, 0, -10)
-#'  hist(x, breaks = 20)
+#' # Mean and variance should be close to 0 and 1 respectively
+#' mean(x)
+#' var(x)
 #'
-#'  # A "peaky" distribution
-#'   set.seed(12)
-#'   x <- eda_sim(5000, 0, 10)
-#'   hist(x, breaks = 20)
-#'
+#' # Visualize the simulated data
+#' hist(x, breaks = 30, main = "Simulated Data", xlab = "Value")
 
 
-# Generate data with specific skewness and kurtosis
-eda_sim <- function(n, skewness = 0, kurtosis = 0, ...) {
-  # Check for invalid arguments
-  input <- names(list(...))
-  check <- input %in% names(formals(cat))
-  if (any(!check)) warning(sprintf("%s is not a valid argument.",
-                                   paste(input[!check], collapse = ", ")))
+eda_sim <- function(n, skew, kurt, check = TRUE) {
+  # Check for valid skew/kurtosis combination
+  if (check == TRUE) {
+    min_kurt <- -1.13168 + 1.58837 * skew^2
+    if (kurt >= min_kurt) {
+      print("Skew/kurtosis combination is valid.")
+    } else {
+      warning(cat("Excess kurtosis is below the recommended value of ",min_kurt,
+                  "for a skew of ",skew,".\n This may result in a distribution",
+                  "that does not reflect the desired \nskewness/kurtosis combination.\n"))
+    }
+  }
 
-  # Initial guess for parameters
-  initial_guess <- c(1, 1, 1)
 
-  # Solve for coefficients
-  params <- solve_equations(initial_guess, skewness, kurtosis)
-  b <- params[1]
-  c <- params[2]
-  d <- params[3]
-  a <- -c
+  # Get Fleishman coefficients
+  coeffs <- compute_fleishman_coeffs(skew, kurt)
+  c0 <- coeffs[1]; c1 <- coeffs[2]; c2 <- coeffs[3]; c3 <- coeffs[4]
 
   # Generate standard normal data
-  X <- rnorm(n)
+  z <- rnorm(n)
 
-  # Apply Fleishman transformation
-  #Y <- a + b * X + c * X^2 + d * X^3
-  Y <- -c + b * X + c * X^2 + d * X^3 -1
-  return(Y)
+  # Transform to specified distribution
+  y <- c0 + c1 * z + c2 * z^2 + c3 * z^3
+  return(y)
+  #return(paste(c0, c1, c2, c3))
 }
 
-#' Fleishman's Polynomial Equations
+
+#' Compute Fleishman Coefficients
 #'
-#' Computes the residuals of Fleishman's equations given parameters \code{b},
-#'   \code{c}, and \code{d}.
+#' Calculates the Fleishman coefficients required to generate a distribution with the specified skewness
+#' and kurtosis using the quasi-Newton optimization method.
 #'
-#' @param params Numeric vector. Parameters \code{b}, \code{c}, and \code{d}.
-#' @param skewness Numeric. Desired skewness of the resulting distribution.
-#' @param kurtosis Numeric. Desired kurtosis of the resulting distribution.
-#' @return A numeric vector containing the residuals of the three equations.
-#'
-#' @examples
-#' # Compute residuals for a test parameter set
-#' params <- c(1, 0, 0)
-#' residuals <- equations(params, skewness = 0, kurtosis = 3)
-#' print(residuals)
+#' @param skew A numeric value specifying the desired skewness of the distribution.
+#' @param kurt A numeric value specifying the desired excess kurtosis of the distribution.
+#' @return A numeric vector of Fleishman coefficients: c0, c1, c2, and c3.
 #'
 #' @noRd
 
-# Define the equations function
-equations <- function(params, skewness = 0, kurtosis = 3) {
-  b <- params[1]
-  c <- params[2]
-  d <- params[3]
+compute_fleishman_coeffs <- function(skew, kurt) {
+  # Initialize coefficients
+  initial_guess <- c(
+    0.95357 - 0.05679 * kurt + 0.03520 * skew^2 + 0.00133 * kurt^2, # c1
+    0.10007 * skew + 0.00844 * skew^3,                              # c2
+    0.30978 - 0.31655 * (0.95357 - 0.05679 * kurt + 0.03520 * skew^2 + 0.00133 * kurt^2) # c3
+  )
 
-  # Equations derived from Fleishman's method
-  eq1 <- b^2 + 6*b*d + 2*c^2 - 1
-  eq2 <- 2*c*(b^2 + 24*b*d + 105*d^2 + 2) - skewness
-  #eq3 <- 24*(b*d + c^2*(1 + b^2 + 28*b*d) + d^2*(12 + 48*b*d + 141*d^2)) - kurtosis
-  eq3 <- 24*(b*d + c^2*(1 + b^2 + 28*b*d) + d^2*(12 + 48*b*d + 141*c^2 + 225*d^2)) - kurtosis
-  c(eq1, eq2, eq3)
-}
-
-#' Solve Fleishman's Equations for Coefficients
-#'
-#' This function solves Fleishman's equations to determine the coefficients
-#' \code{b}, \code{c}, and \code{d} for the polynomial transformation.
-#'
-#' @param initial_guess Numeric vector. Initial guess for the parameters
-#'  \code{b}, \code{c}, and \code{d}.
-#' @param skewness Numeric. Desired skewness of the resulting distribution.
-#' @param kurtosis Numeric. Desired kurtosis of the resulting distribution.
-#' @return A numeric vector containing the coefficients \code{b}, \code{c},
-#'  and \code{d}.
-#' @details
-#' The function minimizes the sum of squared residuals of Fleishman's equations
-#' to determine the optimal coefficients.
-#'
-#' @noRd
-
-
-# Function to solve the equations using optim as a root-finder
-solve_equations <- function(initial_guess, skewness = 0, kurtosis = 3) {
-  # Define a wrapper function to pass skewness and kurtosis
-  root_function <- function(params) {
-    residuals <- equations(params, skewness, kurtosis)
-    sum(residuals^2) # Sum of squared residuals
+  # Objective function
+  fleishman_function <- function(c) {
+    b <- c[1]; c2 <- c[2]; d <- c[3]
+    var <- b^2 + 6 * b * d + 2 * c2^2 + 15 * d^2
+    skewness <- 2 * c2 * (b^2 + 24 * b * d + 105 * d^2 + 2)
+    kurtosis <- 24 * (b * d + c2^2 * (1 + b^2 + 28 * b * d) + d^2 * (12 + 48 * b * d + 141 * c2^2 + 225 * d^2))
+    c(var - 1, skewness - skew, kurtosis - kurt)
   }
 
-  # Use optim to minimize the sum of squared residuals
-  solution <- stats::optim(par = initial_guess,
-                           fn = root_function, method = "BFGS")
-
-  # Return solution
-  if (solution$convergence == 0) {
-    return(solution$par) # Parameters b, c, d
-  } else {
-    stop("Solution did not converge!")
-  }
+  # Solve using quasi-Newton method
+  result <- stats::optim(initial_guess, function(c) sum(fleishman_function(c)^2), method = "BFGS")
+  return(c(-result$par[2], result$par))
 }
 
-e1071::kurtosis(rnorm(10000))
 
