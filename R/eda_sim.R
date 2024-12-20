@@ -3,13 +3,13 @@
 #'
 #' @description
 #'  This function generates a dataset with a specified skewness and
-#'  kurtosis using Fleishman's polynomial transformation.
+#'  excess kurtosis using Fleishman's polynomial transformation.
 #'
 #' @param n Integer. Number of data points to generate.
 #' @param skewness Numeric. Desired skewness of the generated data.
 #'  Default is 0 (symmetric distribution).
-#' @param kurtosis Numeric. Desired kurtosis of the generated data.
-#'  Default is 0 (normal distribution).
+#' @param kurtosis Numeric. Desired excess kurtosis of the generated data.
+#'  Default is 0 for a Normal distribution.
 #' @param ... Not used.
 #'
 #' @return A numeric vector of length \code{n} containing the generated data.
@@ -18,7 +18,9 @@
 #' The function uses Fleishman's polynomial transformation of the form:
 #' \deqn{Y = a + bX + cX^2 + dX^3}
 #' where \code{a}, \code{b}, \code{c}, and \code{d} are coefficients determined
-#' to approximate the specified skewness and kurtosis. The coefficients are
+#' to approximate the specified skewness and excess kurtosis. An excess kurtosis
+#' is defined as the kurtosis of a Normal distribution (k=3) minus 3. Hence, an
+#' excess kurtosis of 0 is that of a Normal distribution. The coefficients are
 #' solved using a numerical optimization approach based on minimizing the
 #' residuals of Fleishman's equations. The simulated values have a mean
 #' of 0, but the variance can range from 1 for normal distributions to a variance
@@ -67,7 +69,7 @@ eda_sim <- function(n, skewness = 0, kurtosis = 0, ...) {
                                    paste(input[!check], collapse = ", ")))
 
   # Initial guess for parameters
-  initial_guess <- c(1, 0, 0)
+  initial_guess <- c(1, 1, 1)
 
   # Solve for coefficients
   params <- solve_equations(initial_guess, skewness, kurtosis)
@@ -80,7 +82,8 @@ eda_sim <- function(n, skewness = 0, kurtosis = 0, ...) {
   X <- rnorm(n)
 
   # Apply Fleishman transformation
-  Y <- a + b * X + c * X^2 + d * X^3
+  #Y <- a + b * X + c * X^2 + d * X^3
+  Y <- -c + b * X + c * X^2 + d * X^3 -1
   return(Y)
 }
 
@@ -111,7 +114,8 @@ equations <- function(params, skewness = 0, kurtosis = 3) {
   # Equations derived from Fleishman's method
   eq1 <- b^2 + 6*b*d + 2*c^2 - 1
   eq2 <- 2*c*(b^2 + 24*b*d + 105*d^2 + 2) - skewness
-  eq3 <- 24*(b*d + c^2*(1 + b^2 + 28*b*d) + d^2*(12 + 48*b*d + 141*d^2)) - kurtosis
+  #eq3 <- 24*(b*d + c^2*(1 + b^2 + 28*b*d) + d^2*(12 + 48*b*d + 141*d^2)) - kurtosis
+  eq3 <- 24*(b*d + c^2*(1 + b^2 + 28*b*d) + d^2*(12 + 48*b*d + 141*c^2 + 225*d^2)) - kurtosis
   c(eq1, eq2, eq3)
 }
 
@@ -152,4 +156,6 @@ solve_equations <- function(initial_guess, skewness = 0, kurtosis = 3) {
     stop("Solution did not converge!")
   }
 }
+
+e1071::kurtosis(rnorm(10000))
 
