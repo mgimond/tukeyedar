@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_untie.R
 \name{eda_untie}
 \alias{eda_untie}
-\title{Resolve Ties in a Numeric Vector}
+\title{Resolve ties in a numeric vector}
 \usage{
 eda_untie(dat, x = NULL, fac = NULL, f = 0.01, rand = TRUE, ...)
 }
@@ -24,13 +24,13 @@ within the range specified by \code{f}.}
 \item{...}{not used.}
 }
 \value{
-Returns the input numeric data with ties resolved. If `dat` is a
-vector, a modified vector is returned. If `dat` is a data frame, a modified
-vector corresponding to the column specified by `x` is returned.
+Returns the input numeric data with ties resolved. If \code{dat} is a
+vector, a modified vector is returned. If \code{dat} is a data frame, a modified
+vector corresponding to the column specified by \code{x} is returned.
 }
 \description{
 Adjusts tied values in a numeric vector by adding or subtracting
-  a small fraction of the range.
+a small fraction of the range.
 }
 \details{
 The function identifies tied values in the input vector \code{x}
@@ -60,8 +60,7 @@ x2
 x3 <- eda_untie(x2, f = 0.01, rand = FALSE)
 x3
 
-# Adjusting an entire dataframe. Add up to +/- 0.5 inches to
-# singer height values
+# Random adjustments. Add up to +/- 0.5 inches to singer height values
 set.seed(17)
 singer <- lattice::singer
 factor <- 0.5 / diff(range(singer$height)) # Get fraction that covers 0.5 inches

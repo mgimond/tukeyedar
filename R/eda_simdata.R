@@ -1,9 +1,11 @@
 #' @export
 #'
 #' @title
-#'  Simulate Data Using Fleishman Transformation (experimental)
+#'  Simulate a given dataset using fleishman transformation
 #'
-#' @description Generates simulated data with the same mean, standard deviation,
+#' @description
+#'  `r lifecycle::badge("experimental")` \cr\cr
+#'  Generates simulated data with the same mean, standard deviation,
 #'  skewness, and kurtosis as the input data.
 #'
 #' @param x A numeric vector representing the dataset to match moments.
@@ -33,9 +35,9 @@
 
 eda_simdata <- function(x, n) {
   # Compute moments of the input data
-  moments <- compute_moments(x)
+  moments <- eda_moments(x)
   mean_x <- moments["mean"]
-  sd_x <- moments["sd"]
+  sd_x <- sqrt(moments["var"])
   skew <- moments["skew"]
   kurt <- moments["kurt"]
 
@@ -54,29 +56,6 @@ eda_simdata <- function(x, n) {
   return(y)
 }
 
-
-
-#'  Compute Moments of a Dataset (ex)
-#'
-#'
-#'  Computes the mean, standard deviation, skewness, and excess kurtosis of a
-#'  given numeric vector.
-#'
-#'
-#' @param x A numeric vector representing the dataset.
-#' @return A named vector with the mean, standard deviation, skewness, and excess kurtosis of the data.
-#'
-#' @noRd
-
-compute_moments <- function(x) {
-  n <- length(x)
-  mean_x <- mean(x)
-  sd_x <- sd(x)
-  skew <- sum((x - mean_x)^3) / n / (sd_x^3)
-  kurt <- sum((x - mean_x)^4) / n / (sd_x^4) - 3 # Excess kurtosis
-  return(c(mean = mean_x, sd = sd_x, skew = skew, kurt = kurt))
-}
-
 #' Fit Fleishman Model to Data
 #'
 #' Computes the Fleishman coefficients for transforming standard normal data to
@@ -89,7 +68,7 @@ compute_moments <- function(x) {
 
 fit_fleishman <- function(x) {
   # Compute skewness and kurtosis of the data
-  moments <- compute_moments(x)
+  moments <- eda_moments(x)
   skew <- moments["skew"]
   kurt <- moments["kurt"]
 

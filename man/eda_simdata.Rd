@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_simdata.R
 \name{eda_simdata}
 \alias{eda_simdata}
-\title{Simulate Data Using Fleishman Transformation (experimental)}
+\title{Simulate a given dataset using fleishman transformation}
 \usage{
 eda_simdata(x, n)
 }
@@ -15,8 +15,9 @@ eda_simdata(x, n)
 A numeric vector of simulated data.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \cr\cr
 Generates simulated data with the same mean, standard deviation,
- skewness, and kurtosis as the input data.
+skewness, and kurtosis as the input data.
 }
 \examples{
 set.seed(4321)
@@ -26,13 +27,13 @@ eda_qq(nile, simnile)
 }
 \references{
 \itemize{
- \item Fleishman, A. I. (1978). A method for simulating non-normal
- distributions. Psychometrika, 43, 521–532.
- \item Wicklin, R. (2013). Simulating Data with SAS (Appendix D: Functions
- for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
- Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
+\item Fleishman, A. I. (1978). A method for simulating non-normal
+distributions. Psychometrika, 43, 521–532.
+\item Wicklin, R. (2013). Simulating Data with SAS (Appendix D: Functions
+for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
+Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
 }
 \seealso{
 \itemize{
-  \item \code{\link[tukeyedar]{eda_sim}} for simulating a distribution}
+\item \code{\link[tukeyedar]{eda_sim}} for simulating a distribution}
 }

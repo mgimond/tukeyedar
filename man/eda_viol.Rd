@@ -54,7 +54,7 @@ data should be displayed in the plot's upper-right corner.}
 \item{sq}{Boolean determining if the plot should be square.}
 
 \item{inner}{Fraction of values that should be captured by the inner color
-band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
+band of the normal and density plots. Defaults to 0.6826 (inner 68\\% of
 values).}
 
 \item{bw}{Bandwidth parameter passed to the \code{density()} function.}
@@ -64,7 +64,7 @@ function.}
 
 \item{stat}{Statistical summary to display in the plot. Choice of "median",
 "mean", "both" or "none".
-  Defaults to both.}
+Defaults to both.}
 
 \item{pch}{Point symbol type.}
 
@@ -114,20 +114,20 @@ Does not return a value.
 }
 \details{
 This function will generate a violin plot from the data.  It
-  implements the \code{stats::density} function when generating the shape of the
-  plots. As such the \code{bw} and \code{kernel} arguments are passed on to
-  the \code{stats::density} function.\cr
-  \cr
-  The plots have two fill colors: one for the inner band and the other for
-  the outer band. The inner band shows the area of the curve that encompasses
-  the desired fraction of mid-values defined by \code{inner}. By default, this
-  value is 0.6826, or 68.26\% (this is roughly the percentage of values
-  covered by +/- 1 standard deviations of a Normal distribution). The range
-  is computed from the actual values and not from a fitted normal
-  distribution. \cr
-  \cr
-  Measures of centrality are added to the plot. By default, both the mean
-  (dashed line) and the median (solid line) are added to the plot. \cr
+implements the \code{stats::density} function when generating the shape of the
+plots. As such the \code{bw} and \code{kernel} arguments are passed on to
+the \code{stats::density} function.\cr
+\cr
+The plots have two fill colors: one for the inner band and the other for
+the outer band. The inner band shows the area of the curve that encompasses
+the desired fraction of mid-values defined by \code{inner}. By default, this
+value is 0.6826, or 68.26\\% (this is roughly the percentage of values
+covered by +/- 1 standard deviations of a Normal distribution). The range
+is computed from the actual values and not from a fitted normal
+distribution. \cr
+\cr
+Measures of centrality are added to the plot. By default, both the mean
+(dashed line) and the median (solid line) are added to the plot. \cr
 }
 \examples{
 

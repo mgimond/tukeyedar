@@ -42,7 +42,7 @@
 #'   should be symbolized differently. Tail-end points are symbolized via the
 #'  \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
-#'   Defaults to the inner 75\% of values.
+#'   Defaults to the inner 75 percent of values.
 #' @param text.size Size for category text above the plot.
 #' @param title Title to display. If set to \code{TRUE}, defaults to
 #'   \code{"Pooled residuals QQ plot"}. If set to \code{FALSE}, omits title from output.

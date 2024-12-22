@@ -63,7 +63,7 @@ A plot method for lists of \code{eda_lm} class.
 }
 \details{
 The function generates a scatter plot of residuals vs fitted values
- from a model of class \code{eda_lm}
+from a model of class \code{eda_lm}
 }
 \examples{
 M1  <- eda_lm(age_height, Months, Height)

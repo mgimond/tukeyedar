@@ -28,57 +28,57 @@ eda_pol(
 )
 }
 \arguments{
-\item{x}{A three column data frame}
+\item{x}{A three column data frame.}
 
-\item{row}{Name of column assigned to the row effect}
+\item{row}{Name of column assigned to the row effect.}
 
-\item{col}{Name of column assigned to the column effect}
+\item{col}{Name of column assigned to the column effect.}
 
-\item{val}{Name of column assigned to the response variable}
+\item{val}{Name of column assigned to the response variable.}
 
-\item{stat}{Polishing statistic (default is median)}
+\item{stat}{Polishing statistic (default is median).}
 
-\item{plot}{Boolean determining if an output plot should be generated}
+\item{plot}{Boolean determining if an output plot should be generated.}
 
-\item{eps}{Convergence tolerance parameter}
+\item{eps}{Convergence tolerance parameter.}
 
-\item{maxiter}{Maximum number of iterations}
+\item{maxiter}{Maximum number of iterations.}
 
-\item{sort}{Boolean determining if the effects row/columns should be sorted}
+\item{sort}{Boolean determining if the effects row/columns should be sorted.}
 
-\item{p}{Re-expression power parameter}
+\item{p}{Re-expression power parameter.}
 
 \item{tukey}{Boolean determining if Tukey's power transformation should used.
 If FALSE, the Box-Cox transformation is adopted.}
 
 \item{offset}{Offset to add to values if at leat one value is 0 and the power
-is negative}
+is negative.}
 
 \item{col.quant}{Boolean determining if a quantile classification scheme
-should be used}
+should be used.}
 
-\item{colpal}{Color palette to adopt}
+\item{colpal}{Color palette to adopt.}
 
-\item{adj.mar}{Boolean determining if margin width needs to accomodate labels}
+\item{adj.mar}{Boolean determining if margin width needs to accomodate labels.}
 
-\item{res.size}{Size of residual values in plot [0-1]}
+\item{res.size}{Size of residual values in plot [0-1].}
 
-\item{row.size}{Size of row effect values in plot [0-1]}
+\item{row.size}{Size of row effect values in plot [0-1].}
 
-\item{col.size}{Size of column effect values in plot [0-1]}
+\item{col.size}{Size of column effect values in plot [0-1].}
 
-\item{res.txt}{Boolean determining if values should be added to plot}
+\item{res.txt}{Boolean determining if values should be added to plot.}
 
 \item{label.txt}{Boolean determining if margin and column labels should be
-plotted}
+plotted.}
 }
 \value{
 A list of class \code{eda_polish} with the following named
-  components:
+components:
 
 \itemize{
 \item \code{long} The median polish residuals with three columns: Column levels,
-  row levels and residual values.
+row levels and residual values.
 \item \code{wide} The median polish residuals table in wide form.
 \item \code{row}  Row effects table
 \item \code{col}  Column effects table
@@ -91,14 +91,14 @@ A list of class \code{eda_polish} with the following named
 }
 \description{
 \code{eda_pol} Polishes two-way tables using median, means, or
-  any customizable functions.
+any customizable functions.
 }
 \details{
 The function performs a polish on a two way table. By default, it
-  applies a median polish, but other statistical summaries such
-  as the mean can be passed to the function via the \code{stat = } argument.
-  The function returns a list of row/column effects along with global and
-  residual values. It will also generate a colored table if \code{plot =
+applies a median polish, but other statistical summaries such
+as the mean can be passed to the function via the \code{stat = } argument.
+The function returns a list of row/column effects along with global and
+residual values. It will also generate a colored table if \code{plot =
   TRUE}.
 }
 \examples{
@@ -112,6 +112,6 @@ plot(M)
 }
 \references{
 \itemize{
-  \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley
-  \item \href{../articles/polish.html}{Median polish article}}
+\item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley
+\item \href{../articles/polish.html}{Median polish article}}
 }

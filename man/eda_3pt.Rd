@@ -69,13 +69,13 @@ be displayed.}
 }
 \value{
 Generates a plot and returns a list with the following named
-  components:
+components:
 
 \itemize{
-  \item \code{hsrtio}: The ratio between both slopes. A value close to one
-  suggests that no transformation is needed.
-  \item \code{xmed}: The x-coordinate values for the three summary points.
-  \item \code{ymed}: The y-coordinate values for the three summary points.}
+\item \code{hsrtio}: The ratio between both slopes. A value close to one
+suggests that no transformation is needed.
+\item \code{xmed}: The x-coordinate values for the three summary points.
+\item \code{ymed}: The y-coordinate values for the three summary points.}
 }
 \description{
 \code{eda_3pt} splits the data into 3 groups (whose summary
@@ -107,7 +107,7 @@ eda_3pt(mtcars, disp, mpg,  px = -1/3, py = -1,
 }
 \references{
 \itemize{
-   \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
-   \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.
-   \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
+\item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
+\item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.
+\item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 }

@@ -17,9 +17,9 @@
 #' @param col.com Boolean indicating if common value should contribute to color
 #'   gradient.
 #' @param adj.mar Boolean indicating if margin width needs to accommodate labels.
-#' @param res.size Size of residual values in plot [0-1].
-#' @param row.size Size of row effect values in plot [0-1].
-#' @param col.size Size of column effect values in plot [0-1].
+#' @param res.size Size of residual values in plot \[0-1\].
+#' @param row.size Size of row effect values in plot \[0-1\].
+#' @param col.size Size of column effect values in plot \[0-1\].
 #' @param res.txt Boolean indicating if values should be added to plot.
 #' @param label.txt Boolean indicating if margin and column labels should be
 #'   plotted.

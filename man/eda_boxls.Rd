@@ -85,19 +85,19 @@ displayed in the plot.}
 }
 \description{
 \code{eda_boxls} creates boxplots conditioned on a categorical
-  variable while providing the option to level the data or equalize the spreads.
+variable while providing the option to level the data or equalize the spreads.
 }
 \details{
 \itemize{
-  \item By default, the boxplots are re-ordered by their median values.
-  \item If the outlier text to be displayed is its own value, it will not be
-   modified if the data are equalized by level or spread.
-  \item Note that the notch offers a 95 percent test of the null that the true
-  medians are equal assuming that the distribution of each batch is
-  approximately normal. If the notches do not overlap, we can assume that
-  medians are significantly different at a 0.05 level. Note that the notches
-  do not correct for multiple comparison issues when three or more batches are
-  plotted.}
+\item By default, the boxplots are re-ordered by their median values.
+\item If the outlier text to be displayed is its own value, it will not be
+modified if the data are equalized by level or spread.
+\item Note that the notch offers a 95 percent test of the null that the true
+medians are equal assuming that the distribution of each batch is
+approximately normal. If the notches do not overlap, we can assume that
+medians are significantly different at a 0.05 level. Note that the notches
+do not correct for multiple comparison issues when three or more batches are
+plotted.}
 }
 \examples{
 

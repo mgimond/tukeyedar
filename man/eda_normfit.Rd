@@ -52,7 +52,7 @@ data should be displayed in the plot's upper-right corner.}
 \item{sq}{Boolean determining if the plot should be square.}
 
 \item{inner}{Fraction of values that should be captured by the inner color
-band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
+band of the normal and density plots. Defaults to 0.6826 (inner 68\\% of
 values).}
 
 \item{dens}{Boolean determining if the density plot should be displayed
@@ -102,41 +102,41 @@ Does not return a value.
 }
 \description{
 \code{eda_normfit} generates a fitted Normal distribution to the
-  data with the option to compare it to a density distribution.
+data with the option to compare it to a density distribution.
 }
 \details{
 This function will generate a mirrored Normal distribution
-  fitted to the data if \code{dens} is set to \code{FALSE} or a side-by-side
-  density/Normal fit plot if \code{dens} is set to \code{TRUE}. If the
-  latter, the density plot will be on the left side and the Normal fit will
-  be on the right side of the vertical axis. \cr
-  \cr
-  The plots have two fill colors: one for the inner band and the other for
-  the outer band. The inner band shows the area of the curve that encompasses
-  the desired fraction of values defined by \code{inner}. By default, this
-  value is 0.6826, or 68.26\% (this is roughly the percentage of values
-  covered by +/- 1 standard deviations of a Normal distribution). For the
-  Normal fit plot, the range is computed from the theoretical Normal and not
-  from the actual values. For the density plot, the range is computed from
-  the actual values. \cr
-  \cr
-  If a density plot is desired, \code{dens = TRUE}, a gap (defined by
-  \code{offset}) is created between the left side density plot and the right
-  side Normal fit plot. This function makes use of the built-in
-  \code{stats::density} function. As such, you can pass the \code{bw} and
-  \code{kernel} parameters as you would for the \code{density()} function.
-  Points showing the location of values along the y-axis are also added to
-  help view their distributions relative to the density and Normal fit
-  curves. \cr
-  \cr
-  Measures of centrality are computed differently for the Normal fit and
-  density plots. The mean is added to the Normal fit plot and the median
-  is added to the density plot. These measures of centrality are shown as
-  black horizontal lines in the plot.\cr
-  \cr
-  The areas under the density and Normal fit plots are scaled to their
-  peak values, respectively. So, the areas should not be compared between
-  both distributions.
+fitted to the data if \code{dens} is set to \code{FALSE} or a side-by-side
+density/Normal fit plot if \code{dens} is set to \code{TRUE}. If the
+latter, the density plot will be on the left side and the Normal fit will
+be on the right side of the vertical axis. \cr
+\cr
+The plots have two fill colors: one for the inner band and the other for
+the outer band. The inner band shows the area of the curve that encompasses
+the desired fraction of values defined by \code{inner}. By default, this
+value is 0.6826, or 68.26\\% (this is roughly the percentage of values
+covered by +/- 1 standard deviations of a Normal distribution). For the
+Normal fit plot, the range is computed from the theoretical Normal and not
+from the actual values. For the density plot, the range is computed from
+the actual values. \cr
+\cr
+If a density plot is desired, \code{dens = TRUE}, a gap (defined by
+\code{offset}) is created between the left side density plot and the right
+side Normal fit plot. This function makes use of the built-in
+\code{stats::density} function. As such, you can pass the \code{bw} and
+\code{kernel} parameters as you would for the \code{density()} function.
+Points showing the location of values along the y-axis are also added to
+help view their distributions relative to the density and Normal fit
+curves. \cr
+\cr
+Measures of centrality are computed differently for the Normal fit and
+density plots. The mean is added to the Normal fit plot and the median
+is added to the density plot. These measures of centrality are shown as
+black horizontal lines in the plot.\cr
+\cr
+The areas under the density and Normal fit plots are scaled to their
+peak values, respectively. So, the areas should not be compared between
+both distributions.
 }
 \examples{
 

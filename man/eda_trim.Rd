@@ -45,18 +45,18 @@ Right-trims a dataframe \cr
 }
 \details{
 \itemize{
- \item The input dataset does not need to be sorted (sorting is performed in the
- functions).
- \item If \code{num} is set to zero, then the function will assume that the
- trimming is to be done by fraction (defined by the \code{prop} parameter).
- \item If \code{eda_trim} or \code{eda_trim_df} functions are called, the
- \code{num} and \code{prop} values apply to each tail. For example, if
- \code{num = 5} then the 5 smallest AND 5 largest values are removed from the
- data.
- \item \code{NA} values must be stripped from the input vector or
- column elements before running the trim functions.
- \item Elements are returned sorted on the trimmed elements.
- }
+\item The input dataset does not need to be sorted (sorting is performed in the
+functions).
+\item If \code{num} is set to zero, then the function will assume that the
+trimming is to be done by fraction (defined by the \code{prop} parameter).
+\item If \code{eda_trim} or \code{eda_trim_df} functions are called, the
+\code{num} and \code{prop} values apply to each tail. For example, if
+\code{num = 5} then the 5 smallest AND 5 largest values are removed from the
+data.
+\item \code{NA} values must be stripped from the input vector or
+column elements before running the trim functions.
+\item Elements are returned sorted on the trimmed elements.
+}
 }
 \examples{
 

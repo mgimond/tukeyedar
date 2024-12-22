@@ -45,7 +45,7 @@
 #' @param q Boolean determining if grey box highlighting the \code{inner}
 #'   region should be displayed.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
-#'   Defaults to the inner 75\% of values.
+#'   Defaults to the inner 75 percent of values.
 #' @param iqr Boolean determining if an IQR line should be fitted to the points.
 #' @param text.size Size for category text above the plot.
 #' @param title Title to display. If set to \code{TRUE}, defaults to

@@ -2,7 +2,7 @@
 % Please edit documentation in R/eda_shuffle.R
 \name{eda_shuffle}
 \alias{eda_shuffle}
-\title{Shuffle Values Across Groups}
+\title{Shuffle values across groups}
 \usage{
 eda_shuffle(df, x, grp, replace_x = FALSE, replace_grp = FALSE, ...)
 }

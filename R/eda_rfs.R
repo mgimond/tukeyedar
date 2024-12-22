@@ -21,7 +21,7 @@
 #'   univariate values (i.e. for summarizing groups). \code{stat} can be either
 #'   \code{mean} or \code{median}.
 #' @param inner Fraction of values that should be captured by the shaded region.
-#'   Defaults to inner 90\% of values.
+#'   Defaults to inner 90 percent of values.
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -50,7 +50,7 @@
 #' \cr
 #' The \code{q} argument, when set to \code{TRUE}, will add a shaded region to
 #' the residual quantile plot highlighting the mid portion of the data defined
-#' by the \code{inner} argument (set to 90\% of the mid values, by default). The
+#' by the \code{inner} argument (set to 90 percent of the mid values, by default). The
 #' range defined by the mid portion of the data is highlighted in the left plot
 #' for comparison with the the full range defined by the fitted values. \cr
 #' \cr

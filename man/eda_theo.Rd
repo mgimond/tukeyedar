@@ -86,11 +86,11 @@ applicable if \code{rgb()} is not used to define point colors.}
 \item{grid}{Boolean determining if a grid should be added.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{inner}{Fraction of the data considered as "mid values". Defaults to
-75\%. Used  to define shaded region boundaries, \code{q}, or to identify
+75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently, \code{tails}.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
@@ -112,27 +112,27 @@ which of the tail-end points are to be symbolized differently, \code{tails}.}
 }
 \value{
 A dataframe with the input vector elements and matching theoretical
-  quantiles. Any transformation applied to \code{x} is reflected in the
-  output.
+quantiles. Any transformation applied to \code{x} is reflected in the
+output.
 }
 \description{
 \code{eda_theo} generates a theoretical QQ plot for many common
-  distributions including the Normal, uniform and gamma distributions.
+distributions including the Normal, uniform and gamma distributions.
 }
 \details{
 The function generates a theoretical QQ plot.
- Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
- QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
- gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
- (\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
- supported. By default, the Normal QQ plot maps the unit Normal
- quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
- of 1 unit). \cr \cr
- Note that arguments can be passed to the respective quantile functions via
- the \code{d.list} argument. Some quantile functions require at least one
- argument. For example, the \code{qgamma} function requires that the shape
- parameter be specified and the \code{qchisq} function requires that  the
- degrees of freedom, \code{df}, be specified. See examples.
+Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
+QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
+gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
+(\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
+supported. By default, the Normal QQ plot maps the unit Normal
+quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
+of 1 unit). \cr \cr
+Note that arguments can be passed to the respective quantile functions via
+the \code{d.list} argument. Some quantile functions require at least one
+argument. For example, the \code{qgamma} function requires that the shape
+parameter be specified and the \code{qchisq} function requires that  the
+degrees of freedom, \code{df}, be specified. See examples.
 }
 \examples{
 
@@ -161,7 +161,7 @@ The function generates a theoretical QQ plot.
 }
 \references{
 \itemize{
-  \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)
-  \item \href{../articles/qq.html}{Quantile-Quantile plot article}}
+\item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+Graphical Methods for Data Analysis (1983)
+\item \href{../articles/qq.html}{Quantile-Quantile plot article}}
 }

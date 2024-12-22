@@ -7,14 +7,14 @@
 \format{
 A data frame with 18 rows and 2 variables:
 \describe{
-  \item{Months}{Child's age in months}
-  \item{Height}{Child's height in cm}
-  ...
+\item{Months}{Child's age in months}
+\item{Height}{Child's height in cm}
+...
 }
 }
 \source{
 Understanding robust and exploratory data analysis, by D.C. Hoaglin,
-   F. Mosteller and J.W. Tukey. (page 135)
+F. Mosteller and J.W. Tukey. (page 135)
 }
 \usage{
 age_height

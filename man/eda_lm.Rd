@@ -98,7 +98,7 @@ applicable if \code{rgb()} is not used to define point colors.}
 data should be added to the plot.}
 
 \item{inner}{Fraction of mid-values to highlight in \code{q}.  Defaults to
-the mid 68\% of values.}
+the mid 68 percent of values.}
 
 \item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
 definition).}
@@ -124,51 +124,51 @@ function.}
 }
 \value{
 Returns a list of class \code{eda_lm}. Output includes the following
-   if \code{reg = TRUE}. Returns \code{NULL} otherwise.
+if \code{reg = TRUE}. Returns \code{NULL} otherwise.
 
 \itemize{
-  \item \code{residuals}: Regression model residuals
-  \item \code{a}: Intercept
-  \item \code{b}: Polynomial coefficient(s)
-  \item \code{fitted.values}: Fitted values}
+\item \code{residuals}: Regression model residuals
+\item \code{a}: Intercept
+\item \code{b}: Polynomial coefficient(s)
+\item \code{fitted.values}: Fitted values}
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression
-  line. A loess line can  also be added to the plot for model comparison. The
-  axes are scaled such that their respective standard  deviations match axes
-  unit length.
+line. A loess line can  also be added to the plot for model comparison. The
+axes are scaled such that their respective standard  deviations match axes
+unit length.
 }
 \details{
 The function will plot a regression line and, if requested, a loess
-  fit. The function adopts the least squares fitting technique by default. It
-  defaults to a first order polynomial fit. The polynomial order can be
-  specified via the \code{poly} argument.
-  \cr\cr
-  The plot displays the +/- 1 standard deviations as dashed lines. In
-  theory, if both x and y values follow a perfectly Normal distribution,
-  roughly 68 percent of the points should fall in between these lines.
-  \cr \cr
-  The true 68 percent of values can be displayed as a shaded region by
-  setting \code{q=TRUE}. It uses the \code{quantile} function to compute
-  the upper and lower bounds defining the inner 68 percent of values. If the
-  data follow a Normal distribution, the grey rectangle edges should coincide
-  with the +/- 1SD dashed lines.
-  If you wish to show the interquartile ranges (IQR) instead of the inner
-  68 percent of values, simply set \code{inner = 0.5)}.
-  \cr \cr
-  The plot has the option to re-express the values via the \code{px} and
-  \code{py} arguments. But note that if the re-expression produces \code{NaN}
-   values (such as if a negative value is logged) those points will be
-   removed from the plot. This will result in fewer observations being
-   plotted. If observations are removed as result of a re-expression a
-   warning message will be displayed in the console.
-   The re-expression powers are shown in the upper right side of the plot. To
-  suppress the display of the re-expressions set \code{show.par = FALSE}.
-  \cr\cr
-  If the \code{robust} argument is set to TRUE, \code{MASS}'s
-  built-in robust fitting model, \code{rlm}, is used to fit the regression
-  line to the data. \code{rlm} arguments can be passed as a list via the
-  \code{rlm.d} argument.
+fit. The function adopts the least squares fitting technique by default. It
+defaults to a first order polynomial fit. The polynomial order can be
+specified via the \code{poly} argument.
+\cr\cr
+The plot displays the +/- 1 standard deviations as dashed lines. In
+theory, if both x and y values follow a perfectly Normal distribution,
+roughly 68 percent of the points should fall in between these lines.
+\cr \cr
+The true 68 percent of values can be displayed as a shaded region by
+setting \code{q=TRUE}. It uses the \code{quantile} function to compute
+the upper and lower bounds defining the inner 68 percent of values. If the
+data follow a Normal distribution, the grey rectangle edges should coincide
+with the +/- 1SD dashed lines.
+If you wish to show the interquartile ranges (IQR) instead of the inner
+68 percent of values, simply set \code{inner = 0.5)}.
+\cr \cr
+The plot has the option to re-express the values via the \code{px} and
+\code{py} arguments. But note that if the re-expression produces \code{NaN}
+values (such as if a negative value is logged) those points will be
+removed from the plot. This will result in fewer observations being
+plotted. If observations are removed as result of a re-expression a
+warning message will be displayed in the console.
+The re-expression powers are shown in the upper right side of the plot. To
+suppress the display of the re-expressions set \code{show.par = FALSE}.
+\cr\cr
+If the \code{robust} argument is set to TRUE, \code{MASS}'s
+built-in robust fitting model, \code{rlm}, is used to fit the regression
+line to the data. \code{rlm} arguments can be passed as a list via the
+\code{rlm.d} argument.
 }
 \examples{
 
@@ -202,5 +202,5 @@ eda_lm(mtcars, hp, mpg, robust = TRUE, poly = 2)
 }
 \seealso{
 \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
-  functions
+functions
 }

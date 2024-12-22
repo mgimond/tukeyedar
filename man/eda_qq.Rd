@@ -46,7 +46,7 @@ eda_qq(
 variable if \code{x} is a dataframe.}
 
 \item{fac}{Column defining the categorical variable if \code{x} is a
-  dataframe. The categorical column must be limited to two levels (groups).
+dataframe. The categorical column must be limited to two levels (groups).
 dataframe. Ignored if \code{x} and \code{y} are vectors.}
 
 \item{norm}{Defunct. Use \code{eda_theo} instead.}
@@ -94,11 +94,11 @@ applicable if \code{rgb()} is not used to define point color.}
 \item{q}{Boolean determining if \code{inner} data region should be shaded.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{inner}{Fraction of the data considered as "mid values". Defaults to
-75\%. Used  to define shaded region boundaries, \code{q}, or to identify
+75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently,
 \code{tails=TRUE}.}
 
@@ -127,44 +127,44 @@ passed to the function.}
 Returns a list with the following components:
 
 \itemize{
-  \item \code{data}: Dataframe with input \code{x} and \code{y} values.
-  Data will be interpolated to smallest quantile batch if batch sizes differ.
-  Values will reflect power transformation defined in \code{p}.
-  \item \code{p}: Re-expression applied to original values.
-  \item \code{fx}: Formula applied to x variable.
-  \item \code{fy}: Formula applied to y variable.}
+\item \code{data}: Dataframe with input \code{x} and \code{y} values.
+Data will be interpolated to smallest quantile batch if batch sizes differ.
+Values will reflect power transformation defined in \code{p}.
+\item \code{p}: Re-expression applied to original values.
+\item \code{fx}: Formula applied to x variable.
+\item \code{fy}: Formula applied to y variable.}
 }
 \description{
 \code{eda_qq} Generates an empirical QQ plot and a Tukey
-  mean-difference plot
+mean-difference plot
 }
 \details{
-By default, the QQ plot will highlight the inner 75\% of the data
-  for both x and y axes to mitigate the visual influence of extreme values.
-  The \code{inner} argument controls the extent of this region. For example
-  \code{inner = 0.5} will highlight the IQR region. \cr
-  \cr
-  If the shaded regions are too distracting, you can opt to have the
-  tail-end points symbolized differently by setting \code{tails = TRUE} and
-  \code{q = FALSE}. The tail-end point symbols can be customized via the
-  \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
-  \cr
-  The middle dashed line represents each batch's median value. It can be
-  turned off by setting \code{med = FALSE}\cr
-  \cr
-  Console output prints the suggested multiplicative and additive offsets. It
-  adopts a resistant line fitting technique to derive the coefficients. The
-  suggested offsets output applies to the raw or re-expressed data but it
-  ignores any \code{fx} or \code{fy} transformations applied to the data.
-  Note that the suggested offsets may not always be the most parsimonious fit.
-  Eyeballing the offsets may sometimes result in a more satisfactory
-  characterization of the differences between batches. See the QQ plot
-  article for an introduction on its use and interpretation.
-  \cr \cr
-  To generate a Tukey mean-difference plot, set \code{med = TRUE}.
-  \cr \cr
-  For more information on this function and on interpreting a QQ plot see
-  the \href{../articles/qq.html}{QQ plot article}.
+By default, the QQ plot will highlight the inner 75\\% of the data
+for both x and y axes to mitigate the visual influence of extreme values.
+The \code{inner} argument controls the extent of this region. For example
+\code{inner = 0.5} will highlight the IQR region. \cr
+\cr
+If the shaded regions are too distracting, you can opt to have the
+tail-end points symbolized differently by setting \code{tails = TRUE} and
+\code{q = FALSE}. The tail-end point symbols can be customized via the
+\code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
+\cr
+The middle dashed line represents each batch's median value. It can be
+turned off by setting \code{med = FALSE}\cr
+\cr
+Console output prints the suggested multiplicative and additive offsets. It
+adopts a resistant line fitting technique to derive the coefficients. The
+suggested offsets output applies to the raw or re-expressed data but it
+ignores any \code{fx} or \code{fy} transformations applied to the data.
+Note that the suggested offsets may not always be the most parsimonious fit.
+Eyeballing the offsets may sometimes result in a more satisfactory
+characterization of the differences between batches. See the QQ plot
+article for an introduction on its use and interpretation.
+\cr \cr
+To generate a Tukey mean-difference plot, set \code{med = TRUE}.
+\cr \cr
+For more information on this function and on interpreting a QQ plot see
+the \href{../articles/qq.html}{QQ plot article}.
 }
 \examples{
 
@@ -232,7 +232,7 @@ eda_qq(dat, height, voice.part, med = FALSE, q = FALSE)
 }
 \references{
 \itemize{
-  \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)
-  \item \href{../articles/qq.html}{Quantile-Quantile plot article}}
+\item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+Graphical Methods for Data Analysis (1983)
+\item \href{../articles/qq.html}{Quantile-Quantile plot article}}
 }

@@ -1,8 +1,9 @@
 #' @export
 #' @title
-#'  Simulate Data Using Fleishman Transformation (experimental)
+#'  Simulate data using Fleishman transformation
 #'
 #' @description
+#' `r lifecycle::badge("experimental")` \cr\cr
 #' Generates random data with the specified skewness and excess kurtosis using the
 #' Fleishman transformation method.
 #'
@@ -63,18 +64,15 @@
 #' x <- eda_sim(500000, skew = 1.15, kurt = 2)
 #'
 #' # Verify skewness and excess kurtosis of the simulated data
-#' skewness <- sum((x - mean(x))^3) / (length(x) - 1) * sd(x)^3
-#' excess_kurtosis <- (sum((x - mean(x))^4) / (length(x) - 1)) / (sd(x)^2) - 3
-#'
 #' # Mean and variance should be close to 0 and 1 respectively
-#' mean(x)
-#' var(x)
+#' eda_moments(x)
 #'
 #' # Visualize the simulated data
 #' hist(x, breaks = 30, main = "Simulated Data", xlab = "Value")
 
 
-eda_sim <- function(n, skew, kurt, check = TRUE, coefout = FALSE, coefin = NULL) {
+eda_sim <- function(n, skew = 0, kurt = 0, check = TRUE,
+                    coefout = FALSE, coefin = NULL) {
   # Check for valid skew/kurtosis combination
   if (check == TRUE) {
     min_kurt <- -1.13168 + 1.58837 * skew^2

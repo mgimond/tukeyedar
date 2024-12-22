@@ -93,13 +93,13 @@ applicable if \code{rgb()} is not used to define point colors.}
 region should be displayed.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{med}{Boolean determining if median lines should be drawn.}
 
 \item{inner}{Fraction of mid-values to highlight in \code{q} or \code{tails}.
-Defaults to the inner 75\% of values.}
+Defaults to the inner 75 percent of values.}
 
 \item{title}{Title to display. If set to \code{TRUE}, defaults to
 \code{"Pooled residuals QQ plot"}. If set to \code{FALSE}, omits title from output.
@@ -116,13 +116,13 @@ the matching pooled residuals.
 }
 \description{
 \code{eda_qqpool} generates multi-panel pooled values QQ plots
-  for a continuous variable conditioned on a grouping variable. This plot is
-  most frequently used to compare residuals to pooled residuals.
+for a continuous variable conditioned on a grouping variable. This plot is
+most frequently used to compare residuals to pooled residuals.
 }
 \details{
 The function will generate a multi-panel pooled values QQ plots.
- The function defaults to a pooled residuals QQ plots which is the most common
- use for this kind of plot.
+The function defaults to a pooled residuals QQ plots which is the most common
+use for this kind of plot.
 }
 \examples{
 
@@ -133,5 +133,5 @@ eda_qqpool(singer, height, voice.part, nrow = 2)
 }
 \references{
 \itemize{
-  \item William S. Cleveland. Visualizing data. (1993)}
+\item William S. Cleveland. Visualizing data. (1993)}
 }

@@ -11,7 +11,7 @@
 #' @details  This function computes the fractional value (f-value) for each
 #'  element in a numeric vector \code{x}. The f-value provides a measure of the
 #'  position of a data point relative to the rest of the data, scaled to the
-#'  range [0,1]. This fraction is sometimes reported as the
+#'  range \[0,1\]. This fraction is sometimes reported as the
 #'  probability or cumulative frequency. \cr
 #'  \cr
 #'  Different algorithms are used to compute the f-value. \code{eda_fval}
@@ -34,8 +34,8 @@
 #'
 #' @seealso
 #'   \itemize{
-#'   \item \code{\link[stats]{quantile}} for quantile calculations
-#'   \item \code{\link[tukeyedar]{eda_qq}} for QQ plots}
+#'   \item \code{\link[stats:quantile]{stats::quantile()}} for quantile calculations
+#'   \item \code{\link{eda_qq}} for QQ plots}
 #'
 #' @references
 #'

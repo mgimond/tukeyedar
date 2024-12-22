@@ -84,7 +84,7 @@ applicable if \code{rgb()} is not used to define point colors.}
 }
 \value{
 Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value
-  otherwise.
+otherwise.
 }
 \description{
 \code{plot.eda_pol} A plot method for lists of eda_polish class.

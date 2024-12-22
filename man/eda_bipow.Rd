@@ -25,7 +25,7 @@ adopt Box-Cox transformation.}
 }
 \description{
 Re-expresses a vector on the ladder of powers.
- Requires \code{eda_3pt()} function.
+Requires \code{eda_3pt()} function.
 }
 \details{
 Generates a matrix of scatter plots and boxplots of various
@@ -49,5 +49,5 @@ eda_bipow(dat = cars, x = speed, y = dist, tukey = TRUE, p = c(-1, -0.5, 0, 0.5,
 }
 \references{
 \itemize{
-   \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
+\item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 }

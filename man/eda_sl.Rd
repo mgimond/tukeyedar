@@ -101,36 +101,36 @@ generate Tukeys' spread-level plot.
 }
 \details{
 The function generates a few variations of the spread-location/spread-level
-  plots depending on the data input type and parameter passed to the
-  \code{type} argument. The residual spreads are mapped to the y-axis and the
-  levels are mapped to the x-axis. Their values are computed as follows:
- \itemize{
+plots depending on the data input type and parameter passed to the
+\code{type} argument. The residual spreads are mapped to the y-axis and the
+levels are mapped to the x-axis. Their values are computed as follows:
+\itemize{
 
-   \item \code{type = "location"} (univariate data):\cr\cr
-          William Cleveland's spread-location plot applied to univariate
-          data.\cr
-          \eqn{\ spread = \sqrt{|residuals|}} \cr
-          \eqn{\ location = medians}
+\item \code{type = "location"} (univariate data):\cr\cr
+William Cleveland's spread-location plot applied to univariate
+data.\cr
+\eqn{\ spread = \sqrt{|residuals|}} \cr
+\eqn{\ location = medians}
 
-   \item \code{type = "level"} (univariate data):\cr\cr
-    Tukey's spread-level plot (aka spread-versus-level plot).
-    This plot is commonly used to help find a power transformation that will
-    help stabilize the spread in the data. This option will output the slope
-    of the fitted line in the console. By default, the fourth spread is
-    used to define the spread. Alternatively, the IQR can be used by setting
-    \code{spread = "IQR"}. The output will be nearly identical except for
-    small datasets where the two methods may diverge slightly in output.\cr
-          \eqn{\ spread = log(fourth\ spread(residuals))} \cr
-          \eqn{\ location = log(medians)}
+\item \code{type = "level"} (univariate data):\cr\cr
+Tukey's spread-level plot (aka spread-versus-level plot).
+This plot is commonly used to help find a power transformation that will
+help stabilize the spread in the data. This option will output the slope
+of the fitted line in the console. By default, the fourth spread is
+used to define the spread. Alternatively, the IQR can be used by setting
+\code{spread = "IQR"}. The output will be nearly identical except for
+small datasets where the two methods may diverge slightly in output.\cr
+\eqn{\ spread = log(fourth\ spread(residuals))} \cr
+\eqn{\ location = log(medians)}
 
-   \item \code{type = "location"} if input is a model of class \code{lm},
-         \code{eda_lm} or \code{eda_rline}:\cr\cr
-          William Cleveland's spread-location plot applied to residuals of
-          a linear model.\cr
-          \eqn{\ spread = \sqrt{|residuals|}} \cr
-          \eqn{\ location = fitted\ values}
+\item \code{type = "location"} if input is a model of class \code{lm},
+\code{eda_lm} or \code{eda_rline}:\cr\cr
+William Cleveland's spread-location plot applied to residuals of
+a linear model.\cr
+\eqn{\ spread = \sqrt{|residuals|}} \cr
+\eqn{\ location = fitted\ values}
 
- }
+}
 }
 \examples{
 cars <- MASS::Cars93
@@ -155,8 +155,8 @@ eda_sl(M1)
 }
 \references{
 \itemize{
-  \item Understanding Robust and Exploratory Data Analysis, Hoaglin,
-   David C., Frederick Mosteller, and John W. Tukey, 1983.
-   \item William S. Cleveland. Visualizing Data. Hobart Press (1993)
+\item Understanding Robust and Exploratory Data Analysis, Hoaglin,
+David C., Frederick Mosteller, and John W. Tukey, 1983.
+\item William S. Cleveland. Visualizing Data. Hobart Press (1993)
 }
 }

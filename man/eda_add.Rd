@@ -31,19 +31,19 @@ ranging from 21-25).}
 Returns the \code{eda_rline} intercept and slope.
 
 \itemize{
-  \item \code{a}: Intercept
-  \item \code{b}: Slope}
+\item \code{a}: Intercept
+\item \code{b}: Slope}
 }
 \description{
 \code{eda_add}  adds graphical EDA elements to a scatter plot.
-  Currently only adds \code{eda_rline} fit and points.
+Currently only adds \code{eda_rline} fit and points.
 }
 \details{
 This function adds an eda_rline slope and 3-pt summary points to an
-  existing scatter plot.
+existing scatter plot.
 
-  \cr See the \href{../articles/polish.html}{Resistant Line article} for a
-  detailed breakdown of the resistant line technique.
+\cr See the \href{../articles/polish.html}{Resistant Line article} for a
+detailed breakdown of the resistant line technique.
 }
 \examples{
 

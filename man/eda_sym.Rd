@@ -63,11 +63,11 @@ applicable if \code{rgb()} is not used to define point colors.}
 \item{q}{Boolean determining if \code{inner} data region should be shaded.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{inner}{Fraction of the data considered as "mid values". Defaults to
-75\%. Used  to define shaded region boundaries, \code{q}, or to identify
+75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently, \code{tails}.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
@@ -95,8 +95,8 @@ Returns a dataframe of upper and lower halves
 }
 \details{
 Generates a symmetry quantile plot that compares the lower half
- of the sorted data to its upper half. If the distribution is perfectly
- symmetrical, the points will fall on the line.
+of the sorted data to its upper half. If the distribution is perfectly
+symmetrical, the points will fall on the line.
 }
 \examples{
 
@@ -107,7 +107,7 @@ Generates a symmetry quantile plot that compares the lower half
 }
 \references{
 \itemize{
-  \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)
-  \item \href{../articles/symqq.html}{Symmetry quantile plot article}}
+\item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+Graphical Methods for Data Analysis (1983)
+\item \href{../articles/symqq.html}{Symmetry quantile plot article}}
 }

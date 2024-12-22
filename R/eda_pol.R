@@ -4,30 +4,30 @@
 #' @description \code{eda_pol} Polishes two-way tables using median, means, or
 #'   any customizable functions.
 #'
-#' @param x A three column data frame
-#' @param row Name of column assigned to the row effect
-#' @param col Name of column assigned to the column effect
-#' @param val Name of column assigned to the response variable
-#' @param stat Polishing statistic (default is median)
-#' @param plot Boolean determining if an output plot should be generated
-#' @param eps  Convergence tolerance parameter
-#' @param maxiter Maximum number of iterations
-#' @param sort Boolean determining if the effects row/columns should be sorted
-#' @param p Re-expression power parameter
+#' @param x A three column data frame.
+#' @param row Name of column assigned to the row effect.
+#' @param col Name of column assigned to the column effect.
+#' @param val Name of column assigned to the response variable.
+#' @param stat Polishing statistic (default is median).
+#' @param plot Boolean determining if an output plot should be generated.
+#' @param eps  Convergence tolerance parameter.
+#' @param maxiter Maximum number of iterations.
+#' @param sort Boolean determining if the effects row/columns should be sorted.
+#' @param p Re-expression power parameter.
 #' @param tukey Boolean determining if Tukey's power transformation should used.
 #'   If FALSE, the Box-Cox transformation is adopted.
 #' @param offset Offset to add to values if at leat one value is 0 and the power
-#'   is negative
+#'   is negative.
 #' @param col.quant Boolean determining if a quantile classification scheme
-#'   should be used
-#' @param colpal Color palette to adopt
-#' @param adj.mar Boolean determining if margin width needs to accomodate labels
-#' @param res.size Size of residual values in plot [0-1]
-#' @param row.size Size of row effect values in plot [0-1]
-#' @param col.size Size of column effect values in plot [0-1]
-#' @param res.txt Boolean determining if values should be added to plot
+#'   should be used.
+#' @param colpal Color palette to adopt.
+#' @param adj.mar Boolean determining if margin width needs to accomodate labels.
+#' @param res.size Size of residual values in plot \[0-1\].
+#' @param row.size Size of row effect values in plot \[0-1\].
+#' @param col.size Size of column effect values in plot \[0-1\].
+#' @param res.txt Boolean determining if values should be added to plot.
 #' @param label.txt Boolean determining if margin and column labels should be
-#'   plotted
+#'   plotted.
 #'
 #' @returns A list of class \code{eda_polish} with the following named
 #'   components:

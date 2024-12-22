@@ -92,13 +92,13 @@ applicable if \code{rgb()} is not used to define point colors.}
 region should be displayed.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{med}{Boolean determining if median lines should be drawn.}
 
 \item{inner}{Fraction of mid-values to highlight in \code{q} or \code{tails}.
-Defaults to the inner 75\% of values.}
+Defaults to the inner 75 percent of values.}
 
 \item{...}{Not used}
 }
@@ -106,28 +106,28 @@ Defaults to the inner 75\% of values.}
 Returns a list with the following components:
 
 \itemize{
-  \item \code{data}: List with input \code{x} and \code{y} values for each
-  group. May be interpolated to smallest quantile batch if batch sizes
-  don't match. Values will reflect power transformation defined in \code{p}.
-  \item \code{p}: Transformation applied to original values.}
+\item \code{data}: List with input \code{x} and \code{y} values for each
+group. May be interpolated to smallest quantile batch if batch sizes
+don't match. Values will reflect power transformation defined in \code{p}.
+\item \code{p}: Transformation applied to original values.}
 }
 \description{
 \code{eda_qqmat} Generates a matrix of empirical QQ plots
 }
 \details{
 The function will generate an empirical QQ plot matrix. Most of the
-  arguments available in `eda_qq` are echoed in this function. The one
-  notable difference is the default settings. By default, `eda_qqmat` will
-  generate a plain vanilla set of plots. \cr
-  \cr
-  The QQ plot matrix is most effective in comparing residuals after the data
-  are fitted by the mean or median. To plot the residuals, set
-  \code{resid=TRUE}. By default, the \code{mean} is used. You can change the
-  statistic to the median by setting \code{stat=median}. \cr
-  \cr
-  The function also allows for batch transformation of values via the
-  \code{p} argument. The transformation is applied to the data prior to
-  computing the residuals.
+arguments available in \code{eda_qq} are echoed in this function. The one
+notable difference is the default settings. By default, \code{eda_qqmat} will
+generate a plain vanilla set of plots. \cr
+\cr
+The QQ plot matrix is most effective in comparing residuals after the data
+are fitted by the mean or median. To plot the residuals, set
+\code{resid=TRUE}. By default, the \code{mean} is used. You can change the
+statistic to the median by setting \code{stat=median}. \cr
+\cr
+The function also allows for batch transformation of values via the
+\code{p} argument. The transformation is applied to the data prior to
+computing the residuals.
 }
 \examples{
 
@@ -163,7 +163,7 @@ eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, inner = 0.9,
 }
 \references{
 \itemize{
-  \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)
-  \item \href{../articles/qq.html}{Quantile-Quantile plot article}}
+\item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+Graphical Methods for Data Analysis (1983)
+\item \href{../articles/qq.html}{Quantile-Quantile plot article}}
 }

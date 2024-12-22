@@ -66,7 +66,7 @@ A plot method for lists of \code{eda_rline} class.
 }
 \details{
 The function generates a scatter plot with the fitted model from an
- \code{eda_rline} object.
+\code{eda_rline} object.
 }
 \examples{
 r.lm <- eda_rline(age_height, Months, Height)

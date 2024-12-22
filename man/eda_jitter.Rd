@@ -108,7 +108,7 @@ displayed in the plot.}
 }
 \description{
 \code{eda_jitter} creates a jitter plot from a continuous
- variable conditioned on a categorical variable.
+variable conditioned on a categorical variable.
 }
 \details{
 Function generates jitter plot from a univariate dataset. If no categorical

@@ -2,9 +2,9 @@
 % Please edit documentation in R/eda_sim.R
 \name{eda_sim}
 \alias{eda_sim}
-\title{Simulate Data Using Fleishman Transformation (experimental)}
+\title{Simulate data using Fleishman transformation}
 \usage{
-eda_sim(n, skew, kurt, check = TRUE, coefout = FALSE, coefin = NULL)
+eda_sim(n, skew = 0, kurt = 0, check = TRUE, coefout = FALSE, coefin = NULL)
 }
 \arguments{
 \item{n}{An integer specifying the number of random data points to generate.}
@@ -25,6 +25,7 @@ This bypasses the need to solve for the parameters.}
 A numeric vector of simulated data points.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \cr\cr
 Generates random data with the specified skewness and excess kurtosis using the
 Fleishman transformation method.
 }
@@ -54,12 +55,12 @@ require a large \code{n} to reflect the desired properties due to the
 disproportionate influence of the tail's extreme values on the various moments
 of the distribution, particularly higher-order moments like skewness and kurtosis.
 
- \itemize{
- \item Fleishman, A. I. (1978). A method for simulating non-normal
- distributions. Psychometrika, 43, 521–532.
- \item Wicklin, R. (2013). Simulating Data with SAS (Appendix D: Functions
- for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
- Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
+\itemize{
+\item Fleishman, A. I. (1978). A method for simulating non-normal
+distributions. Psychometrika, 43, 521–532.
+\item Wicklin, R. (2013). Simulating Data with SAS (Appendix D: Functions
+for Simulating Data by Using Fleishman’s Transformation). Cary, NC: SAS
+Institute Inc. Retrieved from  https://tinyurl.com/4tustnph }
 }
 \examples{
 
@@ -74,12 +75,8 @@ set.seed(653)
 x <- eda_sim(500000, skew = 1.15, kurt = 2)
 
 # Verify skewness and excess kurtosis of the simulated data
-skewness <- sum((x - mean(x))^3) / (length(x) - 1) * sd(x)^3
-excess_kurtosis <- (sum((x - mean(x))^4) / (length(x) - 1)) / (sd(x)^2) - 3
-
 # Mean and variance should be close to 0 and 1 respectively
-mean(x)
-var(x)
+eda_moments(x)
 
 # Visualize the simulated data
 hist(x, breaks = 30, main = "Simulated Data", xlab = "Value")

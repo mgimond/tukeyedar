@@ -14,32 +14,32 @@ F-values.}
 }
 \value{
 A numeric vector of the same length as \code{x}, containing the f-values
-  for each input value. The order of the returned f-values matches the input
-  vector.
+for each input value. The order of the returned f-values matches the input
+vector.
 }
 \description{
 Calculates Fractional Values (f-Values).
 }
 \details{
 This function computes the fractional value (f-value) for each
- element in a numeric vector \code{x}. The f-value provides a measure of the
- position of a data point relative to the rest of the data, scaled to the
- range [0,1]. This fraction is sometimes reported as the
- probability or cumulative frequency. \cr
- \cr
- Different algorithms are used to compute the f-value. \code{eda_fval}
- offers as optional algorithm type \code{4} through \code{9} documented
- in \code{stats::quantile}. The algorithms used are: \cr \cr
-  \itemize{
-    \item \code{4}: f = i / n,
-    \item \code{5}: f = (i - 0.5) / n,
-    \item \code{6}: f = i / (n + 1),
-    \item \code{7}: f = (i  - 1) / (n - 1),
-    \item \code{8}: f = (i - 1/3) / (n + 1/3),
-    \item \code{9}: f = (i - 3/8) / (n + 1/4).}
+element in a numeric vector \code{x}. The f-value provides a measure of the
+position of a data point relative to the rest of the data, scaled to the
+range [0,1]. This fraction is sometimes reported as the
+probability or cumulative frequency. \cr
+\cr
+Different algorithms are used to compute the f-value. \code{eda_fval}
+offers as optional algorithm type \code{4} through \code{9} documented
+in \code{stats::quantile}. The algorithms used are: \cr \cr
+\itemize{
+\item \code{4}: f = i / n,
+\item \code{5}: f = (i - 0.5) / n,
+\item \code{6}: f = i / (n + 1),
+\item \code{7}: f = (i  - 1) / (n - 1),
+\item \code{8}: f = (i - 1/3) / (n + 1/3),
+\item \code{9}: f = (i - 3/8) / (n + 1/4).}
 
-  Where f is the fraction of values that lies below index i, and
-  n is the total number values.
+Where f is the fraction of values that lies below index i, and
+n is the total number values.
 }
 \examples{
 
@@ -55,11 +55,11 @@ This function computes the fractional value (f-value) for each
 }
 \references{
 \itemize{
- \item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)}
+\item John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
+Graphical Methods for Data Analysis (1983)}
 }
 \seealso{
 \itemize{
-  \item \code{\link[stats]{quantile}} for quantile calculations
-  \item \code{\link[tukeyedar]{eda_qq}} for QQ plots}
+\item \code{\link[stats:quantile]{stats::quantile()}} for quantile calculations
+\item \code{\link{eda_qq}} for QQ plots}
 }

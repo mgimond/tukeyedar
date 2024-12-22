@@ -105,13 +105,13 @@ applicable if \code{rgb()} is not used to define point colors.}
 region should be displayed.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{med}{Boolean determining if median lines should be drawn.}
 
 \item{inner}{Fraction of mid-values to highlight in \code{q} or \code{tails}.
-Defaults to the inner 75\% of values.}
+Defaults to the inner 75 percent of values.}
 
 \item{iqr}{Boolean determining if an IQR line should be fitted to the points.}
 
@@ -129,23 +129,23 @@ from output. Custom title can also be passed to this argument.}
 Returns a list with the following components:
 
 \itemize{
-  \item \code{data}: List with input \code{x} and \code{y} values for each
-  group. May be interpolated to smallest quantile batch if batch sizes
-  don't match. Values will reflect power transformation defined in \code{p}}.
+\item \code{data}: List with input \code{x} and \code{y} values for each
+group. May be interpolated to smallest quantile batch if batch sizes
+don't match. Values will reflect power transformation defined in \code{p}}.
 }
 \description{
 \code{eda_theopan} generates a multi-panel theoretical QQ plot
-  for a continuous variable conditioned on a grouping variable.
+for a continuous variable conditioned on a grouping variable.
 }
 \details{
 The function will generate a multi-panel theoretical QQ plot.
- Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
- QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
- gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
- (\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
- currently supported. By default, the Normal QQ plot maps the unit Normal
- quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
- of 1 unit).
+Currently, only the Normal QQ plot (\code{dist="norm"}), exponential
+QQ plot (\code{dist="exp"}), uniform QQ plot (\code{dist="unif"}),
+gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
+(\code{dist="chisq"}), and the Weibull QQ plot (\code{dist="weibull"}) are
+currently supported. By default, the Normal QQ plot maps the unit Normal
+quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
+of 1 unit).
 }
 \examples{
 
@@ -174,10 +174,10 @@ eda_theopan(wat,avg, month, resid = TRUE, nrow = 3, inner = 0.8 ,
 }
 \references{
 \itemize{
-  \item William S. Cleveland. Visualizing data. (1993)}
+\item William S. Cleveland. Visualizing data. (1993)}
 }
 \seealso{
 \itemize{
-  \item \code{\link[tukeyedar]{eda_fval}} for computing f-values
-  \item \code{\link[tukeyedar]{eda_theo}} for a single theoretical QQ plot}
+\item \code{\link[tukeyedar]{eda_fval}} for computing f-values
+\item \code{\link[tukeyedar]{eda_theo}} for a single theoretical QQ plot}
 }

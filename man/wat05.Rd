@@ -7,12 +7,12 @@
 \format{
 A data frame with 365 rows and 5 variables:
 \describe{
-  \item{date}{Date centered on the 11991-2020 period. Note that the year is purely symbolic.}
-  \item{doy}{Day of year.}
-  \item{min}{Typical minimum temperature for the 1991-2020 period.}
-  \item{avg}{Typical average temperature for the 1991-2020 period.}
-  \item{max}{Typical maximum temperature for the 1991-2020 period.}
-  ...
+\item{date}{Date centered on the 11991-2020 period. Note that the year is purely symbolic.}
+\item{doy}{Day of year.}
+\item{min}{Typical minimum temperature for the 1991-2020 period.}
+\item{avg}{Typical average temperature for the 1991-2020 period.}
+\item{max}{Typical maximum temperature for the 1991-2020 period.}
+...
 }
 }
 \source{

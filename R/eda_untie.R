@@ -1,7 +1,11 @@
 #' @export
 #' @importFrom utils modifyList
-#' @title Resolve Ties in a Numeric Vector
-#' @description Adjusts tied values in a numeric vector by adding or subtracting
+#'
+#' @title
+#'  Resolve ties in a numeric vector
+#'
+#' @description
+#'   Adjusts tied values in a numeric vector by adding or subtracting
 #'   a small fraction of the range.
 #'
 #' @param dat A data frame or a numeric vector.
@@ -48,8 +52,7 @@
 #' x3 <- eda_untie(x2, f = 0.01, rand = FALSE)
 #' x3
 #'
-#' # Adjusting an entire dataframe. Add up to +/- 0.5 inches to
-#' # singer height values
+#' # Random adjustments. Add up to +/- 0.5 inches to singer height values
 #' set.seed(17)
 #' singer <- lattice::singer
 #' factor <- 0.5 / diff(range(singer$height)) # Get fraction that covers 0.5 inches

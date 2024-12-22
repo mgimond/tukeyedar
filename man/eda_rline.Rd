@@ -24,39 +24,39 @@ eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20)
 }
 \value{
 Returns a list of class \code{eda_rline} with the following named
-  components:
+components:
 
 \itemize{
-  \item \code{a}: Intercept
-  \item \code{b}: Slope
-  \item \code{residuals}: Residuals sorted on x-values
-  \item \code{x}: Sorted x values
-  \item \code{y}: y values following sorted x-values
-  \item \code{xmed}: Median x values for each third
-  \item \code{ymed}: Median y values for each third
-  \item \code{index}: Index of sorted x values defining upper boundaries of
-                     each thirds
-  \item \code{xlab}: X label name
-  \item \code{ylab}: Y label name
-  \item \code{iter}: Number of iterations
-  \item \code{fitted.values}: Fitted values}
+\item \code{a}: Intercept
+\item \code{b}: Slope
+\item \code{residuals}: Residuals sorted on x-values
+\item \code{x}: Sorted x values
+\item \code{y}: y values following sorted x-values
+\item \code{xmed}: Median x values for each third
+\item \code{ymed}: Median y values for each third
+\item \code{index}: Index of sorted x values defining upper boundaries of
+each thirds
+\item \code{xlab}: X label name
+\item \code{ylab}: Y label name
+\item \code{iter}: Number of iterations
+\item \code{fitted.values}: Fitted values}
 }
 \description{
 \code{eda_rline} is an R implementation of Hoaglin, Mosteller
-  and Tukey's resistant line technique outlined in chapter 5 of
-  "Understanding Robust and Exploratory Data Analysis" (Wiley, 1983).
+and Tukey's resistant line technique outlined in chapter 5 of
+"Understanding Robust and Exploratory Data Analysis" (Wiley, 1983).
 }
 \details{
 This is an R implementation of the \code{RLIN.F} FORTRAN code in
-  Velleman et. al's book. This function fits a robust line using a
-  three-point summary strategy whereby the data are split into three equal
-  length groups along the x-axis and a line is fitted to the medians defining
-  each group via an iterative process. This function should mirror the
-  built-in \code{stat::line} function in its fitting strategy but it outputs
-  additional parameters.
+Velleman et. al's book. This function fits a robust line using a
+three-point summary strategy whereby the data are split into three equal
+length groups along the x-axis and a line is fitted to the medians defining
+each group via an iterative process. This function should mirror the
+built-in \code{stat::line} function in its fitting strategy but it outputs
+additional parameters.
 
-  \cr See the accompanying \href{../articles/RLine.html}{resistant line
-  article} for a detailed breakdown of the resistant line technique.
+\cr See the accompanying \href{../articles/RLine.html}{resistant line
+article} for a detailed breakdown of the resistant line technique.
 }
 \examples{
 
@@ -86,6 +86,6 @@ plot(M)
 }
 \references{
 \itemize{
-   \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
-   \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
+\item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
+\item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
 }

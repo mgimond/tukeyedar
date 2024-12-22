@@ -73,12 +73,12 @@ Does not return a value.
 }
 \description{
 \code{eda_dens} generates overlapping density distributions for
-  two variables.
+two variables.
 }
 \details{
 This function will generate overlapping density plots with the first
-  variable assigned a grey color and the second variable assigned the default
-  red color.
+variable assigned a grey color and the second variable assigned the default
+red color.
 }
 \examples{
 

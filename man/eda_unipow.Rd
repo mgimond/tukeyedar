@@ -41,9 +41,9 @@ adopt Box-Cox transformation}
 }
 \description{
 \code{eda_unipow} re-expresses a vector on the ladder of powers
-  and plots the results using a histogram and a density function. Either the
-  Tukey or Box-Cox transformation is used in computing the re-expressed
-  values.
+and plots the results using a histogram and a density function. Either the
+Tukey or Box-Cox transformation is used in computing the re-expressed
+values.
 }
 \details{
 The output is a lattice of descriptive plots showing the transformed data
@@ -55,5 +55,5 @@ eda_unipow(mtcars$mpg, bins=6, tukey = TRUE)
 }
 \references{
 \itemize{
-    \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
+\item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley.}
 }

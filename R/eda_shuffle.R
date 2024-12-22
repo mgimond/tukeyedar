@@ -1,8 +1,10 @@
 #' @export
-#' @title Shuffle Values Across Groups
+#' @title
+#'  Shuffle values across groups
+#'
 #' @description
-#' This function shuffles the values in a specified column of a data frame across
-#' all groups.
+#'  This function shuffles the values in a specified column of a data frame across
+#'  all groups.
 #'
 #' @param df A data frame.
 #' @param x The name of the column containing the values to be shuffled.

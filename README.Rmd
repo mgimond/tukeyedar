@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 
 # tukeyedar
 
+`r lifecycle::badge("experimental")`  
+
+
+
 <!-- badges: start -->
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -29,14 +33,14 @@ The `tukeyedar` package houses data exploration tools. Many functions are inspir
 
 ## Installation
 
-You can install the development version of tukeyedar from [GitHub](https://github.com/) with:
+The package is available from [GitHub](https://github.com/mgimond/tukeyedar/). It can be installed using the following command:
 
 ```{r eval = FALSE}
 install.packages("remotes")
 remotes::install_github("mgimond/tukeyedar")
 ```
 
-Note that the vignettes will not be automatically generated with the
+Note that the vignettes may not be automatically generated with the
 above command, however, the vignettes are available on this website
 (see next section). If you want a local version of the vignettes, add
 the `build_vignettes = TRUE` parameter.
@@ -64,7 +68,7 @@ It’s strongly recommended that you read the vignettes. These can be accessed f
 
 If you chose to have the vignettes locally created when you installed the package, then you can view them locally via `vignette("RLine", package = "tukeyedar")`. If you use a dark themed IDE, the vignettes may not render very well so you might opt to view them in a web browser via the functions `RShowDoc("RLine", package = "tukeyedar")`.
 
-## Using the functions
+## Using the `tukeyedar` functions
 
 All functions start with `eda_`. For example, to generate a three point
 summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
@@ -74,7 +78,7 @@ library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-Note that most functions are *pipe* friendly. For examples:
+Note that most functions are *pipe* friendly. For example:
 
 ```{r eval=FALSE}
 # Using R >= 4.1
