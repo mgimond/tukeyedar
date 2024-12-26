@@ -4,7 +4,14 @@
 \alias{eda_sim}
 \title{Simulate data using Fleishman transformation}
 \usage{
-eda_sim(n, skew = 0, kurt = 0, check = TRUE, coefout = FALSE, coefin = NULL)
+eda_sim(
+  n = 1,
+  skew = 0,
+  kurt = 0,
+  check = TRUE,
+  coefout = FALSE,
+  coefin = NULL
+)
 }
 \arguments{
 \item{n}{An integer specifying the number of random data points to generate.}

@@ -71,15 +71,15 @@
 #' hist(x, breaks = 30, main = "Simulated Data", xlab = "Value")
 
 
-eda_sim <- function(n, skew = 0, kurt = 0, check = TRUE,
+eda_sim <- function(n = 1, skew = 0, kurt = 0, check = TRUE,
                     coefout = FALSE, coefin = NULL) {
   # Check for valid skew/kurtosis combination
   if (check == TRUE) {
     min_kurt <- -1.13168 + 1.58837 * skew^2
     if (!is.null(coefin)){
-      print("Skew/kurtosis arguments are ignored given that Fleishman coeffcients are provided.")
+      message("Skew/kurtosis arguments are ignored given that Fleishman coefficients are provided.")
     } else if (kurt >= min_kurt) {
-      print("Skew/kurtosis combination is valid.")
+      message("Skew/kurtosis combination is valid.")
     } else {
       warning(cat("Excess kurtosis is below the recommended value of ",min_kurt,
                   "for a skew of ",skew,".\n This may result in a distribution",
@@ -96,18 +96,14 @@ eda_sim <- function(n, skew = 0, kurt = 0, check = TRUE,
     c0 <- coefin[1]; c1 <- coefin[2]; c2 <- coefin[3]; c3 <- coefin[4]
   }
 
-
   # Generate standard normal data
-  z <- rnorm(n)
-
-  # Transform to specified distribution
-  y <- c0 + c1 * z + c2 * z^2 + c3 * z^3
-
-  # Output
-  if (coefout == TRUE){
-    return(paste(c0, c1, c2, c3))
-  } else {
+  if(coefout == FALSE){
+    z <- rnorm(n)
+    # Transform to specified distribution
+    y <- c0 + c1 * z + c2 * z^2 + c3 * z^3
     return(y)
+  } else {
+    return(c(c0, c1, c2, c3)) # Return coefficients
   }
 }
 
