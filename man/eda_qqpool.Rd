@@ -25,7 +25,7 @@ eda_qqpool(
   tail.pch = 21,
   tail.p.col = "grey70",
   tail.p.fill = NULL,
-  tic.size = 0.7,
+  tic.size = 0.8,
   alpha = 0.8,
   q = FALSE,
   tails = FALSE,

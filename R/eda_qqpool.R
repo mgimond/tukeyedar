@@ -77,7 +77,7 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
                           p.col = "grey40", p.fill = "grey60", size = 1,
                           text.size = 0.8, tail.pch = 21, tail.p.col = "grey70",
-                          tail.p.fill = NULL, tic.size = 0.7, alpha = 0.8,
+                          tail.p.fill = NULL, tic.size = 0.8, alpha = 0.8,
                           q = FALSE, tails = FALSE, med = FALSE, inner = 0.75,
                           title = FALSE, ylab=NULL, ...) {
 
@@ -295,12 +295,12 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
           labels <- ticks
           labels[c(1, length(labels))] <- ""
           axis(1,col=plotcol, col.axis=plotcol,  padj = -0.7,
-               labels = TRUE)
+               labels = TRUE, cex.axis = tic.size)
 
           # Add y-axis if marginal plot
           if( j %in% seq(1,fac_num, by=ncol)){
             axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
-                 tck = -0.02)
+                 tck = -0.02, cex.axis = tic.size)
           }
 
           # Add x=y line
@@ -334,6 +334,7 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
     mtext(side = 3, text=params, adj=1, cex = 0.65, outer = TRUE, col = plotcol,
           padj = 1)
   }
+
 
   # Add x-axis title
   mtext(side = 1, text="Pooled residuals", cex = 1, outer = TRUE, col = plotcol,line = 2)
