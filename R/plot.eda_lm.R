@@ -30,7 +30,9 @@
 #'@return Does not return a value.
 #'
 #'@details The function generates a scatter plot of residuals vs dependence or
-#'  residuals vs fitted values plot from a model of class \code{eda_lm}.
+#'  residuals vs fitted values plot from a model of class \code{eda_lm}. A loess
+#'  line is fitted to the data. By default, a robust loess is adopted with the
+#'  \code{"symmetric"} family.
 #'
 #' @examples
 #' M1  <- eda_lm(age_height, Months, Height)
