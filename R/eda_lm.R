@@ -95,7 +95,9 @@
 #'   \item \code{residuals}: Regression model residuals
 #'   \item \code{a}: Intercept
 #'   \item \code{b}: Polynomial coefficient(s)
-#'   \item \code{fitted.values}: Fitted values}
+#'   \item \code{fitted.values}: Fitted values
+#'   \item \code{x}: x variable
+#'   \item \code{x}: x label}
 #'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
 #'   functions
@@ -322,7 +324,9 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
     lst <- list(residuals = residuals(M),
                 a = out_coef[1],
                 b = out_coef[-1],
-                fitted.values = predict(M))
+                fitted.values = predict(M),
+                x = x,
+                x_lab = xlab)
     class(lst) <- "eda_lm"
     invisible(lst)
   } else {

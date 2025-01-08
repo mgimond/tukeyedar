@@ -1,9 +1,13 @@
 #'@export
-#'@title Generate a residuals vs fitted model plot from an eda_lm output
+#'@title Residuals plot
 #'
-#'@description A plot method for lists of \code{eda_lm} class.
+#'@description
+#'  Generate residuals vs fitted or residuals vs dependence plot from
+#'  an \code{eda_lm} class object
 #'
 #'@param x Object of class \code{eda_lm}.
+#'@param type Type of residuals plot. Choice between residuals-fit (\code{rf})
+#'  and residuals-dependence (\code{rd}) plots.
 #'@param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #'@param equal Boolean determining if axes lengths should match (i.e. square
 #'  plot).
@@ -25,15 +29,16 @@
 #'
 #'@return Does not return a value.
 #'
-#'@details The function generates a scatter plot of residuals vs fitted values
-#'  from a model of class \code{eda_lm}
+#'@details The function generates a scatter plot of residuals vs dependence or
+#'  residuals vs fitted values plot from a model of class \code{eda_lm}.
 #'
 #' @examples
 #' M1  <- eda_lm(age_height, Months, Height)
-#' plot(M1)
+#' plot(M1) # Residual-dependence plot
+#' plot(M1, type = "rf") # Residual-fit plot
 
 
-plot.eda_lm <- function(x, xlab = NULL, ylab = NULL, grey = 0.7,
+plot.eda_lm <- function(x, type = "rd", xlab = NULL, ylab = NULL, grey = 0.7,
                         pch = 21, equal = TRUE, p.col = "grey50", alpha = 0.7,
                         p.fill = "grey80", size = 0.8, loess = TRUE,
                         loe.col = rgb(.3, .3, 1, 1),
@@ -45,18 +50,29 @@ plot.eda_lm <- function(x, xlab = NULL, ylab = NULL, grey = 0.7,
   if (any(!check)) warning(sprintf("%s is not a valid argument.",
                                    paste(input[!check], collapse = ", ")))
 
-  if (!inherits(x,"eda_lm")) stop("The input object must be of class eda_lm")
+  if (!inherits(x,"eda_lm")) stop("The input object must be of class eda_lm.\n")
+
+  if (!type %in% c("rd", "rf")) stop("Type must be rd or rf.\n")
 
   # Get x and y values
   y  <- x$residuals
-  x1 <- x$fitted.values
+  if (type == "rd"){
+    x1 <- x$x
+    x_lab <- x$x_lab
+  } else {
+    x1 <- x$fitted.values
+  }
 
   # Add to default plot list parameters
   loess.l  <- modifyList(list(span = 0.5), loess.d)
 
   # Get labels
   if(is.null(xlab)){
-    xlab = "Fitted values"
+    if (type == "rd"){
+      xlab = x_lab
+    } else {
+      xlab = "Fitted values"
+    }
   }
   if(is.null(ylab)){
     ylab = "Residuals"

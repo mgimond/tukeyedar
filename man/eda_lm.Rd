@@ -130,7 +130,9 @@ if \code{reg = TRUE}. Returns \code{NULL} otherwise.
 \item \code{residuals}: Regression model residuals
 \item \code{a}: Intercept
 \item \code{b}: Polynomial coefficient(s)
-\item \code{fitted.values}: Fitted values}
+\item \code{fitted.values}: Fitted values
+\item \code{x}: x variable
+\item \code{x}: x label}
 }
 \description{
 \code{eda_lm} generates a scatter plot with a fitted regression

@@ -2,10 +2,11 @@
 % Please edit documentation in R/plot.eda_lm.R
 \name{plot.eda_lm}
 \alias{plot.eda_lm}
-\title{Generate a residuals vs fitted model plot from an eda_lm output}
+\title{Residuals plot}
 \usage{
 \method{plot}{eda_lm}(
   x,
+  type = "rd",
   xlab = NULL,
   ylab = NULL,
   grey = 0.7,
@@ -23,6 +24,9 @@
 }
 \arguments{
 \item{x}{Object of class \code{eda_lm}.}
+
+\item{type}{Type of residuals plot. Choice between residuals-fit (\code{rf})
+and residuals-dependence (\code{rd}) plots.}
 
 \item{xlab}{X label for output plot.}
 
@@ -59,13 +63,15 @@ function. A robust loess is used by default.}
 Does not return a value.
 }
 \description{
-A plot method for lists of \code{eda_lm} class.
+Generate residuals vs fitted or residuals vs dependence plot from
+an \code{eda_lm} class object
 }
 \details{
-The function generates a scatter plot of residuals vs fitted values
-from a model of class \code{eda_lm}
+The function generates a scatter plot of residuals vs dependence or
+residuals vs fitted values plot from a model of class \code{eda_lm}.
 }
 \examples{
 M1  <- eda_lm(age_height, Months, Height)
-plot(M1)
+plot(M1) # Residual-dependence plot
+plot(M1, type = "rf") # Residual-fit plot
 }
