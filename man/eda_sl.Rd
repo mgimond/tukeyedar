@@ -18,12 +18,15 @@ eda_sl(
   label = TRUE,
   label.col = "lightsalmon",
   plot = TRUE,
+  equal = TRUE,
   grey = 0.6,
   pch = 21,
   p.col = "grey50",
   p.fill = "grey80",
-  size = 1,
+  size = 0.8,
   alpha = 0.8,
+  xlab = NULL,
+  ylab = NULL,
   labelxbuff = 0.05,
   labelybuff = 0.05,
   show.par = TRUE
@@ -38,7 +41,7 @@ eda_sl(
 model).}
 
 \item{type}{s-l plot type. \code{"location"} = spread-location,
-\code{"level"} = spread-level. If the input is a model, a spread-level plot
+\code{"level"} = spread-level. If the input is a model, a spread-location plot
 is generated.}
 
 \item{p}{Power transformation to apply to variable. Ignored if input is a
@@ -68,6 +71,9 @@ spread-location plot.}
 
 \item{plot}{Boolean determining if plot should be generated.}
 
+\item{equal}{Boolean determining if axes lengths should match (i.e. square
+plot).}
+
 \item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
 
 \item{pch}{Point symbol type.}
@@ -81,6 +87,10 @@ ranging from 21-25).}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
+
+\item{xlab}{X label for output plot.}
+
+\item{ylab}{Y label for output plot.}
 
 \item{labelxbuff}{Buffer to add to the edges of the plot to make room for
 the labels in a spread-location plot. Value is a fraction of the plot width.}

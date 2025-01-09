@@ -81,3 +81,21 @@
 #' }
 #' @source https://www.ncei.noaa.gov/
 "wat05"
+
+#' American Community Survey 2022 Median household income and median rent by county
+#'
+#' American Community Survey 2022 Median Household Income (B19013001) and
+#' Median Gross Rent (B25064001) by county.  Units are in 2022 inflation-Adjusted
+#' Dollars.
+#'
+#' @format A data frame with 3222 rows and 5 variables:
+#' \describe{
+#'   \item{FIPS}{County/state FIPS code.}
+#'   \item{County}{County name}
+#'   \item{State}{State name.}
+#'   \item{Income}{Median Household Income.}
+#'   \item{Rent}{Median Gross Rent.}
+#'   ...
+#' }
+#' @source https://www.census.gov/
+"incrent22"

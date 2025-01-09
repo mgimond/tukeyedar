@@ -10,7 +10,7 @@
 #' @param fac Categorical variable column (ignored if \code{dat} is a linear
 #'   model).
 #' @param type s-l plot type. \code{"location"} = spread-location,
-#'   \code{"level"} = spread-level. If the input is a model, a spread-level plot
+#'   \code{"level"} = spread-level. If the input is a model, a spread-location plot
 #'   is generated.
 #' @param p  Power transformation to apply to variable. Ignored if input is a
 #'   linear model.
@@ -28,6 +28,8 @@
 #' @param label Boolean determining if group labels are to be added to the
 #'  spread-location plot.
 #' @param plot Boolean determining if plot should be generated.
+#' @param equal Boolean determining if axes lengths should match (i.e. square
+#'  plot).
 #' @param grey Grey level to apply to plot elements (0 to 1 with 1 = black).
 #' @param pch Point symbol type.
 #' @param p.col Color for point symbol.
@@ -36,6 +38,8 @@
 #' @param size Point size (0-1).
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
+#' @param xlab X label for output plot.
+#' @param ylab Y label for output plot.
 #' @param label.col Color assigned to group labels (only applicable if
 #'   \code{type = location}).
 #' @param labelxbuff Buffer to add to the edges of the plot to make room for
@@ -112,9 +116,9 @@
 eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALSE,
                    sprd = "frth", jitter = 0.01, robust = TRUE,
                    loess.d = list(family = "symmetric", degree=1, span = 1),
-                   label = TRUE, label.col = "lightsalmon", plot = TRUE,
+                   label = TRUE, label.col = "lightsalmon", plot = TRUE, equal = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
-                   size = 1,  alpha = 0.8, labelxbuff = 0.05,
+                   size = 0.8,  alpha = 0.8, xlab = NULL, ylab = NULL, labelxbuff = 0.05,
                    labelybuff = 0.05, show.par = TRUE) {
 
   # Check that input is either an eda_lm model or a dataframe
@@ -134,6 +138,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
 
   # Extract data
   if(inherits(dat,"data.frame")){     # Univariate input
+    equal = FALSE
     x   <- eval(substitute(x), dat)
     fac <- eval(substitute(fac), dat)
     if(is.factor(fac)) fac <- droplevels(fac)
@@ -161,6 +166,19 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     y <- dat$residuals
     x <- dat$fitted.values
   }
+
+  # Get labels
+  if(is.null(xlab)){
+    if (type == "model"){
+      xlab = "Fitted values"
+    } else {
+      xlab = "Location"
+    }
+  }
+  if(is.null(ylab)){
+    ylab = "Spread"
+  }
+
 
 
 
@@ -240,7 +258,13 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     # y.wid <- max( strwidth( y.labs[1], units="inches"),
     #               strwidth( y.labs[2], units="inches")) * in2line + 1
 
-    .pardef <- par(col = plotcol, mar = c(3,y.wid,3,1))
+   # .pardef <- par(col = plotcol, mar = c(3,y.wid,3,1))
+
+    if(equal == TRUE ){
+      .pardef <- par(mar = c(3,y.wid,3,1), col = plotcol, pty = "s")
+    } else {
+      .pardef <- par(mar = c(3,y.wid,3,1), col = plotcol)
+    }
     on.exit(par(.pardef))
 
     plot( x=level, y=spread , ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
@@ -248,11 +272,11 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
           ylim = ylim, xlim = xlim)
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
-    mtext("Spread", side=3, adj= -0.05 , col=plotcol, padj = -1)
+    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9, tck = -0.02)
+    mtext(ylab, side=3, adj= -0.06 , col=plotcol, padj = -1.2, cex = par("cex"))
 
     if (type == "location"){
-      title(xlab = "Location", line = 1.8, col.lab=plotcol)
+      title(xlab = xlab, line = 1.8, col.lab=plotcol)
       lines(sort(meds),spread_med[order(meds)], col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
       points(meds, spread_med, col = rgb(1, 0.5, 0.5, 0.8), pch = 15)
       if (label == TRUE){
@@ -269,7 +293,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
       }
       abline(Mlevel, col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
       cat("Slope = ", Mlevel$coefficients[2])
-      title(xlab = "Location", line = 1.8, col.lab=plotcol)
+      title(xlab = xlab, line = 1.8, col.lab=plotcol)
       if(show.par == TRUE){
         mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
       }
@@ -277,7 +301,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
       loess.l  <- modifyList(list(), loess.d)
       lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),
              col=rgb(1, 0.5, 0.5, 0.9), lw=2 )
-      title(xlab = "Level", line = 1.8, col.lab=plotcol)
+      title(xlab = xlab, line = 1.8, col.lab=plotcol)
     }
     par(.pardef)
   }
