@@ -119,7 +119,7 @@ plot.eda_lm <- function(x, type = "rd", xlab = NULL, ylab = NULL, grey = 0.7,
     title(xlab = xlab, line =1.8, col.lab=plotcol)
 
     if(loess == TRUE) lines( do.call( "loess.smooth",c( list(x=x1,y=y), loess.l)),
-                       col=loe.col,lw=2 , lty=2)
+                       col=loe.col,lw=1.5 , lty=1)
   par(.pardef)
 }
 

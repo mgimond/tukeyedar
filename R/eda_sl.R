@@ -25,6 +25,7 @@
 #'  spread-level plot.
 #' @param loess.d Arguments passed to the internal loess function. Applies only
 #'  to the linear model spread-level plot.
+#' @param loe.col LOESS curve color.
 #' @param label Boolean determining if group labels are to be added to the
 #'  spread-location plot.
 #' @param plot Boolean determining if plot should be generated.
@@ -116,6 +117,7 @@
 eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALSE,
                    sprd = "frth", jitter = 0.01, robust = TRUE,
                    loess.d = list(family = "symmetric", degree=1, span = 1),
+                   loe.col = rgb(.3, .3, 1, 1),
                    label = TRUE, label.col = "lightsalmon", plot = TRUE, equal = TRUE,
                    grey = 0.6, pch = 21, p.col = "grey50", p.fill = "grey80",
                    size = 0.8,  alpha = 0.8, xlab = NULL, ylab = NULL, labelxbuff = 0.05,
@@ -300,7 +302,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     } else {
       loess.l  <- modifyList(list(), loess.d)
       lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),
-             col=rgb(1, 0.5, 0.5, 0.9), lw=2 )
+             col=loe.col, lw = 1.5, lt = 1 )
       title(xlab = xlab, line = 1.8, col.lab=plotcol)
     }
     par(.pardef)

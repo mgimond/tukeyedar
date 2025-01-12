@@ -15,6 +15,7 @@ eda_sl(
   jitter = 0.01,
   robust = TRUE,
   loess.d = list(family = "symmetric", degree = 1, span = 1),
+  loe.col = rgb(0.3, 0.3, 1, 1),
   label = TRUE,
   label.col = "lightsalmon",
   plot = TRUE,
@@ -62,6 +63,8 @@ spread-level plot.}
 
 \item{loess.d}{Arguments passed to the internal loess function. Applies only
 to the linear model spread-level plot.}
+
+\item{loe.col}{LOESS curve color.}
 
 \item{label}{Boolean determining if group labels are to be added to the
 spread-location plot.}

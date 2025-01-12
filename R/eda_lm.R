@@ -142,6 +142,11 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                    loe.col = rgb(.3, .3, 1, 1), stats=FALSE, stat.size = 0.8,
                    loess.d=list(family = "symmetric", span=0.7, degree=1),
                    rlm.d = list(psi = "psi.bisquare"), ...){
+  # Check for invalid arguments
+  input <- names(list(...))
+  check <- input %in% names(formals(cat))
+  if (any(!check)) warning(sprintf("%s is not a valid argument.",
+                                   paste(input[!check], collapse = ", ")))
 
   if(is.null(xlab)){
     xlab = as.character(substitute(x))

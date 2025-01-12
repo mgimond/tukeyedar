@@ -93,8 +93,8 @@
 #'   \item{FIPS}{County/state FIPS code.}
 #'   \item{County}{County name}
 #'   \item{State}{State name.}
-#'   \item{Income}{Median Household Income.}
-#'   \item{Rent}{Median Gross Rent.}
+#'   \item{Income}{Median Household Income in 2022 US Dollars.}
+#'   \item{Rent}{Median Gross Rent in 2022 US Dollars.}
 #'   ...
 #' }
 #' @source https://www.census.gov/
