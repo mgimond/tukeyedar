@@ -97,7 +97,7 @@
 #'   \item \code{b}: Polynomial coefficient(s)
 #'   \item \code{fitted.values}: Fitted values
 #'   \item \code{x}: x variable
-#'   \item \code{x}: x label}
+#'   \item \code{x_lab}: x label}
 #'
 #' @seealso \code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
 #'   functions

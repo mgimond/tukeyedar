@@ -42,8 +42,8 @@ eda_sl(
 model).}
 
 \item{type}{s-l plot type. \code{"location"} = spread-location,
-\code{"level"} = spread-level. If the input is a model, a spread-location plot
-is generated.}
+\code{"level"} = spread-level (only for univariate data).
+\code{"dependence"} = spread-dependence (only for bivariate model input).}
 
 \item{p}{Power transformation to apply to variable. Ignored if input is a
 linear model.}
@@ -51,7 +51,8 @@ linear model.}
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
 
-\item{sprd}{Choice of spreads used in the spread-versus-level plot. Either
+\item{sprd}{Choice of spreads used in the spread-versus-level plot (i.e.
+when \code{type = "level"}). Either
 interquartile, \code{sprd = "IQR"} or
 fourth-spread, \code{sprd = "frth"} (default).}
 
@@ -143,6 +144,12 @@ a linear model.\cr
 \eqn{\ spread = \sqrt{|residuals|}} \cr
 \eqn{\ location = fitted\ values}
 
+\item \code{type = "dependence"} if input is a model of class \code{lm},
+\code{eda_lm} or \code{eda_rline}:\cr\cr
+William Cleveland's spread-location plot applied to residuals of
+a linear model.\cr
+\eqn{\ spread = \sqrt{|residuals|}} \cr
+\eqn{\ dependence = modeled x variable\ values}
 }
 }
 \examples{
@@ -165,6 +172,8 @@ eda_sl(cars, MPG.city, Type, p = -2)
 M1 <- lm(mpg ~ hp, mtcars)
 eda_sl(M1)
 
+# Spread can be compared to X instead of fitted value
+eda_sl(M1, type = "dependence")
 }
 \references{
 \itemize{

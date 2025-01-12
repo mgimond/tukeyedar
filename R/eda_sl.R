@@ -10,13 +10,14 @@
 #' @param fac Categorical variable column (ignored if \code{dat} is a linear
 #'   model).
 #' @param type s-l plot type. \code{"location"} = spread-location,
-#'   \code{"level"} = spread-level. If the input is a model, a spread-location plot
-#'   is generated.
+#'   \code{"level"} = spread-level (only for univariate data).
+#'   \code{"dependence"} = spread-dependence (only for bivariate model input).
 #' @param p  Power transformation to apply to variable. Ignored if input is a
 #'   linear model.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
-#' @param sprd Choice of spreads used in the spread-versus-level plot. Either
+#' @param sprd Choice of spreads used in the spread-versus-level plot (i.e.
+#'  when \code{type = "level"}). Either
 #'   interquartile, \code{sprd = "IQR"} or
 #'   fourth-spread, \code{sprd = "frth"} (default).
 #' @param jitter Jittering parameter for the spread-location plot. A fraction of
@@ -83,8 +84,13 @@
 #'           \eqn{\ spread = \sqrt{|residuals|}} \cr
 #'           \eqn{\ location = fitted\ values}
 #'
+#'    \item \code{type = "dependence"} if input is a model of class \code{lm},
+#'          \code{eda_lm} or \code{eda_rline}:\cr\cr
+#'           William Cleveland's spread-location plot applied to residuals of
+#'           a linear model.\cr
+#'           \eqn{\ spread = \sqrt{|residuals|}} \cr
+#'           \eqn{\ dependence = modeled x variable\ values}
 #'  }
-#'
 #'
 #' @references
 #'  \itemize{
@@ -113,6 +119,8 @@
 #' M1 <- lm(mpg ~ hp, mtcars)
 #' eda_sl(M1)
 #'
+#' # Spread can be compared to X instead of fitted value
+#' eda_sl(M1, type = "dependence")
 
 eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALSE,
                    sprd = "frth", jitter = 0.01, robust = TRUE,
@@ -131,8 +139,13 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     stop("The input object must of class eda_lm or a data.frame.")
 
   # Parameters check
-  if (!sprd %in% c("frth", "IQR")) stop("Argument \"sprd\" must be one of \"frth\" or \"IQR\".",
-                                        call. = FALSE)
+  if (!sprd %in% c("frth", "IQR"))
+    stop("Argument \"sprd\" must be one of \"frth\" or \"IQR\".",
+         call. = FALSE)
+
+  # Check that type is properly specified
+  if(!type %in% c("location", "level", "dependence"))
+    stop("type argument is invalid.")
 
   # Initialize some variables
   ylim = NULL
@@ -140,7 +153,8 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
 
   # Extract data
   if(inherits(dat,"data.frame")){     # Univariate input
-    equal = FALSE
+    dtype <- "univariate"
+    equal <- FALSE
     x   <- eval(substitute(x), dat)
     fac <- eval(substitute(fac), dat)
     if(is.factor(fac)) fac <- droplevels(fac)
@@ -164,15 +178,25 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
                   "for having less than two observations:",
                   names(group_n[group_n < 2]), "\n"))
   } else {   # Model input
-    type <- "model"
     y <- dat$residuals
-    x <- dat$fitted.values
+    if (type == "dependence"){
+      if(inherits(dat, "lm")){
+        x <- dat$model[,2]
+      } else {
+        x <- dat$x
+      }
+    } else {
+      x <- dat$fitted.values
+    }
+     dtype <- "model"
   }
 
   # Get labels
   if(is.null(xlab)){
-    if (type == "model"){
+    if (dtype == "model" & type == "location"){
       xlab = "Fitted values"
+    } else if (dtype == "model" & type == "dependence"){
+      xlab = "X"
     } else {
       xlab = "Location"
     }
@@ -180,10 +204,6 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
   if(is.null(ylab)){
     ylab = "Spread"
   }
-
-
-
-
 
   # Re-express data if required (only applies to univariate data)
   if(inherits(dat,"data.frame")){
@@ -216,7 +236,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
   }
 
   # Spread-location plot options
-  if(type == "location"){  # univariate spread-location
+  if(type == "location" & dtype == "univariate"){  # univariate spread-location
     meds <- tapply(x, fac, median)
     level <- meds[as.character(fac)]
     spread <- sqrt(abs(x - level))
@@ -227,7 +247,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     rangex <- range(level)
     xlim <- c(rangex[1] - diff(rangex) * labelxbuff,
               rangex[2] + diff(rangex) * labelxbuff)
-  } else if (type == "level"){   # univariate spread-level
+  } else if (type == "level" & dtype == "univariate"){   # univariate spread-level
     # Split data into groups
     x_fac <- split(x, fac)
     level <- log(unlist(lapply(x_fac, median)))
@@ -277,7 +297,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9, tck = -0.02)
     mtext(ylab, side=3, adj= -0.06 , col=plotcol, padj = -1.2, cex = par("cex"))
 
-    if (type == "location"){
+    if (type == "location" & dtype == "univariate"){
       title(xlab = xlab, line = 1.8, col.lab=plotcol)
       lines(sort(meds),spread_med[order(meds)], col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
       points(meds, spread_med, col = rgb(1, 0.5, 0.5, 0.8), pch = 15)
@@ -287,7 +307,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
       if(show.par == TRUE){
         mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
       }
-    } else if (type == "level") {
+    } else if (type == "level" & dtype == "univariate") {
       if(robust == TRUE){
         Mlevel <- MASS::rlm(Spread ~ Level, df4)
       } else {
