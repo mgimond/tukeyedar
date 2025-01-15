@@ -149,7 +149,7 @@ a linear model.\cr
 William Cleveland's spread-location plot applied to residuals of
 a linear model.\cr
 \eqn{\ spread = \sqrt{|residuals|}} \cr
-\eqn{\ dependence = modeled x variable\ values}
+\eqn{\ dependence = x\ variable}
 }
 }
 \examples{
