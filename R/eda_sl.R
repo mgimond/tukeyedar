@@ -308,20 +308,14 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     # Get plot specs
     lbl_width <- strwidth(ylab, units = "inches")
     mar_width <- par("mai")[2]
-    loc <- par("usr")
-    print(lbl_width)
-    print(mar_width)
+    loc <- par("usr") # in XY coordinates
+    xscl <- (loc[2] - loc[1]) / par("pin")[1]
     # Place y-label
-    xloc <- loc[1]
-    # if(lbl_width/2 > mar_width * 0.6){
-    #   xloc <- loc[1] + lbl_width/2 - mar_width * 0.6
-    # } else {
-    #   xloc <- loc[1]
-    # }
-    print(loc[1])
-    print(xloc)
-    print(par("usr"))
-    print(par("pin"))
+    if(lbl_width/2 > mar_width * 0.6){
+      xloc <- loc[1] + (lbl_width/2 - mar_width * 0.6) * xscl
+    } else {
+      xloc <- loc[1]
+    }
     text(xloc, loc[4], labels = ylab, col=plotcol, cex = par("cex"), xpd = TRUE, pos = 3, offset = 1)
 
 
