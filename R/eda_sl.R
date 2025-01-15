@@ -67,13 +67,15 @@
 #'           \eqn{\ location = medians}
 #'
 #'    \item \code{type = "level"} (univariate data):\cr\cr
-#'     Tukey's spread-level plot (aka spread-versus-level plot).
-#'     This plot is commonly used to help find a power transformation that will
-#'     help stabilize the spread in the data. This option will output the slope
-#'     of the fitted line in the console. By default, the fourth spread is
-#'     used to define the spread. Alternatively, the IQR can be used by setting
-#'     \code{spread = "IQR"}. The output will be nearly identical except for
-#'     small datasets where the two methods may diverge slightly in output.\cr
+#'     Tukey's spread-level plot (aka spread-versus-level plot, Hoaglin et al.,
+#'     p 260). If the pattern is close to linear, the plot can help find a power
+#'     transformation that will help stabilize the spread in the data by
+#'     subtracting one from the fitted slope. This option outputs the slope of
+#'     the fitted line in the console.
+#'     By default, the fourth spread is used to define the spread. Alternatively,
+#'     the IQR can be used by setting \code{spread = "IQR"}. The output will be
+#'     nearly identical except for small datasets where the two methods may
+#'     diverge slightly in output.\cr
 #'           \eqn{\ spread = log(fourth\ spread(residuals))} \cr
 #'           \eqn{\ location = log(medians)}
 #'
@@ -103,6 +105,10 @@
 #' cars <- MASS::Cars93
 #' # Cleveland's spread-location plot applied to univariate data
 #' eda_sl(cars, MPG.city, Type)
+#'
+#' # You can specify the exact form of the spread on the y-axis
+#' # via the ylab argument
+#' eda_sl(cars, MPG.city, Type, ylab = expression(sqrt(abs(residuals))) )
 #'
 #' # The function can also generate Tukey's spread-level plot to identify a
 #' # power transformation that can stabilize spread across fitted values
@@ -295,7 +301,29 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9, tck = -0.02)
-    mtext(ylab, side=3, adj= -0.06 , col=plotcol, padj = -1.2, cex = par("cex"))
+    #mtext(ylab, side=3, adj= -0.06 , col=plotcol, padj = -1.2, cex = par("cex"))
+
+    # Y-label
+
+    # Get plot specs
+    lbl_width <- strwidth(ylab, units = "inches")
+    mar_width <- par("mai")[2]
+    loc <- par("usr")
+    print(lbl_width)
+    print(mar_width)
+    # Place y-label
+    xloc <- loc[1]
+    # if(lbl_width/2 > mar_width * 0.6){
+    #   xloc <- loc[1] + lbl_width/2 - mar_width * 0.6
+    # } else {
+    #   xloc <- loc[1]
+    # }
+    print(loc[1])
+    print(xloc)
+    print(par("usr"))
+    print(par("pin"))
+    text(xloc, loc[4], labels = ylab, col=plotcol, cex = par("cex"), xpd = TRUE, pos = 3, offset = 1)
+
 
     if (type == "location" & dtype == "univariate"){
       title(xlab = xlab, line = 1.8, col.lab=plotcol)
@@ -314,6 +342,9 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
         Mlevel <- lm(Spread ~ Level, df4)
       }
       abline(Mlevel, col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
+      loess.l  <- modifyList(list(), loess.d)
+      lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),
+             col=loe.col, lw = 1.5, lt = 2 )
       cat("Slope = ", Mlevel$coefficients[2])
       title(xlab = xlab, line = 1.8, col.lab=plotcol)
       if(show.par == TRUE){
@@ -325,6 +356,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
              col=loe.col, lw = 1.5, lt = 1 )
       title(xlab = xlab, line = 1.8, col.lab=plotcol)
     }
+print(par("usr"))
     par(.pardef)
   }
   invisible(df4)

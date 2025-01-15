@@ -127,13 +127,15 @@ data.\cr
 \eqn{\ location = medians}
 
 \item \code{type = "level"} (univariate data):\cr\cr
-Tukey's spread-level plot (aka spread-versus-level plot).
-This plot is commonly used to help find a power transformation that will
-help stabilize the spread in the data. This option will output the slope
-of the fitted line in the console. By default, the fourth spread is
-used to define the spread. Alternatively, the IQR can be used by setting
-\code{spread = "IQR"}. The output will be nearly identical except for
-small datasets where the two methods may diverge slightly in output.\cr
+Tukey's spread-level plot (aka spread-versus-level plot, Hoaglin et al.,
+p 260). If the pattern is close to linear, the plot can help find a power
+transformation that will help stabilize the spread in the data by
+subtracting one from the fitted slope. This option outputs the slope of
+the fitted line in the console.
+By default, the fourth spread is used to define the spread. Alternatively,
+the IQR can be used by setting \code{spread = "IQR"}. The output will be
+nearly identical except for small datasets where the two methods may
+diverge slightly in output.\cr
 \eqn{\ spread = log(fourth\ spread(residuals))} \cr
 \eqn{\ location = log(medians)}
 
@@ -156,6 +158,10 @@ a linear model.\cr
 cars <- MASS::Cars93
 # Cleveland's spread-location plot applied to univariate data
 eda_sl(cars, MPG.city, Type)
+
+# You can specify the exact form of the spread on the y-axis
+# via the ylab argument
+eda_sl(cars, MPG.city, Type, ylab = expression(sqrt(abs(residuals))) )
 
 # The function can also generate Tukey's spread-level plot to identify a
 # power transformation that can stabilize spread across fitted values
