@@ -25,7 +25,7 @@
 #' @param robust Boolean indicating if robust regression should be used on the
 #'  spread-level plot.
 #' @param loess.d Arguments passed to the internal loess function. Applies only
-#'  to the linear model spread-level plot.
+#'  to the bivariate model s-l plots and the spread-level plot.
 #' @param loe.col LOESS curve color.
 #' @param label Boolean determining if group labels are to be added to the
 #'  spread-location plot.
@@ -71,7 +71,7 @@
 #'     p 260). If the pattern is close to linear, the plot can help find a power
 #'     transformation that will help stabilize the spread in the data by
 #'     subtracting one from the fitted slope. This option outputs the slope of
-#'     the fitted line in the console.
+#'     the fitted line in the console. A loess is added to assess linearity.
 #'     By default, the fourth spread is used to define the spread. Alternatively,
 #'     the IQR can be used by setting \code{spread = "IQR"}. The output will be
 #'     nearly identical except for small datasets where the two methods may
@@ -81,8 +81,8 @@
 #'
 #'    \item \code{type = "location"} if input is a model of class \code{lm},
 #'          \code{eda_lm} or \code{eda_rline}:\cr\cr
-#'           William Cleveland's spread-location plot applied to residuals of
-#'           a linear model.\cr
+#'           William Cleveland's spread-location plot (aka scale-location plot)
+#'           applied to residuals of a linear model.\cr
 #'           \eqn{\ spread = \sqrt{|residuals|}} \cr
 #'           \eqn{\ location = fitted\ values}
 #'
@@ -350,7 +350,6 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
              col=loe.col, lw = 1.5, lt = 1 )
       title(xlab = xlab, line = 1.8, col.lab=plotcol)
     }
-print(par("usr"))
     par(.pardef)
   }
   invisible(df4)

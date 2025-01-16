@@ -63,7 +63,7 @@ the range of location values.}
 spread-level plot.}
 
 \item{loess.d}{Arguments passed to the internal loess function. Applies only
-to the linear model spread-level plot.}
+to the bivariate model s-l plots and the spread-level plot.}
 
 \item{loe.col}{LOESS curve color.}
 
@@ -131,7 +131,7 @@ Tukey's spread-level plot (aka spread-versus-level plot, Hoaglin et al.,
 p 260). If the pattern is close to linear, the plot can help find a power
 transformation that will help stabilize the spread in the data by
 subtracting one from the fitted slope. This option outputs the slope of
-the fitted line in the console.
+the fitted line in the console. A loess is added to assess linearity.
 By default, the fourth spread is used to define the spread. Alternatively,
 the IQR can be used by setting \code{spread = "IQR"}. The output will be
 nearly identical except for small datasets where the two methods may
@@ -141,8 +141,8 @@ diverge slightly in output.\cr
 
 \item \code{type = "location"} if input is a model of class \code{lm},
 \code{eda_lm} or \code{eda_rline}:\cr\cr
-William Cleveland's spread-location plot applied to residuals of
-a linear model.\cr
+William Cleveland's spread-location plot (aka scale-location plot)
+applied to residuals of a linear model.\cr
 \eqn{\ spread = \sqrt{|residuals|}} \cr
 \eqn{\ location = fitted\ values}
 

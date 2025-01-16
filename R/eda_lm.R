@@ -256,7 +256,22 @@ eda_lm <- function(dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
        tck = -0.02)
-  mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
+  #mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
+  # Y-label
+  # Get plot specs
+  lbl_width <- strwidth(ylab, units = "inches")
+  mar_width <- par("mai")[2]
+  loc <- par("usr") # in XY coordinates
+  xscl <- (loc[2] - loc[1]) / par("pin")[1]
+  # Place y-label
+  if(lbl_width/2 > mar_width * 0.6){
+    xloc <- loc[1] + (lbl_width/2 - mar_width * 0.6) * xscl
+  } else {
+    xloc <- loc[1]
+  }
+  text(xloc, loc[4], labels = ylab, col=plotcol, cex = par("cex"), xpd = TRUE,
+       pos = 3, offset = 1)
+
 
   sq <- par("usr") # get plot corners
   if (sd == TRUE){

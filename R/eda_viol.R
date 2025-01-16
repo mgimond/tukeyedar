@@ -295,7 +295,22 @@ eda_viol <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
        main = NULL)
 
   # Add y-label and title
-  mtext(ylab,  side=3, line = 1, col=plotcol, adj = 0, padj = 0.5, cex=tsize - 0.3)
+  #mtext(ylab,  side=3, line = 1, col=plotcol, adj = 0, padj = 0.5, cex=tsize - 0.3)
+
+  # Get plot specs
+  lbl_width <- strwidth(ylab, units = "inches", cex=tsize - 0.3)
+  mar_width <- par("mai")[2]
+  loc <- par("usr") # in XY coordinates
+  xscl <- (loc[2] - loc[1]) / par("pin")[1]
+  # Place y-label
+  if(lbl_width/2 > mar_width * 0.6){
+    xloc <- loc[1] + (lbl_width/2 - mar_width * 0.6) * xscl
+  } else {
+    xloc <- loc[1]
+  }
+  text(xloc, loc[4], labels = ylab, col=plotcol, cex=tsize - 0.3,
+       xpd = TRUE, pos = 3, offset = 1)
+
 
   # Add x-axes labels if more than 1 group
   if (length(grp_unique) > 1 ){
