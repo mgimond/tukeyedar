@@ -208,7 +208,10 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     }
   }
   if(is.null(ylab)){
-    ylab = "Spread"
+    if (dtype == "model"){
+      ylab <- expression(sqrt(abs(residuals)))
+    }
+    ylab <- "Spread"
   }
 
   # Re-express data if required (only applies to univariate data)
