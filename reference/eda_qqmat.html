@@ -37,7 +37,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>QQ plot matrix</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.4.0/R/eda_qqmat.R" class="external-link"><code>R/eda_qqmat.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/R/eda_qqmat.R" class="external-link"><code>R/eda_qqmat.R</code></a></small>
       <div class="d-none name"><code>eda_qqmat.Rd</code></div>
     </div>
 
@@ -186,7 +186,7 @@ region should be displayed.</p></dd>
 
 <dt id="arg-tails">tails<a class="anchor" aria-label="anchor" href="#arg-tails"></a></dt>
 <dd><p>Boolean determining if points outside of the <code>inner</code> region
- should be symbolized differently. Tail-end points are symbolized via the
+should be symbolized differently. Tail-end points are symbolized via the
 <code>tail.pch</code>, <code>tail.p.col</code> and <code>tail.p.fill</code> arguments.</p></dd>
 
 
@@ -196,7 +196,7 @@ region should be displayed.</p></dd>
 
 <dt id="arg-inner">inner<a class="anchor" aria-label="anchor" href="#arg-inner"></a></dt>
 <dd><p>Fraction of mid-values to highlight in <code>q</code> or <code>tails</code>.
-Defaults to the inner 75% of values.</p></dd>
+Defaults to the inner 75 percent of values.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -207,29 +207,29 @@ Defaults to the inner 75% of values.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Returns a list with the following components:</p>
 <ul><li><p><code>data</code>: List with input <code>x</code> and <code>y</code> values for each
-  group. May be interpolated to smallest quantile batch if batch sizes
-  don't match. Values will reflect power transformation defined in <code>p</code>.</p></li>
+group. May be interpolated to smallest quantile batch if batch sizes
+don't match. Values will reflect power transformation defined in <code>p</code>.</p></li>
 <li><p><code>p</code>: Transformation applied to original values.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function will generate an empirical QQ plot matrix. Most of the
-  arguments available in `eda_qq` are echoed in this function. The one
-  notable difference is the default settings. By default, `eda_qqmat` will
-  generate a plain vanilla set of plots. <br><br>
-  The QQ plot matrix is most effective in comparing residuals after the data
-  are fitted by the mean or median. To plot the residuals, set
-  <code>resid=TRUE</code>. By default, the <code>mean</code> is used. You can change the
-  statistic to the median by setting <code>stat=median</code>. <br><br>
-  The function also allows for batch transformation of values via the
-  <code>p</code> argument. The transformation is applied to the data prior to
-  computing the residuals.</p>
+arguments available in <code>eda_qq</code> are echoed in this function. The one
+notable difference is the default settings. By default, <code>eda_qqmat</code> will
+generate a plain vanilla set of plots. <br><br>
+The QQ plot matrix is most effective in comparing residuals after the data
+are fitted by the mean or median. To plot the residuals, set
+<code>resid=TRUE</code>. By default, the <code>mean</code> is used. You can change the
+statistic to the median by setting <code>stat=median</code>. <br><br>
+The function also allows for batch transformation of values via the
+<code>p</code> argument. The transformation is applied to the data prior to
+computing the residuals.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
 
 <ul><li><p>John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)</p></li>
+Graphical Methods for Data Analysis (1983)</p></li>
 <li><p><a href="../articles/qq.html">Quantile-Quantile plot article</a></p></li>
 </ul></div>
 

@@ -37,7 +37,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Calculate quantile f-values</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.4.0/R/eda_fval.R" class="external-link"><code>R/eda_fval.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/R/eda_fval.R" class="external-link"><code>R/eda_fval.R</code></a></small>
       <div class="d-none name"><code>eda_fval.Rd</code></div>
     </div>
 
@@ -66,37 +66,37 @@ F-values.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A numeric vector of the same length as <code>x</code>, containing the f-values
-  for each input value. The order of the returned f-values matches the input
-  vector.</p>
+for each input value. The order of the returned f-values matches the input
+vector.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function computes the fractional value (f-value) for each
- element in a numeric vector <code>x</code>. The f-value provides a measure of the
- position of a data point relative to the rest of the data, scaled to the
- range [0,1]. This fraction is sometimes reported as the
- probability or cumulative frequency. <br><br>
- Different algorithms are used to compute the f-value. <code>eda_fval</code>
- offers as optional algorithm type <code>4</code> through <code>9</code> documented
- in <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">stats::quantile</a></code>. The algorithms used are: <br><br></p><ul><li><p><code>4</code>: f = i / n,</p></li>
+element in a numeric vector <code>x</code>. The f-value provides a measure of the
+position of a data point relative to the rest of the data, scaled to the
+range [0,1]. This fraction is sometimes reported as the
+probability or cumulative frequency. <br><br>
+Different algorithms are used to compute the f-value. <code>eda_fval</code>
+offers as optional algorithm type <code>4</code> through <code>9</code> documented
+in <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">stats::quantile</a></code>. The algorithms used are: <br><br></p><ul><li><p><code>4</code>: f = i / n,</p></li>
 <li><p><code>5</code>: f = (i - 0.5) / n,</p></li>
 <li><p><code>6</code>: f = i / (n + 1),</p></li>
 <li><p><code>7</code>: f = (i  - 1) / (n - 1),</p></li>
 <li><p><code>8</code>: f = (i - 1/3) / (n + 1/3),</p></li>
 <li><p><code>9</code>: f = (i - 3/8) / (n + 1/4).</p></li>
 </ul><p>Where f is the fraction of values that lies below index i, and
-  n is the total number values.</p>
+n is the total number values.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
 
 <ul><li><p>John M. Chambers, William S. Cleveland, Beat Kleiner, Paul A. Tukey.
-  Graphical Methods for Data Analysis (1983)</p></li>
+Graphical Methods for Data Analysis (1983)</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
-<ul><li><p><code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></code> for quantile calculations</p></li>
+<ul><li><p><code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">stats::quantile()</a></code> for quantile calculations</p></li>
 <li><p><code><a href="eda_qq.html">eda_qq</a></code> for QQ plots</p></li>
 </ul></div>
     </div>

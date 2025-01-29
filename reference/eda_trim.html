@@ -49,7 +49,7 @@ Right-trims a dataframe "></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Trims vector and dataframe objects</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.4.0/R/trim.R" class="external-link"><code>R/trim.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/main/R/trim.R" class="external-link"><code>R/trim.R</code></a></small>
       <div class="d-none name"><code>eda_trim.Rd</code></div>
     </div>
 
@@ -105,15 +105,15 @@ values are used to trim a dataframe (applies to <code>*_df</code> functions only
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <ul><li><p>The input dataset does not need to be sorted (sorting is performed in the
- functions).</p></li>
+functions).</p></li>
 <li><p>If <code>num</code> is set to zero, then the function will assume that the
- trimming is to be done by fraction (defined by the <code>prop</code> parameter).</p></li>
+trimming is to be done by fraction (defined by the <code>prop</code> parameter).</p></li>
 <li><p>If <code>eda_trim</code> or <code>eda_trim_df</code> functions are called, the
- <code>num</code> and <code>prop</code> values apply to each tail. For example, if
- <code>num = 5</code> then the 5 smallest AND 5 largest values are removed from the
- data.</p></li>
+<code>num</code> and <code>prop</code> values apply to each tail. For example, if
+<code>num = 5</code> then the 5 smallest AND 5 largest values are removed from the
+data.</p></li>
 <li><p><code>NA</code> values must be stripped from the input vector or
- column elements before running the trim functions.</p></li>
+column elements before running the trim functions.</p></li>
 <li><p>Elements are returned sorted on the trimmed elements.</p></li>
 </ul></div>
 
