@@ -11,26 +11,20 @@ eda_sl(
   type = "location",
   p = 1,
   tukey = FALSE,
+  base = exp(1),
   sprd = "frth",
   jitter = 0.01,
   robust = TRUE,
   loess.d = list(family = "symmetric", degree = 1, span = 1),
-  loe.col = rgb(0.3, 0.3, 1, 1),
   label = TRUE,
   label.col = "lightsalmon",
-  plot = TRUE,
-  equal = TRUE,
-  grey = 0.6,
-  pch = 21,
-  p.col = "grey50",
-  p.fill = "grey80",
-  size = 0.8,
-  alpha = 0.8,
   xlab = NULL,
   ylab = NULL,
   labelxbuff = 0.05,
   labelybuff = 0.05,
-  show.par = TRUE
+  show.par = FALSE,
+  plot = TRUE,
+  ...
 )
 }
 \arguments{
@@ -48,8 +42,11 @@ model).}
 \item{p}{Power transformation to apply to variable. Ignored if input is a
 linear model.}
 
-\item{tukey}{Boolean determining if a Tukey transformation should be adopted
+\item{tukey}{Logical; Determines if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
+
+\item{base}{Base used with the \code{log()} function if \code{px} or \code{py}
+is \code{0}.}
 
 \item{sprd}{Choice of spreads used in the spread-versus-level plot (i.e.
 when \code{type = "level"}). Either
@@ -59,38 +56,17 @@ fourth-spread, \code{sprd = "frth"} (default).}
 \item{jitter}{Jittering parameter for the spread-location plot. A fraction of
 the range of location values.}
 
-\item{robust}{Boolean indicating if robust regression should be used on the
+\item{robust}{Logical; Indicates if robust regression should be used on the
 spread-level plot.}
 
 \item{loess.d}{Arguments passed to the internal loess function. Applies only
 to the bivariate model s-l plots and the spread-level plot.}
 
-\item{loe.col}{LOESS curve color.}
-
-\item{label}{Boolean determining if group labels are to be added to the
+\item{label}{Logical; Determines if group labels are to be added to the
 spread-location plot.}
 
 \item{label.col}{Color assigned to group labels (only applicable if
 \code{type = location}).}
-
-\item{plot}{Boolean determining if plot should be generated.}
-
-\item{equal}{Boolean determining if axes lengths should match (i.e. square
-plot).}
-
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
-
-\item{pch}{Point symbol type.}
-
-\item{p.col}{Color for point symbol.}
-
-\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25).}
-
-\item{size}{Point size (0-1).}
-
-\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
-applicable if \code{rgb()} is not used to define point colors.}
 
 \item{xlab}{X label for output plot.}
 
@@ -104,14 +80,66 @@ the labels in a spread-location plot. Value is a fraction of the plot width.}
 
 \item{show.par}{Boolean determining if the power transformation applied to
 the data should be displayed.}
+
+\item{plot}{Logical; Determines if plot should be generated.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  \describe{
+    \item{\code{y}}{A numeric vector or column name in \code{dat} for the y-axis.}
+    \item{\code{px}}{Power transformation used in the input data to display if
+\code{show.par = TRUE}.}
+    \item{\code{py}}{Power transformation used in the input data to display if
+\code{show.par = TRUE}.}
+    \item{\code{raw_tick}}{Logical. If \code{TRUE}, original (untransformed) equally
+spaced tick values are displayed on the re-expressed axes.}
+    \item{\code{xlim}}{X-axis range.}
+    \item{\code{ylim}}{Y-axis range.}
+    \item{\code{reg}}{Logical; whether to fit and display a regression line.}
+    \item{\code{poly}}{Integer; regression model polynomial degree (defaults to 1 for
+linear model).}
+    \item{\code{rlm.d}}{List; parameters for \code{MASS::rlm}, (e.g., \code{list(psi =
+"psi.bisquare")}).}
+    \item{\code{w}}{Optional numeric vector of weights for regression.}
+    \item{\code{lm.col}}{Regression line color.}
+    \item{\code{lm.lw}}{Numeric; Regression line width.}
+    \item{\code{lm.lty}}{Numeric; Regression line type.}
+    \item{\code{sd}}{Logical; whether to show ±1 SD lines.}
+    \item{\code{mean.l}}{Logical; whether to show x and y mean reference lines.}
+    \item{\code{asp}}{Logical; whether to preserve the aspect ratio (ignored if
+\code{square = FALSE}).}
+    \item{\code{square}}{Logical; whether to create a square plotting window.}
+    \item{\code{grey}}{Numeric between \code{0-1}; controls grayscale background elements
+(\code{0 = black}, \code{1 = white}).}
+    \item{\code{pch}}{Integer; point symbol.}
+    \item{\code{p.col}}{Point border color.}
+    \item{\code{p.fill}}{Point fill color.}
+    \item{\code{size}}{Point size.}
+    \item{\code{alpha}}{Point transparency level (0 = 100\\\% transparent, 1 = 100\\\% opaque).}
+    \item{\code{q}}{Logical; whether to draw inner quantile boxes (quantile shading).}
+    \item{\code{q.type}}{Integer; type of quantile calculation (see \code{quantile}).}
+    \item{\code{inner}}{Numeric; defines the inner fraction of values to highlight
+with quantile shading.}
+    \item{\code{qcol}}{Fill color of quantile shading.}
+    \item{\code{loe}}{Logical; whether to plot loess smooth line.}
+    \item{\code{loe.lw}}{Numeric; Loess smooth line width.}
+    \item{\code{loe.col}}{Loess smooth color.}
+    \item{\code{loe.lty}}{Numeric; Loess smooth line type.}
+    \item{\code{stats}}{Logical; if \code{TRUE}, displays model statistics (R², β, p-value).}
+    \item{\code{stat.size}}{Text size for \code{stats} plot display.}
+    \item{\code{hline}}{Numeric; location(s) of additional horizontal reference lines.
+Can be passed via  the \code{c()} function.}
+    \item{\code{vline}}{Numeric; location(s) of additional vertical reference lines.
+Can be passed via the \code{c()} function.}
+  }}
 }
 \value{
 Returns a dataframe of level and spread values.
 }
 \description{
 The \code{eda_sl} function generates William Cleveland's
-spread-location plot for univariate and bivariate data. The function will also
-generate Tukeys' spread-level plot.
+\strong{spread-location plot} for univariate and bivariate data. The function will also
+generate Tukeys' \strong{spread-level plot}.
 }
 \details{
 The function generates a few variations of the spread-location/spread-level

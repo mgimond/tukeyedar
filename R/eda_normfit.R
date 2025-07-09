@@ -13,6 +13,7 @@
 #' @param p  Power transformation to apply to all values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param show.par Boolean determining if the power transformation used with the
 #'   data should be displayed in the plot's upper-right corner.
 #' @param sq Boolean determining if the plot should be square.
@@ -147,7 +148,7 @@
 
 
 
-eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE,
+eda_normfit <- function(dat, x=NULL, grp=NULL, p = 1,  tukey = FALSE, base = exp(1),
                         show.par = TRUE, sq = FALSE, inner = 0.6826,
                         dens = TRUE, bw = "SJ-dpi", kernel = "gaussian",
                         pch = 16, size = 0.8, alpha = 0.3, p.col = "grey50",

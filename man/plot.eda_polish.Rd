@@ -2,11 +2,11 @@
 % Please edit documentation in R/plot.eda_polish.R
 \name{plot.eda_polish}
 \alias{plot.eda_polish}
-\title{Plot eda_polish tables or diagnostic plots}
+\title{Plot method for \code{eda_polish} objects}
 \usage{
 \method{plot}{eda_polish}(
   x,
-  type = "residuals",
+  plot = "residuals",
   add.cv = FALSE,
   k = NULL,
   col.quant = FALSE,
@@ -18,98 +18,111 @@
   res.size = 1,
   row.size = 1,
   col.size = 1,
+  round = 2,
   res.txt = TRUE,
   label.txt = TRUE,
-  grey = 0.6,
-  pch = 21,
-  p.col = "grey30",
-  p.fill = "grey60",
-  size = 0.9,
-  alpha = 0.8,
   ...
 )
 }
 \arguments{
-\item{x}{A list of class eda_polish.}
+\item{x}{An object of class \code{eda_polish}, as produced by \code{eda_pol}.}
 
-\item{type}{Plot type. One of three: "residuals", "cv" or "diagnostic".}
+\item{plot}{A character string specifying the type of plot to generate. Must
+be one of \code{"residuals"}, \code{"cv"}, \code{"diagnostic"}, or
+\code{"effects"}.}
 
-\item{add.cv}{Whether to add kCV to the model when plotting "residuals".}
+\item{add.cv}{Logical. If \code{TRUE}, adds kCV (k-fold cross-validation) values
+to the residuals plot. Requires specifying \code{k}.}
 
-\item{k}{Custom k to use if kCV is to be added to model. A value of NULL
-makes us of slope.}
+\item{k}{Numeric. The value of k for kCV. Required when \code{add.cv ==TRUE}.}
 
-\item{col.quant}{Boolean indicating if a quantile classification scheme
-should be used.}
+\item{col.quant}{Logical. If \code{TRUE}, adopt a quantile color classification
+break.}
 
-\item{colpal}{Color palette to adopt (should be one listed in hcl.pals()).}
+\item{colpal}{A character string specifying the color palette to use for
+coloring plots. Must be a name listed in \code{hcl.pals()}. Defaults to
+\code{"RdYlBu"}.}
 
-\item{colrev}{Should color palette be reversed? (default TRUE).}
+\item{colrev}{Logical. If \code{TRUE}, reverses the order of colors in the
+palette.}
 
-\item{col.eff}{Boolean indicating if effects and common value should
-contribute to color gradient.}
+\item{col.eff}{Logical. Controls coloring for effects plots.}
 
-\item{col.com}{Boolean indicating if common value should contribute to color
-gradient.}
+\item{col.com}{Logical. Controls coloring for common effects.}
 
-\item{adj.mar}{Boolean indicating if margin width needs to accommodate labels.}
+\item{adj.mar}{Logical. If \code{FALSE}, adjusts graphical margins using
+\code{par(mar = c(1.5, 1.5, 1.5, 1.5))}.}
 
-\item{res.size}{Size of residual values in plot [0-1].}
+\item{res.size}{Numeric. Controls the size of residual points or text.}
 
-\item{row.size}{Size of row effect values in plot [0-1].}
+\item{row.size}{Numeric. Controls row element size.}
 
-\item{col.size}{Size of column effect values in plot [0-1].}
+\item{col.size}{Numeric. Controls column element size.}
 
-\item{res.txt}{Boolean indicating if values should be added to plot.}
+\item{round}{Numeric. Number of digits to round values for display (e.g., in
+tables).}
 
-\item{label.txt}{Boolean indicating if margin and column labels should be
-plotted.}
+\item{res.txt}{Logical. If \code{TRUE}, displays residual text.}
 
-\item{grey}{Grey level to apply to plot elements in the diagnostic plot
-(0 to 1 with 1 = black).}
+\item{label.txt}{Logical. If \code{TRUE}, displays labels text.}
 
-\item{pch}{Point symbol type for the diagnostic plot.}
-
-\item{p.col}{Color for point symbol in the diagnostic plot.}
-
-\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25).}
-
-\item{size}{Point size (0-1) in the diagnostic plot.}
-
-\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
-applicable if \code{rgb()} is not used to define point colors.}
-
-\item{...}{Arguments to be passed to subsequent methods.}
+\item{...}{
+  Arguments passed on to \code{\link[=.eda_plot_vardecomp]{.eda_plot_vardecomp}}
+  \describe{
+    \item{\code{dat}}{A data frame in long form, containing the data to be plotted.}
+    \item{\code{response}}{A character string specifying the name of the response
+variable column in the \code{dat} data frame.}
+    \item{\code{type}}{A character string specifying the type of plot to generate.
+Must be either \code{"boxpnt"} or \code{"box"}.}
+    \item{\code{input}}{A character string. \code{"reg"} = bivariate model input.
+\code{"nway"} = univariate model or N-way table input.}
+    \item{\code{eff}}{A list of effect values. Required when \code{input = "nway"}.}
+    \item{\code{rotate}}{Logical. If \code{TRUE}, rotates the plot orientation.}
+    \item{\code{padding}}{Numeric. Controls padding for plot limits.}
+    \item{\code{show.resp}}{Logical. If \code{TRUE}, includes a boxplot for the response
+variable.}
+    \item{\code{outliers}}{Logical. If \code{TRUE}, outliers are displayed in boxplots.}
+    \item{\code{label}}{Logical. Controls whether labels are displayed.}
+    \item{\code{order}}{Logical. Controls ordering (likely of factors or effects).}
+    \item{\code{cex.txt}}{Numeric. Controls text size.}
+    \item{\code{lim}}{Numeric. Explicit limits for the plot axes.}
+    \item{\code{overlap}}{Character. Specifies how to handle overlapping points,
+must be one of \code{"stack"}, \code{"overplot"}, or \code{"jitter"}.}
+    \item{\code{pch}}{Point symbol type. Only applicable if \code{type = "boxpnt"}.}
+    \item{\code{p.col}}{Point border color. Only applicable if \code{type = "boxpnt"}.}
+    \item{\code{p.fill}}{Point fill color. Only applicable if \code{type = "boxpnt"}.}
+    \item{\code{size}}{Point size. Only applicable if \code{type = "boxpnt"}.}
+    \item{\code{alpha}}{Transparency level for points (0 = transparent, 1 = opaque).}
+    \item{\code{grey}}{Numeric. Controls grayscale coloring for plot elements
+and axes.}
+  }}
 }
 \value{
-Returns a single element vector if \code{"type"} is \code{"diagnostic"} and no value
-otherwise.
+Produces a plot. The returned value may vary depending on the
+\code{plot} type.
+
+\itemize{
+\item \href{../articles/polish.html}{Median polish article}}
 }
 \description{
-\code{plot.eda_pol} A plot method for lists of eda_polish class.
-}
-\details{
-The function plots a polish table of residuals or CV values. I will
-also generate a diagnostic plot if \code{type} is set to \code{diagnostic}
+This is an S3 method for plotting objects of class \code{eda_polish}. It allows
+visualization of different aspects of the analysis, including residuals,
+cross-validation values, diagnostic plots, or effects.
 }
 \examples{
-# Create dataset
-df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
-edu = rep( c("ed8", "ed9to11", "ed12", "ed13to15", "ed16"), 4),
-perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
-        24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
+# Generate median polish object
+M <- eda_pol(inf_mort, region, edu, perc, plot = FALSE)
 
-# Generate median polish output
-out <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE)
+# Generate residuals plot
+plot(M)
 
-# Plot table
-plot(out, type = "residuals")
-
-
-# Plot table using CV values
-plot(out, type = "cv")
+# Generate effects plot
+plot(M, plot = "effects", label = TRUE)
 
 # Generate diagnostic plot
-plot(out, type = "diagnostic")
+plot(M, plot = "diagnostic")
+
+# Add a robust regression line
+plot(M, plot = "diagnostic", reg = TRUE, robust = TRUE)
+
 }

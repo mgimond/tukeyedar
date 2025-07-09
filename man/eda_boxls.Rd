@@ -10,6 +10,7 @@ eda_boxls(
   fac,
   p = 1,
   tukey = FALSE,
+  base = exp(1),
   outlier = TRUE,
   out.txt = NULL,
   type = "none",
@@ -39,6 +40,8 @@ eda_boxls(
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
+
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{outlier}{Boolean indicating if outliers should be plotted.}
 

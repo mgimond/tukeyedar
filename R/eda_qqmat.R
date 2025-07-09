@@ -12,6 +12,7 @@
 #' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
 #'   algorithms. (See \code{quantile}tile function).
 #' @param upper  Boolean determining if both upper and lower triangular matrix
@@ -108,7 +109,7 @@
 #' eda_qqmat(iris, Petal.Length, Species, resid = TRUE, p = 0, inner = 0.9,
 #'           tail.pch = 3, p.fill = "orange2")
 
-eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
+eda_qqmat <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
                       upper = FALSE, xylim = NULL, resid = FALSE, stat = mean,
                       plot = TRUE, grey = 0.6, pch = 21, p.col = "grey40",
                       p.fill = "grey60", size = 1, text.size = 1,

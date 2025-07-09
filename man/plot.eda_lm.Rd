@@ -4,76 +4,101 @@
 \alias{plot.eda_lm}
 \title{Residuals plot}
 \usage{
-\method{plot}{eda_lm}(
-  x,
-  type = "rd",
-  xlab = NULL,
-  ylab = NULL,
-  grey = 0.7,
-  pch = 21,
-  equal = TRUE,
-  p.col = "grey50",
-  alpha = 0.7,
-  p.fill = "grey80",
-  size = 0.8,
-  loess = TRUE,
-  loe.col = rgb(0.3, 0.3, 1, 1),
-  loess.d = list(family = "symmetric", span = 0.7, degree = 1),
-  ...
-)
+\method{plot}{eda_lm}(x, plot = "rd", xlab = NULL, ylab = NULL, loe = TRUE, sd = FALSE, ...)
 }
 \arguments{
 \item{x}{Object of class \code{eda_lm}.}
 
-\item{type}{Type of residuals plot. Choice between residuals-fit (\code{rf})
+\item{plot}{Type of residuals plot. Choice between residuals-fit (\code{rf})
 and residuals-dependence (\code{rd}) plots.}
 
 \item{xlab}{X label for output plot.}
 
 \item{ylab}{Y label for output plot.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
+\item{loe}{Logical; whether to plot loess smooth line.}
 
-\item{pch}{Point symbol type.}
+\item{sd}{Logical; whether to show ±1 SD lines.}
 
-\item{equal}{Boolean determining if axes lengths should match (i.e. square
-plot).}
-
-\item{p.col}{Color for point symbol.}
-
-\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only applicable
-if \code{rgb()} is not used to define point colors.}
-
-\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25).}
-
-\item{size}{Point size (0-1).}
-
-\item{loess}{Boolean indicating if a loess should be fitted to the plot.
-function. A robust loess is used by default.}
-
-\item{loe.col}{LOESS curve color.}
-
-\item{loess.d}{A list of arguments passed to the \code{loess.smooth}
-function. A robust loess is used by default.}
-
-\item{...}{Note used.}
+\item{...}{
+  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  \describe{
+    \item{\code{dat}}{Optional data frame containing \code{x} and \code{y}.}
+    \item{\code{y}}{A numeric vector or column name in \code{dat} for the y-axis.}
+    \item{\code{px}}{Power transformation used in the input data to display if
+\code{show.par = TRUE}.}
+    \item{\code{py}}{Power transformation used in the input data to display if
+\code{show.par = TRUE}.}
+    \item{\code{base}}{Base used with the log() function if \code{px} or
+\code{py} is \code{0}.}
+    \item{\code{tukey}}{Boolean determining if a Tukey transformation should be adopted
+(FALSE adopts a Box-Cox transformation).}
+    \item{\code{raw_tick}}{Logical. If \code{TRUE}, original (untransformed) equally
+spaced tick values are displayed on the re-expressed axes.}
+    \item{\code{xlim}}{X-axis range.}
+    \item{\code{ylim}}{Y-axis range.}
+    \item{\code{show.par}}{Logical; whether to display plot parameter summary on the
+plot. Currently only applies to regression model input.}
+    \item{\code{reg}}{Logical; whether to fit and display a regression line.}
+    \item{\code{poly}}{Integer; regression model polynomial degree (defaults to 1 for
+linear model).}
+    \item{\code{robust}}{Logical; if \code{TRUE}, uses robust regression (\code{MASS::rlm}).}
+    \item{\code{rlm.d}}{List; parameters for \code{MASS::rlm}, (e.g., \code{list(psi =
+"psi.bisquare")}).}
+    \item{\code{w}}{Optional numeric vector of weights for regression.}
+    \item{\code{lm.col}}{Regression line color.}
+    \item{\code{lm.lw}}{Numeric; Regression line width.}
+    \item{\code{lm.lty}}{Numeric; Regression line type.}
+    \item{\code{mean.l}}{Logical; whether to show x and y mean reference lines.}
+    \item{\code{asp}}{Logical; whether to preserve the aspect ratio (ignored if
+\code{square = FALSE}).}
+    \item{\code{square}}{Logical; whether to create a square plotting window.}
+    \item{\code{grey}}{Numeric between \code{0-1}; controls grayscale background elements
+(\code{0 = black}, \code{1 = white}).}
+    \item{\code{pch}}{Integer; point symbol.}
+    \item{\code{p.col}}{Point border color.}
+    \item{\code{p.fill}}{Point fill color.}
+    \item{\code{size}}{Point size.}
+    \item{\code{alpha}}{Point transparency level (0 = 100\\\% transparent, 1 = 100\\\% opaque).}
+    \item{\code{q}}{Logical; whether to draw inner quantile boxes (quantile shading).}
+    \item{\code{q.type}}{Integer; type of quantile calculation (see \code{quantile}).}
+    \item{\code{inner}}{Numeric; defines the inner fraction of values to highlight
+with quantile shading.}
+    \item{\code{qcol}}{Fill color of quantile shading.}
+    \item{\code{loe.lw}}{Numeric; Loess smooth line width.}
+    \item{\code{loe.col}}{Loess smooth color.}
+    \item{\code{loe.lty}}{Numeric; Loess smooth line type.}
+    \item{\code{loess.d}}{List; parameters for \code{loess.smooth}, e.g., \code{list(span = 0.7,
+degree = 1)}.}
+    \item{\code{stats}}{Logical; if \code{TRUE}, displays model statistics (R², β, p-value).}
+    \item{\code{stat.size}}{Text size for \code{stats} plot display.}
+    \item{\code{hline}}{Numeric; location(s) of additional horizontal reference lines.
+Can be passed via  the \code{c()} function.}
+    \item{\code{vline}}{Numeric; location(s) of additional vertical reference lines.
+Can be passed via the \code{c()} function.}
+  }}
 }
 \value{
-Does not return a value.
+Returns the margins (\code{mar}) used to generate the plot via the
+\code{par()} function. This parameter can be set with a subsequent call to
+\code{par()} if additional elements are to be added to the plot.
 }
 \description{
 Generate residuals vs fitted or residuals vs dependence plot from
-an \code{eda_lm} class object
+an \code{eda_lm} class object.
 }
 \details{
 The function generates a scatter plot of residuals vs dependence or
 residuals vs fitted values plot from a model of class \code{eda_lm}. A loess
-line is fitted to the data. By default, a robust loess is adopted with the
+line is fitted to the data. By default, a robust loess is adopted using the
 \code{"symmetric"} family.
 }
 \examples{
-M1  <- eda_lm(age_height, Months, Height)
-plot(M1) # Residual-dependence plot
-plot(M1, type = "rf") # Residual-fit plot
+M1  <- eda_lm(mtcars, hp, mpg)
+
+# Residual-dependence plot
+plot(M1)
+
+# Residual-fit plot
+plot(M1, plot = "rf")
 }

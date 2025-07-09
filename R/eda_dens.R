@@ -13,6 +13,7 @@
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param fx Formula to apply to x variable. This is computed after any
 #'   transformation is applied to the x variable.
 #' @param fy Formula to apply to y variable. This is computed after any
@@ -54,8 +55,8 @@
 
 
 
-eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, fx = NULL,
-                     fy = NULL, grey = 0.6, col = "red",
+eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, base = exp(1),
+                     fx = NULL, fy = NULL, grey = 0.6, col = "red",
                      show.par= TRUE, alpha = 0.4, xlab = NULL, ylab = NULL,
                      xaxis = NULL, switch = FALSE, legend = TRUE, ...) {
 

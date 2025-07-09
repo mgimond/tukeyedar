@@ -14,6 +14,7 @@
 #' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{FALSE} adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param q.type An integer between 4 and 9 selecting one of the six quantile
 #'   algorithms (See \code{eda_fval} for a list of quantile algorithms).
 #' @param resid Boolean determining if residuals should be plotted. Residuals
@@ -72,7 +73,7 @@
 #' eda_qqpool(singer, height, voice.part, nrow = 2)
 #'
 
-eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
+eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
                           resid = TRUE, stat = mean, show.par = FALSE,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
                           p.col = "grey40", p.fill = "grey60", size = 1,

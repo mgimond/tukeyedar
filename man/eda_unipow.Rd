@@ -8,6 +8,7 @@ eda_unipow(
   x,
   p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2),
   tukey = FALSE,
+  base = exp(1),
   bins = 5,
   cex.main = 1.3,
   col = "#DDDDDD",
@@ -23,6 +24,8 @@ eda_unipow(
 
 \item{tukey}{If TRUE, apply Tukey's power transformation. If FALSE
 adopt Box-Cox transformation}
+
+\item{base}{Base used with the \code{log()} function if \code{p = 0}.}
 
 \item{bins}{Number of histogram bins}
 

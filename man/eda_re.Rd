@@ -4,7 +4,7 @@
 \alias{eda_re}
 \title{Re-expression function}
 \usage{
-eda_re(x, p = 0, tukey = FALSE)
+eda_re(x, p = 0, tukey = FALSE, base = exp(1))
 }
 \arguments{
 \item{x}{Vector}
@@ -13,6 +13,8 @@ eda_re(x, p = 0, tukey = FALSE)
 
 \item{tukey}{If set to TRUE, then adopt Tukey's power transformation, if
 FALSE, adopt Box-Cox transformation}
+
+\item{base}{Base used with the \code{log()} function}
 }
 \value{
 Returns a vector of same length as input \code{x}

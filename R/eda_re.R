@@ -8,6 +8,7 @@
 #' @param p Power transformation
 #' @param tukey If set to TRUE, then adopt Tukey's power transformation, if
 #'   FALSE, adopt Box-Cox transformation
+#' @param base Base used with the \code{log()} function
 #'
 #' @return Returns a vector of same length as input \code{x}
 #'
@@ -19,9 +20,9 @@
 #' x <- c(15, 28, 17, 73,  8, 83,  2)
 #' eda_re(x, p=-1/3)
 
-eda_re <- function(x, p=0, tukey=FALSE){
+eda_re <- function(x, p=0, tukey=FALSE, base = exp(1)){
   if(p == 0) {
-    z <- ifelse(!is.na(x), log(x), NA)
+    z <- ifelse(!is.na(x), log(x, base), NA)
   } else if(tukey == FALSE & p != 1) {
     z <- ifelse(!is.na(x), (x^p - 1)/p , NA)
   } else {

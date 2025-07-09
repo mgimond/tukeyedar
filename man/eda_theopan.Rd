@@ -10,6 +10,7 @@ eda_theopan(
   fac,
   p = 1L,
   tukey = FALSE,
+  base = exp(1),
   q.type = 5,
   dist = "norm",
   dist.l = list(),
@@ -52,6 +53,8 @@ eda_theopan(
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (\code{FALSE} adopts a Box-Cox transformation).}
+
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{q.type}{An integer between 4 and 9 selecting one of the nine quantile
 algorithms. (See \code{\link[tukeyedar]{eda_fval}} for a list of quantile

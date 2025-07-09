@@ -10,6 +10,7 @@
 #' @param p  Vector of powers
 #' @param tukey If TRUE, apply Tukey's power transformation. If FALSE
 #'   adopt Box-Cox transformation
+#' @param base Base used with the \code{log()} function if \code{p = 0}.
 #' @param bins Number of histogram bins
 #' @param cex.main Histogram title size (assigned to each histogram plot)
 #' @param col Histogram fill color
@@ -34,7 +35,7 @@
 
 
 eda_unipow <- function(x, p = c(2, 1, 1/2, 0.33, 0, -0.33, -1/2, -1, -2),
-                     tukey = FALSE,
+                     tukey = FALSE, base = exp(1),
                      bins=5, cex.main=1.3,
                      col="#DDDDDD",border="#AAAAAA",
                      title="Re-expressed data via ladder of powers",

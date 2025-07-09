@@ -14,6 +14,7 @@
 #'   model is passed to function.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param show.par Boolean determining if the power transformation used with the
 #'   data should be displayed in the plot's upper-right corner.
 #' @param stat Choice of summary statistic to use when centering the fitted
@@ -108,7 +109,8 @@
 #' eda_rfs(M3, q =TRUE)
 
 
-eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, show.par = TRUE,
+eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
+                    show.par = TRUE,
                     stat = mean, grey = 0.7, pch = 21, p.col = "grey50",
                     p.fill = "grey80",inner = 0.9, q = FALSE,
                     size = 0.8, alpha = 0.7, ylim = NULL, bar = FALSE){

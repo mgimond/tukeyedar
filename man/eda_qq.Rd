@@ -10,13 +10,12 @@ eda_qq(
   fac = NULL,
   norm = FALSE,
   sym = FALSE,
+  md = FALSE,
   p = 1L,
   tukey = FALSE,
-  md = FALSE,
-  q.type = 5,
+  base = exp(1),
   fx = NULL,
   fy = NULL,
-  plot = TRUE,
   show.par = TRUE,
   grey = 0.6,
   pch = 21,
@@ -25,9 +24,11 @@ eda_qq(
   size = 1,
   alpha = 0.8,
   med = TRUE,
-  q = TRUE,
-  tails = FALSE,
   inner = 0.75,
+  q = TRUE,
+  q.type = 5,
+  qcol = rgb(0, 0, 0, 0.05),
+  tails = FALSE,
   tail.pch = 21,
   tail.p.col = "grey70",
   tail.p.fill = NULL,
@@ -36,6 +37,7 @@ eda_qq(
   ylab = NULL,
   title = NULL,
   t.size = 1.2,
+  plot = TRUE,
   ...
 )
 }
@@ -53,24 +55,21 @@ dataframe. Ignored if \code{x} and \code{y} are vectors.}
 
 \item{sym}{Defunct. Use \code{eda_sym} instead.}
 
+\item{md}{Boolean determining if a Tukey mean-difference plot should be
+generated.}
+
 \item{p}{Power transformation to apply to continuous variable(s).}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
 
-\item{md}{Boolean determining if a Tukey mean-difference plot should be
-generated.}
-
-\item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
-algorithms. (See \code{quantile} function).}
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{fx}{Formula to apply to x variable before pairing up with y. This is
 computed after any transformation is applied to the x variable.}
 
 \item{fy}{Formula to apply to y variable before pairing up with x. This is
 computed after any transformation is applied to the y variable.}
-
-\item{plot}{Boolean determining if plot should be generated.}
 
 \item{show.par}{Boolean determining if parameters such as power
 transformation and formula should be displayed.}
@@ -91,16 +90,21 @@ applicable if \code{rgb()} is not used to define point color.}
 
 \item{med}{Boolean determining if median lines should be drawn.}
 
-\item{q}{Boolean determining if \code{inner} data region should be shaded.}
-
-\item{tails}{Boolean determining if points outside of the \code{inner} region
-should be symbolized differently. Tail-end points are symbolized via the
-\code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
-
 \item{inner}{Fraction of the data considered as "mid values". Defaults to
 75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently,
 \code{tails=TRUE}.}
+
+\item{q}{Boolean determining if \code{inner} data region should be shaded.}
+
+\item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
+algorithms. (See \code{quantile} function).}
+
+\item{qcol}{Fill color of inner quantile box.}
+
+\item{tails}{Boolean determining if points outside of the \code{inner} region
+should be symbolized differently. Tail-end points are symbolized via the
+\code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
 
@@ -121,7 +125,48 @@ passed to the function.}
 
 \item{t.size}{Title size.}
 
-\item{...}{Not used}
+\item{plot}{Boolean determining if plot should be generated.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  \describe{
+    \item{\code{dat}}{Optional data frame containing \code{x} and \code{y}.}
+    \item{\code{px}}{Power transformation used in the input data to display if
+\code{show.par = TRUE}.}
+    \item{\code{py}}{Power transformation used in the input data to display if
+\code{show.par = TRUE}.}
+    \item{\code{raw_tick}}{Logical. If \code{TRUE}, original (untransformed) equally
+spaced tick values are displayed on the re-expressed axes.}
+    \item{\code{xlim}}{X-axis range.}
+    \item{\code{ylim}}{Y-axis range.}
+    \item{\code{reg}}{Logical; whether to fit and display a regression line.}
+    \item{\code{poly}}{Integer; regression model polynomial degree (defaults to 1 for
+linear model).}
+    \item{\code{robust}}{Logical; if \code{TRUE}, uses robust regression (\code{MASS::rlm}).}
+    \item{\code{rlm.d}}{List; parameters for \code{MASS::rlm}, (e.g., \code{list(psi =
+"psi.bisquare")}).}
+    \item{\code{w}}{Optional numeric vector of weights for regression.}
+    \item{\code{lm.col}}{Regression line color.}
+    \item{\code{lm.lw}}{Numeric; Regression line width.}
+    \item{\code{lm.lty}}{Numeric; Regression line type.}
+    \item{\code{sd}}{Logical; whether to show ±1 SD lines.}
+    \item{\code{mean.l}}{Logical; whether to show x and y mean reference lines.}
+    \item{\code{asp}}{Logical; whether to preserve the aspect ratio (ignored if
+\code{square = FALSE}).}
+    \item{\code{square}}{Logical; whether to create a square plotting window.}
+    \item{\code{loe}}{Logical; whether to plot loess smooth line.}
+    \item{\code{loe.lw}}{Numeric; Loess smooth line width.}
+    \item{\code{loe.col}}{Loess smooth color.}
+    \item{\code{loe.lty}}{Numeric; Loess smooth line type.}
+    \item{\code{loess.d}}{List; parameters for \code{loess.smooth}, e.g., \code{list(span = 0.7,
+degree = 1)}.}
+    \item{\code{stats}}{Logical; if \code{TRUE}, displays model statistics (R², β, p-value).}
+    \item{\code{stat.size}}{Text size for \code{stats} plot display.}
+    \item{\code{hline}}{Numeric; location(s) of additional horizontal reference lines.
+Can be passed via  the \code{c()} function.}
+    \item{\code{vline}}{Numeric; location(s) of additional vertical reference lines.
+Can be passed via the \code{c()} function.}
+  }}
 }
 \value{
 Returns a list with the following components:

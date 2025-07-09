@@ -24,7 +24,9 @@ eda_pol(
   row.size = 1,
   col.size = 1,
   res.txt = TRUE,
-  label.txt = TRUE
+  label.txt = TRUE,
+  base = exp(1),
+  ...
 )
 }
 \arguments{
@@ -61,30 +63,34 @@ should be used.}
 
 \item{adj.mar}{Boolean determining if margin width needs to accomodate labels.}
 
-\item{res.size}{Size of residual values in plot [0-1].}
+\item{res.size}{Size of residual values in plot \code{[0-1]}.}
 
-\item{row.size}{Size of row effect values in plot [0-1].}
+\item{row.size}{Size of row effect values in plot \code{[0-1]}.}
 
-\item{col.size}{Size of column effect values in plot [0-1].}
+\item{col.size}{Size of column effect values in plot \code{[0-1]}.}
 
 \item{res.txt}{Boolean determining if values should be added to plot.}
 
 \item{label.txt}{Boolean determining if margin and column labels should be
 plotted.}
+
+\item{base}{Base used with the log() function if \code{p} is \code{0}.}
+
+\item{...}{Not used}
 }
 \value{
 A list of class \code{eda_polish} with the following named
 components:
 
 \itemize{
-\item \code{long} The median polish residuals with three columns: Column levels,
+\item \code{input} The median polish residuals with three columns: Column levels,
 row levels and residual values.
 \item \code{wide} The median polish residuals table in wide form.
 \item \code{row}  Row effects table
 \item \code{col}  Column effects table
 \item \code{global}  Overall value (common value)
 \item \code{iter}  Number of iterations before polish stabilizes.
-\item \code{cv}  Table of residuals, row effects, column effects and CV values in long form.
+\item \code{long}  Table of residuals, row effects, column effects and CV values in long form.
 \item \code{power}  Transformation power applied to values prior to polishing.
 \item \code{IQ_row}  Ratio between interquartile row effect values and 80th quantile of residuals.
 \item \code{IQ_col}  Ratio between interquartile column effect values and 80th quantile of residuals.}
@@ -99,19 +105,16 @@ applies a median polish, but other statistical summaries such
 as the mean can be passed to the function via the \code{stat = } argument.
 The function returns a list of row/column effects along with global and
 residual values. It will also generate a colored table if \code{plot =
-  TRUE}.
+  TRUE}. \cr
+For an N-way table with more than two factors, see \code{\link{eda_npol}}.
 }
 \examples{
-df <- data.frame(region =  rep( c("NE", "NC", "S", "W"), each = 5),
-edu = rep( c("ed8", "ed9to11", "ed12", "ed13to15", "ed16"), 4),
-perc = c(25.3, 25.3, 18.2, 18.3, 16.3, 32.1, 29, 18.8,
-        24.3, 19, 38.8, 31, 19.3, 15.7, 16.8, 25.4, 21.1, 20.3, 24, 17.5))
-
-M <- eda_pol(df, row = region, col = edu, val = perc, plot = FALSE)
-plot(M)
+M <- eda_pol(inf_mort, row = region, col = edu, val = perc)
 }
 \references{
 \itemize{
+\item Hoaglin, David C. and Mosteller, Frederick and Tukey, John W. (1985).
+Exploring data tables, trends, and shapes.
 \item Tukey, John W. 1977. Exploratory Data Analysis. Addison-Wesley
 \item \href{../articles/polish.html}{Median polish article}}
 }

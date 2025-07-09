@@ -10,6 +10,7 @@ eda_dens(
   fac = NULL,
   p = 1L,
   tukey = FALSE,
+  base = exp(1),
   fx = NULL,
   fy = NULL,
   grey = 0.6,
@@ -36,6 +37,8 @@ variable if \code{x} is a dataframe.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
+
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{fx}{Formula to apply to x variable. This is computed after any
 transformation is applied to the x variable.}

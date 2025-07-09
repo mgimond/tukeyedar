@@ -11,6 +11,7 @@
 #' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param outlier Boolean indicating if outliers should be plotted.
 #' @param out.txt Column whose values are to be used to label outliers. If
 #'   set to \code{NULL} (the default), the record number is displayed.
@@ -83,7 +84,7 @@
 #' eda_boxls(singer, height, voice.part, out.txt=height, horiz = TRUE,
 #'           reorder.stat = "upper")
 
-eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, outlier=TRUE,
+eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, base = exp(1), outlier=TRUE,
                       out.txt = NULL, type="none", notch = FALSE, horiz=FALSE,
                       xlab = NULL, ylab = NULL, grey = 0.6, fill = "grey70",
                       boxcol = NULL, outcol="grey40", whiskcol="grey40",

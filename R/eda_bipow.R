@@ -11,6 +11,7 @@
 #' @param p   Vector of powers.
 #' @param tukey If set to TRUE, then adopt Tukey's power transformation. If FALSE,
 #'   adopt Box-Cox transformation.
+#' @param base Base used with the \code{log()} function if \code{p = 0}.
 #' @param ... Other parameters passed to the graphics::plot function.
 #'
 #' @details
@@ -39,7 +40,8 @@
 #' eda_bipow(dat = cars, x = speed, y = dist, tukey = TRUE, p = c(-1, -0.5, 0, 0.5, 1))
 #'
 
-eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...) {
+eda_bipow <- function(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE,
+                      base = exp(1), ...) {
 
   if(!missing(dat))
   {

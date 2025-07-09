@@ -11,6 +11,7 @@
 #' @param p  Power transformation to apply to \code{x}.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param q.type An integer between 4 and 9 selecting one of the nine quantile
 #'   algorithms. (See the \code{\link[tukeyedar]{eda_fval}} function).
 #' @param dist Choice of theoretical distribution.
@@ -101,7 +102,7 @@
 #'           iqr = FALSE, grid = TRUE, xlab = "f-value")
 
 
-eda_theo <- function(x, p = 1L, tukey = FALSE, q.type = 5,
+eda_theo <- function(x, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
                      dist = "norm", dist.l = list(), resid = FALSE, stat = mean,
                      plot = TRUE, show.par = TRUE, grey = 0.6, pch = 21,
                      p.col = "grey50", p.fill = "grey80", size = 1, alpha = 0.8,

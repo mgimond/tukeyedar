@@ -11,6 +11,7 @@ eda_3pt(
   px = 1,
   py = 1,
   tukey = TRUE,
+  base = exp(1),
   axes = TRUE,
   pch = 21,
   equal = TRUE,
@@ -38,6 +39,9 @@ eda_3pt(
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
+
+\item{base}{Base used with the log() function if \code{px} or
+\code{py} is \code{0}.}
 
 \item{axes}{Boolean determining if axes are to be drawn.}
 

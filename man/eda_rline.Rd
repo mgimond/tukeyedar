@@ -4,7 +4,16 @@
 \alias{eda_rline}
 \title{Tukey's resistant line}
 \usage{
-eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20)
+eda_rline(
+  dat,
+  x,
+  y,
+  px = 1,
+  py = 1,
+  tukey = FALSE,
+  maxiter = 20,
+  base = exp(1)
+)
 }
 \arguments{
 \item{dat}{Data frame.}
@@ -17,16 +26,20 @@ eda_rline(dat, x, y, px = 1, py = 1, tukey = FALSE, maxiter = 20)
 
 \item{py}{Power transformation to apply to the y-variable.}
 
-\item{tukey}{Boolean determining if a Tukey transformation should be adopted.
-(FALSE adopts a Box-Cox transformation)}
+\item{tukey}{Logical; determining if a Tukey transformation should be adopted.
+(FALSE adopts a Box-Cox transformation).}
 
 \item{maxiter}{Maximum number of iterations to run.}
+
+\item{base}{Base used with the log() function if \code{px} or
+\code{py} is \code{0}.}
 }
 \value{
 Returns a list of class \code{eda_rline} with the following named
 components:
 
 \itemize{
+\item \code{data}: Input data table with residuals
 \item \code{a}: Intercept
 \item \code{b}: Slope
 \item \code{residuals}: Residuals sorted on x-values
@@ -72,20 +85,22 @@ M
 # Plot the output (red line is the resistant line)
 plot(M)
 
-# Add a traditional OLS regression line (dashed line)
-abline(lm(Mortality ~ Temp, neoplasms), lty = 3)
+# Add a traditional OLS regression line (dashed blue line)
+plot(M, reg = TRUE)
 
 # Plot the residuals
-plot(M, type = "residuals")
+plot(M, plot = "residuals")
 
 # This next example uses Andrew Siegel's pathological 9-point dataset to test
 # for model stability when convergence cannot be reached.
 M <- eda_rline(nine_point, X, Y)
 plot(M)
-
 }
 \references{
 \itemize{
 \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
 \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
+}
+\seealso{
+\code{\link[=plot.eda_rline]{plot.eda_rline()}}
 }

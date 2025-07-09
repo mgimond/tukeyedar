@@ -4,7 +4,15 @@
 \alias{eda_bipow}
 \title{Ladder of powers transformation on bivariate data with three-point summary plot}
 \usage{
-eda_bipow(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...)
+eda_bipow(
+  dat,
+  x,
+  y,
+  p = c(-1, 0, 0.5, 1, 2),
+  tukey = FALSE,
+  base = exp(1),
+  ...
+)
 }
 \arguments{
 \item{dat}{Dataframe.}
@@ -17,6 +25,8 @@ eda_bipow(dat, x, y, p = c(-1, 0, 0.5, 1, 2), tukey = FALSE, ...)
 
 \item{tukey}{If set to TRUE, then adopt Tukey's power transformation. If FALSE,
 adopt Box-Cox transformation.}
+
+\item{base}{Base used with the \code{log()} function if \code{p = 0}.}
 
 \item{...}{Other parameters passed to the graphics::plot function.}
 }

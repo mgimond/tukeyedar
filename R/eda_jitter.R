@@ -12,6 +12,7 @@
 #' @param p  Power transformation to apply to variable
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{FALSE} adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param horiz  Plot horizontally (\code{TRUE}) or vertically (\code{FALSE}).
 #' @param show.stat Boolean determining if a summary statistic should be added
 #'   to jitter plot.
@@ -74,7 +75,7 @@
 #' # computed after the data are transformed.
 #' eda_jitter(mtcars, hp, cyl, stat.type = "l", p = 0)
 
-eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE,
+eda_jitter <- function(dat, x, fac=NULL , jitter = 0.05, p = 1, tukey = FALSE, base = exp(1),
                       horiz=FALSE, stat = mean, show.stat = TRUE, stat.type = "p",
                       stat.col = "firebrick", stat.fill = "bisque", stat.size = 2,
                       stat.pch = 21, stat.pad = 1, xlab = NULL, ylab = NULL,

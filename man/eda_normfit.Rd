@@ -10,6 +10,7 @@ eda_normfit(
   grp = NULL,
   p = 1,
   tukey = FALSE,
+  base = exp(1),
   show.par = TRUE,
   sq = FALSE,
   inner = 0.6826,
@@ -45,6 +46,8 @@ otherwise.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).}
+
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{show.par}{Boolean determining if the power transformation used with the
 data should be displayed in the plot's upper-right corner.}

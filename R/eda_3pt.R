@@ -21,6 +21,8 @@
 #' @param py  Power transformation to apply to the y-variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{px} or
+#'  \code{py} is \code{0}.
 #' @param axes Boolean determining if axes are to be drawn.
 #' @param dir Boolean indicating if suggested ladder of power direction should
 #'   be displayed.
@@ -67,7 +69,8 @@
 #'        ylab = "gal/mi", xlab = expression("Displacement"^{-1/3}))
 #'
 
-eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, axes = TRUE,
+eda_3pt <- function(dat, x, y, px = 1, py = 1, tukey = TRUE, base = exp(1),
+                    axes = TRUE,
                     pch = 21, equal = TRUE, p.col = "grey50",
                     p.fill = "grey80", size = 0.8, alpha = 0.7,
                     xlab = NULL, ylab = NULL, dir = TRUE, grey = 0.6, ...){

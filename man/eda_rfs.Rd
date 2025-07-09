@@ -10,6 +10,7 @@ eda_rfs(
   grp = NULL,
   p = 1L,
   tukey = FALSE,
+  base = exp(1),
   show.par = TRUE,
   stat = mean,
   grey = 0.7,
@@ -37,6 +38,8 @@ model is passed to function.}
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).}
+
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{show.par}{Boolean determining if the power transformation used with the
 data should be displayed in the plot's upper-right corner.}

@@ -10,6 +10,8 @@
 #' @param p  Power transformation to apply to \code{x}.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{FALSE} adopts a Box-Cox transformation).
+#' @param base Base used with the \code{log()} function if \code{px} or \code{py}
+#'   is \code{0}.
 #' @param q.type An integer between 1 and 9 selecting one of the nine quantile
 #'   algorithms used to generate inner shaded region. (See \code{quantile}tile
 #'   function).
@@ -28,7 +30,8 @@
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if \code{inner} data region should be shaded.
-#' @param inner Fraction of the data considered as "mid values". Defaults to
+#' @param qcol Fill color of inner quantile box.
+#' @param inner Fraction of the input data considered as "mid values". Defaults to
 #'  75\%. Used  to define shaded region boundaries, \code{q}, or to identify
 #'  which of the tail-end points are to be symbolized differently, \code{tails}.
 #' @param tails Boolean determining if points outside of the \code{inner} region
@@ -57,38 +60,56 @@
 #'
 #'  singer <- lattice::singer
 #'  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
-#'
+#'  
+#'  # Default plot
 #'  eda_sym(tenor1)
+#'  
+#'  # To remove inner region grey box set q to FALSE
+#'  eda_sym(tenor1, q = FALSE)
+#'  
+#'  # You can also choose to have the points outside of the inner region
+#'  # symbolized differently
+#'  eda_sym(tenor1, q = FALSE, tails = TRUE, tail.pch = 3)
 
 
-eda_sym <- function(x, p = 1L, tukey = FALSE, q.type = 5, plot = TRUE,
-                   show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
-                   p.fill = "grey80", size = 0.8, alpha = 0.8,
-                   q = TRUE, tails = FALSE, inner = 0.75,
-                   tail.pch = 21, tail.p.col = "grey70", tail.p.fill = NULL,
-                   xlab = NULL, ylab = NULL, title = NULL,
-                   t.size = 1.2, ...) {
-
-  # Check for invalid arguments
-  input <- names(list(...))
-  check <- input %in% names(formals(cat))
-  if (any(!check)) warning(sprintf("%s is not a valid argument.",
-                                   paste(input[!check], collapse = ", ")))
-
+eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5, 
+                     show.par = TRUE, grey = 0.6, pch = 21, 
+                    p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
+                    inner = 0.75, q = TRUE, qcol = rgb(0, 0, 0, 0.05), 
+                    tails = FALSE, tail.pch = 21, tail.p.col = "grey70", 
+                    tail.p.fill = NULL, xlab = NULL, ylab = NULL, title = NULL,
+                    t.size = 1.2, plot = TRUE, ...) {
+  
+  # Check for valid arguments (include arguments available in plot.defaults)
+  dots <- list(...)
+  dot_names <- names(dots)
+  dot_names <- dot_names[dot_names != ""] 
+  internal_args <- names(formals(.eda_plot_xy))
+  par_args <- names(par())
+  allowed_args <- union(internal_args, par_args)
+  
+  # Check for invalid names
+  invalid <- setdiff(dot_names, allowed_args)
+  if (length(invalid) > 0) {
+    warning(sprintf("Invalid arguments passed to %s: %s",
+                    deparse(substitute(.eda_plot_xy)),
+                    paste(invalid, collapse = ", ")))
+  }
+  
   # Remove missing elements
   nodata <- which(is.na(x))
   if(length(nodata > 0)){
     x <-  x[-nodata]
     cat(length(nodata), " elements had missing values. These were removed from the data.")
   }
-
+  
   # Re-express data if required
   if (p != 1) {
-    x <- eda_re(x, p = p, tukey = tukey)
+    x <- eda_re(x, p = p, tukey = tukey, base = base)
   }
   x.isna <- is.na(x)
   rm.nan <- ifelse( any(x.isna), 1 , 0)
-
+  
   # Re-expression may produce NaN values. Output warning if TRUE
   if( rm.nan > 0 ) {
     warning(paste("\nRe-expression produced NaN values. These observations will",
@@ -96,33 +117,34 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, q.type = 5, plot = TRUE,
                   "in the ouptut."))
     x <- x[!x.isna]
   }
-
-  # Get upper/lower bounds of inner values
-  b.val = c(.5 - inner / 2 , .5 + inner / 2)
-
+  
+  # Get upper bounds of inner values
+  b.val = c(0, .5 + inner / 2)
+  
   # Split x in half
-    med <- median(x)
-    len <- length(x)
-    x.sort <- sort(x)
-    n2 <- ifelse( len%%2 == 0, len/2, (len + 1)/2)
-    x <- med - x.sort[1:n2]
-    y <- x.sort[ (len + 1) - (1:n2) ] - med
-    xlab <- "lower half"
-    ylab <- "upper half"
-
-    # Modify grey box parameters
-    b.val <- c(0, diff(b.val))
-
+  med <- median(x)
+  len <- length(x)
+  x.sort <- sort(x)
+  n2 <- ifelse( len%%2 == 0, len/2, (len + 1)/2)
+  
+  # Convert x and y to number of units from the median
+  x <- med - x.sort[1:n2]
+  y <- x.sort[ (len + 1) - (1:n2) ] - med
+  x <- sort(x)
+  y <- sort(y)
+  xlab <- "lower half"
+  ylab <- "upper half"
+  
   # Create dataframe for output
   zd <- data.frame(y = y, x = x)
   names(zd) <- c(ylab, xlab)
-
+  
   # Get XY limits
   xylim <- range(x,y)
-
+  
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
-
+  
   # Set point color parameters.
   if(!is.null(alpha)){
     if(p.col %in% colors() & p.fill %in% colors() ){
@@ -130,115 +152,77 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, q.type = 5, plot = TRUE,
       p.fill <- adjustcolor( p.fill, alpha.f = alpha)
     }
   }
-
-  # Generate plots ----
-
-  # Get lines-to-inches ratio
-  in2line <- ( par("mar") / par("mai") )[2]
-
-  # Create a dummy plot to extract y-axis labels
-  pdf(NULL)
-  plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
-       yaxt='n', main = NULL)
-#  y.labs <- range(axTicks(2))
-  y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
-  dev.off()
-
+  
   # Get quantile parameters
   qx <- quantile(x, b.val, qtype = q.type)
   qy <- quantile(y, b.val, qtype = q.type)
-
+  
   # If tail points  are to be plotted differently, identify them
   if(tails == TRUE){
-    # If tails are to be plotted separately, identify points outside of the
-    # inner region
-    if (!is.na(table(x < qx[1])["TRUE"]) & !is.na(table(y < qy[1])["TRUE"])){
-      lower.tail <- min(table(x < qx[1])["TRUE"], table(y < qy[1])["TRUE"])
-    } else{
       lower.tail <- 0
-    }
-
     if (!is.na(table(x > qx[2])["TRUE"]) & !is.na(table(y > qy[2])["TRUE"])){
       upper.tail <-  max(table(x > qx[2])["TRUE"], table(y > qy[2])["TRUE"])
     } else {
       upper.tail <- 0
     }
-
+    
     inner.tails <- (lower.tail+1):(length(x) - upper.tail)
     outer.tails <- -inner.tails
   }
 
-  # Set plot parameters
-  .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
-  on.exit(par(.pardef))
-
   # QQ plot ----
   if(plot == TRUE){}
-    # QQ plot: Empirical ----
-      if(tails != TRUE){
-        plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-              xlim = xylim, ylim = xylim)
-      } else {
-        plot( x=x[inner.tails], y=y[inner.tails],  ylab=NA, las=1,
-              yaxt='n', xaxt='n', xlab=NA,
-              col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-              xlim = xylim, ylim = xylim)
-
-        if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-          points( x=x[outer.tails], y=y[outer.tails],
-                col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-                bg = tail.p.fill, cex = size)
-        }
-      }
-
-    box(col=plotcol)
-    axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
-         tck = -0.02)
-
-    #mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
-
-    # Y-label
-        # Get plot specs
-    lbl_width <- strwidth(ylab, units = "inches")
-    mar_width <- par("mai")[2]
-    loc <- par("usr") # in XY coordinates
-    xscl <- (loc[2] - loc[1]) / par("pin")[1]
-    # Place y-label
-    if(lbl_width/2 > mar_width * 0.6){
-      xloc <- loc[1] + (lbl_width/2 - mar_width * 0.6) * xscl
-    } else {
-      xloc <- loc[1]
+  # QQ plot: Empirical ----
+  if(tails != TRUE){
+    df <- data.frame(x,y)
+    lst0 <- .eda_plot_xy(df, x, y, px = p, py = p, tukey = tukey, base = base,
+                         square = TRUE, xlab = xlab, ylab = ylab,
+                         xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
+                         grey = grey,  reg = FALSE, loe = FALSE, mean.l = FALSE,
+                         inner = inner,q = FALSE, , qcol = qcol, q.type = q.type, 
+                         p.fill = p.fill, show.par = FALSE, ...)
+  } else {
+    df <- data.frame(x=x[inner.tails],y = y[inner.tails])
+    lst0 <- .eda_plot_xy(df, x, y, px = p, py = p, tukey = tukey, base = base,
+                         square = TRUE, xlab = xlab, ylab = ylab,
+                         xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
+                         grey = grey,  reg = FALSE, loe = FALSE, mean.l = FALSE,
+                         inner = inner, q = FALSE, qcol = qcol, q.type = q.type, 
+                         p.fill = p.fill, show.par = FALSE, ...)
+    if (length(x[outer.tails]) != 0){  # Nothing to plot if tail index is empty
+      .post <- par(mar = lst0$parxy)
+      on.exit(par(.post))
+      points( x=x[outer.tails], y=y[outer.tails],
+              col.lab=plotcol, pch = tail.pch, col = tail.p.col,
+              bg = tail.p.fill, cex = size)
+      par(.post)
     }
-    text(xloc, loc[4], labels = ylab, col=plotcol, cex = par("cex"), xpd = TRUE,
-         pos = 3, offset = 1)
+  }
+  
+  .post <- par(mar = lst0$parxy)
+  on.exit(par(.post))
+  
+  # Add empirical QQ line ----
+  abline(0, 1, col = plotcol)
 
-    title(xlab = xlab, line =1.8, col.lab=plotcol)
+  # Add core boxes ----
+  sq <- par("usr") # get plot corners
+  if(q == TRUE){
+    rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
+         col = qcol, border = NA)
+    rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
+         col = qcol, border = NA)
+  }
+  
+  par(.post)
+  
+  # Add power/formula parameters to plot
+  if (show.par == TRUE) {
+    .post <- par(mar = lst0$parxy)
+    on.exit(par(.post))
+    mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
+    par(.post)
+  }
+  
 
-    if(!is.null(title)){
-      title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
-    }
-
-    # Add empirical QQ line ----
-    abline(0, 1, col = plotcol)
-
-
-    # Add core boxes ----
-    sq <- par("usr") # get plot corners
-    if(q == TRUE){
-      rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-           col = rgb(0,0,0,0.05), border = NA)
-      rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
-           col = rgb(0,0,0,0.05), border = NA)
-    }
-
-    # Add power/formula parameters to plot
-    if (show.par == TRUE) {
-      mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
-    }
-
-  # Reset plot parameters and  output values
-  par(.pardef)
-  invisible(zd)
 }

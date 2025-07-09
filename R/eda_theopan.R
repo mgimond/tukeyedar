@@ -13,6 +13,7 @@
 #' @param p  Power transformation to apply to the continuous variable.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (\code{FALSE} adopts a Box-Cox transformation).
+#' @param base Base used with the log() function if \code{p = 0}.
 #' @param q.type An integer between 4 and 9 selecting one of the nine quantile
 #'   algorithms. (See \code{\link[tukeyedar]{eda_fval}} for a list of quantile
 #'   algorithms).
@@ -108,7 +109,7 @@
 #' eda_theopan(wat,avg, month, resid = TRUE, nrow = 3, inner = 0.8 ,
 #'                     tails = TRUE, tail.pch = 3, p.fill = "coral")
 
-eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, q.type = 5,
+eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
                           dist = "norm", dist.l = list(), ylim = NULL,
                           resid = FALSE, stat = mean, show.par = FALSE,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,

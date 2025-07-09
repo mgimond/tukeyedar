@@ -1,3 +1,28 @@
+# tukeyedar 0.5.0
+* Added internal function `.eda_plot_xy` used by many XY plotting functions.
+* Added internal function `.eda_plot_vardecomp` used to view decomposed n-way tables.
+* Added new datasets--mostly used with n-way table polishing functions.
+* Added the log base argument `base` to `eda_re`.
+* Added an exploratory ANOVA decomposition set of functions. These include:
+     * `eda_mean_sweep`: The main ANOVA decomposition function
+     * `plot.eda_mean_sweep`: Plot method for `eda_mean_sweep`
+     * `eda_anova_table`: Generates traditional ANOVA table from `eda_mean_sweep` output.
+* Added `eda_npol` median polish function that allows for n-way tables with more than two factors.
+* Added plot method `plot.eda_npol` for `eda_npol` objects.
+* Added a variability decomposition plot, `eda_vd`, that can be used with both n-way tables an linear models.
+* Added `eda_matlong` that converts a 2-way table between long form and matrix form. 
+     Useful when running tables through `eda_pol` and `medpolish` functions.
+* Modified `plot.eda_lm` method to now make use of the `.eda_plot_xy` internal function. 
+  Function also adds a `raw_tick` argument that allows for the display of the raw (untransformed) 
+  variables on a transformed axis.
+* Added  a `raw_tick` argument to `eda_lm` that allows for the display of the raw 
+  (untransformed) variables on a transformed axis.
+* Minor changes to `eda_boxls`, `eda_unipow`, `eda_bipow`, `eda_pol`, `eda_sym`, 
+  `eda_sl`, `eda_rline` and `eda_qq` to reflect the  
+  new `base` argument in `eda_re` and changes to internal plotting functions.
+* Minor changes to the plot methods `plot.eda_rline` and `plot.eda_polish`.
+
+
 # tukeyedar 0.4.0
 *  Took out the normal and symmetry options from `eda_qq` and created their own functions:
    `eda_qqsym` and `eda_theo`. The latter allows for theoretical distributions other

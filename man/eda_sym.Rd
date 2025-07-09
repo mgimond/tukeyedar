@@ -8,8 +8,8 @@ eda_sym(
   x,
   p = 1L,
   tukey = FALSE,
+  base = exp(1),
   q.type = 5,
-  plot = TRUE,
   show.par = TRUE,
   grey = 0.6,
   pch = 21,
@@ -17,9 +17,10 @@ eda_sym(
   p.fill = "grey80",
   size = 0.8,
   alpha = 0.8,
-  q = TRUE,
-  tails = FALSE,
   inner = 0.75,
+  q = TRUE,
+  qcol = rgb(0, 0, 0, 0.05),
+  tails = FALSE,
   tail.pch = 21,
   tail.p.col = "grey70",
   tail.p.fill = NULL,
@@ -27,6 +28,7 @@ eda_sym(
   ylab = NULL,
   title = NULL,
   t.size = 1.2,
+  plot = TRUE,
   ...
 )
 }
@@ -38,11 +40,12 @@ eda_sym(
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (\code{FALSE} adopts a Box-Cox transformation).}
 
+\item{base}{Base used with the \code{log()} function if \code{px} or \code{py}
+is \code{0}.}
+
 \item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
 algorithms used to generate inner shaded region. (See \code{quantile}tile
 function).}
-
-\item{plot}{Boolean determining if plot should be generated.}
 
 \item{show.par}{Boolean determining if power parameter should be displayed.}
 
@@ -60,15 +63,17 @@ ranging from 21-25).}
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point colors.}
 
+\item{inner}{Fraction of the input data considered as "mid values". Defaults to
+75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
+which of the tail-end points are to be symbolized differently, \code{tails}.}
+
 \item{q}{Boolean determining if \code{inner} data region should be shaded.}
+
+\item{qcol}{Fill color of inner quantile box.}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
 should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
-
-\item{inner}{Fraction of the data considered as "mid values". Defaults to
-75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
-which of the tail-end points are to be symbolized differently, \code{tails}.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
 
@@ -84,6 +89,8 @@ which of the tail-end points are to be symbolized differently, \code{tails}.}
 \item{title}{Title to add to plot.}
 
 \item{t.size}{Title size.}
+
+\item{plot}{Boolean determining if plot should be generated.}
 
 \item{...}{Not used}
 }
@@ -102,8 +109,16 @@ symmetrical, the points will fall on the line.
 
  singer <- lattice::singer
  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
-
+ 
+ # Default plot
  eda_sym(tenor1)
+ 
+ # To remove inner region grey box set q to FALSE
+ eda_sym(tenor1, q = FALSE)
+ 
+ # You can also choose to have the points outside of the inner region
+ # symbolized differently
+ eda_sym(tenor1, q = FALSE, tails = TRUE, tail.pch = 3)
 }
 \references{
 \itemize{

@@ -13,30 +13,7 @@ eda_lm(
   px = 1,
   py = 1,
   tukey = FALSE,
-  show.par = TRUE,
-  reg = TRUE,
-  poly = 1,
-  robust = FALSE,
-  w = NULL,
-  sd = TRUE,
-  mean.l = TRUE,
-  asp = TRUE,
-  grey = 0.6,
-  pch = 21,
-  p.col = "grey50",
-  p.fill = "grey80",
-  size = 0.8,
-  alpha = 0.8,
-  q = FALSE,
-  inner = 0.68,
-  q.type = 5,
-  loe = FALSE,
-  lm.col = rgb(1, 0.5, 0.5, 0.8),
-  loe.col = rgb(0.3, 0.3, 1, 1),
-  stats = FALSE,
-  stat.size = 0.8,
-  loess.d = list(family = "symmetric", span = 0.7, degree = 1),
-  rlm.d = list(psi = "psi.bisquare"),
+  base = exp(1),
   ...
 )
 }
@@ -58,75 +35,66 @@ eda_lm(
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (FALSE adopts a Box-Cox transformation).}
 
-\item{show.par}{Boolean determining if power transformation should be
-displayed in the plot.}
+\item{base}{Base used with the log() function if \code{px} or
+\code{py} is \code{0}.}
 
-\item{reg}{Boolean indicating whether a least squares regression line should
-be plotted.}
-
-\item{poly}{Polynomial order.}
-
-\item{robust}{Boolean indicating if robust regression should be used.}
-
-\item{w}{Weight to pass to regression model.}
-
-\item{sd}{Boolean determining if standard deviation lines should be plotted.}
-
-\item{mean.l}{Boolean determining if the x and y mean lines should be added
-to the plot.}
-
-\item{asp}{Boolean determining if the plot aspect ratio should equal the
-ratio of the x and y standard deviations. A value of \code{FALSE} defaults
-to the base plot's default aspect ratio. A value of \code{TRUE} uses the
-aspect ratio \code{sd(x)/sd(y)}.}
-
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
-
-\item{pch}{Point symbol type.}
-
-\item{p.col}{Color for point symbol.}
-
-\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25).}
-
-\item{size}{Point size (0-1).}
-
-\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
-applicable if \code{rgb()} is not used to define point colors.}
-
-\item{q}{Boolean determining if shaded region showing the mid-portion of the
-data should be added to the plot.}
-
-\item{inner}{Fraction of mid-values to highlight in \code{q}.  Defaults to
-the mid 68 percent of values.}
-
-\item{q.type}{Quantile type. Defaults to 5 (Cleveland's f-quantile
-definition).}
-
-\item{loe}{Boolean indicating if a loess curve should be fitted.}
-
-\item{lm.col}{Regression line color.}
-
-\item{loe.col}{LOESS curve color.}
-
-\item{stats}{Boolean indicating if regression summary statistics should be
-displayed.}
-
-\item{stat.size}{Text size of stats output in plot.}
-
-\item{loess.d}{A list of arguments passed to the \code{loess.smooth}
-function. A robust loess is used by default.}
-
-\item{rlm.d}{A list of arguments passed to the \code{MASS::rlm}
-function.}
-
-\item{...}{Not used.}
+\item{...}{
+  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  \describe{
+    \item{\code{raw_tick}}{Logical. If \code{TRUE}, original (untransformed) equally
+spaced tick values are displayed on the re-expressed axes.}
+    \item{\code{xlim}}{X-axis range.}
+    \item{\code{ylim}}{Y-axis range.}
+    \item{\code{show.par}}{Logical; whether to display plot parameter summary on the
+plot. Currently only applies to regression model input.}
+    \item{\code{reg}}{Logical; whether to fit and display a regression line.}
+    \item{\code{poly}}{Integer; regression model polynomial degree (defaults to 1 for
+linear model).}
+    \item{\code{robust}}{Logical; if \code{TRUE}, uses robust regression (\code{MASS::rlm}).}
+    \item{\code{rlm.d}}{List; parameters for \code{MASS::rlm}, (e.g., \code{list(psi =
+"psi.bisquare")}).}
+    \item{\code{w}}{Optional numeric vector of weights for regression.}
+    \item{\code{lm.col}}{Regression line color.}
+    \item{\code{lm.lw}}{Numeric; Regression line width.}
+    \item{\code{lm.lty}}{Numeric; Regression line type.}
+    \item{\code{sd}}{Logical; whether to show ±1 SD lines.}
+    \item{\code{mean.l}}{Logical; whether to show x and y mean reference lines.}
+    \item{\code{asp}}{Logical; whether to preserve the aspect ratio (ignored if
+\code{square = FALSE}).}
+    \item{\code{square}}{Logical; whether to create a square plotting window.}
+    \item{\code{grey}}{Numeric between \code{0-1}; controls grayscale background elements
+(\code{0 = black}, \code{1 = white}).}
+    \item{\code{pch}}{Integer; point symbol.}
+    \item{\code{p.col}}{Point border color.}
+    \item{\code{p.fill}}{Point fill color.}
+    \item{\code{size}}{Point size.}
+    \item{\code{alpha}}{Point transparency level (0 = 100\\\% transparent, 1 = 100\\\% opaque).}
+    \item{\code{q}}{Logical; whether to draw inner quantile boxes (quantile shading).}
+    \item{\code{q.type}}{Integer; type of quantile calculation (see \code{quantile}).}
+    \item{\code{inner}}{Numeric; defines the inner fraction of values to highlight
+with quantile shading.}
+    \item{\code{qcol}}{Fill color of quantile shading.}
+    \item{\code{loe}}{Logical; whether to plot loess smooth line.}
+    \item{\code{loe.lw}}{Numeric; Loess smooth line width.}
+    \item{\code{loe.col}}{Loess smooth color.}
+    \item{\code{loe.lty}}{Numeric; Loess smooth line type.}
+    \item{\code{loess.d}}{List; parameters for \code{loess.smooth}, e.g., \code{list(span = 0.7,
+degree = 1)}.}
+    \item{\code{stats}}{Logical; if \code{TRUE}, displays model statistics (R², β, p-value).}
+    \item{\code{stat.size}}{Text size for \code{stats} plot display.}
+    \item{\code{hline}}{Numeric; location(s) of additional horizontal reference lines.
+Can be passed via  the \code{c()} function.}
+    \item{\code{vline}}{Numeric; location(s) of additional vertical reference lines.
+Can be passed via the \code{c()} function.}
+    \item{\code{plot}}{Logical. Generates a plot if \code{TRUE}.}
+  }}
 }
 \value{
 Returns a list of class \code{eda_lm}. Output includes the following
 if \code{reg = TRUE}. Returns \code{NULL} otherwise.
 
 \itemize{
+\item \code{data}: Input data table with residuals
 \item \code{residuals}: Regression model residuals
 \item \code{a}: Intercept
 \item \code{b}: Polynomial coefficient(s)
@@ -135,10 +103,8 @@ if \code{reg = TRUE}. Returns \code{NULL} otherwise.
 \item \code{x_lab}: x label}
 }
 \description{
-\code{eda_lm} generates a scatter plot with a fitted regression
-line. A loess line can  also be added to the plot for model comparison. The
-axes are scaled such that their respective standard  deviations match axes
-unit length.
+\code{eda_lm} generates a scatter and EDA enhanced regression
+plot.
 }
 \details{
 The function will plot a regression line and, if requested, a loess
@@ -156,13 +122,13 @@ the upper and lower bounds defining the inner 68 percent of values. If the
 data follow a Normal distribution, the grey rectangle edges should coincide
 with the +/- 1SD dashed lines.
 If you wish to show the interquartile ranges (IQR) instead of the inner
-68 percent of values, simply set \code{inner = 0.5)}.
+68 percent of values, simply set \code{inner = 0.5}.
 \cr \cr
-The plot has the option to re-express the values via the \code{px} and
+The function offers the option to re-express the values via the \code{px} and
 \code{py} arguments. But note that if the re-expression produces \code{NaN}
 values (such as if a negative value is logged) those points will be
 removed from the plot. This will result in fewer observations being
-plotted. If observations are removed as result of a re-expression a
+plotted. If observations are removed as a result of a re-expression, a
 warning message will be displayed in the console.
 The re-expression powers are shown in the upper right side of the plot. To
 suppress the display of the re-expressions set \code{show.par = FALSE}.
@@ -184,17 +150,21 @@ eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE)
 eda_lm(mtcars, wt, mpg, loe = TRUE, q = TRUE, sd = FALSE, inner = 0.5)
 
 # Fit an OLS to income for Female vs Male
-df2 <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
-eda_lm(df2, x=B20004013, y = B20004007, xlab = "Female", ylab = "Male",
+inc <- read.csv("https://mgimond.github.io/ES218/Data/Income_education.csv")
+eda_lm(inc, x=B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             loe = TRUE)
 
 # Add the inner 68\% quantile to compare the true 68\% of data to the SD
-eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
+eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             q = TRUE)
 
 # Apply a transformation to x and y axes: x -> 1/3 and y -> log
-eda_lm(df2, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
-            px = 1/3, py = 0, q = TRUE, loe = TRUE)
+eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
+            px = 1/3, py = 0, loe = TRUE)
+            
+# You can opt to show the original values on a scaled axis
+eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
+            px = 1/3, py = 0, loe = TRUE, raw_tick = TRUE)
 
 # Fit a second order polynomial
 eda_lm(mtcars, hp, mpg, poly = 2)
@@ -203,6 +173,6 @@ eda_lm(mtcars, hp, mpg, poly = 2)
 eda_lm(mtcars, hp, mpg, robust = TRUE, poly = 2)
 }
 \seealso{
-\code{\link[graphics]{plot}} and \code{\link[stats]{loess.smooth}}
-functions
+\code{\link[graphics]{plot}}, \code{\link[stats]{loess.smooth}},
+\code{\link{.eda_plot_xy}}
 }

@@ -11,6 +11,7 @@ eda_jitter(
   jitter = 0.05,
   p = 1,
   tukey = FALSE,
+  base = exp(1),
   horiz = FALSE,
   stat = mean,
   show.stat = TRUE,
@@ -47,6 +48,8 @@ eda_jitter(
 
 \item{tukey}{Boolean determining if a Tukey transformation should be adopted
 (\code{FALSE} adopts a Box-Cox transformation).}
+
+\item{base}{Base used with the log() function if \code{p = 0}.}
 
 \item{horiz}{Plot horizontally (\code{TRUE}) or vertically (\code{FALSE}).}
 

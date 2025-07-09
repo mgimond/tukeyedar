@@ -113,11 +113,6 @@ for (i in 1:length(rng)){
 
 plot(eda_rline(neoplasms, Temp, Mortality), model=F, pt3=T, fit = F)
 
-# OP <- par(mar=c(4,4,1,1))
-# plot(Mortality~Temp,df, pch=20)
-# abline(v=brk.x,lty=3, col="grey")
-# points(x=xmed, y=ymed, col=rgb(1,0,0,0.5), pch=20,cex=2)
-# par(OP)
 ```
 
 The two end medians are used to compute the slope as:
@@ -232,18 +227,16 @@ plot(M)
 ```
 
 
-To see how this resistant line compares to an ordinary least-squares (OLS) regression slope, add the output of the `lm` model to the plot via `abline()`:
+To see how this resistant line compares to an ordinary least-squares (OLS) regression slope, add the output of the `lm` model to the plot via the argument`reg = TRUE``:
 
-```{r, fig.height=2.8, fig.width = 3.2, echo=2, dev.args=list(pointsize=11)}
-plot(M)
-abline(lm(Mortality ~ Temp, neoplasms), lty = 2) 
+```{r, fig.height=2.8, fig.width = 3.2,  dev.args=list(pointsize=11)}
+plot(M, reg = TRUE)
 ```
 
 The regression model computes a slope of `2.36` whereas the resistant line function generates a slope of `2.89`. From the scatter plot, we can spot a point that may have undo influence on the regression line (this point is highlighted in green in the following plot).
 
-```{r fig.height=2.8, fig.width = 3.2, echo=3, dev.args=list(pointsize=11)}
-plot(M) 
-abline(lm(Mortality~Temp, neoplasms),lty = 2)  
+```{r fig.height=2.8, fig.width = 3.2, echo=2, dev.args=list(pointsize=11)}
+plot(M, reg = TRUE)
 points(neoplasms[15,], col="#43CD80",cex=1.5 ,pch=20)
 ```
 
@@ -255,8 +248,7 @@ neoplasms.sub <- neoplasms[-15,]
 
 ```{r fig.height=2.8, fig.width = 3.2, dev.args=list(pointsize=11)}
 M.sub <- eda_rline(neoplasms.sub, Temp, Mortality)
-plot(M.sub)
-abline(lm(Mortality ~ Temp, neoplasms.sub), lty = 2) # Regression model with data subset
+plot(M.sub, reg = TRUE)
 ```
 
 Note how the OLS slope is inline with that generated from the resistant line. You'll also note that the resistant line slope has also changed. Despite the resistant nature of the line, the removal of this point changed the makeup of the first tier of values (note the leftward shift in the vertical dashed line). This changed the makeup of this batch thus changing the median values for the first and second tier batches.

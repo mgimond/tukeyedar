@@ -6,60 +6,73 @@
 \usage{
 \method{plot}{eda_rline}(
   x,
-  type = "model",
+  plot = "model",
   xlab = NULL,
   ylab = NULL,
-  grey = 0.7,
-  pch = 21,
-  equal = TRUE,
-  p.col = "grey50",
-  p.fill = "grey80",
-  size = 0.8,
-  alpha = 0.7,
   model = TRUE,
   pt3 = TRUE,
+  seg = TRUE,
   fit = TRUE,
+  fit.col = rgb(1, 0, 0),
+  grey = 0.6,
+  sd = FALSE,
+  mean.l = FALSE,
+  reg = FALSE,
+  lm.col = rgb(0.7, 0.7, 1, 0.8),
+  lm.lty = 2,
+  loe = NULL,
+  loe.col = rgb(0.7, 0.7, 1, 0.8),
+  loe.lty = 2,
   ...
 )
 }
 \arguments{
 \item{x}{Object of class \code{eda_rline}.}
 
-\item{type}{Plot type. One of two: "model", "residuals".}
+\item{plot}{Plot type. One of two: "model", "residuals".}
 
 \item{xlab}{Custom x-axis label. Defaults to column name.}
 
 \item{ylab}{Custom y-axis label. Defaults to column name.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
-
-\item{pch}{Point symbol type.}
-
-\item{equal}{Boolean determining if axes lengths should match (i.e. square
-plot).}
-
-\item{p.col}{Color for point symbol.}
-
-\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25).}
-
-\item{size}{Point size (0-1).}
-
-\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only applicable
-if \code{rgb()} is not used to define point colors.}
-
-\item{model}{Boolean indicating if the resulting model should be added above
+\item{model}{Logical; whether to show  the resulting model above
 plot. Only applies to \code{type = "model"}.}
 
-\item{pt3}{Boolean indicating if the 3-pt summaries should be added to the
-plot. Only applies to \code{type = "model"}.}
+\item{pt3}{Logical; whether to show the 3-pt summaries.
+Only applies to \code{type = "model"}.}
 
-\item{fit}{Boolean indicating if the fitted line should be added to the plot.}
+\item{seg}{Logical; whether line segments showing partitioning of x variables
+should be displayed.}
 
-\item{...}{Arguments to be passed to subsequent methods.}
+\item{fit}{Logical; whether to show the resistant fitted line.}
+
+\item{fit.col}{Resistant line color.}
+
+\item{grey}{Numeric between 0–1; controls grayscale background elements (0 =
+black, 1 = white).}
+
+\item{sd}{Logical; whether to show ±1 SD lines.}
+
+\item{mean.l}{Logical; whether to show mean reference lines.}
+
+\item{reg}{Logical; whether to fit and display an OLS regression line.}
+
+\item{lm.col}{OLS regression line color (only applicable if \code{reg = TRUE}.}
+
+\item{lm.lty}{OLS regression line line type (only applicable if \code{reg = TRUE}.}
+
+\item{loe}{Logical; whether to plot loess smooth line.}
+
+\item{loe.col}{loess smooth line color (only applicable if \code{loe = TRUE}.}
+
+\item{loe.lty}{loess smooth line type (only applicable if \code{loe = TRUE}.}
+
+\item{...}{Arguments to be passed to \code{.eda_plot_xy}.}
 }
 \value{
-Does not return a value.
+Returns the margins (\code{mar}) used to generate the plot via the
+\code{par()} function. This parameter can be set with a subsequent call to
+\code{par()} if additional elements are to be added to the plot.
 }
 \description{
 A plot method for lists of \code{eda_rline} class.
@@ -73,5 +86,10 @@ r.lm <- eda_rline(age_height, Months, Height)
 
 plot(r.lm)
 plot(r.lm, pt3 = FALSE)
-plot(r.lm, type = "residuals")
+
+# And an OLS regression line for comparison (defaults to blue dashed line)
+plot(r.lm, reg = TRUE)
+
+# Plot residuals vs dependence plot. A Loess smooth is fitted to the data.
+plot(r.lm, plot = "residuals")
 }
