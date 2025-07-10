@@ -11,14 +11,14 @@
 #' @param y   Column assigned to the y axis.
 #' @param px  Power transformation to apply to the x-variable.
 #' @param py  Power transformation to apply to the y-variable.
-#' @param base Base used with the log() function if \code{px} or 
+#' @param base Base used with the log() function if \code{px} or
 #'  \code{py} is \code{0}.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
 #' @param xlab X label for output plot.
 #' @param ylab Y label for output plot.
 #' @param ... Passed to \code{.eda_plot_xy} function.
-#' 
+#'
 #' @inheritDotParams  .eda_plot_xy
 #'
 #' @details The function will plot a regression line and, if requested, a loess
@@ -64,8 +64,8 @@
 #'   \item \code{x}: x variable
 #'   \item \code{x_lab}: x label}
 #'
-#' @seealso 
-#'  \code{\link[graphics]{plot}}, \code{\link[stats]{loess.smooth}}, 
+#' @seealso
+#'  \code{\link[graphics]{plot}}, \code{\link[stats]{loess.smooth}},
 #'  \code{\link{.eda_plot_xy}}
 #'
 #'
@@ -90,12 +90,13 @@
 #'             q = TRUE)
 #'
 #' # Apply a transformation to x and y axes: x -> 1/3 and y -> log
-#' eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
-#'             px = 1/3, py = 0, loe = TRUE)
-#'             
-#' # You can opt to show the original values on a scaled axis
-#' eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
-#'             px = 1/3, py = 0, loe = TRUE, raw_tick = TRUE)
+#' eda_lm(inc, x = B20004013, y = B20004007, px = 1/3, py = 0, loe = TRUE,
+#'             xlab = expression(("Female income") ^ frac(1,3)),
+#'             ylab = "log(Male income)")
+#'
+#' # You can opt to show the original values on scaled axes
+#' eda_lm(inc, x = B20004013, y = B20004007, px = 1/3, py = 0, loe = TRUE,
+#'             xlab = "Female", ylab = "Male", raw_tick = TRUE)
 #'
 #' # Fit a second order polynomial
 #' eda_lm(mtcars, hp, mpg, poly = 2)
@@ -103,16 +104,16 @@
 #' # Fit a robust regression model
 #' eda_lm(mtcars, hp, mpg, robust = TRUE, poly = 2)
 
-# swd <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1, 
-#           tukey = FALSE, show.par = TRUE, reg = TRUE, poly = 1, robust = FALSE, 
-#           w = NULL, sd = TRUE, mean.l = TRUE, asp = TRUE, grey = 0.6, 
-#           pch = 21, p.col = "grey50", p.fill = "grey80", size = 0.8, 
+# swd <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
+#           tukey = FALSE, show.par = TRUE, reg = TRUE, poly = 1, robust = FALSE,
+#           w = NULL, sd = TRUE, mean.l = TRUE, asp = TRUE, grey = 0.6,
+#           pch = 21, p.col = "grey50", p.fill = "grey80", size = 0.8,
 #           alpha = 0.8, q = FALSE, inner = 0.68, q.type = 5,
-#           lm.col = rgb(1, 0.5, 0.5, 0.8), loe.col = rgb(0.3, 0.3, 1, 1), 
+#           lm.col = rgb(1, 0.5, 0.5, 0.8), loe.col = rgb(0.3, 0.3, 1, 1),
 #           stats = FALSE, stat.size = 0.8, loess.d = list(family = "symmetric",
-#           span = 0.7, degree = 1), rlm.d = list(psi = "psi.bisquare"), ...) 
+#           span = 0.7, degree = 1), rlm.d = list(psi = "psi.bisquare"), ...)
 
-eda_lm <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1, 
+eda_lm <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                     tukey = FALSE, base = exp(1), ...)
 
 {
@@ -122,7 +123,7 @@ eda_lm <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   internal_args <- names(formals(.eda_plot_xy))
   par_args <- names(par())
   allowed_args <- union(internal_args, par_args)
-  
+
   # Check for invalid names
   invalid <- setdiff(dot_names, allowed_args)
   if (length(invalid) > 0) {
@@ -130,11 +131,11 @@ eda_lm <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
                     deparse(substitute(.eda_plot_xy)),
                     paste(invalid, collapse = ", ")))
   }
-  
+
   # input <- names(list(...))
   # check <- input %in% names(formals(cat))
-  # if (any(!check)) 
-  #   warning(sprintf("%s is not a valid argument.", paste(input[!check], 
+  # if (any(!check))
+  #   warning(sprintf("%s is not a valid argument.", paste(input[!check],
   #                                                        collapse = ", ")))
   if (is.null(xlab)) {
     xlab = as.character(substitute(x))
@@ -157,20 +158,20 @@ eda_lm <- function (dat, x, y, xlab = NULL, ylab = NULL, px = 1, py = 1,
   y <- eda_re(y, p = py, tukey = tukey, base = base)
   y.nan <- is.na(y)
   if (any(x.nan, y.nan)) {
-    warning(paste("\nRe-expression produced NaN values. These observations will", 
-                  "be removed from output. This will result in fewer points", 
+    warning(paste("\nRe-expression produced NaN values. These observations will",
+                  "be removed from output. This will result in fewer points",
                   "in the ouptut."))
     bad <- x.nan | y.nan
     x <- x[!bad]
     y <- y[!bad]
   }
- 
+
    dat <- data.frame(x,y)
    names(dat) <- c(xlab, ylab)
 
-   lst0 <- .eda_plot_xy(dat, x, y, px = px, py = py, tukey = tukey, base = base, 
+   lst0 <- .eda_plot_xy(dat, x, y, px = px, py = py, tukey = tukey, base = base,
                         xlab = xlab, ylab = ylab, ...)
- 
+
    dat$residuals <- lst0$residuals
    lst0$data <- dat
    lst0$px <- px

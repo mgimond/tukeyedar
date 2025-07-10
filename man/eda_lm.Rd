@@ -159,12 +159,13 @@ eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
             q = TRUE)
 
 # Apply a transformation to x and y axes: x -> 1/3 and y -> log
-eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
-            px = 1/3, py = 0, loe = TRUE)
-            
-# You can opt to show the original values on a scaled axis
-eda_lm(inc, x = B20004013, y = B20004007, xlab = "Female", ylab = "Male",
-            px = 1/3, py = 0, loe = TRUE, raw_tick = TRUE)
+eda_lm(inc, x = B20004013, y = B20004007, px = 1/3, py = 0, loe = TRUE,
+            xlab = expression(("Female income") ^ frac(1,3)),
+            ylab = "log(Male income)")
+
+# You can opt to show the original values on scaled axes
+eda_lm(inc, x = B20004013, y = B20004007, px = 1/3, py = 0, loe = TRUE,
+            xlab = "Female", ylab = "Male", raw_tick = TRUE)
 
 # Fit a second order polynomial
 eda_lm(mtcars, hp, mpg, poly = 2)
