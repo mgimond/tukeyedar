@@ -236,8 +236,8 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
   } else {
     layout(matrix(c(1,2),1,2,byrow=TRUE), widths = c(0.5,0.5))
   }
-  par(mai = c(0.6,0,0.2,0), cex = 1, oma = c(2, y.wid, 1,0.5), col = plotcol)
-
+  #par(mai = c(0.6,0,0.2,0), cex = 1, oma = c(2, y.wid, 1,0.5), col = plotcol)
+  par(mai = c(0.46,0,0.2,0), cex = 1, oma = c(1, y.wid, 1,0.5), col = plotcol)
     # Fit plot
     plot(fval, model_sort, ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, col.lab=plotcol,
          pch = pch, col = p.col, bg = p.fill, cex = size, ylim = ylim,
