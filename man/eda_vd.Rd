@@ -66,6 +66,7 @@ must be one of \code{"stack"}, \code{"overplot"}, or \code{"jitter"}.}
     \item{\code{alpha}}{Transparency level for points (0 = transparent, 1 = opaque).}
     \item{\code{grey}}{Numeric. Controls grayscale coloring for plot elements
 and axes.}
+    \item{\code{title}}{Plot title. If title is to be omitted, set to \code{NULL}.}
   }}
 }
 \value{

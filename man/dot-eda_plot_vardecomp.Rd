@@ -25,6 +25,7 @@
   size = 1,
   alpha = 0.5,
   grey = 0.6,
+  title = "Variability decomposition",
   ...
 )
 }
@@ -74,6 +75,8 @@ must be one of \code{"stack"}, \code{"overplot"}, or \code{"jitter"}.}
 
 \item{grey}{Numeric. Controls grayscale coloring for plot elements
 and axes.}
+
+\item{title}{Plot title. If title is to be omitted, set to \code{NULL}.}
 
 \item{...}{Additional arguments passed to underlying plotting functions.}
 }
