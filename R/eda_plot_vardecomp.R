@@ -163,7 +163,7 @@
               yaxt = "n", ylab="",
               outline = outliers,
               col = "bisque",
-              boxwex = 0.5,
+              boxwex = 0.7,
               add = TRUE,
               horizontal = TRUE)
       axis(side = 1, col = plotcol)
@@ -179,7 +179,7 @@
             yaxt = "n", ylab="n" ,
             outline = outliers,
             col = "lightgray",
-            boxwex = 0.5,
+            boxwex = 0.7,
             add = TRUE,
             horizontal = TRUE)
     axis(side = 1, col = plotcol)
@@ -208,7 +208,8 @@
       } else {
         suppressWarnings(
         boxplot(effects, add = TRUE, at = y_pos + show.resp, horizontal = TRUE,
-                col = "grey95", xaxt = "n", yaxt = "n", outline = outliers)
+                col = "grey95", xaxt = "n", yaxt = "n", outline = outliers,
+                boxwex = 0.7)
         )
       }
       axis(2, at = y_pos + show.resp, labels = factor_name, tick = FALSE, line = 0,las =1)
@@ -242,7 +243,7 @@
               xaxt = "n", yaxt = "n",
               outline = outliers,
               col = "bisque",
-              boxwex = 0.5,
+              boxwex = 0.7,
               add = TRUE)
       axis(1, at = 1 , labels = response_chr, tick = FALSE, line = 0,
            col.ticks = plotcol)
@@ -258,7 +259,7 @@
             xaxt = "n", yaxt = "n",
             outline = outliers,
             col = "lightgray",
-            boxwex = 0.5,
+            boxwex = 0.7,
             add = TRUE,
             las = 2)
 
