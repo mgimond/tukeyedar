@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   polish: polish.html
@@ -7,7 +7,7 @@ articles:
   rfs: rfs.html
   RLine: RLine.html
   symqq: symqq.html
-last_built: 2025-01-29T01:01Z
+last_built: 2025-08-01T14:37Z
 urls:
   reference: https://mgimond.github.io/tukeyedar/reference
   article: https://mgimond.github.io/tukeyedar/articles
