@@ -32,9 +32,9 @@ This bypasses the need to solve for the parameters.}
 A numeric vector of simulated data points.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \cr\cr
-Generates random data with the specified skewness and excess kurtosis using the
-Fleishman transformation method.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \cr\cr
+
+This function is deprecated. Use \code{eda_sim} instead.
 }
 \details{
 The function uses Fleishman's polynomial transformation of the form:

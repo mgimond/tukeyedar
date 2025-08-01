@@ -162,7 +162,7 @@ M1 <- eda_pol(inf_mort, row = region, col = edu, val = perc, stat = mean, res.si
 
 ## The `eda_polish` plot method
 
-The list object created by the `eda_pol` function is of class `eda_polish`. As such, there is a plot method created for that class. The plot method will either output the original polished table (`type = "residuals"`), the diagnostic plot (`type = "diagnostic"`), or the CV values (`cv`).
+The list object created by the `eda_pol` function is of class `eda_polish`. As such, there is a plot method created for that class. The plot method will either output the original polished table (`plot = "residuals"`), the diagnostic plot (`plot = "diagnostic"`), or the CV values (`cv`).
 
 ## Plot the median polish table
 
@@ -285,7 +285,7 @@ plot(M1, row.size = 0.6, col.size = 0.6 , res.size = 0.6)
 The `plot` method will also generate a plot of the residuals vs comparison values (CV), herein referred to as the **diagnostic plot**.
 
 ```{r fig.width=3, fig.height=3}
-plot(M1, type = "diagnostic") 
+plot(M1, plot = "diagnostic") 
 ```
 
 A bisquare robust line is fitted to the data (light red line) along with a robust loess fit (dashed blue line). The function will also output the line's slope. This slope can be used to help estimate a transformation of the data, if needed.
@@ -545,7 +545,7 @@ As with the median polish, we must concern ourselves with interactions between t
 
 ```{r fig.width=2.8, fig.height=2.8, echo=2}
 OP <- par(mar=c(4,4,1,1))
-plot(M5, type = "diagnostic", res.size = 0.8, row.size = 0.8, col.size = 0.8)
+plot(M5, plot = "diagnostic", res.size = 0.8, row.size = 0.8, col.size = 0.8)
 par(OP)
 ```
 

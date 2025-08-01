@@ -38,27 +38,24 @@ diagnostic plot. Only used when \code{plot = "diagnostic"}. Defaults to
 \item \code{input}: Character. Either \code{"nway"} or \code{"reg"}.
 \item \code{padding}: Numeric. Padding for axis limits.
 }}
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item\{For \code{plot = "diagnostic"}\}\{Arguments are passed to \code{\link{.eda_plot_xy}}. Common options include:
-  \\itemize\{
-    \\item \code{xlab}, \code{ylab}: Axis labels.
-    \\item \code{xlim}, \code{ylim}: Axis limits.
-    \\item \code{poly}: Integer. Degree of polynomial regression.
-    \\item \code{robust}: Logical. Use robust regression.
-    \\item \code{w}: Numeric vector. Weights for regression.
-    \\item \code{sd}, \code{mean.l}: Logical. Show ±1 SD and mean lines.
-    \\item \code{asp}, \code{square}: Logical. Control aspect ratio and plot shape.
-    \\item \code{grey}: Numeric. Grayscale background.
-    \\item \code{pch}, \code{p.col}, \code{p.fill}, \code{size}, \code{alpha}: Point styling.
-    \\item \code{q}, \code{inner}, \code{q.type}, \code{qcol}: Quantile box options.
-    \\item \code{loe}, \code{loe.col}, \code{loe.lw}, \code{loess.d}: Loess smoothing options.
-    \\item \code{lm.col}, \code{lm.lw}: Regression line styling.
-    \\item \code{stats}, \code{stat.size}: Display model statistics.
-    \\item \code{hline}, \code{vline}: Reference lines.
-    \\item \code{rlm.d}: List. Parameters for \code{MASS::rlm}.
-  \}\}
-}\if{html}{\out{</div>}}
-
+\item{For \code{plot = "diagnostic"}}{Arguments are passed to \code{\link{.eda_plot_xy}}. Common options include:
+\itemize{
+\item \code{xlab}, \code{ylab}: Axis labels.
+\item \code{xlim}, \code{ylim}: Axis limits.
+\item \code{poly}: Integer. Degree of polynomial regression.
+\item \code{robust}: Logical. Use robust regression.
+\item \code{w}: Numeric vector. Weights for regression.
+\item \code{sd}, \code{mean.l}: Logical. Show ±1 SD and mean lines.
+\item \code{asp}, \code{square}: Logical. Control aspect ratio and plot shape.
+\item \code{grey}: Numeric. Grayscale background.
+\item \code{pch}, \code{p.col}, \code{p.fill}, \code{size}, \code{alpha}: Point styling.
+\item \code{q}, \code{inner}, \code{q.type}, \code{qcol}: Quantile box options.
+\item \code{loe}, \code{loe.col}, \code{loe.lw}, \code{loess.d}: Loess smoothing options.
+\item \code{lm.col}, \code{lm.lw}: Regression line styling.
+\item \code{stats}, \code{stat.size}: Display model statistics.
+\item \code{hline}, \code{vline}: Reference lines.
+\item \code{rlm.d}: List. Parameters for \code{MASS::rlm}.
+}}
 }}
 }
 \value{

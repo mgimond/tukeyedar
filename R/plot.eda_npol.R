@@ -31,7 +31,6 @@
 #'         \item \code{input}: Character. Either \code{"nway"} or \code{"reg"}.
 #'         \item \code{padding}: Numeric. Padding for axis limits.
 #'       }}
-#'
 #'     \item{For \code{plot = "diagnostic"}}{Arguments are passed to \code{\link{.eda_plot_xy}}. Common options include:
 #'       \itemize{
 #'         \item \code{xlab}, \code{ylab}: Axis labels.

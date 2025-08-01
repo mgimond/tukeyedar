@@ -70,7 +70,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2025-07-09</h4>
+            <h4 data-toc-skip class="date">2025-08-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
@@ -227,8 +227,8 @@ example, to apply a <strong>mean polish</strong>, type:</p>
 <p>The list object created by the <code>eda_pol</code> function is of
 class <code>eda_polish</code>. As such, there is a plot method created
 for that class. The plot method will either output the original polished
-table (<code>type = "residuals"</code>), the diagnostic plot
-(<code>type = "diagnostic"</code>), or the CV values
+table (<code>plot = "residuals"</code>), the diagnostic plot
+(<code>plot = "diagnostic"</code>), or the CV values
 (<code>cv</code>).</p>
 </div>
 <div class="section level2">
@@ -343,7 +343,7 @@ example, to set their sizes to 60% of their default value, type:</p>
 residuals vs comparison values (CV), herein referred to as the
 <strong>diagnostic plot</strong>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, type <span class="op">=</span> <span class="st">"diagnostic"</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, plot <span class="op">=</span> <span class="st">"diagnostic"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-35-1.png" width="288"></p>
 <p>A bisquare robust line is fitted to the data (light red line) along
 with a robust loess fit (dashed blue line). The function will also
@@ -681,7 +681,7 @@ traditional 2-way ANOVA technique shown here:</p>
 interactions between the effects. If interaction is present, ANOVA
 inferential statistics using the F-test can be untrustworthy.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M5</span>, type <span class="op">=</span> <span class="st">"diagnostic"</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M5</span>, plot <span class="op">=</span> <span class="st">"diagnostic"</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-54-1.png" width="268.8"></p>
 <p>There is strong evidence of interaction. The slope of 0.92 can be
 used to estimate a power transformation via <span class="math inline">\(1 - slope\)</span>. This is close to the power

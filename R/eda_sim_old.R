@@ -3,9 +3,9 @@
 #'  Simulate data using Fleishman transformation
 #'
 #' @description
-#' `r lifecycle::badge("experimental")` \cr\cr
-#' Generates random data with the specified skewness and excess kurtosis using the
-#' Fleishman transformation method.
+#' `r lifecycle::badge("deprecated")` \cr\cr
+#'
+#' This function is deprecated. Use \code{eda_sim} instead.
 #'
 #' @param n An integer specifying the number of random data points to generate.
 #' @param skew A numeric value specifying the desired skewness of the simulated data.
