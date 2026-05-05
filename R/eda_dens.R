@@ -9,7 +9,8 @@
 #' @param x  Vector for first variable, or a dataframe.
 #' @param y  Vector for second variable, or column defining the continuous
 #'   variable if \code{x} is a dataframe.
-#' @param fac Column defining the categorical variable if \code{x} is a dataframe.
+#' @param fac Column defining the categorical variable if \code{x} is a
+#'   dataframe.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -23,20 +24,30 @@
 #' @param alpha Fill transparency (0 = transparent, 1 = opaque). Only applicable
 #'   if \code{rgb()} is not used to define fill colors.
 #' @param legend Boolean determining if a legend should be added to the plot.
-#' @param xlab X variable label. Ignored if \code{x} is a dataframe. This is
-#' not the x-axis label!
-#' @param ylab Y variable label. Ignored if \code{x} is a dataframe. This is
-#' not the y-axis label!
+#' @param xlab X variable label. Ignored if \code{x} is a dataframe. This is not
+#'   the x-axis label!
+#' @param ylab Y variable label. Ignored if \code{x} is a dataframe. This is not
+#'   the y-axis label!
 #' @param xaxis Label for x-axis. Defaults to \code{"Value"}.
 #' @param show.par Boolean determining if parameters such as power
 #'   transformation or formula should be displayed.
 #' @param switch Boolean determining if the axes should be swapped. Only applies
 #'   to dataframe input. Ignored if vectors are passed to the function.
-#' @param ... Arguments passed to the \code{stats::density()} function.
+#' @param kernel The kernel to be used. Can be one of the kernels supported by
+#'   \code{stats::density} ("gaussian", "epanechnikov", "rectangular",
+#'   "triangular", "biweight", "cosine", "optcosine"), or `"sliding"` for a
+#'   custom sliding-window rectangular kernel estimator.
+#' @param ... Arguments passed to the \code{stats::density()} function (e.g.,
+#'   \code{bw}, \code{n}). These are also used by the `"sliding"` kernel.
 #'
 #' @details This function will generate overlapping density plots with the first
 #'   variable assigned a grey color and the second variable assigned the default
 #'   red color.
+#'
+#'   The `"sliding"` kernel implements a simple sliding window estimator with a
+#'   rectangular kernel. The density at a point \code{x0} is computed as the
+#'   proportion of data points falling within the window divided by the
+#'   bandwidth and sample size product (\code{# points in bin / (bandwidth * sample size)}.
 #'
 #' @returns Does not return a value.
 #'
@@ -52,13 +63,20 @@
 #'  dat <- data.frame(val = c(x, y),
 #'                    grp = c(rep("x", length(x)), rep("y", length(y))))
 #'  eda_dens(dat, val, grp)
+#'
+#'  # Defining density paramters that are passed to stats::density()
+#'  eda_dens(x,y, bw = 0.05, kernel="cosine", n = 10)
+#'
+#'  # Adopting the custom sliding rectangler kernel
+#'  eda_dens(x, y, from = 0, to=1, kernel = "sliding", bw=0.2, n = 10)
 
 
 
 eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, base = exp(1),
                      fx = NULL, fy = NULL, grey = 0.6, col = "red",
                      show.par= TRUE, alpha = 0.4, xlab = NULL, ylab = NULL,
-                     xaxis = NULL, switch = FALSE, legend = TRUE, ...) {
+                     xaxis = NULL, switch = FALSE, legend = TRUE,
+                     kernel = "gaussian", ...) {
 
   # Extract data
   if("data.frame" %in% class(x)){
@@ -111,28 +129,33 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, base = exp(1),
 
   if(length(nodata_x) > 0){
     cat(length(nodata_x), " elements in ",xlab ,
-        "had missing values. These were removed from the plot.\n")
+        "had missing values. These were removed from the plot.
+")
   }
   if(length(nodata_y) > 0){
     cat(length(nodata_y), " elements in ",ylab ,
-        "had missing values. These were removed from the plot.\n")
+        "had missing values. These were removed from the plot.
+")
   }
 
   # Re-express data if required
     x <- eda_re(x, p = p, tukey = tukey)
     y <- eda_re(y, p = p, tukey = tukey)
+
     x.nan <- is.na(x)
     y.nan <- is.na(y)
     if(any(x.nan, y.nan)){
       x <- x[!x.nan]
       y <- y[!y.nan]
-      warning(paste("\nRe-expression produced NaN values. These observations will",
+      warning(paste("
+Re-expression produced NaN values. These observations will",
                     "be removed from output."))
     }
 
   # Apply formula if present
   if(!is.null(fx) & !is.null(fy))
-      warning(paste("You should apply a formula to just one variable.\n",
+      warning(paste("You should apply a formula to just one variable.
+",
                     "You are applying the fomrula", fx,"to the x-axis",
                     "and the formula",fy ,"to the y-axis."))
   if(!is.null(fx)){
@@ -158,12 +181,62 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, base = exp(1),
   }
 
   # Calculate density  distributions
-  dx <- density(x, ...)
-  dy <- density(y, ...)
+  args <- list(...)
+
+    if (p != 1 && !is.null(args$bw)) {
+      warning("When using a power transformation (p != 1) and manually specifying 'bw', ensure that 'bw' is appropriate for the TRANSFORMED data scale.")
+    }
+
+    bw_x <- if (!is.null(args$bw)) args$bw else bw.nrd0(x)
+    bw_y <- if (!is.null(args$bw)) args$bw else bw.nrd0(y)
+
+    n_points <- if (!is.null(args$n)) args$n else 512
+
+    # Determine grid boundaries, applying re-expression if necessary
+    final_from <- if (!is.null(args$from)) {
+      eda_re(args$from, p = p, tukey = tukey)
+    } else {
+      min(c(x, y)) - 3 * max(bw_x, bw_y)
+    }
+
+    final_to <- if (!is.null(args$to)) {
+      eda_re(args$to, p = p, tukey = tukey)
+    } else {
+      max(c(x, y)) + 3 * max(bw_x, bw_y)
+    }
+
+    grid_points <- seq(final_from, final_to, length.out = n_points)
+
+    if (kernel == "sliding") {
+      strict_kde <- function(x_grid, y_data, bw) {
+        n <- length(y_data)
+        sapply(x_grid, function(x0) {
+          sum(abs(y_data - x0) <= (bw/2) ) / (n * bw)
+        })
+      }
+    dx <- list(x = grid_points, y = strict_kde(grid_points, x, bw_x))
+    dy <- list(x = grid_points, y = strict_kde(grid_points, y, bw_y))
+  } else {
+    # Remove 'from' and 'to' from args to ensure final_from/final_to are used
+    clean_args <- args[!names(args) %in% c("from", "to")]
+
+    dx <- do.call(stats::density,
+                  c(list(x = x, kernel = kernel, from = final_from, to = final_to),
+                    clean_args))
+    dy <- do.call(stats::density,
+                  c(list(x = y, kernel = kernel, from = final_from, to = final_to),
+                    clean_args))
+  }
+
+  # Augment coordinates for polygon drawing
+  dx_poly <- list(x = c(dx$x[1], dx$x, dx$x[length(dx$x)]), y = c(0, dx$y, 0))
+  dy_poly <- list(x = c(dy$x[1], dy$x, dy$x[length(dy$x)]), y = c(0, dy$y, 0))
 
   # Get ranges
-  xlim <- range(dx$x, dy$x)
-  ylim <- range(dx$y, dy$y)
+  #xlim <- range(dx$x, dy$x)
+  xlim <- range(grid_points)
+  #ylim <- range(dx$y, dy$y)
+  ylim <- range(0, dx$y, dy$y)
 
   # Get lines-to-inches ratio
   in2line <- ( par("mar") / par("mai") )[2]
@@ -185,10 +258,10 @@ eda_dens <- function(x, y, fac = NULL, p = 1L, tukey = FALSE, base = exp(1),
   on.exit(par(.pardef))
 
   # Generate plot
-  plot( dx,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, main = "",
+  plot( dx, type = "n", ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA, main = "",
         col.lab=plotcol, col = "grey", xlim = xlim, ylim = ylim)
-  polygon(dx, col = colx)
-  polygon(dy, col = coly)
+  polygon(dx_poly, col = colx)
+  polygon(dy_poly, col = coly)
   box(col=plotcol)
   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5, tck = -0.02)
   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.8,
