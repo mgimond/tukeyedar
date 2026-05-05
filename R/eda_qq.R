@@ -39,7 +39,7 @@
 #' @param tail.p.col Tail-end color for point symbol (See \code{tails}).
 #' @param tail.p.fill Tail-end point fill color passed to \code{bg}
 #'   (Only used for \code{tail.pch} ranging from 21-25).
-#' @param size Point size (0-1)
+#' @param size Point size.
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point color.
 #' @param med Boolean determining if median lines should be drawn.
@@ -395,8 +395,9 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
                            square = TRUE, xlab = xlab, ylab = ylab,
                            xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
                            grey = grey,  reg = FALSE, loe = FALSE, mean.l = FALSE,
-                           inner = inner,q = q, , qcol = qcol, q.type = q.type,
-                           p.fill = p.fill, show.par = FALSE, ...)
+                           inner = inner,q = q, qcol = qcol, q.type = q.type,
+                           p.fill = p.fill, show.par = FALSE, pch = pch,
+                           p.col = p.col, size = size, alpha = alpha, ...)
     } else {
       df <- data.frame(x=x[inner.tails],y = y[inner.tails])
       lst0 <- .eda_plot_xy(df, x, y, px = p, py = p, tukey = tukey, base = base,
@@ -404,7 +405,8 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
                            xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
                            grey = grey,  reg = FALSE, loe = FALSE, mean.l = FALSE,
                            inner = inner, q = q, qcol = qcol, q.type = q.type,
-                           p.fill = p.fill, show.par = FALSE, ...)
+                           p.fill = p.fill, show.par = FALSE, pch = pch,
+                           p.col = p.col, size = size, alpha = alpha, ...)
       # plot( x=x[inner.tails], y=y[inner.tails],  ylab=NA, las=1,
       #       yaxt='n', xaxt='n', xlab=NA,
       #       col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
