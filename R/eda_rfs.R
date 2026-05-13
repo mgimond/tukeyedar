@@ -38,7 +38,8 @@
 #' @param bar Boolean determining if spread comparison stacked bars should be
 #'   plotted.
 #'
-#' @return {No values are returned}
+#' @return Returns a dataframe with the f-values, fit-minus-mean values,
+#'   and residual values.
 #'
 #' @details
 #' The \code{eda_rfs} function generates a residual-fit spread plot for
@@ -296,5 +297,9 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
     }
 
   par(.pardef)
+
+  invisible(data.frame(fval,
+                       Fit_minus_residuals = model_sort,
+                       Residuals = res_sort))
 }
 
