@@ -1,5 +1,6 @@
 # tukeyedar (development version)
 
+* `eda_rfs` now outputs the f-values, residuals and fit-minus-mean values as a dataframe (#24).
 * Fixed bug in `eda_rfs()` where the qauntile type was not properly specified (#25).
 * Added a new function, `eda_mdens()`, that allows for any number of batches and not just two as is the case with `eda_dens`.
 * Added a warning to `eda_dens()` when `p != 1` and `bw` is manually specified, to remind users to adjust `bw` for the transformed data scale.
