@@ -19,6 +19,7 @@ eda_rfs(
   p.fill = "grey80",
   inner = 0.9,
   q = FALSE,
+  qtype = 5,
   size = 0.8,
   alpha = 0.7,
   ylim = NULL,
@@ -62,6 +63,9 @@ ranging from 21-25).}
 Defaults to inner 90 percent of values.}
 
 \item{q}{Boolean determining if grey quantile boxes should be plotted.}
+
+\item{qtype}{Defines the quantile algorithm used in the \code{quantile}
+function. Defaults to \code{type = 5}.}
 
 \item{size}{Point size (0-1)}
 

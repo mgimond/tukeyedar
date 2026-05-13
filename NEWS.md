@@ -1,3 +1,12 @@
+# tukeyedar (development version)
+
+* Fixed bug in `eda_rfs()` where the qauntile type was not properly specified (#25).
+* Added a new function, `eda_mdens()`, that allows for any number of batches and not just two as is the case with `eda_dens`.
+* Added a warning to `eda_dens()` when `p != 1` and `bw` is manually specified, to remind users to adjust `bw` for the transformed data scale.
+* Added a `kernel = "sliding"` option to `eda_dens()` for a sliding-window density estimator (#28).
+* Fixed bug in `eda_qq()` where `pch` and `size` arguments were ignored (#27).
+
+
 # tukeyedar 0.5.0
 * Added internal function `.eda_plot_xy` used by many XY plotting functions.
 * Added internal function `.eda_plot_vardecomp` used to view decomposed n-way tables.

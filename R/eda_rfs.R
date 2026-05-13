@@ -32,6 +32,8 @@
 #' @param alpha Point transparency (0 = transparent, 1 = opaque). Only
 #'   applicable if \code{rgb()} is not used to define point colors.
 #' @param q Boolean determining if grey quantile boxes should be plotted.
+#' @param qtype Defines the quantile algorithm used in the \code{quantile}
+#'   function. Defaults to \code{type = 5}.
 #' @param ylim Define custom y axis limits.
 #' @param bar Boolean determining if spread comparison stacked bars should be
 #'   plotted.
@@ -112,7 +114,7 @@
 eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
                     show.par = TRUE,
                     stat = mean, grey = 0.7, pch = 21, p.col = "grey50",
-                    p.fill = "grey80",inner = 0.9, q = FALSE,
+                    p.fill = "grey80",inner = 0.9, q = FALSE, qtype = 5,
                     size = 0.8, alpha = 0.7, ylim = NULL, bar = FALSE){
 
   # Check that input is either an eda_lm model or a dataframe
@@ -162,7 +164,7 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
 
 
     # Get quantiles for box boundaries
-    qy <- quantile(res, b.val, qtype = 5)
+    qy <- quantile(res, b.val, type = qtype)
     # Get matching quantiles in the fitted data
     e <- ecdf(model_sort)
     qx <- c(e(qy))
@@ -178,7 +180,7 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
     }
     show.par <- FALSE
     # Get quantiles for box boundaries
-    qy <- quantile(res_sort, b.val, qtype = 5)
+    qy <- quantile(res_sort, b.val, type = qtype)
     # Get matching quantiles in the fitted data
     e <- ecdf(model_sort)
     qx <- c(e(qy))
@@ -194,7 +196,7 @@ eda_rfs <- function(dat, x=NULL, grp=NULL, p = 1L, tukey = FALSE, base = exp(1),
     }
     show.par <- FALSE
     # Get quantiles for box boundaries
-    qy <- quantile(res_sort, b.val, qtype = 5)
+    qy <- quantile(res_sort, b.val, type = qtype)
     # Get matching quantiles in the fitted data
     e <- ecdf(model_sort)
     qx <- c(e(qy))
