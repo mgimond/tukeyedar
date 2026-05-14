@@ -42,12 +42,9 @@
 #'
 #' @method plot eda_polish
 #'
-#' @importFrom grDevices adjustcolor colors dev.off gray hcl.colors hcl.pals pdf
-#'   rgb
-#' @importFrom graphics abline axTicks axis box boxplot grid image lines mtext
-#'   par rect stripchart strwidth text title
-#' @importFrom stats IQR aggregate coef lm median predict quantile reorder
-#'   reshape residuals setNames
+#' @importFrom grDevices adjustcolor colors dev.off gray hcl.colors hcl.pals pdf rgb
+#' @importFrom graphics abline axTicks axis box boxplot grid image lines mtext par rect stripchart strwidth text title
+#' @importFrom stats IQR aggregate coef lm median predict quantile reorder reshape residuals setNames
 #' @importFrom utils combn modifyList
 #'
 #' @examples

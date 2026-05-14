@@ -21,7 +21,7 @@ and residuals-dependence (\code{rd}) plots.}
 \item{sd}{Logical; whether to show ±1 SD lines.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  Arguments passed on to \code{\link{.eda_plot_xy}}
   \describe{
     \item{\code{dat}}{Optional data frame containing \code{x} and \code{y}.}
     \item{\code{y}}{A numeric vector or column name in \code{dat} for the y-axis.}

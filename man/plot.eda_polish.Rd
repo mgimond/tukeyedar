@@ -67,7 +67,7 @@ tables).}
 \item{label.txt}{Logical. If \code{TRUE}, displays labels text.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=.eda_plot_vardecomp]{.eda_plot_vardecomp}}
+  Arguments passed on to \code{\link{.eda_plot_vardecomp}}
   \describe{
     \item{\code{dat}}{A data frame in long form, containing the data to be plotted.}
     \item{\code{response}}{A character string specifying the name of the response

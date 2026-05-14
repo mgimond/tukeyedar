@@ -39,7 +39,7 @@ eda_lm(
 \code{py} is \code{0}.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  Arguments passed on to \code{\link{.eda_plot_xy}}
   \describe{
     \item{\code{raw_tick}}{Logical. If \code{TRUE}, original (untransformed) equally
 spaced tick values are displayed on the re-expressed axes.}

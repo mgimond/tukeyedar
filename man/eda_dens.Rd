@@ -22,16 +22,20 @@ eda_dens(
   xaxis = NULL,
   switch = FALSE,
   legend = TRUE,
+  kernel = "gaussian",
   ...
 )
 }
 \arguments{
-\item{x}{Vector for first variable, or a dataframe.}
+\item{x}{A numeric vector for the first variable, or a dataframe when providing
+data in long format.}
 
-\item{y}{Vector for second variable, or column defining the continuous
-variable if \code{x} is a dataframe.}
+\item{y}{A numeric vector for the second variable. When \code{x} is a dataframe, \code{y}
+should be the unquoted name of the column containing the continuous numeric
+values.}
 
-\item{fac}{Column defining the categorical variable if \code{x} is a dataframe.}
+\item{fac}{When \code{x} is a dataframe, \code{fac} should be the unquoted name of the
+column containing the two-level categorical (grouping) variable.}
 
 \item{p}{Power transformation to apply to both sets of values.}
 
@@ -56,20 +60,27 @@ transformation or formula should be displayed.}
 \item{alpha}{Fill transparency (0 = transparent, 1 = opaque). Only applicable
 if \code{rgb()} is not used to define fill colors.}
 
-\item{xlab}{X variable label. Ignored if \code{x} is a dataframe. This is
-not the x-axis label!}
+\item{xlab}{X variable label. Ignored if \code{x} is a dataframe. This is not
+the x-axis label!}
 
-\item{ylab}{Y variable label. Ignored if \code{x} is a dataframe. This is
-not the y-axis label!}
+\item{ylab}{Y variable label. Ignored if \code{x} is a dataframe. This is not
+the y-axis label!}
 
-\item{xaxis}{Label for x-axis. Defaults to \code{"Value"}.}
+\item{xaxis}{Label for x-axis. Defaults to the name of the \code{fac} column when
+using a dataframe, and to \code{"Value"} when using vectors.}
 
 \item{switch}{Boolean determining if the axes should be swapped. Only applies
 to dataframe input. Ignored if vectors are passed to the function.}
 
 \item{legend}{Boolean determining if a legend should be added to the plot.}
 
-\item{...}{Arguments passed to the \code{stats::density()} function.}
+\item{kernel}{The kernel to be used. Can be one of the kernels supported by
+\code{stats::density} ("gaussian", "epanechnikov", "rectangular",
+"triangular", "biweight", "cosine", "optcosine"), or \code{"sliding"} for a
+custom sliding-window rectangular kernel estimator.}
+
+\item{...}{Arguments passed to the \code{stats::density()} function (e.g.,
+\code{bw}, \code{n}). These are also used by the \code{"sliding"} kernel.}
 }
 \value{
 Does not return a value.
@@ -82,6 +93,11 @@ two variables.
 This function will generate overlapping density plots with the first
 variable assigned a grey color and the second variable assigned the default
 red color.
+
+The \code{"sliding"} kernel implements a simple sliding window estimator with a
+rectangular kernel. The density at a point \code{x0} is computed as the
+proportion of data points falling within the window divided by the
+bandwidth and sample size product (\code{# points in bin / (bandwidth * sample size)}.
 }
 \examples{
 
@@ -95,4 +111,10 @@ red color.
  dat <- data.frame(val = c(x, y),
                    grp = c(rep("x", length(x)), rep("y", length(y))))
  eda_dens(dat, val, grp)
+
+ # Defining density paramters that are passed to stats::density()
+ eda_dens(x,y, bw = 0.05, kernel="cosine", n = 10)
+
+ # Adopting the custom sliding rectangler kernel
+ eda_dens(x, y, from = 0, to=1, kernel = "sliding", bw=0.2, n = 10)
 }

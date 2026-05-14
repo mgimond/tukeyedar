@@ -17,16 +17,14 @@ Useful links:
   \item Report bugs at \url{https://github.com/mgimond/tukeyedar/issues/}
 }
 
-
-Useful links:
-\itemize{
-  \item \url{https://mgimond.github.io/tukeyedar/}
-  \item Report bugs at \url{https://github.com/mgimond/tukeyedar/issues/}
-}
-
 }
 \author{
 \strong{Maintainer}: Manuel Gimond \email{mgimond@gmail.com} (\href{https://orcid.org/0000-0002-3687-2316}{ORCID})
+
+Authors:
+\itemize{
+  \item Manuel Gimond \email{mgimond@gmail.com} (\href{https://orcid.org/0000-0002-3687-2316}{ORCID})
+}
 
 }
 \keyword{internal}

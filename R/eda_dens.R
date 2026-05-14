@@ -6,11 +6,13 @@
 #' @description \code{eda_dens} generates overlapping density distributions for
 #'   two variables.
 #'
-#' @param x  Vector for first variable, or a dataframe.
-#' @param y  Vector for second variable, or column defining the continuous
-#'   variable if \code{x} is a dataframe.
-#' @param fac Column defining the categorical variable if \code{x} is a
-#'   dataframe.
+#' @param x A numeric vector for the first variable, or a dataframe when providing
+#'   data in long format.
+#' @param y A numeric vector for the second variable. When `x` is a dataframe, `y`
+#'   should be the unquoted name of the column containing the continuous numeric
+#'   values.
+#' @param fac When `x` is a dataframe, `fac` should be the unquoted name of the
+#'   column containing the two-level categorical (grouping) variable.
 #' @param p  Power transformation to apply to both sets of values.
 #' @param tukey Boolean determining if a Tukey transformation should be adopted
 #'   (FALSE adopts a Box-Cox transformation).
@@ -28,7 +30,8 @@
 #'   the x-axis label!
 #' @param ylab Y variable label. Ignored if \code{x} is a dataframe. This is not
 #'   the y-axis label!
-#' @param xaxis Label for x-axis. Defaults to \code{"Value"}.
+#' @param xaxis Label for x-axis. Defaults to the name of the `fac` column when
+#'   using a dataframe, and to `"Value"` when using vectors.
 #' @param show.par Boolean determining if parameters such as power
 #'   transformation or formula should be displayed.
 #' @param switch Boolean determining if the axes should be swapped. Only applies

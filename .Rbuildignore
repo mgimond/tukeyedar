@@ -13,3 +13,5 @@ ref.bib
 ^Meta$
 cran-comments.md
 scratch.R
+^\.positai$
+^\.claude$

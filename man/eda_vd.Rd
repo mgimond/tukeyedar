@@ -39,7 +39,7 @@ categorical variable, \code{x}.}
 \item{base}{Base used with the \code{log()} function if \code{p = 0}.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=.eda_plot_vardecomp]{.eda_plot_vardecomp}}
+  Arguments passed on to \code{\link{.eda_plot_vardecomp}}
   \describe{
     \item{\code{response}}{A character string specifying the name of the response
 variable column in the \code{dat} data frame.}

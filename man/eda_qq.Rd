@@ -83,7 +83,7 @@ transformation and formula should be displayed.}
 \item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
 ranging from 21-25).}
 
-\item{size}{Point size (0-1)}
+\item{size}{Point size.}
 
 \item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
 applicable if \code{rgb()} is not used to define point color.}
@@ -128,7 +128,7 @@ passed to the function.}
 \item{plot}{Boolean determining if plot should be generated.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  Arguments passed on to \code{\link{.eda_plot_xy}}
   \describe{
     \item{\code{dat}}{Optional data frame containing \code{x} and \code{y}.}
     \item{\code{px}}{Power transformation used in the input data to display if

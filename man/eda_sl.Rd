@@ -84,7 +84,7 @@ the data should be displayed.}
 \item{plot}{Logical; Determines if plot should be generated.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=.eda_plot_xy]{.eda_plot_xy}}
+  Arguments passed on to \code{\link{.eda_plot_xy}}
   \describe{
     \item{\code{y}}{A numeric vector or column name in \code{dat} for the y-axis.}
     \item{\code{px}}{Power transformation used in the input data to display if
