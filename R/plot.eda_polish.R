@@ -103,7 +103,7 @@ plot.eda_polish <- function (x, plot = "residuals", add.cv = FALSE, k = NULL, co
       if(!"loe" %in% names(dots)) loe <- TRUE else loe <- dots$loe
       if(!"loe.col" %in% names(dots)) loe.col <- rgb(0, 0, 1, 0.7) else loe.col <- dots$loe.col
       if(!"span" %in% names(dots)) span <- 0.5 else span <- dots$span
-      if(!"reg" %in% names(dots))   reg <- FALSE else reg <- dots$reg
+      if(!"reg" %in% names(dots))   reg <- TRUE else reg <- dots$reg
 
       # Remove handled args from dots
       dots <- dots[setdiff(names(dots), c("sd", "mean.l", "loe",
