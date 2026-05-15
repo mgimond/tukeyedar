@@ -98,7 +98,7 @@
 
   # Get effects if N-way or univariate
   if(input == "nway"){
-    effects <- unlist(eff)
+    effects_unlisted <- unlist(eff)
     # Sort effects
     if(order){
       ranges <- sapply(eff, function(x) diff(range(x)))
@@ -108,7 +108,7 @@
 
   # Get fitted values if bivariate model
   if(input == "reg"){
-    effects <- unlist(eff)
+    effects_unlisted <- unlist(eff)
   }
 
   # Initialize values
@@ -118,7 +118,7 @@
   if(is.null(lim)){
     bxp_res <- with(boxplot.stats(res), c(stats, if(outliers) out))
     bxp_y <- with(boxplot.stats(y), c(stats, if(outliers) out))
-    y_range <- range(c(bxp_res, effects, show.resp * bxp_y), na.rm = TRUE, finite = TRUE)
+    y_range <- range(c(bxp_res, effects_unlisted, show.resp * bxp_y), na.rm = TRUE, finite = TRUE)
   } else {
     y_range <- lim
   }

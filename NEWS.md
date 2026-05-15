@@ -1,8 +1,9 @@
 # tukeyedar (development version)
 
+* Fixes variability decomposition labeling problem for objects of class `eda_polish` (#30)
 * Fixes missing regression line in median polish diagnostic plot method (#29).
 * `eda_rfs` now outputs the f-values, residuals and fit-minus-mean values as a dataframe (#24).
-* Fixed bug in `eda_rfs()` where the qauntile type was not properly specified (#25).
+* Fixed bug in `eda_rfs()` where the quantile type was not properly specified (#25).
 * Added a new function, `eda_mdens()`, that allows for any number of batches and not just two as is the case with `eda_dens`.
 * Added a warning to `eda_dens()` when `p != 1` and `bw` is manually specified, to remind users to adjust `bw` for the transformed data scale.
 * Added a `kernel = "sliding"` option to `eda_dens()` for a sliding-window density estimator (#28).

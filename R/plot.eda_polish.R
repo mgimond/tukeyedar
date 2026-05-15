@@ -28,7 +28,7 @@
 #' @param round Numeric. Number of digits to round values for display (e.g., in
 #'   tables).
 #' @param res.txt Logical. If \code{TRUE}, displays residual text.
-#' @param label.txt Logical. If \code{TRUE}, displays labels text.
+#' @param margin.label Logical. If \code{TRUE}, displays labels text.
 #' @param ... Arguments passed to \code{.eda_plot_xy} if
 #'       \code{plot = "diagnostic"}.
 #'
@@ -71,7 +71,7 @@
 plot.eda_polish <- function (x, plot = "residuals", add.cv = FALSE, k = NULL, col.quant = FALSE,
           colpal = "RdYlBu", colrev = TRUE, col.eff = TRUE, col.com = TRUE,
           adj.mar = TRUE, res.size = 1, row.size = 1, col.size = 1, round = 2,
-          res.txt = TRUE, label.txt = TRUE, ...) {
+          res.txt = TRUE, margin.label = TRUE, ...) {
 
   # Check for valid input values
 
@@ -122,11 +122,26 @@ plot.eda_polish <- function (x, plot = "residuals", add.cv = FALSE, k = NULL, co
       return("CV values are not finite")
     }
   }else if (plot == "effects") {
+    dots <- list(...)
+         effs <- x$effects
+
+         # Name the effects vectors using names from the wide matrix. This allows
+         # .eda_plot_vardecomp to label the points. Match by length.
+         if (length(effs) == 2 && is.null(names(effs[[1]]))) {
+             row_names <- rownames(x$wide)[-1]
+             col_names <- colnames(x$wide)[-1]
+
+             if (length(effs[[1]]) == length(row_names) && length(effs[[2]]) == length(col_names)) {
+                 names(effs[[1]]) <- row_names
+                 names(effs[[2]]) <- col_names
+               } else if (length(effs[[1]]) == length(col_names) && length(effs[[2]]) ==
+                            length(row_names)) {
+                   # If order is swapped, handle that too
+                   names(effs[[1]]) <- col_names
+                   names(effs[[2]]) <- row_names
+                 }
+         }
     .eda_plot_vardecomp(dat = x$long, response = x$response, eff = x$effects, ...)
-    # call <- as.call( c(quote(package:::.eda_plot_vardecomp),
-    #                    list( dat = x$long, response = x$response,
-    #                          eff = x$effects), list(...) ))
-    # eval(call, envir = parent.frame())
   }else{
     if (plot == "cv") {
       mat[-1, -1] <- cv.mat
@@ -175,7 +190,7 @@ plot.eda_polish <- function (x, plot = "residuals", add.cv = FALSE, k = NULL, co
     abline(h = U[4] - diff(U[3:4])/dim(mat)[1], lw = 2)
     col.ctr <- seq(0, 1, length.out = ncol(mat))
     row.ctr <- seq(1, 0, length.out = nrow(mat))
-    if (label.txt == TRUE) {
+    if (margin.label == TRUE) {
       mtext(colnames(mat), at = col.ctr, side = 3, cex = col.size)
       mtext(rownames(mat), at = row.ctr, side = 2, las = 2,
             cex = row.size)
