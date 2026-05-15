@@ -109,7 +109,7 @@ plot.eda_polish <- function (x, plot = "residuals", add.cv = FALSE, k = NULL, co
       dots <- dots[setdiff(names(dots), c("sd", "mean.l", "loe",
                                           "loe.col", "span", "reg"))]
 
-      call <- as.call(c(quote(tukeyedar:::.eda_plot_xy),
+      call <- as.call(c(quote(.eda_plot_xy),
                         list(x2, x = quote(cv), y =quote(Residuals),
                              xlab = "Comparison Value", reg = reg,
                              mean.l = mean.l, sd = sd, loe = loe,

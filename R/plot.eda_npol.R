@@ -137,7 +137,7 @@ plot.eda_npol <- function(x, plot = "effects", reg = FALSE, ...) {
 
     if (sum(is.finite(cv_values)) > 1) {
       x2 <- data.frame(Residuals = residuals, cv = cv_values)
-      call <- as.call(c(quote(tukeyedar:::.eda_plot_xy),
+      call <- as.call(c(quote(.eda_plot_xy),
                         list(x2, x = quote(cv), y =quote(Residuals),
                              xlab = "Comparison Value", reg = reg,
                              mean.l = mean.l, sd = sd, loe = loe, px =1 , py =1,
