@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2025-07-09</h4>
+            <h4 data-toc-skip class="date">2026-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/symqq.Rmd" class="external-link"><code>vignettes/symqq.Rmd</code></a></small>
       <div class="d-none name"><code>symqq.Rmd</code></div>
@@ -101,7 +101,7 @@ batch of 1000 normally distributed values shown in the left density
 plot, we would expect the symmetry QQ plot to show the points very close
 to the <span class="math inline">\(x=y\)</span> line as shown in the
 right plot.</p>
-<p><img src="symqq_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="576"></p>
 <p>The axes in the symmetry QQ plot show the distance of each
 observation in the batch to that batch’s median value. The units are
 those of the batch. Points that are close to 0 are those observations
@@ -124,7 +124,7 @@ skewed towards larger values).</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-4-1.png" width="288"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="288"></p>
 <p>If you are familiar with the use of <code>eda_qq</code> as an
 empirical QQ plot function, you are familiar with the grey boxes that
 highlight the mid 75% of the values. Here, given that the x and y axes
@@ -149,7 +149,7 @@ to render <code>x</code> more symmetrical, we could try a power of
 <code>p = 0.5</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="288"></p>
 <p>Here, the square root transformation does a good job in rendering
 <code>x</code> more symmetrical. Note that the points do not hug the
 <span class="math inline">\(x=y\)</span> exactly–this is fine. What we
@@ -159,7 +159,7 @@ aggressive with the power transformation and chose a log transformation
 values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" width="288"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 <div class="section level2">
 <h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
@@ -180,7 +180,7 @@ values.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

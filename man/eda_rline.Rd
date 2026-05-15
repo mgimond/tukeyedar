@@ -102,5 +102,5 @@ plot(M)
 \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
 }
 \seealso{
-\code{\link[=plot.eda_rline]{plot.eda_rline()}}
+\code{[plot.eda_rline]}
 }

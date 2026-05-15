@@ -1,0 +1,310 @@
+# tukeyedar
+
+The `tukeyedar` package houses data exploration tools. Many functions
+are inspired by work published by Tukey (1977), Hoaglin (1983), Velleman
+and Hoaglin (1981), and Cleveland (1993).
+
+> This package was initially developed for an introductory course in
+> Exploratory Data Analysis (EDA). As such, many of its functions have
+> not undergone the rigorous testing and validation typically required
+> for research or production use. Users are advised to exercise caution
+> and verify results independently before applying the package in
+> critical or high-stakes contexts.
+
+## Installation
+
+You can install the development version of tukeyedar from
+[GitHub](https://github.com/) with:
+
+``` r
+
+install.packages("remotes")
+remotes::install_github("mgimond/tukeyedar")
+```
+
+Note that the vignettes will not be automatically generated with the
+above command, however, the vignettes are available on this website (see
+next section). If you want a local version of the vignettes, add the
+`build_vignettes = TRUE` parameter.
+
+``` r
+
+remotes::install_github("mgimond/tukeyedar", build_vignettes = TRUE)
+```
+
+If, for some reason the vignettes are not created, you might want to
+re-install the package with the `force=TRUE` parameter.
+
+``` r
+
+remotes::install_github("mgimond/tukeyedar", build_vignettes = TRUE, force=TRUE)
+```
+
+## Vignettes
+
+It’s strongly recommended that you read the vignettes. These can be
+accessed from this website:
+
+- [A detailed rundown of the resistant line
+  function](https://mgimond.github.io/tukeyedar/articles/RLine.html)
+- [The median
+  polish](https://mgimond.github.io/tukeyedar/articles/polish.html)
+- [The empirical QQ
+  plot](https://mgimond.github.io/tukeyedar/articles/qq.html)
+- [The symmetry QQ
+  plot](https://mgimond.github.io/tukeyedar/articles/symqq.html)
+- [The residual-fit spread
+  plot](https://mgimond.github.io/tukeyedar/articles/rfs.html)
+
+If you chose to have the vignettes locally created when you installed
+the package, then you can view them locally via
+[`vignette("RLine", package = "tukeyedar")`](https://mgimond.github.io/tukeyedar/articles/RLine.md).
+If you use a dark themed IDE, the vignettes may not render very well so
+you might opt to view them in a web browser via the functions
+`RShowDoc("RLine", package = "tukeyedar")`.
+
+## Using the functions
+
+All functions start with `eda_`. For example, to generate a three point
+summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
+
+``` r
+
+library(tukeyedar)
+eda_3pt(mtcars, disp, mpg)
+```
+
+Note that most functions are *pipe* friendly. For examples:
+
+``` r
+
+# Using R >= 4.1
+mtcars |>  eda_3pt(disp, mpg)
+
+# Using magrittr (or any of the tidyverse packages)
+library(magrittr)
+mtcars %>% eda_3pt(disp, mpg)
+```
+
+------------------------------------------------------------------------
+
+Cleveland, William. 1993. *Visualizing Data*. Hobart Press.
+
+Hoaglin, Mosteller, D. C. 1983. *Understanding Robust and Exploratory
+Data Analysis*. Wiley.
+
+Tukey, John W. 1977. *Exploratory Data Analysis*. Addison-Wesley.
+
+Velleman, P. F., and D. C. Hoaglin. 1981. *Applications, Basics and
+Computing of Exploratory Data Analysis*. Boston: Duxbury Press.
+
+# Package index
+
+## All functions
+
+- [`age_height`](https://mgimond.github.io/tukeyedar/reference/age_height.md)
+  : Age vs. height for private and rural school children
+
+- [`.eda_plot_xy()`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_xy.md)
+  : x-y Scatterplot with EDA Enhancements
+
+- [`eda_3pt()`](https://mgimond.github.io/tukeyedar/reference/eda_3pt.md)
+  : 3-point summary plot
+
+- [`eda_add()`](https://mgimond.github.io/tukeyedar/reference/eda_add.md)
+  : Add graphical EDA elements to existing plot
+
+- [`eda_anova_table()`](https://mgimond.github.io/tukeyedar/reference/eda_anova_table.md)
+  :
+
+  Generate an ANOVA Table from `eda_mean_sweep` output
+
+- [`eda_bipow()`](https://mgimond.github.io/tukeyedar/reference/eda_bipow.md)
+  : Ladder of powers transformation on bivariate data with three-point
+  summary plot
+
+- [`eda_boxls()`](https://mgimond.github.io/tukeyedar/reference/eda_boxls.md)
+  : Boxplots equalized by level and spread
+
+- [`eda_dens()`](https://mgimond.github.io/tukeyedar/reference/eda_dens.md)
+  : Overlapping density distributions for two variables
+
+- [`eda_fval()`](https://mgimond.github.io/tukeyedar/reference/eda_fval.md)
+  : Calculate quantile f-values
+
+- [`eda_jitter()`](https://mgimond.github.io/tukeyedar/reference/eda_jitter.md)
+  : Jitter plot
+
+- [`eda_lm()`](https://mgimond.github.io/tukeyedar/reference/eda_lm.md)
+  : Regression plot (with optional LOESS fit)
+
+- [`eda_lsum()`](https://mgimond.github.io/tukeyedar/reference/eda_lsum.md)
+  : Tukey's letter value summary
+
+- [`eda_matlong()`](https://mgimond.github.io/tukeyedar/reference/eda_matlong.md)
+  : Convert 2-way data tables Between Long and Matrix Formats
+
+- [`eda_mdens()`](https://mgimond.github.io/tukeyedar/reference/eda_mdens.md)
+  : Overlapping density distributions for multiple variables
+
+- [`eda_mean_sweep()`](https://mgimond.github.io/tukeyedar/reference/eda_mean_sweep.md)
+  : Exploratory ANOVA Decomposition
+
+- [`eda_moments()`](https://mgimond.github.io/tukeyedar/reference/eda_moments.md)
+  : Compute moments of a dataset
+
+- [`eda_normfit()`](https://mgimond.github.io/tukeyedar/reference/eda_normfit.md)
+  : Normal fit vs density plot
+
+- [`eda_npol()`](https://mgimond.github.io/tukeyedar/reference/eda_npol.md)
+  : N-way median polish
+
+- [`eda_pol()`](https://mgimond.github.io/tukeyedar/reference/eda_pol.md)
+  : Median polish of two-way tables
+
+- [`eda_qq()`](https://mgimond.github.io/tukeyedar/reference/eda_qq.md)
+  : Quantile-Quantile and Tukey mean-difference plots
+
+- [`eda_qqmat()`](https://mgimond.github.io/tukeyedar/reference/eda_qqmat.md)
+  : QQ plot matrix
+
+- [`eda_qqpool()`](https://mgimond.github.io/tukeyedar/reference/eda_qqpool.md)
+  : Multi-panel pooled values QQ plots
+
+- [`eda_re()`](https://mgimond.github.io/tukeyedar/reference/eda_re.md)
+  : Re-expression function
+
+- [`eda_rfs()`](https://mgimond.github.io/tukeyedar/reference/eda_rfs.md)
+  : Residual-Fit Spread Plot
+
+- [`eda_rline()`](https://mgimond.github.io/tukeyedar/reference/eda_rline.md)
+  : Tukey's resistant line
+
+- [`eda_shuffle()`](https://mgimond.github.io/tukeyedar/reference/eda_shuffle.md)
+  : Shuffle values across groups
+
+- [`eda_sim()`](https://mgimond.github.io/tukeyedar/reference/eda_sim.md)
+  **\[experimental\]** : Simulate data using Fleishman transformation
+
+- [`eda_sim_old()`](https://mgimond.github.io/tukeyedar/reference/eda_sim_old.md)
+  **\[deprecated\]** : Simulate data using Fleishman transformation
+
+- [`eda_sl()`](https://mgimond.github.io/tukeyedar/reference/eda_sl.md)
+  : Spread-location and spread-level plots
+
+- [`eda_sym()`](https://mgimond.github.io/tukeyedar/reference/eda_sym.md)
+  : Symmetry QQ plot
+
+- [`eda_theo()`](https://mgimond.github.io/tukeyedar/reference/eda_theo.md)
+  : Theoretical QQ plot
+
+- [`eda_theopan()`](https://mgimond.github.io/tukeyedar/reference/eda_theopan.md)
+  : Multi-panel theoretical QQ plots
+
+- [`eda_trim()`](https://mgimond.github.io/tukeyedar/reference/eda_trim.md)
+  [`eda_trim_df()`](https://mgimond.github.io/tukeyedar/reference/eda_trim.md)
+  [`eda_ltrim()`](https://mgimond.github.io/tukeyedar/reference/eda_trim.md)
+  [`eda_ltrim_df()`](https://mgimond.github.io/tukeyedar/reference/eda_trim.md)
+  [`eda_rtrim()`](https://mgimond.github.io/tukeyedar/reference/eda_trim.md)
+  [`eda_rtrim_df()`](https://mgimond.github.io/tukeyedar/reference/eda_trim.md)
+  : Trims vector and dataframe objects
+
+- [`eda_unipow()`](https://mgimond.github.io/tukeyedar/reference/eda_unipow.md)
+  : Ladder of powers transformation on a single vector
+
+- [`eda_untie()`](https://mgimond.github.io/tukeyedar/reference/eda_untie.md)
+  : Resolve ties in a numeric vector
+
+- [`eda_vd()`](https://mgimond.github.io/tukeyedar/reference/eda_vd.md)
+  : Variability decomposition plot
+
+- [`eda_viol()`](https://mgimond.github.io/tukeyedar/reference/eda_viol.md)
+  : Violin plot.
+
+- [`edtts2.12`](https://mgimond.github.io/tukeyedar/reference/edtts2.12.md)
+  : Confidence in American institutions survey data
+
+- [`edtts4.25`](https://mgimond.github.io/tukeyedar/reference/edtts4.25.md)
+  : Dataset that is perfectly additive in the square root scale
+
+- [`feav1_5`](https://mgimond.github.io/tukeyedar/reference/feav1_5.md)
+  : Presidential Election Results for Franklin D. Roosevelt (1932-1944)
+
+- [`feav5_12`](https://mgimond.github.io/tukeyedar/reference/feav5_12.md)
+  : Weight Gain in Rats on Different Diets
+
+- [`feav5_14`](https://mgimond.github.io/tukeyedar/reference/feav5_14.md)
+  : ELISA Test Absorbance for HIV Positive Controls
+
+- [`feav6_1`](https://mgimond.github.io/tukeyedar/reference/feav6_1.md)
+  : Simulated Tumor Measurements by Oncologists
+
+- [`feav6_5`](https://mgimond.github.io/tukeyedar/reference/feav6_5.md)
+  : Replicated Tumor Measurements by Oncologists
+
+- [`feav6_8`](https://mgimond.github.io/tukeyedar/reference/feav6_8.md)
+  : Diamond Pyramid Hardness Number of Dental Fillings
+
+- [`income`](https://mgimond.github.io/tukeyedar/reference/income.md) :
+  Income dataset
+
+- [`incrent22`](https://mgimond.github.io/tukeyedar/reference/incrent22.md)
+  : American Community Survey 2022 Median household income and median
+  rent by county
+
+- [`inf_mort`](https://mgimond.github.io/tukeyedar/reference/inf_mort.md)
+  : Infant mortality dataset
+
+- [`logan`](https://mgimond.github.io/tukeyedar/reference/logan.md) :
+  Logan airport dataset
+
+- [`neoplasms`](https://mgimond.github.io/tukeyedar/reference/neoplasms.md)
+  : Breast cancer mortality vs. temperature
+
+- [`nine_point`](https://mgimond.github.io/tukeyedar/reference/nine_point.md)
+  : Andrew Siegel's pathological 9-point dataset
+
+- [`plot(`*`<eda_lm>`*`)`](https://mgimond.github.io/tukeyedar/reference/plot.eda_lm.md)
+  : Residuals plot
+
+- [`plot(`*`<eda_mean_sweep>`*`)`](https://mgimond.github.io/tukeyedar/reference/plot.eda_mean_sweep.md)
+  :
+
+  Plot method for `eda_mean_sweep` objects
+
+- [`plot(`*`<eda_npol>`*`)`](https://mgimond.github.io/tukeyedar/reference/plot.eda_npol.md)
+  :
+
+  Plot method for `eda_npol` objects
+
+- [`plot(`*`<eda_polish>`*`)`](https://mgimond.github.io/tukeyedar/reference/plot.eda_polish.md)
+  :
+
+  Plot method for `eda_polish` objects
+
+- [`plot(`*`<eda_rline>`*`)`](https://mgimond.github.io/tukeyedar/reference/plot.eda_rline.md)
+  : Plot eda_rline model
+
+- [`wat05`](https://mgimond.github.io/tukeyedar/reference/wat05.md) :
+  Temperature normals for Waterville Maine (1991-2020)
+
+- [`wat95`](https://mgimond.github.io/tukeyedar/reference/wat95.md) :
+  Legacy temperature normals for Waterville Maine (1981-2010)
+
+- [`yarn`](https://mgimond.github.io/tukeyedar/reference/yarn.md) : yarn
+  dataset
+
+# Articles
+
+### All vignettes
+
+- [Median
+  polish](https://mgimond.github.io/tukeyedar/articles/polish.md):
+- [The empirical QQ plot (and derived Tukey mean-difference
+  plot)](https://mgimond.github.io/tukeyedar/articles/qq.md):
+- [The residual-fit spread
+  plot](https://mgimond.github.io/tukeyedar/articles/rfs.md):
+- [Resistant
+  Line](https://mgimond.github.io/tukeyedar/articles/RLine.md):
+- [The symmetry QQ
+  plot](https://mgimond.github.io/tukeyedar/articles/symqq.md):

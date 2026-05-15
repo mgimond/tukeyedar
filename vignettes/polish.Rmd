@@ -264,14 +264,14 @@ plot(M1, res.txt = FALSE)
 plot(M1, res.txt = FALSE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8)
 ```
 
-Likewise you can omit all axes labels by setting `margin.labels` to `FALSE`. This may prove useful when applying a median polish to a large grid file.
+Likewise you can omit all axes labels by setting `margin.label` to `FALSE`. This may prove useful when applying a median polish to a large grid file.
 
 ```{r eval = FALSE}
-plot(M1, res.txt = FALSE, margin.labels = FALSE)
+plot(M1, res.txt = FALSE, margin.label = FALSE)
 ```
 
 ```{r fig.width=3, fig.height=3, echo=FALSE}
-plot(M1, res.txt = FALSE, margin.labels = FALSE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8)
+plot(M1, res.txt = FALSE, margin.label = FALSE,  row.size = 0.8, col.size = 0.8 , res.size = 0.8)
 ```
 
 You can adjust the text size via the `res.size`, `row.size` and `col.size` parameters for the numeric values, the row names, and the column names respectively. For example, to set their sizes to 60% of their default value, type:

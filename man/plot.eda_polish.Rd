@@ -20,7 +20,7 @@
   col.size = 1,
   round = 2,
   res.txt = TRUE,
-  label.txt = TRUE,
+  margin.label = TRUE,
   ...
 )
 }
@@ -64,7 +64,7 @@ tables).}
 
 \item{res.txt}{Logical. If \code{TRUE}, displays residual text.}
 
-\item{label.txt}{Logical. If \code{TRUE}, displays labels text.}
+\item{margin.label}{Logical. If \code{TRUE}, displays labels text.}
 
 \item{...}{
   Arguments passed on to \code{\link{.eda_plot_vardecomp}}

@@ -78,7 +78,8 @@ applicable if \code{rgb()} is not used to define point colors.}
 plotted.}
 }
 \value{
-{No values are returned}
+Returns a dataframe with the f-values, fit-minus-mean values,
+and residual values.
 }
 \description{
 \code{eda_rfs} generates a Cleveland residual-fit spread plot
