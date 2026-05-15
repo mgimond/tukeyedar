@@ -53,7 +53,7 @@
 #'    \item Velleman, P. F., and D. C. Hoaglin. 1981. Applications, Basics and Computing of Exploratory Data Analysis. Boston: Duxbury Press.
 #'    \item D. C. Hoaglin, F. Mosteller, and J. W. Tukey. 1983. Understanding Robust and Exploratory Data Analysis. Wiley.}
 #'
-#' @seealso [plot.eda_rline()]
+#' @seealso \code{[plot.eda_rline]}
 #'
 #' @examples
 #'
