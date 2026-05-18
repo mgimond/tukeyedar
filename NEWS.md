@@ -1,5 +1,6 @@
 # tukeyedar (development version)
 
+* Re-wrote `eda_shuffle()`. It now can perform permutations on one or more columns of a dataframe.
 * Fixes variability decomposition labeling problem for objects of class `eda_polish` (#30)
 * Fixes missing regression line in median polish diagnostic plot method (#29).
 * `eda_rfs` now outputs the f-values, residuals and fit-minus-mean values as a dataframe (#24).

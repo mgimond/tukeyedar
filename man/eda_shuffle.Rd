@@ -2,57 +2,43 @@
 % Please edit documentation in R/eda_shuffle.R
 \name{eda_shuffle}
 \alias{eda_shuffle}
-\title{Shuffle values across groups}
+\title{Shuffle one or more columns in a data frame.}
 \usage{
-eda_shuffle(df, x, grp, replace_x = FALSE, replace_grp = FALSE, ...)
+eda_shuffle(df, ..., replace = FALSE)
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{x}{The name of the column containing the values to be shuffled.}
+\item{...}{One or more unquoted column names to be shuffled.}
 
-\item{grp}{The name of the column containing the grouping factor.}
-
-\item{replace_x}{A logical value indicating whether to sample values with
-replacement  (default: FALSE).}
-
-\item{replace_grp}{A logical value indicating whether to preserve the factor
-levels of the grouping column (default: TRUE).}
-
-\item{...}{Not used}
+\item{replace}{A logical value indicating whether to sample with replacement.
+Defaults to \code{FALSE} (permutation).}
 }
 \value{
-A data frame with the shuffled values and the original group assignments.
-The column names of the output data frame will match the input column names.
+A data frame with the same dimensions as the input \code{df}, but with the
+values in the specified columns permuted.
 }
 \description{
-This function shuffles the values in a specified column of a data frame across
-all groups.
+Permutes the values within one or more specified columns of a data frame,
+leaving all other columns unchanged.
 }
 \details{
-Shuffling/permuting values across groups has, for effect, sampling from a same
-distribution within each group level. This simulates a process where differences
-between group levels are solely a function of random noise. \cr \cr
-By default, the group distribution does not change. If you wish to allow the
-group distribution to change (i.e. having a different number of group levels),
-set \code{replace_grp = TRUE}. But, note that for small datasets, this may
-result in empty group levels.
+This function shuffles each specified column independently. It is a convenient
+wrapper around \code{sample()} for use in permutation tests or for generating
+randomized datasets. If a shuffled column is a factor, the original factor
+levels and their order are preserved in the output.
 }
 \examples{
-# Original data
-eda_boxls(mtcars, hp, cyl, reorder = FALSE)
+# Load the yarn dataset
+data(yarn)
 
-# Permute values across cyl groups
-df1 <- eda_shuffle(mtcars, hp, cyl)
-eda_boxls(df1, hp, cyl)
+# Shuffle a single column ('Load')
+shuffled_df1 <- eda_shuffle(yarn, Load)
 
-# Is the variability explained by cyl due to chance alone or is it
-# systematic?
-OP <- par(mfrow = c(2,2))
- eda_boxls(mtcars, hp, cyl, reorder = FALSE)
- title("Original", col.main = "darkred")
- eda_boxls(eda_shuffle(mtcars, hp, cyl), hp, cyl, reorder = FALSE)
- eda_boxls(eda_shuffle(mtcars, hp, cyl), hp, cyl, reorder = FALSE)
- eda_boxls(eda_shuffle(mtcars, hp, cyl), hp, cyl, reorder = FALSE)
-par(OP)
+# Shuffle two columns independently ('Load' and 'Amplitude')
+shuffled_df2 <- eda_shuffle(yarn, Load, Amplitude)
+
+# Shuffle a column with replacement (bootstrap sampling)
+shuffled_df3 <- eda_shuffle(yarn, Cycles, replace = TRUE)
+
 }
