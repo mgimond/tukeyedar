@@ -1,5 +1,7 @@
 # tukeyedar (development version)
 
+* `eda_matlong` can now handle n-factors and not just a two-dimensional table.
+* Median polish article: added text clarifying Tukey's interaction term as being an approximation to interaction.
 * Re-wrote `eda_shuffle()`. It now can perform permutations on one or more columns of a dataframe.
 * Fixes variability decomposition labeling problem for objects of class `eda_polish` (#30)
 * Fixes missing regression line in median polish diagnostic plot method (#29).

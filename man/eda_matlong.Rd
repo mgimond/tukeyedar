@@ -2,42 +2,71 @@
 % Please edit documentation in R/eda_matlong.R
 \name{eda_matlong}
 \alias{eda_matlong}
-\title{Convert 2-way data tables Between Long and Matrix Formats}
+\title{Convert N-way data tables Between Long and Array Formats}
 \usage{
 eda_matlong(
   data,
-  row,
-  col,
   response,
-  direction = c("long_to_matrix", "matrix_to_long")
+  ...,
+  direction = c("to_array", "to_long"),
+  fun = mean
 )
 }
 \arguments{
-\item{data}{A data frame in long format (for \code{direction = "long_to_matrix"})
-or a matrix (for \code{direction = "matrix_to_long"}).}
+\item{data}{A data frame in long format (for \code{direction = "to_array"})
+or a multi-dimensional array/matrix (for \code{direction = "to_long"}).}
 
-\item{row}{A \strong{bare (unquoted)} variable name from \code{data} (or a desired
-column name for the output) representing the row identifiers in the matrix.}
+\item{response}{A bare (unquoted) variable name representing the response/value
+column.}
 
-\item{col}{A \strong{bare (unquoted)} variable name from \code{data} (or a desired
-column name for the output) representing the column identifiers in the
-matrix.}
+\item{...}{One or more bare (unquoted) variable names representing the
+factor/dimension columns.}
 
-\item{response}{A \strong{bare (unquoted)} variable name from \code{data} (or a
-desired column name for the output) representing the values in the matrix.}
+\item{direction}{A character string specifying the conversion direction. Must
+be one of \code{"to_array"} or \code{"to_long"}.}
 
-\item{direction}{A character string specifying the direction of the
-conversion. Must be one of \code{"long_to_matrix"} or \code{"matrix_to_long"}.
-Defaults to \code{"long_to_matrix"}.}
+\item{fun}{The function to apply when aggregating data in the \code{to_array}
+conversion, in case of duplicate entries. Defaults to \code{mean}.}
 }
 \value{
-If \code{direction = "long_to_matrix"}, returns a matrix. If \code{direction =
-  "matrix_to_long"}, returns a data frame in long format.
+If \code{direction = "to_array"}, returns a multi-dimensional array.
+If \code{direction = "to_long"}, returns a data frame in long format.
 }
 \description{
-Reshapes a 2-way data table from long format to a matrix,
-or a matrix back to a data frame in long format.
+Reshapes an N-way data table from a long format data frame to a
+multi-dimensional array, or an array back to a long format data frame.
+}
+\details{
+This function generalizes the concept of reshaping for multi-way tables.
+
+For \code{to_array}, it uses \code{tapply} to create an array where the dimensions
+are defined by the factor columns specified in \code{...} and the cell values are
+determined by the \code{response} column.
+
+For \code{to_long}, it uses \code{as.data.frame(as.table(...))} to reshape the array
+into a long data frame and renames the columns in the order in which the
+column names are passed to the function. It's important that the order
+of the column names passed to the function match the order the factor
+elements are stored in the array. You can find that order with the command
+\code{names(dimnames(array_name))}.
 }
 \examples{
-eda_matlong(edtts2.12, col = year, row = institution, response = perc)
+# Long to 2D array (matrix)
+dl2 <- eda_matlong(inf_mort, perc, region, edu)
+dl2
+
+# 2D array to long
+# The column names passed to the function must be in the same order
+# that the factor elements are listed in the array
+names(dimnames(dl2))
+eda_matlong(dl2, perc, region, edu, direction = "to_long")
+
+# Long to 3D array
+dl3 <- eda_matlong(yarn, Cycles, Length, Amplitude, Load)
+dl3
+
+# 3D array to long
+names(dimnames(dl3)) # Get the order of factor elements
+eda_matlong(dl3, Cycles, Length, Amplitude, Load, direction = "to_long")
+
 }
