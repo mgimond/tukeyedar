@@ -3,7 +3,7 @@
 \docType{data}
 \name{yarn}
 \alias{yarn}
-\title{yarn dataset}
+\title{Yarn Data}
 \format{
 A data frame with the following variables:
 \describe{

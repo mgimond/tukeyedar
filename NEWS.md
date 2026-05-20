@@ -1,5 +1,7 @@
 # tukeyedar (development version)
 
+* `eda_npol` now allows for interactive effects via the `max_order` argument.
+* Added `edtts4.2` data pulled from table 4-2 of *Exploring Data tables, Trends, and Shapes*.
 * `eda_matlong` can now handle n-factors and not just a two-dimensional table.
 * Median polish article: added text clarifying Tukey's interaction term as being an approximation to interaction.
 * Re-wrote `eda_shuffle()`. It now can perform permutations on one or more columns of a dataframe.

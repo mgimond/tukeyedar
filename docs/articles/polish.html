@@ -70,7 +70,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2026-05-15</h4>
+            <h4 data-toc-skip class="date">2026-05-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
@@ -90,7 +90,8 @@ Gimond</h4>
 <h2 id="the-median-polish-basics">The median polish basics<a class="anchor" aria-label="anchor" href="#the-median-polish-basics"></a>
 </h2>
 <p>The median polish is an exploratory technique used to extract effects
-from a two-way table. As such, a median polish can be thought of as a
+from a <strong>two-way table with no replication</strong> (i.e., one
+observation per cell). As such, a median polish can be thought of as a
 robust version of a <a href="https://mgimond.github.io/Stats-in-R/ANOVA.html#two-way-anova" class="external-link">two-way
 ANOVA</a>–the goal being to characterize the role each factor has in
 contributing towards the expected value. It does so by iteratively
@@ -435,6 +436,43 @@ from the diagnostic plot).</p>
 interaction between effects in the diagnostic plot. Next, we’ll look at
 another dataset that may exhibit interaction between its effects.</p>
 <div class="section level3">
+<h3 id="interpreting-the-interaction-term">Interpreting the interaction term<a class="anchor" aria-label="anchor" href="#interpreting-the-interaction-term"></a>
+</h3>
+<p>At this point, it is important to clarify what is meant by
+interaction in the context of the median polish. In a classical two-way
+analysis, interaction is defined very generally as a cell-specific
+departure from additivity:</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_{i} + \beta_{j} + (\alpha\beta)_{ij}
++\epsilon_{ij}
+\]</span> where <span class="math inline">\((\alpha\beta)_{ij}\)</span>
+can take on an arbitrary value for each combination of row and column.
+This formulation allows for highly flexible interaction patterns but
+requires <strong>replication within each cell</strong> to estimate the
+interaction term separately from the residual error.</p>
+<p>In contrast, the interaction implied by the diagnostic plot is not
+this general form. Instead, Tukey’s additivity diagnostic assumes that
+any interaction present follows a <strong>specific multiplicative
+structure</strong> of the form:</p>
+<p><span class="math display">\[
+(\alpha\beta)_{ij} \approx k \frac{\alpha_i\beta_j}{\mu}
+\]</span> Thus, the augmented model</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_{i} + \beta_{j} + kCV_{ij} +\epsilon_{ij}
+\]</span> does not introduce a fully general interaction term but
+rather, a <strong>single-parameter approximation to
+interaction</strong>. In other words, the diagnostic plot is
+<strong>testing for a systematic non-additive pattern</strong> that
+increases (or decreases) proportionally with the product of the row and
+column effects. The diagnostic plot asks <em>“Can the residuals be
+explained by a simple, structured function of the row and column
+effects?”</em></p>
+<p>It’s important to note that the diagnostic plot may not capture
+<em>all</em> non-random noise in the residuals, especially if the
+interaction between the effects is more complex
+(i.e. non-multiplicative).</p>
+</div>
+<div class="section level3">
 <h3 id="another-example-earnings-by-sex-for-2021">Another example: Earnings by sex for 2021<a class="anchor" aria-label="anchor" href="#another-example-earnings-by-sex-for-2021"></a>
 </h3>
 <p>The dataset consists of earnings by sex and levels of educational
@@ -682,8 +720,13 @@ traditional 2-way ANOVA technique shown here:</p>
 <span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>    NoHS     HS   HS<span class="sc">+</span><span class="dv">2</span>   HS<span class="sc">+</span><span class="dv">4</span>   HS<span class="sc">+</span><span class="dv">6</span> </span>
 <span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">23124</span> <span class="sc">-</span><span class="dv">15469</span>  <span class="sc">-</span><span class="dv">7850</span>  <span class="dv">12632</span>  <span class="dv">33812</span></span></code></pre></div>
 <p>As with the median polish, we must concern ourselves with
-interactions between the effects. If interaction is present, ANOVA
-inferential statistics using the F-test can be untrustworthy.</p>
+interactions between the effects. The comparison value (CV) diagnostic
+applies equally well when the mean is used instead of the median. In
+this case, the resulting slope corresponds to a least-squares estimate
+of a one-parameter multiplicative interaction, analogous to Tukey’s
+<em>test for non-additivity</em> in a traditional two-way ANOVA.</p>
+<p>If interaction is present, ANOVA inferential statistics using the
+F-test can be untrustworthy.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M5</span>, plot <span class="op">=</span> <span class="st">"diagnostic"</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="polish_files/figure-html/unnamed-chunk-54-1.png" class="r-plt" alt="" width="268.8"></p>
