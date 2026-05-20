@@ -2,12 +2,13 @@
 % Please edit documentation in R/eda_npol.R
 \name{eda_npol}
 \alias{eda_npol}
-\title{N-way median polish}
+\title{N-way Median Polish with Interaction Support}
 \usage{
 eda_npol(
   dat,
   response,
   ...,
+  max_order = 1,
   maxiter = 20,
   tolerance = 1e-06,
   stat = median,
@@ -17,75 +18,65 @@ eda_npol(
 )
 }
 \arguments{
-\item{dat}{A data frame in long form containing the response and factor variables.}
+\item{dat}{A data frame in long form containing the response and factor
+variables.}
 
 \item{response}{The response variable (must be numeric).}
 
 \item{...}{Unquoted factor variable names.}
 
+\item{max_order}{The maximum number of factors to combine for interaction
+effects. Defaults to 1 (main effects only).}
+
 \item{maxiter}{Maximum number of iterations for the median polish algorithm.}
 
 \item{tolerance}{Convergence threshold for median polish adjustments.}
 
-\item{stat}{Location statistic to use. Defaults to \code{median}.}
+\item{stat}{Location statistic to use. Defaults to \code{median}. While
+flexible, resistant statistics like \code{median} are strongly recommended
+to align with Exploratory Data Analysis (EDA) principles. Using \code{mean}
+transforms the decomposition into a standard ANOVA-like fit.}
 
 \item{p}{Re-expression power parameter.}
 
-\item{tukey}{Boolean determining if Tukey's power transformation should be used.
-If \code{FALSE} (the default), the Box-Cox transformation is adopted.}
+\item{tukey}{Boolean determining if Tukey's power transformation should be
+used.}
 
 \item{base}{Base used with the \code{log()} function if \code{p = 0}.}
 }
 \value{
-A list of class \code{eda_npol} containing:
-
-\item{global}{The estimated common (global) effect.}
-\item{response}{Response column name from dataframe input.}
-\item{effects}{A named list of main effects.}
-\item{long}{A dataframe of estimated factor values, residuals, comparison
-values (cv) and fitted values.}
-\item{converged}{Boolean indicating if convergence was reached.}
-\item{iter}{The number of iterations performed.}
-\item{fitted_values}{The fitted values (sum of common effect and factor effects)
-for the observed data points.}
-\item{power}{The power transformation applied (if any).}
+A list of class \code{eda_npol} containing: \item{global}{The
+estimated common effect.} \item{response}{Response column name.}
+\item{effects}{A nested list of effects, where names correspond to margins
+(e.g., "A", "A:B").}
+\item{long}{A dataframe including residuals, comparison values (cv), and
+fits.} \item{converged}{Boolean indicating if convergence was reached.}
+\item{iter}{The number of iterations performed.} \item{fitted_values}{The sum
+of common and all extracted margin effects.} \item{power}{The power
+transformation applied.}
 }
 \description{
-Apply median polish to a multi-way table
+Apply median polish to a multiway table to extract common, main,
+and interactive effects.
 }
 \details{
-This function applies the median polish algorithm to a dataset containing a
-response variable and multiple factor variables. It iteratively adjusts
-factor effects to reveal common patterns in the data. It estimates the
-\strong{common effect}, \strong{factor effects}, and \strong{residuals}.
-The function does not accept tables with replicates (i.e. where each combination
-of factor level may have more than one response variable). If the data contains
-replicates, the values should be summarized for each combination of factor
-levels prior to running \code{eda_npol}. \cr\cr
+This function implements the "overlay approach" to data
+decomposition. The response is modeled as a sum of components: a common
+value, main effects for each factor, and interactive overlays for factor
+combinations up to \code{max_order}. Each overlay replicates the dimensions
+of the entire layout but isolates a specific structural component (e.g., the
+"FactorA:FactorB" interaction).
 
-Note on missing combinations: Median polish can proceed with incomplete
-data tables by operating on available values. This function
-includes a check to warn the user if some combinations of factor levels
-are not present in the input data. The polishing algorithm
-handles these missing combinations by only using the data that are provided.
-\cr\cr
+In unreplicated tables (one observation per cell), setting \code{max_order}
+to the total number of factors will result in zero residuals, as all
+variation is swept into the highest-order interaction.
 
-\code{eda_npol} iterates through each factor within a single polish step, removing
-medians from residuals for each level of that factor, and centering the
-factor's effects by removing their median (the median-of-medians extracted
-from the residuals for that factor), which is then added to the common effect.
-This differs from \code{eda_pol}'s implementation where the centering of
-row and column effects, and adding to the global effect, happens after the
-medians for the current factor have been removed from the residuals. This
-explains the slight differences in output between the two. Neither approach
-is better than the other, but if the dataset is a two-way table, it is
-recommended to use the \code{eda_pol} function given its richer set of
-features. \cr \cr
-
-If the algorithm does not converge within \code{maxiter}, a warning is issued.
+If replicates are present (i.e. more than one response value per unique
+combination of factor levels), the values are combined into a single value
+using the \code{stat} function).
 }
 \examples{
-# Example 1: 
+# Example 1:
 M0 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
 
 # Extract global and factor effects from model
@@ -93,34 +84,23 @@ M0$global
 M0$effects
 
 # Visualize the data decomposition
-plot(M0) 
+plot(M0)
 
 # Generate a diagnostic plot (used to assess interaction effects)
-plot(M0, plot = "diagnostic") 
+plot(M0, plot = "diagnostic", robust = T)
 
-# Re-express response variable by applying the log transformation 
+# Re-express response variable by applying the log transformation
 # Apply a base 10 log transformation
 M1 <- eda_npol(yarn, Cycles, Load, Length, Amplitude, p = 0, base = 10)
 plot(M1)
-plot(M1, plot = "diagnostic")
+plot(M1, plot = "diagnostic", robust = T)
 
-# Example 2: 
+# Example 2:
 # Example of a 3-way table with missing values
-# Note that the function returns a Warning with the number of 
+# Note that the function returns a Warning with the number of
 # missing combinations (e.g. 14 out of 120)
 M0 <- eda_npol(logan, delay, am_pm, carrier, month, maxiter = 30)
 plot(M0)
 plot(M0, plot = "diagnostic")
-}
-\references{
-\itemize{
-\item{Hoaglin, David C. and Mosteller, Frederick and Tukey, John W. (1985).
-Exploring data tables, trends, and shapes.}
-\item{Tukey, John W. (1977). Exploratory Data Analysis. Addison-Wesley.}
-\item{Emerson, John D., and David C. Hoaglin. (1983). Understanding
-Robust and Exploratory Data Analysis. John Wiley & Sons.}
-}
-}
-\seealso{
-\code{\link{eda_pol}}, \code{\link{plot.eda_npol}}
+
 }
