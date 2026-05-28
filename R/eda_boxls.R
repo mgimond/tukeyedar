@@ -28,7 +28,7 @@
 #' @param whiskcol Whisker line color.
 #' @param medcol Median line color.
 #' @param reorder Boolean determining if factors have to be reordered based
-#'   on median, upper quartile or lower quartile (set in \code{reorder.type}).
+#'   on median, upper quartile or lower quartile (set in \code{reorder.stat}).
 #' @param reorder.stat Statistic to reorder level by if \code{reorder} is set to
 #'   \code{TRUE}. Either \code{"median"}, \code{"upper"} (for upper quartile) or
 #'   \code{"lower"} (for lower quartile). If \code{type} is set to a value other
@@ -139,7 +139,7 @@ eda_boxls <- function(dat, x, fac, p = 1, tukey = FALSE, base = exp(1), outlier=
   if(!missing(out.txt)) {out.txt <- eval(substitute(out.txt), dat)}
 
   # Re-express data if required
-  x <- eda_re(x, p = p, tukey = tukey)
+  x <- eda_re(x, p = p, tukey = tukey, base = base)
   x.nan <- is.na(x)
   if( any(x.nan)){
     x <- x[!x.nan]
