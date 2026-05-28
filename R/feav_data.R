@@ -218,3 +218,34 @@
 "feav6_8"
 
 
+#' @title Bekk Smoothness of Paper
+#'
+#' @description
+#' A dataset containing 160 measurements of paper smoothness across five
+#' different material groups. This data was originally reported by Lashof and
+#' Mandel (1960) and is used in Exploratory Data Analysis to illustrate
+#' heteroscedasticity and the need for re-expression.
+#'
+#' @format A \code{data.frame} with 160 rows and 3 variables:
+#'
+#' \describe{
+#'     \item{Lab}{Lab that measured the smoothness.}
+#'     \item{Material}{The material group identifier.}
+#'     \item{Smoothness}{The measured smoothness of the paper using the Bekk method.}
+#' }
+#'
+#' @source
+#' Mandel, J. (1964). \emph{The Statistical Analysis of Experimental Data}.
+#'   New York: Wiley. (Data from Table 13.3, p. 325).
+#'
+#' @references
+#' Hoaglin, D. C., Mosteller, F., & Tukey, J. W. (1991).
+#'  \emph{Fundamentals of Exploratory Analysis of Variance}. Wiley.
+#'
+#' @examples
+#' M0 <- eda_mean_sweep(datl, Smoothness, Lab,Material,p =0, base=10, max_order = 2)
+#' plot(M0)
+#' eda_anova_table(M0)
+#'
+"feav13_1"
+
