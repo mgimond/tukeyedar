@@ -1,11 +1,13 @@
 #' @title N-way Median Polish with Interaction Support
 #'
 #' @description Apply median polish to a multiway table to extract common, main,
-#' and interactive effects.
+#' and interactive effects. This function is an extension of \code{eda_npol}
+#' that calculates detailed comparison values (CVs) for diagnostic plots.
 #'
 #' @param dat A data frame in long form containing the response and factor
 #'   variables.
-#' @param response The response variable (must be numeric).
+#' @param response The response variable (must be numeric). Note that nesting is
+#' not currently supported.
 #' @param ... Unquoted factor variable names.
 #' @param max_order The maximum number of factors to combine for interaction
 #'   effects. Defaults to 1 (main effects only).
@@ -20,58 +22,111 @@
 #'   used.
 #' @param base Base used with the \code{log()} function if \code{p = 0}.
 #'
-#' @details This function implements the "overlay approach" to data
+#' @details This function implements the "sweeping approach" to data
 #' decomposition. The response is modeled as a sum of components: a common
 #' value, main effects for each factor, and interactive overlays for factor
-#' combinations up to \code{max_order}. Each overlay replicates the dimensions
-#' of the entire layout but isolates a specific structural component (e.g., the
-#' "FactorA:FactorB" interaction).
+#' combinations up to \code{max_order}.
 #'
 #' In unreplicated tables (one observation per cell), setting \code{max_order}
-#' to the total number of factors will result in zero residuals, as all
+#' to the total number of factors will result in zero residuals as all
 #' variation is swept into the highest-order interaction.
 #'
 #' If replicates are present (i.e. more than one response value per unique
 #' combination of factor levels), the values are combined into a single value
-#' using the \code{stat} function).
+#' using the function defined by the \code{stat} argument).
 #'
-#' @return A list of class \code{eda_npol} containing: \item{global}{The
-#' estimated common effect.} \item{response}{Response column name.}
+#' The Comparison Value (cv) generated in the \code{long} component of the output
+#' is computed differently depending on whether the model is run in main-effect
+#' mode (i.e. \code{max_order = 1}) or in full-effect mode
+#' (i.e. \code{max_order > 1}).
+#'
+#' In \bold{main-effect} mode, the \bold{cv} column represents the
+#' \bold{composite comparison value}. This value is used to diagnose
+#' nonadditivity that is embedded within the residuals when interactions have
+#' not been explicitly separated.
+#'
+#' \deqn{
+#' CV_{composite} = \frac{\sum_{1 \le i < j \le n} \hat{a}_i \hat{a}_j}{m}
+#' }
+#'
+#' where: \eqn{n} is the number of factors, \eqn{m} is the estimated common value,
+#' \eqn{\hat{a}_i} and \eqn{\hat{a}_j} are the estimated main effects for the
+#' specific levels of factors  \eqn{i} and  \eqn{j}.
+#'
+#' In \bold{full-effect} mode, the two-factor interactions have already been
+#' swept out into their own overlays. Therefore, the \bold{cv} column in \code{long}
+#' represents the product of all main effects divided by the common term  \eqn{m}
+#' raised to the power of \eqn{(n−1)}. For a model with \eqn{n} factors, this
+#' gives us:
+#'
+#' \deqn{
+#' CV_{residual} = \frac{\prod_{i=1}^{n} \hat{a}_i}{m^{n-1}}
+#' }
+#'
+#'  For a standard 3-factor layout (factors \eqn{a}, \eqn{b}, and \eqn{c}),
+#'  the equation simplifies to the triple-product formula,
+#'
+#' \deqn{
+#' CV_{ABC} = \frac{\hat{a}_i \hat{b}_j \hat{c}_k}{m^2}
+#' }
+#'
+#' where \eqn{\hat{a}_i}, \eqn{\hat{b}_j}, \eqn{\hat{c}_k}  represent
+#' the main effects for each factor.
+#'
+#' @return A list of class \code{eda_npol} containing:
+#' \item{global}{The estimated common effect.}
+#' \item{response}{Response column name.}
 #' \item{effects}{A nested list of effects, where names correspond to margins
 #'       (e.g., "A", "A:B").}
-#' \item{long}{A dataframe including residuals, comparison values (cv), and
-#' fits.} \item{converged}{Boolean indicating if convergence was reached.}
-#' \item{iter}{The number of iterations performed.} \item{fitted_values}{The sum
-#' of common and all extracted margin effects.} \item{power}{The power
-#' transformation applied.}
+#' \item{long}{A dataframe including residuals, a composite comparison value (cv) for backward compatibility, and fits.}
+#' \item{cv}{A list containing detailed comparison values. Names correspond to
+#' the interaction margin (e.g., "A:B") or "residuals" for the n-way residual CV.
+#' \bold{This component is empty} if a main-effect model is run (i.e. \code{max_order = 1})}
+#'
+#' \item{converged}{Boolean indicating if convergence was reached.}
+#' \item{iter}{The number of iterations performed.}
+#' \item{fitted_values}{The sum of common and all extracted margin effects.}
+#' \item{power}{The power transformation applied.}
 #'
 #' @examples
-#' # Example 1:
-#' M0 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
+#' # Main effect median polish (i.e. no interaction)
+#' M1 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
+#' plot(M1) # Plot effect values and residuals
+#' plot(M1,  plot = "diagnostic") # Plot residuals vs comparison value
 #'
-#' # Extract global and factor effects from model
-#' M0$global
-#' M0$effects
+#' # Full effect median polish (i.e. include two-way interactions)
+#' M2 <- eda_npol(yarn, Cycles, Load, Length, Amplitude, max_order = 2)
+#' plot(M2, plot = "diagnostic") # Plot residuals vs higher-order CV
 #'
-#' # Visualize the data decomposition
-#' plot(M0)
+#' # Overlay all two-way interaction diagnostics
+#' plot(M2, plot = "diagnostic", margin = "all")
 #'
-#' # Generate a diagnostic plot (used to assess interaction effects)
-#' plot(M0, plot = "diagnostic", robust = T)
+#' # Generate the diagnostic plot for a specific two-way interaction
+#' plot(M2, plot = "diagnostic", margin = "Load:Length")
 #'
-#' # Re-express response variable by applying the log transformation
-#' # Apply a base 10 log transformation
-#' M1 <- eda_npol(yarn, Cycles, Load, Length, Amplitude, p = 0, base = 10)
-#' plot(M1)
-#' plot(M1, plot = "diagnostic", robust = T)
+#' # Generate side-by-side diagnostic plots for all two-way interactions
+#' numplots <- length(M2$cv) - 1
+#' nameplots <- names(M2$cv)[-(numplots+1)]
+#' nc <- ceiling(sqrt(numplots))      # number of columns
+#' nr <- ceiling(numplots / nc)       # number of row
+#' OP <- par(mfrow=c(nr,nc))
+#' invisible(sapply(nameplots, \(x) plot(M2, plot="diagnostic", margin = x, reg=TRUE)))
+#' par(OP)
 #'
-#' # Example 2:
-#' # Example of a 3-way table with missing values
-#' # Note that the function returns a Warning with the number of
-#' # missing combinations (e.g. 14 out of 120)
-#' M0 <- eda_npol(logan, delay, am_pm, carrier, month, maxiter = 30)
-#' plot(M0)
-#' plot(M0, plot = "diagnostic")
+#' @seealso
+#' \link{eda_pol} for an implementation of the median polish
+#'  on a two-way (two factor) table and,
+#' \link{eda_mean_sweep} for a sweeping implementation using the mean
+#' instead of the median.
+#'
+#' @references
+#' Cook, N. R. (1985). Three-Way Analyses. In D. C. Hoaglin, F. Mosteller,
+#'   & J. W. Tukey (Eds.), Exploring Data Tables, Trends, and Shapes (pp. 125-188).
+#'   New York: Wiley.
+#'
+#' Emerson, J. D., & Wong, G. Y. (1983). Resistant Nonadditive Fits for Two-Way
+#'   Tables. In D. C. Hoaglin, F. Mosteller, & J. W. Tukey (Eds.), Understanding
+#'   Robust and Exploratory Data Analysis (pp. 67-124). New York: Wiley.
 #'
 #' @export
 eda_npol <- function(dat, response, ..., max_order = 1, maxiter = 20,
@@ -193,17 +248,78 @@ eda_npol <- function(dat, response, ..., max_order = 1, maxiter = 20,
     fitted_values <- fitted_values + factor_effects[[margin_name]][as.character(keys)]
   }
 
+  ### Individual Comparison Value (CV) Calculations ----
+  cv_list <- list()
+  if (max_order >= 2) {
+    if (abs(common_effect) > .Machine$double.eps) {
+      # Get main effects for each row as a list of vectors
+      main_effects_per_row <- lapply(factors_chr, function(fac) {
+        effect_values <- factor_effects[[fac]]
+        factor_levels_in_data <- as.character(dat[[fac]])
+        effect_values[factor_levels_in_data]
+      })
+      names(main_effects_per_row) <- factors_chr
+
+      # 1. Calculate CVs for all 2-way interactions
+      if (n_factors >= 2) {
+        two_way_combos <- combn(factors_chr, 2, simplify = FALSE)
+        for (combo in two_way_combos) {
+          factor1 <- combo[1]
+          factor2 <- combo[2]
+          margin_name <- paste(factor1, factor2, sep = ":")
+
+          eff1_vec <- main_effects_per_row[[factor1]]
+          eff2_vec <- main_effects_per_row[[factor2]]
+
+          cv_vec <- (eff1_vec * eff2_vec) / common_effect
+
+          # Construct explicit interaction names for the vector
+          levels1 <- as.character(dat[[factor1]])
+          levels2 <- as.character(dat[[factor2]])
+          interaction_names <- paste(levels1, levels2, sep = ":")
+          names(cv_vec) <- interaction_names
+
+          cv_list[[margin_name]] <- cv_vec
+        }
+      }
+
+      # 2. Calculate CV for the n-way residual
+      if (n_factors >= 2) { # Formula is general for n>=2
+        product_of_main_effects <- Reduce("*", main_effects_per_row)
+        denominator <- common_effect^(n_factors - 1)
+
+        if (abs(denominator) > .Machine$double.eps) {
+          cv_vec_nway <- product_of_main_effects / denominator
+
+          # Construct explicit n-way interaction names for the vector
+          all_levels_per_row <- lapply(factors_chr, function(fac) as.character(dat[[fac]]))
+          nway_interaction_names <- Reduce(function(x, y) paste(x, y, sep=":"), all_levels_per_row)
+          names(cv_vec_nway) <- nway_interaction_names
+
+          cv_list[["residuals"]] <- cv_vec_nway
+        }
+      }
+    }
+  }
+
   ### Comparison Value (cv) ----
-  # Calculates pairwise products of main effects.
+  # Two outcomes based on max_order value (i.e. main-effect
+  # vs. full-effect)
   cv <- rep(NA_real_, nrow(dat))
   if (abs(common_effect) > .Machine$double.eps && n_factors > 1) {
     main_eff_names <- factors_chr
-    cv <- apply(dat[main_eff_names], 1, function(row_vals) {
-      effs <- vapply(seq_along(main_eff_names), function(i) {
-        factor_effects[[main_eff_names[i]]][as.character(row_vals[i])]
-      }, numeric(1))
-      sum(combn(effs, 2, prod)) / common_effect
-    })
+    # Main-effect model run
+    if(max_order == 1){
+      cv <- apply(dat[main_eff_names], 1, function(row_vals) {
+        effs <- vapply(seq_along(main_eff_names), function(i) {
+          factor_effects[[main_eff_names[i]]][as.character(row_vals[i])]
+        }, numeric(1))
+        sum(combn(effs, 2, prod)) / common_effect
+      })
+      # Full-effect model run
+    } else{
+      cv <- cv_list$residuals
+    }
   }
 
   long_data <- cbind(dat, residuals = residuals, cv = cv, fit = fitted_values)
@@ -213,6 +329,7 @@ eda_npol <- function(dat, response, ..., max_order = 1, maxiter = 20,
     response = response_chr,
     effects = factor_effects,
     long = long_data,
+    cv = cv_list,
     converged = converged,
     iter = iter,
     fitted_values = fitted_values,
@@ -221,5 +338,3 @@ eda_npol <- function(dat, response, ..., max_order = 1, maxiter = 20,
   class(result) <- "eda_npol"
   return(result)
 }
-
-
