@@ -2,6 +2,8 @@
 
 ### All vignettes
 
+- [ANOVA: beyond the
+  p-value](https://mgimond.github.io/tukeyedar/articles/anova.md):
 - [Median
   polish](https://mgimond.github.io/tukeyedar/articles/polish.md):
 - [The empirical QQ plot (and derived Tukey mean-difference

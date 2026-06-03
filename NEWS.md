@@ -1,5 +1,7 @@
 # tukeyedar (development version)
 
+* Added the `ANOVA: beyond the p-value` vignette.
+* `plot.eda_npol` and `plot.eda_mean_sweep` methods now allow for n-way `margin` diagnostic plots
 * Fixed bug in `eda_boxls` whereby the `base` argument was not passed to `eda_re`
 * `eda_npol` now allows for interactive effects via the `max_order` argument.
 * Added `edtts4.2` data pulled from table 4-2 of *Exploring Data tables, Trends, and Shapes*.

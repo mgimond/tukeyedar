@@ -2,12 +2,13 @@ pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
+  anova: anova.html
   polish: polish.html
   qq: qq.html
   rfs: rfs.html
   RLine: RLine.html
   symqq: symqq.html
-last_built: 2026-05-15T20:11Z
+last_built: 2026-06-03T18:55Z
 urls:
   reference: https://mgimond.github.io/tukeyedar/reference
   article: https://mgimond.github.io/tukeyedar/articles

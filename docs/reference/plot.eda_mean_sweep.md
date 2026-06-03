@@ -1,14 +1,22 @@
 # Plot method for `eda_mean_sweep` objects
 
-Generates decomposition plots of factor effects and residuals from an
-object of class `"eda_mean_sweep"`. These plots aid in visualizing the
-additive decomposition of the response variable.
+Generates decomposition plots or diagnostic plots from an object of
+class `"eda_mean_sweep"`.
 
 ## Usage
 
 ``` r
 # S3 method for class 'eda_mean_sweep'
-plot(x, plot = "effects", ...)
+plot(
+  x,
+  plot = "effects",
+  reg = TRUE,
+  margin = NULL,
+  legend = TRUE,
+  legend.pos = "bottomright",
+  legend.inset = 0.03,
+  ...
+)
 ```
 
 ## Arguments
@@ -30,45 +38,43 @@ plot(x, plot = "effects", ...)
   :   Scales effects by `sqrt(N / df)` to reflect their relative
       contribution to variance.
 
+  `"diagnostic"`
+
+  :   Generates a diagnostic plot of residuals versus comparison values
+      to check for non-additivity (interactions). This is typically used
+      on a model with main effects only.
+
+- reg:
+
+  Logical. If `TRUE` (the default), fits a linear regression line to the
+  diagnostic plot. This is disabled when `margin = "all"`.
+
+- margin:
+
+  Character string. Only used when `plot = "diagnostic"`. Specifies
+  which interaction to diagnose. Can be the name of a two-way
+  interaction (e.g., `"FactorA:FactorB"`) or `"all"` (the default) to
+  overlay diagnostics for all two-way interactions.
+
+- legend:
+
+  Logical. If `TRUE`, a legend is added when `margin = "all"`.
+
+- legend.pos:
+
+  The position of the legend, e.g., `"bottomright"`.
+
+- legend.inset:
+
+  The amount of inset for the legend from the plot border.
+
 - ...:
 
-  Additional arguments passed to the internal plotting function
-  [`.eda_plot_vardecomp`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_vardecomp.md).
-  Common options include:
-
-  - `type`: Character. String specifying the type of plot to generate.
-    Must be either `"boxpnt"` (default) or `"box"` if the effect values
-    are to be displayed as boxplots.
-
-  - `rotate`: Logical. If `TRUE`, rotates the plot orientation.
-
-  - `show.resp`: Logical. If `TRUE`, includes a boxplot of the centered
-    response.
-
-  - `outliers`: Logical. If `TRUE`, displays outliers in boxplots.
-
-  - `label`: Logical. If `TRUE`, adds labels to effect levels.
-
-  - `order`: Logical. If `TRUE`, orders effects by spread.
-
-  - `lim`: Numeric. Vector of length 2 specifying axis limits.
-
-  - `overlap`: Character. One of `"stack"`, `"overplot"`, or `"jitter"`.
-
-  - `pch`: Numeric. Controls the plot symbol type.
-
-  - `p.col`: Character. Controls the color of the plot symbol's outline.
-
-  - `p.fill`: Character. Controls the fill color of the plot symbol.
-
-  - `size`: Numeric. Controls the size of the plot symbols.
-
-  - `alpha`: Numeric (0–1). Controls the transparency of the plot
-    symbols.
-
-  - `grey`: Numeric (0–1) or character. Controls grayscale coloring.
-
-  - `padding`, `cex.txt`, `type`, `input`: See `.eda_plot_vardecomp`.
+  Additional arguments passed to the internal plotting function. See
+  [`.eda_plot_vardecomp`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_vardecomp.md)
+  for the "effects" plot or
+  [`.eda_plot_xy`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_xy.md)
+  for the "diagnostic" plot (e.g., `loe`, `sd`).
 
 ## Value
 
@@ -76,26 +82,21 @@ A plot visualizing residuals and factor effects.
 
 ## Details
 
-This plot method leverages the value-splitting and sweeping procedure
-performed by
-[`eda_mean_sweep()`](https://mgimond.github.io/tukeyedar/reference/eda_mean_sweep.md)
-to provide a graphical representation of the decomposed data. It
-visualizes the additive overlays: the residuals and the centered main
-and interaction effects. This allows for an exploratory assessment of
-the relative magnitudes of different effects and the variability
-remaining in the residuals. Such displays are emphasized in EDA to gain
-insight into data structure.
+This plot method can generate two types of plots:
 
-  
-The actual plotting is handled by the internal utility function
+**1. Variability Decomposition Plot (`plot = "effects"` or `"ms"`)**  
+This plot, handled by
 [`.eda_plot_vardecomp`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_vardecomp.md),
-which plots the residuals as a boxplot and overlays factor effects as
-individual dot plots (by default, `type = "boxpnt"` is used internally
-within `.eda_plot_vardecomp`).
+visualizes the additive overlays: the residuals and the centered main
+and interaction effects.
 
-The `order` argument (default TRUE) helps in quickly seeing which
-effects contribute most to the data's range by sorting their range
-visually.
+**2. Diagnostic Plot (`plot = "diagnostic"`)**  
+This plot is a key tool from Exploratory Data Analysis for assessing if
+an additive model is sufficient. It plots the residuals from the model
+against a set of "comparison values". For a two-way model, the
+comparison value is:  
+`(row effect) * (column effect) / (grand mean)`  
+A sloping trend in this plot suggests a hidden interaction.
 
 ## References
 
@@ -106,7 +107,7 @@ Exploratory Analysis of Variance*. Wiley.
 
 [`eda_mean_sweep`](https://mgimond.github.io/tukeyedar/reference/eda_mean_sweep.md),
 [`.eda_plot_vardecomp`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_vardecomp.md),
-[`eda_anova_table`](https://mgimond.github.io/tukeyedar/reference/eda_anova_table.md)
+[`.eda_plot_xy`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_xy.md)
 
 ## Examples
 
@@ -134,11 +135,27 @@ plot(M0, overlap = "overplot")
 plot(M0, rotate = TRUE)
 
 
-# Original response variable can be added as a boxplot 
+# Original response variable can be added as a boxplot
 plot(M0, show.resp = TRUE)
 
 
 # If "mean squares" are to be compared, the effects need to be adjusted
 # by setting plot = "ms" (see page 174 of the referenced source)
 plot(M0, plot = "ms")
+
+
+# Generating diagnostic plots
+M1 <- eda_mean_sweep(yarn, Cycles, Load, Length, Amplitude)
+
+# Create an overlay of all two-way diagnostic plots
+# Note: For mean-sweep, this plots Residuals vs. CV for each interaction
+plot(M1, plot = "diagnostic", margin = "all")
+#> For 'margin = "all"', regression lines are disabled to avoid confusion.
+
+
+# Create a diagnostic plot for a specific interaction
+plot(M1, plot = "diagnostic", margin = "Load:Length", reg = TRUE)
+
+#>                                int Comparison Value for Load:Length^1 
+#>                      -6.018285e-14                       9.971699e-01 
 ```

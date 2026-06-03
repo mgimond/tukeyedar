@@ -59,10 +59,15 @@ M0 <- eda_npol(edtts4.25, Value, A, B, C)
 # There is evidence of strong interaction as shown in this plot
 plot(M0, plot = "diagnostic")
 
+#>                int Comparison Value^1 
+#>          0.6063765          0.4393241 
 
 # Taking the square root eliminates interaction effects
 # Note that this may throw a warning if loess option is
 # set to TRUE
 M1 <- eda_npol(edtts4.25, Value, A, B, C, p = 0.5)
 plot(M1, plot = "diagnostic", loe = FALSE)
+
+#>                int Comparison Value^1 
+#>                  0                  0 
 ```

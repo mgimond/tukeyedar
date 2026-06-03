@@ -2,6 +2,24 @@
 
 ## tukeyedar (development version)
 
+- Added the `ANOVA: beyond the p-value` vignette.
+- `plot.eda_npol` and `plot.eda_mean_sweep` methods now allow for n-way
+  `margin` diagnostic plots
+- Fixed bug in `eda_boxls` whereby the `base` argument was not passed to
+  `eda_re`
+- `eda_npol` now allows for interactive effects via the `max_order`
+  argument.
+- Added `edtts4.2` data pulled from table 4-2 of *Exploring Data tables,
+  Trends, and Shapes*.
+- Added `feav13_1` data pulled from table 13-1 of *Fundamentals of
+  Exploratory Analysis of Variance*.
+- `eda_matlong` can now handle n-factors and not just a two-dimensional
+  table.
+- Median polish article: added text clarifying Tukey’s interaction term
+  as being an approximation to interaction.
+- Re-wrote
+  [`eda_shuffle()`](https://mgimond.github.io/tukeyedar/reference/eda_shuffle.md).
+  It now can perform permutations on one or more columns of a dataframe.
 - Fixes variability decomposition labeling problem for objects of class
   `eda_polish` ([\#30](https://github.com/mgimond/tukeyedar/issues/30))
 - Fixes missing regression line in median polish diagnostic plot method

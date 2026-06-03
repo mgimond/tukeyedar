@@ -2,9 +2,18 @@
 % Please edit documentation in R/plot.eda_npol.R
 \name{plot.eda_npol}
 \alias{plot.eda_npol}
-\title{Plot method for \code{eda_npol} objects}
+\title{Plot method for eda_npol objects}
 \usage{
-\method{plot}{eda_npol}(x, plot = "effects", reg = FALSE, ...)
+\method{plot}{eda_npol}(
+  x,
+  plot = "effects",
+  reg = TRUE,
+  margin = "residuals",
+  legend = TRUE,
+  legend.pos = "bottomright",
+  legend.inset = 0.03,
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{eda_npol}.}
@@ -13,50 +22,30 @@
 \describe{
 \item{\code{"effects"} (default)}{Generates a variability decomposition
 plot showing residuals and factor effects.}
-\item{\code{"diagnostic"}}{Generates a scatterplot of residuals versus
-comparison values (CV).}
+\item{\code{"diagnostic"}}{Generates a diagnostic plot. Its behavior is
+controlled by the \code{margin} argument.}
 }}
 
 \item{reg}{Logical. If \code{TRUE}, fits a linear regression line to the
-diagnostic plot. Only used when \code{plot = "diagnostic"}. Defaults to
-\code{FALSE}.}
+diagnostic plot. Only used when \code{plot = "diagnostic"}. This is disabled
+when \code{margin = "all"}. Defaults to \code{FALSE}.}
 
-\item{...}{Additional arguments passed to internal plotting functions.
-\describe{
-\item{For \code{plot = "effects"}}{Arguments are passed to \code{\link{.eda_plot_vardecomp}}. Common options include:
-\itemize{
-\item \code{rotate}: Logical. Rotate plot orientation.
-\item \code{show.resp}: Logical. Include boxplot of the centered response.
-\item \code{outliers}: Logical. Show outliers in boxplots.
-\item \code{label}: Logical. Label individual effect levels.
-\item \code{order}: Logical. Order effects by spread.
-\item \code{cex.txt}: Numeric. Text size for labels.
-\item \code{lim}: Numeric vector. Axis limits.
-\item \code{overlap}: Character. One of \code{"stack"}, \code{"overplot"}, or \code{"jitter"}.
-\item \code{grey}: Numeric or character. Grayscale coloring.
-\item \code{type}: Character. Plot type, e.g., \code{"boxpnt"} or \code{"box"}.
-\item \code{input}: Character. Either \code{"nway"} or \code{"reg"}.
-\item \code{padding}: Numeric. Padding for axis limits.
-}}
-\item{For \code{plot = "diagnostic"}}{Arguments are passed to \code{\link{.eda_plot_xy}}. Common options include:
-\itemize{
-\item \code{xlab}, \code{ylab}: Axis labels.
-\item \code{xlim}, \code{ylim}: Axis limits.
-\item \code{poly}: Integer. Degree of polynomial regression.
-\item \code{robust}: Logical. Use robust regression.
-\item \code{w}: Numeric vector. Weights for regression.
-\item \code{sd}, \code{mean.l}: Logical. Show ±1 SD and mean lines.
-\item \code{asp}, \code{square}: Logical. Control aspect ratio and plot shape.
-\item \code{grey}: Numeric. Grayscale background.
-\item \code{pch}, \code{p.col}, \code{p.fill}, \code{size}, \code{alpha}: Point styling.
-\item \code{q}, \code{inner}, \code{q.type}, \code{qcol}: Quantile box options.
-\item \code{loe}, \code{loe.col}, \code{loe.lw}, \code{loess.d}: Loess smoothing options.
-\item \code{lm.col}, \code{lm.lw}: Regression line styling.
-\item \code{stats}, \code{stat.size}: Display model statistics.
-\item \code{hline}, \code{vline}: Reference lines.
-\item \code{rlm.d}: List. Parameters for \code{MASS::rlm}.
-}}
-}}
+\item{margin}{Character string. Only used when \code{plot = "diagnostic"}. Specifies which
+diagnostic plot to generate. Can be the name of a two-way interaction
+(e.g., \code{"Load:Length"}), \code{"residuals"} (the default), or \code{"all"}
+to overlay all two-way interaction diagnostics.}
+
+\item{legend}{Logical. If \code{TRUE}, legend is added to plot when \code{margin = "all"}.}
+
+\item{legend.pos}{The position of the legend when \code{margin = "all"}. Can be
+\code{"bottomright"}, \code{"bottom"}, \code{"bottomleft"}, \code{"left"},
+\code{"topleft"}, \code{"top"}, \code{"topright"}, \code{"right"} and \code{"center"}.
+Defaults to \code{"topright"}.}
+
+\item{legend.inset}{The amount of inset for the legend from the plot border
+when \code{margin = "all"}. Defaults to \code{0.03}.}
+
+\item{...}{Additional arguments passed to internal plotting functions.}
 }
 \value{
 A plot is generated on the active graphics device. The function
@@ -67,46 +56,55 @@ Generates either a variability decomposition plot of factor
 effects or a diagnostic plot for an object of class \code{eda_npol}.
 }
 \details{
-This method serves as a wrapper to generate two types of plots for
-\code{eda_npol} objects:
+This method generates two types of plots for \code{eda_npol} objects:
 
 \strong{1. Variability Decomposition Plot (\code{plot = "effects"})} \cr
-Calls \code{\link{.eda_plot_vardecomp}} to visualize residuals and factor
-effects. Useful for assessing the relative magnitude and spread of effects
-and identifying outliers.
+Visualizes residuals and the spread of all fitted effects.
+Calls \code{\link{.eda_plot_vardecomp}}.
 
-\strong{2. Diagnostic Plot (\code{plot = "diagnostic"})} \cr Calls
-\code{\link{.eda_plot_xy}} to plot residuals against comparison values
-(CV). Useful for detecting nonadditivity or model misfit. Optional
-regression and smoothing lines can be added.
+\strong{2. Diagnostic Plot (\code{plot = "diagnostic"})} \cr
+When used with an object from \code{eda_npol}, this plot's behavior is
+controlled by the \code{margin} argument.
+Calls \code{\link{.eda_plot_xy}}.
+\itemize{
+\item \code{margin = "residuals"}: Plots final residuals against their
+n-way comparison values to diagnose higher-order non-additivity.
+\item \code{margin = "FactorA:FactorB"}: Plots the fitted two-way
+interaction effects against their specific comparison values.
+\item \code{margin = "all"}: Overlays the diagnostic plots for all
+two-way interactions onto a single graph, with each interaction
+represented by a different color and symbol.
+}
+For a main-effect only model, this generates a single
+diagnostic plot of residuals versus a composite comparison value.
 }
 \examples{
 
-# Generate eda_npol object
-M0 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
+# Main effect median polish (i.e. no interaction)
+M1 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
+plot(M1) # Plot effect values and residuals
+plot(M1, plot = "diagnostic") # Plot residuals vs comparison value
 
-# Plot effects (default)
-plot(M0)
+# Full effect median polish (i.e. include two-way interactions)
+M2 <- eda_npol(yarn, Cycles, Load, Length, Amplitude, max_order = 2)
+plot(M2, plot = "diagnostic") # Plot residuals vs higher-order CV
 
-# Add labels
-plot(M0, label = TRUE)
+# Overlay all two-way interaction diagnostics
+plot(M2, plot = "diagnostic", margin = "all")
 
-# Rotate plot
-plot(M0, rotate = TRUE)
+# Generate the diagnostic plot for a specific two-way interaction
+plot(M2, plot = "diagnostic", margin = "Load:Length", reg = TRUE)
 
-# Add boxplot of centered response variable
-plot(M0, show.resp = TRUE)
-
-# Generate diagnostic plot (residuals vs CV)
-plot(M0, plot = "diagnostic")
-
-# Fit a robust regression line to diagnostic plot
-# The function displays the line's slope in the console
-plot(M0, plot = "diagnostic", reg = TRUE, robust = TRUE, loe = FALSE)
-
-
+# Generate side-by-side diagnostic plots for all two-way interactions
+numplots <- length(M2$cv) - 1
+nameplots <- names(M2$cv)[-(numplots+1)]
+nc <- ceiling(sqrt(numplots))      # number of columns
+nr <- ceiling(numplots / nc)       # number of row
+OP <- par(mfrow=c(nr,nc))
+invisible(sapply(nameplots, \(x) plot(M2, plot="diagnostic", margin = x, reg=TRUE)))
+par(OP)
 
 }
 \seealso{
-\code{\link{.eda_plot_vardecomp}}, \code{\link{.eda_plot_xy}}
+\code{\link{eda_npol}}, \code{\link{.eda_plot_vardecomp}}, \code{\link{.eda_plot_xy}}
 }

@@ -4,7 +4,16 @@
 \alias{plot.eda_mean_sweep}
 \title{Plot method for \code{eda_mean_sweep} objects}
 \usage{
-\method{plot}{eda_mean_sweep}(x, plot = "effects", ...)
+\method{plot}{eda_mean_sweep}(
+  x,
+  plot = "effects",
+  reg = TRUE,
+  margin = NULL,
+  legend = TRUE,
+  legend.pos = "bottomright",
+  legend.inset = 0.03,
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{eda_mean_sweep}}
@@ -14,56 +23,49 @@
 \item{\code{"effects"}}{(default) Plots the raw centered effects.}
 \item{\code{"ms"}}{Scales effects by \code{sqrt(N / df)} to reflect their
 relative contribution to variance.}
+\item{\code{"diagnostic"}}{Generates a diagnostic plot of residuals versus
+comparison values to check for non-additivity (interactions). This is
+typically used on a model with main effects only.}
 }}
 
-\item{...}{Additional arguments passed to the internal plotting function
-\code{\link{.eda_plot_vardecomp}}. Common options include:
-\itemize{
-\item \code{type}: Character. String specifying the type of plot to generate.
-Must be either \code{"boxpnt"} (default) or \code{"box"}
-if the effect values are to be displayed as boxplots.
-\item \code{rotate}: Logical. If \code{TRUE}, rotates the plot orientation.
-\item \code{show.resp}: Logical. If \code{TRUE}, includes a boxplot of the centered response.
-\item \code{outliers}: Logical. If \code{TRUE}, displays outliers in boxplots.
-\item \code{label}: Logical. If \code{TRUE}, adds labels to effect levels.
-\item \code{order}: Logical. If \code{TRUE}, orders effects by spread.
-\item \code{lim}: Numeric. Vector of length 2 specifying axis limits.
-\item \code{overlap}: Character. One of \code{"stack"}, \code{"overplot"}, or \code{"jitter"}.
-\item \code{pch}: Numeric. Controls the plot symbol type.
-\item \code{p.col}: Character. Controls the color of the plot symbol's outline.
-\item \code{p.fill}: Character. Controls the fill color of the plot symbol.
-\item \code{size}: Numeric. Controls the size of the plot symbols.
-\item \code{alpha}: Numeric (0–1). Controls the transparency of the plot symbols.
-\item \code{grey}: Numeric (0–1) or character. Controls grayscale coloring.
-\item \code{padding}, \code{cex.txt}, \code{type}, \code{input}: See \code{.eda_plot_vardecomp}.
-}}
+\item{reg}{Logical. If \code{TRUE} (the default), fits a linear regression
+line to the diagnostic plot. This is disabled when \code{margin = "all"}.}
+
+\item{margin}{Character string. Only used when \code{plot = "diagnostic"}.
+Specifies which interaction to diagnose. Can be the name of a two-way
+interaction (e.g., \code{"FactorA:FactorB"}) or \code{"all"} (the default)
+to overlay diagnostics for all two-way interactions.}
+
+\item{legend}{Logical. If \code{TRUE}, a legend is added when \code{margin = "all"}.}
+
+\item{legend.pos}{The position of the legend, e.g., \code{"bottomright"}.}
+
+\item{legend.inset}{The amount of inset for the legend from the plot border.}
+
+\item{...}{Additional arguments passed to the internal plotting function. See
+\code{\link{.eda_plot_vardecomp}} for the "effects" plot or
+\code{\link{.eda_plot_xy}} for the "diagnostic" plot (e.g., \code{loe}, \code{sd}).}
 }
 \value{
 A plot visualizing residuals and factor effects.
 }
 \description{
-Generates decomposition plots of factor effects and residuals from
-an object of class \code{"eda_mean_sweep"}. These plots aid in visualizing
-the additive decomposition of the response variable.
+Generates decomposition plots or diagnostic plots from an object of class
+\code{"eda_mean_sweep"}.
 }
 \details{
-This plot method leverages the value-splitting and sweeping procedure
-performed by \code{\link{eda_mean_sweep}()} to provide a graphical
-representation of the decomposed data. It visualizes the additive overlays:
-the residuals and the centered main and interaction effects. This
-allows for an exploratory assessment of the relative magnitudes of
-different effects and the variability remaining in the residuals.
-Such displays are emphasized in EDA to gain insight into data structure.
+This plot method can generate two types of plots:
 
-\cr
-The actual plotting is handled by the internal utility function
-\code{\link{.eda_plot_vardecomp}}, which
-plots the residuals as a boxplot and overlays factor effects as individual
-dot plots (by default, \code{type = "boxpnt"} is used internally
-within \code{.eda_plot_vardecomp}).
+\strong{1. Variability Decomposition Plot (\code{plot = "effects"} or \code{"ms"})} \cr
+This plot, handled by \code{\link{.eda_plot_vardecomp}}, visualizes the
+additive overlays: the residuals and the centered main and interaction effects.
 
-The \code{order} argument (default TRUE) helps in quickly seeing which effects
-contribute most to the data's range by sorting their range visually.
+\strong{2. Diagnostic Plot (\code{plot = "diagnostic"})} \cr
+This plot is a key tool from Exploratory Data Analysis for assessing if an
+additive model is sufficient. It plots the residuals from the model against a
+set of "comparison values". For a two-way model, the comparison value is: \cr
+\code{(row effect) * (column effect) / (grand mean)} \cr
+A sloping trend in this plot suggests a hidden interaction.
 }
 \examples{
 
@@ -84,17 +86,27 @@ plot(M0, overlap = "overplot")
 # Plot can be rotated
 plot(M0, rotate = TRUE)
 
-# Original response variable can be added as a boxplot 
+# Original response variable can be added as a boxplot
 plot(M0, show.resp = TRUE)
 
 # If "mean squares" are to be compared, the effects need to be adjusted
 # by setting plot = "ms" (see page 174 of the referenced source)
 plot(M0, plot = "ms")
+
+# Generating diagnostic plots
+M1 <- eda_mean_sweep(yarn, Cycles, Load, Length, Amplitude)
+
+# Create an overlay of all two-way diagnostic plots
+# Note: For mean-sweep, this plots Residuals vs. CV for each interaction
+plot(M1, plot = "diagnostic", margin = "all")
+
+# Create a diagnostic plot for a specific interaction
+plot(M1, plot = "diagnostic", margin = "Load:Length", reg = TRUE)
 }
 \references{
 Hoaglin, D. C., Mosteller, F., & Tukey, J. W. (1991).
 \emph{Fundamentals of Exploratory Analysis of Variance}. Wiley.
 }
 \seealso{
-\code{\link{eda_mean_sweep}}, \code{\link{.eda_plot_vardecomp}}, \code{\link{eda_anova_table}}
+\code{\link{eda_mean_sweep}}, \code{\link{.eda_plot_vardecomp}}, \code{\link{.eda_plot_xy}}
 }

@@ -72,7 +72,7 @@ set to \code{NULL} (the default), the record number is displayed.}
 \item{medcol}{Median line color.}
 
 \item{reorder}{Boolean determining if factors have to be reordered based
-on median, upper quartile or lower quartile (set in \code{reorder.type}).}
+on median, upper quartile or lower quartile (set in \code{reorder.stat}).}
 
 \item{reorder.stat}{Statistic to reorder level by if \code{reorder} is set to
 \code{TRUE}. Either \code{"median"}, \code{"upper"} (for upper quartile) or

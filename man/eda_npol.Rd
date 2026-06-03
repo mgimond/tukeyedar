@@ -21,7 +21,8 @@ eda_npol(
 \item{dat}{A data frame in long form containing the response and factor
 variables.}
 
-\item{response}{The response variable (must be numeric).}
+\item{response}{The response variable (must be numeric). Note that nesting is
+not currently supported.}
 
 \item{...}{Unquoted factor variable names.}
 
@@ -45,62 +46,116 @@ used.}
 \item{base}{Base used with the \code{log()} function if \code{p = 0}.}
 }
 \value{
-A list of class \code{eda_npol} containing: \item{global}{The
-estimated common effect.} \item{response}{Response column name.}
+A list of class \code{eda_npol} containing:
+\item{global}{The estimated common effect.}
+\item{response}{Response column name.}
 \item{effects}{A nested list of effects, where names correspond to margins
 (e.g., "A", "A:B").}
-\item{long}{A dataframe including residuals, comparison values (cv), and
-fits.} \item{converged}{Boolean indicating if convergence was reached.}
-\item{iter}{The number of iterations performed.} \item{fitted_values}{The sum
-of common and all extracted margin effects.} \item{power}{The power
-transformation applied.}
+\item{long}{A dataframe including residuals, a composite comparison value (cv) for backward compatibility, and fits.}
+\item{cv}{A list containing detailed comparison values. Names correspond to
+the interaction margin (e.g., "A:B") or "residuals" for the n-way residual CV.
+\bold{This component is empty} if a main-effect model is run (i.e. \code{max_order = 1})}
+
+\item{converged}{Boolean indicating if convergence was reached.}
+\item{iter}{The number of iterations performed.}
+\item{fitted_values}{The sum of common and all extracted margin effects.}
+\item{power}{The power transformation applied.}
 }
 \description{
 Apply median polish to a multiway table to extract common, main,
-and interactive effects.
+and interactive effects. This function is an extension of \code{eda_npol}
+that calculates detailed comparison values (CVs) for diagnostic plots.
 }
 \details{
-This function implements the "overlay approach" to data
+This function implements the "sweeping approach" to data
 decomposition. The response is modeled as a sum of components: a common
 value, main effects for each factor, and interactive overlays for factor
-combinations up to \code{max_order}. Each overlay replicates the dimensions
-of the entire layout but isolates a specific structural component (e.g., the
-"FactorA:FactorB" interaction).
+combinations up to \code{max_order}.
 
 In unreplicated tables (one observation per cell), setting \code{max_order}
-to the total number of factors will result in zero residuals, as all
+to the total number of factors will result in zero residuals as all
 variation is swept into the highest-order interaction.
 
 If replicates are present (i.e. more than one response value per unique
 combination of factor levels), the values are combined into a single value
-using the \code{stat} function).
+using the function defined by the \code{stat} argument).
+
+The Comparison Value (cv) generated in the \code{long} component of the output
+is computed differently depending on whether the model is run in main-effect
+mode (i.e. \code{max_order = 1}) or in full-effect mode
+(i.e. \code{max_order > 1}).
+
+In \bold{main-effect} mode, the \bold{cv} column represents the
+\bold{composite comparison value}. This value is used to diagnose
+nonadditivity that is embedded within the residuals when interactions have
+not been explicitly separated.
+
+\deqn{
+CV_{composite} = \frac{\sum_{1 \le i < j \le n} \hat{a}_i \hat{a}_j}{m}
+}
+
+where: \eqn{n} is the number of factors, \eqn{m} is the estimated common value,
+\eqn{\hat{a}_i} and \eqn{\hat{a}_j} are the estimated main effects for the
+specific levels of factors  \eqn{i} and  \eqn{j}.
+
+In \bold{full-effect} mode, the two-factor interactions have already been
+swept out into their own overlays. Therefore, the \bold{cv} column in \code{long}
+represents the product of all main effects divided by the common term  \eqn{m}
+raised to the power of \eqn{(n−1)}. For a model with \eqn{n} factors, this
+gives us:
+
+\deqn{
+CV_{residual} = \frac{\prod_{i=1}^{n} \hat{a}_i}{m^{n-1}}
+}
+
+For a standard 3-factor layout (factors \eqn{a}, \eqn{b}, and \eqn{c}),
+the equation simplifies to the triple-product formula,
+
+\deqn{
+CV_{ABC} = \frac{\hat{a}_i \hat{b}_j \hat{c}_k}{m^2}
+}
+
+where \eqn{\hat{a}_i}, \eqn{\hat{b}_j}, \eqn{\hat{c}_k}  represent
+the main effects for each factor.
 }
 \examples{
-# Example 1:
-M0 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
+# Main effect median polish (i.e. no interaction)
+M1 <- eda_npol(yarn, Cycles, Load, Length, Amplitude)
+plot(M1) # Plot effect values and residuals
+plot(M1,  plot = "diagnostic") # Plot residuals vs comparison value
 
-# Extract global and factor effects from model
-M0$global
-M0$effects
+# Full effect median polish (i.e. include two-way interactions)
+M2 <- eda_npol(yarn, Cycles, Load, Length, Amplitude, max_order = 2)
+plot(M2, plot = "diagnostic") # Plot residuals vs higher-order CV
 
-# Visualize the data decomposition
-plot(M0)
+# Overlay all two-way interaction diagnostics
+plot(M2, plot = "diagnostic", margin = "all")
 
-# Generate a diagnostic plot (used to assess interaction effects)
-plot(M0, plot = "diagnostic", robust = T)
+# Generate the diagnostic plot for a specific two-way interaction
+plot(M2, plot = "diagnostic", margin = "Load:Length")
 
-# Re-express response variable by applying the log transformation
-# Apply a base 10 log transformation
-M1 <- eda_npol(yarn, Cycles, Load, Length, Amplitude, p = 0, base = 10)
-plot(M1)
-plot(M1, plot = "diagnostic", robust = T)
+# Generate side-by-side diagnostic plots for all two-way interactions
+numplots <- length(M2$cv) - 1
+nameplots <- names(M2$cv)[-(numplots+1)]
+nc <- ceiling(sqrt(numplots))      # number of columns
+nr <- ceiling(numplots / nc)       # number of row
+OP <- par(mfrow=c(nr,nc))
+invisible(sapply(nameplots, \(x) plot(M2, plot="diagnostic", margin = x, reg=TRUE)))
+par(OP)
 
-# Example 2:
-# Example of a 3-way table with missing values
-# Note that the function returns a Warning with the number of
-# missing combinations (e.g. 14 out of 120)
-M0 <- eda_npol(logan, delay, am_pm, carrier, month, maxiter = 30)
-plot(M0)
-plot(M0, plot = "diagnostic")
+}
+\references{
+Cook, N. R. (1985). Three-Way Analyses. In D. C. Hoaglin, F. Mosteller,
+& J. W. Tukey (Eds.), Exploring Data Tables, Trends, and Shapes (pp. 125-188).
+New York: Wiley.
 
+Emerson, J. D., & Wong, G. Y. (1983). Resistant Nonadditive Fits for Two-Way
+Tables. In D. C. Hoaglin, F. Mosteller, & J. W. Tukey (Eds.), Understanding
+Robust and Exploratory Data Analysis (pp. 67-124). New York: Wiley.
+}
+\seealso{
+\link{eda_pol} for an implementation of the median polish
+on a two-way (two factor) table and,
+\link{eda_mean_sweep} for a sweeping implementation using the mean
+instead of the median.
 }

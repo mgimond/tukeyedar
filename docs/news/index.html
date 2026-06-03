@@ -24,7 +24,8 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/anova.html">ANOVA: beyond the p-value</a></li>
+    <li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
     <li><a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a></li>
     <li><a class="dropdown-item" href="../articles/rfs.html">The residual-fit spread plot</a></li>
     <li><a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a></li>
@@ -48,7 +49,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tukeyedar-development-version">tukeyedar (development version)<a class="anchor" aria-label="anchor" href="#tukeyedar-development-version"></a></h2>
-<ul><li>Fixes variability decomposition labeling problem for objects of class <code>eda_polish</code> (<a href="https://github.com/mgimond/tukeyedar/issues/30" class="external-link">#30</a>)</li>
+<ul><li>Added the <code>ANOVA: beyond the p-value</code> vignette.</li>
+<li>
+<code>plot.eda_npol</code> and <code>plot.eda_mean_sweep</code> methods now allow for n-way <code>margin</code> diagnostic plots</li>
+<li>Fixed bug in <code>eda_boxls</code> whereby the <code>base</code> argument was not passed to <code>eda_re</code>
+</li>
+<li>
+<code>eda_npol</code> now allows for interactive effects via the <code>max_order</code> argument.</li>
+<li>Added <code>edtts4.2</code> data pulled from table 4-2 of <em>Exploring Data tables, Trends, and Shapes</em>.</li>
+<li>Added <code>feav13_1</code> data pulled from table 13-1 of <em>Fundamentals of Exploratory Analysis of Variance</em>.</li>
+<li>
+<code>eda_matlong</code> can now handle n-factors and not just a two-dimensional table.</li>
+<li>Median polish article: added text clarifying Tukey’s interaction term as being an approximation to interaction.</li>
+<li>Re-wrote <code><a href="../reference/eda_shuffle.html">eda_shuffle()</a></code>. It now can perform permutations on one or more columns of a dataframe.</li>
+<li>Fixes variability decomposition labeling problem for objects of class <code>eda_polish</code> (<a href="https://github.com/mgimond/tukeyedar/issues/30" class="external-link">#30</a>)</li>
 <li>Fixes missing regression line in median polish diagnostic plot method (<a href="https://github.com/mgimond/tukeyedar/issues/29" class="external-link">#29</a>).</li>
 <li>
 <code>eda_rfs</code> now outputs the f-values, residuals and fit-minus-mean values as a dataframe (<a href="https://github.com/mgimond/tukeyedar/issues/24" class="external-link">#24</a>).</li>

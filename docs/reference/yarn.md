@@ -1,4 +1,4 @@
-# yarn dataset
+# Yarn Data
 
 Table 4-19 of *Exploring data tables, trends, and shapes* shows data
 from a textile experiment where specimens of worsted yarn were

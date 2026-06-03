@@ -116,7 +116,7 @@ eda_boxls(
 - reorder:
 
   Boolean determining if factors have to be reordered based on median,
-  upper quartile or lower quartile (set in `reorder.type`).
+  upper quartile or lower quartile (set in `reorder.stat`).
 
 - reorder.stat:
 

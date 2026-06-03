@@ -27,7 +27,7 @@ Mandel (1960) and is used in Exploratory Data Analysis to illustrate
 heteroscedasticity and the need for re-expression.
 }
 \examples{
-M0 <- eda_mean_sweep(datl, Smoothness, Lab,Material,p =0, base=10, max_order = 2)
+M0 <- eda_mean_sweep(feav13_1, Smoothness, Lab,Material,p =0, base=10, max_order = 2)
 plot(M0)
 eda_anova_table(M0)
 

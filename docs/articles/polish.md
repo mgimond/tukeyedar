@@ -3,8 +3,9 @@
 ## The median polish basics
 
 The median polish is an exploratory technique used to extract effects
-from a two-way table. As such, a median polish can be thought of as a
-robust version of a [two-way
+from a **two-way table with no replication** (i.e., one observation per
+cell). As such, a median polish can be thought of as a robust version of
+a [two-way
 ANOVA](https://mgimond.github.io/Stats-in-R/ANOVA.html#two-way-anova)–the
 goal being to characterize the role each factor has in contributing
 towards the expected value. It does so by iteratively extracting the
@@ -423,6 +424,41 @@ The infant mortality dataset used in this exercise does not suggest
 interaction between effects in the diagnostic plot. Next, we’ll look at
 another dataset that may exhibit interaction between its effects.
 
+### Interpreting the interaction term
+
+At this point, it is important to clarify what is meant by interaction
+in the context of the median polish. In a classical two-way analysis,
+interaction is defined very generally as a cell-specific departure from
+additivity:
+
+\\ y\_{ij} = \mu + \alpha\_{i} + \beta\_{j} + (\alpha\beta)\_{ij}
++\epsilon\_{ij} \\ where \\(\alpha\beta)\_{ij}\\ can take on an
+arbitrary value for each combination of row and column. This formulation
+allows for highly flexible interaction patterns but requires
+**replication within each cell** to estimate the interaction term
+separately from the residual error.
+
+In contrast, the interaction implied by the diagnostic plot is not this
+general form. Instead, Tukey’s additivity diagnostic assumes that any
+interaction present follows a **specific multiplicative structure** of
+the form:
+
+\\ (\alpha\beta)\_{ij} \approx k \frac{\alpha_i\beta_j}{\mu} \\ Thus,
+the augmented model
+
+\\ y\_{ij} = \mu + \alpha\_{i} + \beta\_{j} + kCV\_{ij} +\epsilon\_{ij}
+\\ does not introduce a fully general interaction term but rather, a
+**single-parameter approximation to interaction**. In other words, the
+diagnostic plot is **testing for a systematic non-additive pattern**
+that increases (or decreases) proportionally with the product of the row
+and column effects. The diagnostic plot asks *“Can the residuals be
+explained by a simple, structured function of the row and column
+effects?”*
+
+It’s important to note that the diagnostic plot may not capture *all*
+non-random noise in the residuals, especially if the interaction between
+the effects is more complex (i.e. non-multiplicative).
+
 ### Another example: Earnings by sex for 2021
 
 The dataset consists of earnings by sex and levels of educational
@@ -709,8 +745,14 @@ model.tables(aov(Earnings ~ Sex + Education, income))
 ```
 
 As with the median polish, we must concern ourselves with interactions
-between the effects. If interaction is present, ANOVA inferential
-statistics using the F-test can be untrustworthy.
+between the effects. The comparison value (CV) diagnostic applies
+equally well when the mean is used instead of the median. In this case,
+the resulting slope corresponds to a least-squares estimate of a
+one-parameter multiplicative interaction, analogous to Tukey’s *test for
+non-additivity* in a traditional two-way ANOVA.
+
+If interaction is present, ANOVA inferential statistics using the F-test
+can be untrustworthy.
 
 ``` r
 
