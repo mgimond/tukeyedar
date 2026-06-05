@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Median polish • tukeyedar</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
   window.MathJax = {
     chtml: {
@@ -13,8 +18,8 @@
     }
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Median polish">
 </head>
@@ -26,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +44,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
+<li><a class="dropdown-item" href="../articles/anova.html">ANOVA: beyond the p-value</a></li>
+    <li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
     <li><a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a></li>
     <li><a class="dropdown-item" href="../articles/rfs.html">The residual-fit spread plot</a></li>
     <li><a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a></li>
@@ -65,14 +71,13 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Median polish</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Median polish</h1>
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2025-08-01</h4>
+            <h4 data-toc-skip class="date">2026-06-05</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.5.0/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.6.0/vignettes/polish.Rmd" class="external-link"><code>vignettes/polish.Rmd</code></a></small>
       <div class="d-none name"><code>polish.Rmd</code></div>
     </div>
 
@@ -90,7 +95,8 @@ Gimond</h4>
 <h2 id="the-median-polish-basics">The median polish basics<a class="anchor" aria-label="anchor" href="#the-median-polish-basics"></a>
 </h2>
 <p>The median polish is an exploratory technique used to extract effects
-from a two-way table. As such, a median polish can be thought of as a
+from a <strong>two-way table with no replication</strong> (i.e., one
+observation per cell). As such, a median polish can be thought of as a
 robust version of a <a href="https://mgimond.github.io/Stats-in-R/ANOVA.html#two-way-anova" class="external-link">two-way
 ANOVA</a>–the goal being to characterize the role each factor has in
 contributing towards the expected value. It does so by iteratively
@@ -110,7 +116,7 @@ by <em>smoothing</em> out the remaining residual rates by extracting the
 median values along each row (thus contributing to the row factor). The
 smoothing operation is iterated until the residuals stabilize. An
 example of the workflow is highlighted in the following figure.</p>
-<p><img src="polish_files/figure-html/unnamed-chunk-2-1.png" width="1056"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="1056"></p>
 <p>The left-most table is the original data showing death rates. The
 second table shows the outcome of the first round of polishing
 (including the initial overall median value of 20.2). The third and
@@ -160,7 +166,7 @@ each variable (the two factors and the expected value).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
 <span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">inf_mort</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="288"></p>
 <p>The function will output the table as a plot along with a list of
 components that are stored in the <code>M1</code> object. If you want to
 suppress the plot, you can set the parameter
@@ -190,7 +196,7 @@ follows:</p>
 <code>sort</code> parameter to <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">inf_mort</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-10-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 <div class="section level3">
 <h3 id="applying-a-transformation-to-the-data">Applying a transformation to the data<a class="anchor" aria-label="anchor" href="#applying-a-transformation-to-the-data"></a>
@@ -200,7 +206,7 @@ the polish. For example, to log transform the data, pass the value
 <code>0</code> to <code>p</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">inf_mort</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-12-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="288"></p>
 <p>If you are re-expressing the data using a negative power, you have
 the choice of adopting a Tukey transformation
 (<code>tukey = TRUE</code>) or a Box-Cox transformation
@@ -208,7 +214,7 @@ the choice of adopting a Tukey transformation
 transformation of -0.1 using a Box-Cox transformation, type:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">inf_mort</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, tukey <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-14-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 <div class="section level3">
 <h3 id="defining-the-statistic">Defining the statistic<a class="anchor" aria-label="anchor" href="#defining-the-statistic"></a>
@@ -218,7 +224,7 @@ can adopt any other statistic via the <code>stat</code> parameter. For
 example, to apply a <strong>mean polish</strong>, type:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">inf_mort</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, stat <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-16-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 </div>
 <div class="section level2">
@@ -239,7 +245,7 @@ follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">inf_mort</span>, row <span class="op">=</span> <span class="va">region</span>, col <span class="op">=</span> <span class="va">edu</span>, val <span class="op">=</span> <span class="va">perc</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-18-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 <div class="section level2">
 <h2 id="adjusting-color-schemes">Adjusting color schemes<a class="anchor" aria-label="anchor" href="#adjusting-color-schemes"></a>
@@ -253,7 +259,7 @@ To prevent the common value from affecting the distribution of color
 palettes, set <code>col.com</code> to <code>FALSE</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.com <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-20-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" alt="" width="288"></p>
 <p>Note how the distribution of colors is maximized to help improve our
 view of the effects. This view makes it clear that the father’s
 educational attainment has a greater effect than the region.</p>
@@ -266,7 +272,7 @@ range of colors to fit the range of residual values, set
 <code>col.eff = FALSE</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.eff <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-22-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="288"></p>
 <p>Note that setting <code>col.eff</code> to <code>FALSE</code> does not
 prevent the effects cells from being colored. It simply ensures that the
 range of colors are maximized to match the full range of residual
@@ -295,14 +301,14 @@ palette as follows. (We’ll remove the common effect value from the range
 of input values to maximize the displayed set of colors).</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, colpal <span class="op">=</span> <span class="st">"Green-Brown"</span>, col.com <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-25-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="288"></p>
 <p>The default color scheme is symmetrical and linear, centered on
 <code>0</code>. If you want to maximize the use of colors, regardless of
 the range of values, you can set <code>col.quant</code> to
 <code>TRUE</code> which will adopt a quantile color scheme.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.quant <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-27-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" alt="" width="288"></p>
 <p>You’ll note that regardless of the asymmetrical distribution of
 values about <code>0</code>, each cell is assigned a unique color
 swatch.</p>
@@ -311,7 +317,7 @@ to adopt a color palette that generates fewer unique hues and more
 variation in lightness values. For example,</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, col.quant <span class="op">=</span> <span class="cn">TRUE</span>, colpal <span class="op">=</span> <span class="st">"Green-Orange"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-29-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-29-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 </div>
 <div class="section level2">
@@ -321,20 +327,20 @@ variation in lightness values. For example,</p>
 <code>res.txt</code> to <code>FALSE</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, res.txt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-31-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-31-1.png" class="r-plt" alt="" width="288"></p>
 <p>Likewise you can omit all axes labels by setting
-<code>label.txt</code> to <code>FALSE</code>. This may prove useful when
-applying a median polish to a large grid file.</p>
+<code>margin.label</code> to <code>FALSE</code>. This may prove useful
+when applying a median polish to a large grid file.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, res.txt <span class="op">=</span> <span class="cn">FALSE</span>, label.txt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-33-1.png" width="288"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, res.txt <span class="op">=</span> <span class="cn">FALSE</span>, margin.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="polish_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="288"></p>
 <p>You can adjust the text size via the <code>res.size</code>,
 <code>row.size</code> and <code>col.size</code> parameters for the
 numeric values, the row names, and the column names respectively. For
 example, to set their sizes to 60% of their default value, type:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, row.size <span class="op">=</span> <span class="fl">0.6</span>, col.size <span class="op">=</span> <span class="fl">0.6</span> , res.size <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-34-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-34-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 <div class="section level2">
 <h2 id="exploring-diagnostic-plots">Exploring diagnostic plots<a class="anchor" aria-label="anchor" href="#exploring-diagnostic-plots"></a>
@@ -344,7 +350,9 @@ residuals vs comparison values (CV), herein referred to as the
 <strong>diagnostic plot</strong>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M1</span>, plot <span class="op">=</span> <span class="st">"diagnostic"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-35-1.png" width="288"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-35-1.png" class="r-plt" alt="" width="288"></p>
+<pre><code>                 int Comparison Value^1 
+          0.07621788        -0.03493527</code></pre>
 <p>A bisquare robust line is fitted to the data (light red line) along
 with a robust loess fit (dashed blue line). The function will also
 output the line’s slope. This slope can be used to help estimate a
@@ -354,7 +362,7 @@ component from the <code>M1</code> list. The <code>cv</code> component
 is a dataframe that stores the residuals (first column) and CV values
 (fourth column). The first few records of the dataframe are shown
 here:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">M1</span><span class="op">$</span><span class="va">cv</span><span class="op">)</span></span>
 <span>  <span class="cn">NULL</span></span></code></pre></div>
 <p>The diagnostic plot helps identify any interactions between both
@@ -384,7 +392,7 @@ The additive effect can be observed in an interaction plot as shown on
 the right. The column effect is plotted along the x-axis, the row effect
 is mapped to each line segment.</p>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-37-1.png" alt="Original dataset (left). Interaction plot (right)." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-37-1.png" class="r-plt" alt="Original dataset (left). Interaction plot (right)." width="528"><p class="caption">
 Original dataset (left). Interaction plot (right).
 </p>
 </div>
@@ -392,7 +400,7 @@ Original dataset (left). Interaction plot (right).
 interaction</strong> between the effects. A median polish generates the
 following table and diagnostic plot:</p>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-38-1.png" alt="Median polished data showing no interaction between effects" width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-38-1.png" class="r-plt" alt="Median polished data showing no interaction between effects" width="528"><p class="caption">
 Median polished data showing no interaction between effects
 </p>
 </div>
@@ -401,7 +409,7 @@ accompanying diagnostic plot.</p>
 <p>Now, let’s see what happens when an interaction is in fact present in
 the two way table.</p>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-39-1.png" alt="Original dataset (left). Interaction plot (right)." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-39-1.png" class="r-plt" alt="Original dataset (left). Interaction plot (right)." width="528"><p class="caption">
 Original dataset (left). Interaction plot (right).
 </p>
 </div>
@@ -409,7 +417,7 @@ Original dataset (left). Interaction plot (right).
 interaction plot. Now let’s run the median polish and generate the
 diagnostic plot.</p>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-40-1.png" alt="Median polished data showing interaction between effects" width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-40-1.png" class="r-plt" alt="Median polished data showing interaction between effects" width="528"><p class="caption">
 Median polished data showing interaction between effects
 </p>
 </div>
@@ -433,27 +441,64 @@ from the diagnostic plot).</p>
 interaction between effects in the diagnostic plot. Next, we’ll look at
 another dataset that may exhibit interaction between its effects.</p>
 <div class="section level3">
+<h3 id="interpreting-the-interaction-term">Interpreting the interaction term<a class="anchor" aria-label="anchor" href="#interpreting-the-interaction-term"></a>
+</h3>
+<p>At this point, it is important to clarify what is meant by
+interaction in the context of the median polish. In a classical two-way
+analysis, interaction is defined very generally as a cell-specific
+departure from additivity:</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_{i} + \beta_{j} + (\alpha\beta)_{ij}
++\epsilon_{ij}
+\]</span> where <span class="math inline">\((\alpha\beta)_{ij}\)</span>
+can take on an arbitrary value for each combination of row and column.
+This formulation allows for highly flexible interaction patterns but
+requires <strong>replication within each cell</strong> to estimate the
+interaction term separately from the residual error.</p>
+<p>In contrast, the interaction implied by the diagnostic plot is not
+this general form. Instead, Tukey’s additivity diagnostic assumes that
+any interaction present follows a <strong>specific multiplicative
+structure</strong> of the form:</p>
+<p><span class="math display">\[
+(\alpha\beta)_{ij} \approx k \frac{\alpha_i\beta_j}{\mu}
+\]</span> Thus, the augmented model</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_{i} + \beta_{j} + kCV_{ij} +\epsilon_{ij}
+\]</span> does not introduce a fully general interaction term but
+rather, a <strong>single-parameter approximation to
+interaction</strong>. In other words, the diagnostic plot is
+<strong>testing for a systematic non-additive pattern</strong> that
+increases (or decreases) proportionally with the product of the row and
+column effects. The diagnostic plot asks <em>“Can the residuals be
+explained by a simple, structured function of the row and column
+effects?”</em></p>
+<p>It’s important to note that the diagnostic plot may not capture
+<em>all</em> non-random noise in the residuals, especially if the
+interaction between the effects is more complex
+(i.e. non-multiplicative).</p>
+</div>
+<div class="section level3">
 <h3 id="another-example-earnings-by-sex-for-2021">Another example: Earnings by sex for 2021<a class="anchor" aria-label="anchor" href="#another-example-earnings-by-sex-for-2021"></a>
 </h3>
 <p>The dataset consists of earnings by sex and levels of educational
 attainment for 2021 (<em>src: US Census Bureau</em>).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># edu &lt;- c("NoHS", "HS", "HS+2", "HS+4", "HS+6")</span></span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="co"># income &lt;- data.frame(Education = factor(rep(edu,2), levels = edu),</span></span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="co">#                   Sex = c(rep("Male", 5), rep("Female",5)),</span></span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#                   Earnings = c(31722, 40514, 49288, 73128,98840,20448,</span></span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co">#                                     26967, 33430, 50554, 67202))</span></span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>income</span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>     Education    Sex Earnings</span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="dv">1</span>       NoHS   Male    <span class="dv">31722</span></span>
-<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="dv">2</span>         HS   Male    <span class="dv">40514</span></span>
-<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="dv">3</span>       HS<span class="sc">+</span><span class="dv">2</span>   Male    <span class="dv">49288</span></span>
-<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>  <span class="dv">4</span>       HS<span class="sc">+</span><span class="dv">4</span>   Male    <span class="dv">73128</span></span>
-<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>  <span class="dv">5</span>       HS<span class="sc">+</span><span class="dv">6</span>   Male    <span class="dv">98840</span></span>
-<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>  <span class="dv">6</span>       NoHS Female    <span class="dv">20448</span></span>
-<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>  <span class="dv">7</span>         HS Female    <span class="dv">26967</span></span>
-<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>  <span class="dv">8</span>       HS<span class="sc">+</span><span class="dv">2</span> Female    <span class="dv">33430</span></span>
-<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a>  <span class="dv">9</span>       HS<span class="sc">+</span><span class="dv">4</span> Female    <span class="dv">50554</span></span>
-<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a>  <span class="dv">10</span>      HS<span class="sc">+</span><span class="dv">6</span> Female    <span class="dv">67202</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># edu &lt;- c("NoHS", "HS", "HS+2", "HS+4", "HS+6")</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="co"># income &lt;- data.frame(Education = factor(rep(edu,2), levels = edu),</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co">#                   Sex = c(rep("Male", 5), rep("Female",5)),</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#                   Earnings = c(31722, 40514, 49288, 73128,98840,20448,</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co">#                                     26967, 33430, 50554, 67202))</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>income</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>     Education    Sex Earnings</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="dv">1</span>       NoHS   Male    <span class="dv">31722</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="dv">2</span>         HS   Male    <span class="dv">40514</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  <span class="dv">3</span>       HS<span class="sc">+</span><span class="dv">2</span>   Male    <span class="dv">49288</span></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  <span class="dv">4</span>       HS<span class="sc">+</span><span class="dv">4</span>   Male    <span class="dv">73128</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  <span class="dv">5</span>       HS<span class="sc">+</span><span class="dv">6</span>   Male    <span class="dv">98840</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="dv">6</span>       NoHS Female    <span class="dv">20448</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>  <span class="dv">7</span>         HS Female    <span class="dv">26967</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>  <span class="dv">8</span>       HS<span class="sc">+</span><span class="dv">2</span> Female    <span class="dv">33430</span></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>  <span class="dv">9</span>       HS<span class="sc">+</span><span class="dv">4</span> Female    <span class="dv">50554</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  <span class="dv">10</span>      HS<span class="sc">+</span><span class="dv">6</span> Female    <span class="dv">67202</span></span></code></pre></div>
 <p>The <code>Education</code> levels are defined as follows:</p>
 <ul>
 <li>
@@ -468,21 +513,23 @@ attainment for 2021 (<em>src: US Census Bureau</em>).</p>
 <p>The original table (prior to running the median polish), can be
 viewed by setting <code>maxiter</code> to <code>0</code> in the call to
 <code>eda_pol</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , maxiter <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-42-1.png" alt="2021 Average earnings for the US." width="268.8"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-42-1.png" class="r-plt" alt="2021 Average earnings for the US." width="268.8"><p class="caption">
 2021 Average earnings for the US.
 </p>
 </div>
 <p>Next, we’ll run the median polish.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we plot the final table and the diagnostic plot.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, <span class="st">"diagnostic"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-44-1.png" width="528"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-44-1.png" class="r-plt" alt="" width="528"></p>
+<pre><code>                      int      Comparison Value^1 
+  -0.00000000000006765046  0.94087202738251118905</code></pre>
 <p>Here’s what we can glean from the output:</p>
 <ul>
 <li>Overall, the median earnings is $41,359</li>
@@ -511,11 +558,11 @@ They can be extracted from the model via the <code>M2$cv</code>
 component or they can be visualized via the <code>plot</code> function.
 The following figure shows both the original residuals table (left) and
 the CV table (right).</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, <span class="st">"cv"</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-45-1.png" alt="Median polish residuals (left) and CV values (right)." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-45-1.png" class="r-plt" alt="Median polish residuals (left) and CV values (right)." width="528"><p class="caption">
 Median polish residuals (left) and CV values (right).
 </p>
 </div>
@@ -524,12 +571,12 @@ compute a new set of residuals. These residuals can be plotted by
 setting <code>add.cv</code> to <code>TRUE</code> and by specifying a
 value for <code>k</code>. Using the slope to estimate <code>k</code> we
 get:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, <span class="st">"cv"</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M2</span>, <span class="st">"residuals"</span>, add.cv<span class="op">=</span><span class="cn">TRUE</span>, k <span class="op">=</span> <span class="fl">0.94</span>,</span>
 <span>     res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-46-1.png" alt="CV values (left) and new set of residuals (right)." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-46-1.png" class="r-plt" alt="CV values (left) and new set of residuals (right)." width="528"><p class="caption">
 CV values (left) and new set of residuals (right).
 </p>
 </div>
@@ -561,15 +608,15 @@ the diagnostic plot) from the value of 1 offers a suggested
 transformation that may provide us with a scale of measure best suited
 for the data. We’ll rerun the median polish using a power transformation
 of <code>1 - 0.94 = 0.06</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , </span>
 <span>              plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.06</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we plot the final table and the diagnostic plot.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M3</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M3</span>, <span class="st">"diagnostic"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-48-1.png" alt="Median polish output (left) and CV values (right)." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-48-1.png" class="r-plt" alt="Median polish output (left) and CV values (right)." width="528"><p class="caption">
 Median polish output (left) and CV values (right).
 </p>
 </div>
@@ -592,7 +639,7 @@ ratio between the interquartile range of the row an column effects to
 the 80% quantile of the residual’s absolute values.</p>
 <p>The following code chunk computes this ratio for different power
 transformations.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span>,</span>
 <span>                 p <span class="op">=</span> <span class="va">x</span>, plot<span class="op">=</span><span class="cn">FALSE</span>, tukey <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -606,28 +653,28 @@ transformations.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">IQcol</span> <span class="op">~</span> <span class="va">p</span>, <span class="va">IQ</span>, type<span class="op">=</span><span class="st">"b"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-49-1.png" alt="Row (left) and column (right) effect IQRs to residuals ratio vs power." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-49-1.png" class="r-plt" alt="Row (left) and column (right) effect IQRs to residuals ratio vs power." width="528"><p class="caption">
 Row (left) and column (right) effect IQRs to residuals ratio vs power.
 </p>
 </div>
 <p>The plot suggests a power transformation of 0.1. We’ll re-run the
 median polish using this power transformation.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span>, </span>
 <span>              plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4</span>, <span class="st">"diagnostic"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-50-1.png" width="528"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-50-1.png" class="r-plt" alt="" width="528"></p>
 <p>The slope is much smaller and the loess fit suggests no monotonically
 increasing or decreasing relationship between the residuals and the CV
 values. Re-expressing the value seems to have done a good job in
 stabilizing the residuals across CV values.</p>
 <p>We’ll modify the color scheme so as to place emphasis on the effects
 as opposed to the overall value.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4</span>, col.com <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>     res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-51-1.png" width="268.8"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-51-1.png" class="r-plt" alt="" width="268.8"></p>
 <p>Here’s what we can glean from the output:</p>
 <ul>
 <li>The earnings values are best expressed on a power scale of 0.1.</li>
@@ -652,11 +699,11 @@ effects.</li>
 <p>The <code>eda_pol</code> function accepts any statistical summary
 function. By default, it uses the median. For example, the <em>mean</em>
 polish generated from the earnings dataset looks like this:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , </span>
 <span>              stat <span class="op">=</span> <span class="va">mean</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M5</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-52-1.png" width="268.8"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-52-1.png" class="r-plt" alt="" width="268.8"></p>
 <p>Polishing the data using the mean requires a single iteration to
 reach a stable output. The mean suffers from its sensitivity to
 non-symmetrical distributions and outliers. As such, the median polish
@@ -665,35 +712,42 @@ has its benefits: It’s a great way to represent the effects generated
 from a <strong>two-way analysis of variance</strong> (aka 2-way ANOVA).
 This is confirmed by comparing the above row and column effects to a
 traditional 2-way ANOVA technique shown here:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">model.tables</span>(<span class="fu">aov</span>(Earnings <span class="sc">~</span> Sex <span class="sc">+</span> Education, income))</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  Tables of effects</span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  </span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>   Sex </span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  Sex</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>  Female   Male </span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>   <span class="sc">-</span><span class="dv">9489</span>   <span class="dv">9489</span> </span>
-<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>  </span>
-<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>   Education </span>
-<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>  Education</span>
-<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>    NoHS     HS   HS<span class="sc">+</span><span class="dv">2</span>   HS<span class="sc">+</span><span class="dv">4</span>   HS<span class="sc">+</span><span class="dv">6</span> </span>
-<span id="cb34-12"><a href="#cb34-12" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">23124</span> <span class="sc">-</span><span class="dv">15469</span>  <span class="sc">-</span><span class="dv">7850</span>  <span class="dv">12632</span>  <span class="dv">33812</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">model.tables</span>(<span class="fu">aov</span>(Earnings <span class="sc">~</span> Sex <span class="sc">+</span> Education, income))</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  Tables of effects</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  </span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>   Sex </span>
+<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>  Sex</span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>  Female   Male </span>
+<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>   <span class="sc">-</span><span class="dv">9489</span>   <span class="dv">9489</span> </span>
+<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>  </span>
+<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>   Education </span>
+<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a>  Education</span>
+<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>    NoHS     HS   HS<span class="sc">+</span><span class="dv">2</span>   HS<span class="sc">+</span><span class="dv">4</span>   HS<span class="sc">+</span><span class="dv">6</span> </span>
+<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">23124</span> <span class="sc">-</span><span class="dv">15469</span>  <span class="sc">-</span><span class="dv">7850</span>  <span class="dv">12632</span>  <span class="dv">33812</span></span></code></pre></div>
 <p>As with the median polish, we must concern ourselves with
-interactions between the effects. If interaction is present, ANOVA
-inferential statistics using the F-test can be untrustworthy.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+interactions between the effects. The comparison value (CV) diagnostic
+applies equally well when the mean is used instead of the median. In
+this case, the resulting slope corresponds to a least-squares estimate
+of a one-parameter multiplicative interaction, analogous to Tukey’s
+<em>test for non-additivity</em> in a traditional two-way ANOVA.</p>
+<p>If interaction is present, ANOVA inferential statistics using the
+F-test can be untrustworthy.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M5</span>, plot <span class="op">=</span> <span class="st">"diagnostic"</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="polish_files/figure-html/unnamed-chunk-54-1.png" width="268.8"></p>
+<p><img src="polish_files/figure-html/unnamed-chunk-54-1.png" class="r-plt" alt="" width="268.8"></p>
+<pre><code>                     int     Comparison Value^1 
+  -0.0000000000002538246  0.9216920713797585041</code></pre>
 <p>There is strong evidence of interaction. The slope of 0.92 can be
 used to estimate a power transformation via <span class="math inline">\(1 - slope\)</span>. This is close to the power
 transformation of 0.1 we ended up adopting in the median polish
 exercise.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M4b</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_pol.html">eda_pol</a></span><span class="op">(</span><span class="va">income</span>, row <span class="op">=</span> <span class="va">Education</span>, col <span class="op">=</span> <span class="va">Sex</span>, val <span class="op">=</span> <span class="va">Earnings</span> , stat <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>               plot <span class="op">=</span> <span class="cn">FALSE</span>, p <span class="op">=</span> <span class="fl">0.1</span>, maxiter <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4b</span>, res.size <span class="op">=</span> <span class="fl">0.8</span>, row.size <span class="op">=</span> <span class="fl">0.8</span>, col.size <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">M4b</span>, <span class="st">"diagnostic"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="polish_files/figure-html/unnamed-chunk-55-1.png" alt="Results of a mean polish (left) and its diagnositc plot (right)." width="528"><p class="caption">
+<img src="polish_files/figure-html/unnamed-chunk-55-1.png" class="r-plt" alt="Results of a mean polish (left) and its diagnositc plot (right)." width="528"><p class="caption">
 Results of a mean polish (left) and its diagnositc plot (right).
 </p>
 </div>
@@ -714,7 +768,7 @@ would be strongly suggested.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

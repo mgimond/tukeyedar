@@ -2,6 +2,7 @@
 <url><loc>https://mgimond.github.io/tukeyedar/404.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/LICENSE-text.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/articles/RLine.html</loc></url>
+<url><loc>https://mgimond.github.io/tukeyedar/articles/anova.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/articles/index.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/articles/polish.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/articles/qq.html</loc></url>
@@ -24,6 +25,7 @@
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_lm.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_lsum.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_matlong.html</loc></url>
+<url><loc>https://mgimond.github.io/tukeyedar/reference/eda_mdens.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_mean_sweep.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_moments.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_normfit.html</loc></url>
@@ -48,7 +50,9 @@
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_vd.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/eda_viol.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/edtts2.12.html</loc></url>
+<url><loc>https://mgimond.github.io/tukeyedar/reference/edtts4.2.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/edtts4.25.html</loc></url>
+<url><loc>https://mgimond.github.io/tukeyedar/reference/feav13_1.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/feav1_5.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/feav5_12.html</loc></url>
 <url><loc>https://mgimond.github.io/tukeyedar/reference/feav5_14.html</loc></url>

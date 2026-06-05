@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>The symmetry QQ plot • tukeyedar</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
   window.MathJax = {
     chtml: {
@@ -13,8 +18,8 @@
     }
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="The symmetry QQ plot">
 </head>
@@ -26,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +44,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
+<li><a class="dropdown-item" href="../articles/anova.html">ANOVA: beyond the p-value</a></li>
+    <li><a class="dropdown-item" href="../articles/polish.html">Median polish</a></li>
     <li><a class="dropdown-item" href="../articles/qq.html">The empirical QQ plot (and derived Tukey mean-difference plot)</a></li>
     <li><a class="dropdown-item" href="../articles/rfs.html">The residual-fit spread plot</a></li>
     <li><a class="dropdown-item" href="../articles/RLine.html">Resistant Line</a></li>
@@ -65,14 +71,13 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>The symmetry QQ plot</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>The symmetry QQ plot</h1>
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2025-08-01</h4>
+            <h4 data-toc-skip class="date">2026-06-05</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.5.0/vignettes/symqq.Rmd" class="external-link"><code>vignettes/symqq.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/v0.6.0/vignettes/symqq.Rmd" class="external-link"><code>vignettes/symqq.Rmd</code></a></small>
       <div class="d-none name"><code>symqq.Rmd</code></div>
     </div>
 
@@ -101,7 +106,7 @@ batch of 1000 normally distributed values shown in the left density
 plot, we would expect the symmetry QQ plot to show the points very close
 to the <span class="math inline">\(x=y\)</span> line as shown in the
 right plot.</p>
-<p><img src="symqq_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="576"></p>
 <p>The axes in the symmetry QQ plot show the distance of each
 observation in the batch to that batch’s median value. The units are
 those of the batch. Points that are close to 0 are those observations
@@ -124,7 +129,7 @@ skewed towards larger values).</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-4-1.png" width="288"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="288"></p>
 <p>If you are familiar with the use of <code>eda_qq</code> as an
 empirical QQ plot function, you are familiar with the grey boxes that
 highlight the mid 75% of the values. Here, given that the x and y axes
@@ -149,7 +154,7 @@ to render <code>x</code> more symmetrical, we could try a power of
 <code>p = 0.5</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" width="288"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="288"></p>
 <p>Here, the square root transformation does a good job in rendering
 <code>x</code> more symmetrical. Note that the points do not hug the
 <span class="math inline">\(x=y\)</span> exactly–this is fine. What we
@@ -159,7 +164,7 @@ aggressive with the power transformation and chose a log transformation
 values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_sym.html">eda_sym</a></span><span class="op">(</span><span class="va">x</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" width="288"></p>
+<p><img src="symqq_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="288"></p>
 </div>
 <div class="section level2">
 <h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
@@ -180,7 +185,7 @@ values.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

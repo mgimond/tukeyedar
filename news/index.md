@@ -1,0 +1,185 @@
+# Changelog
+
+## tukeyedar (development version)
+
+- Added the `ANOVA: beyond the p-value` vignette.
+- `plot.eda_npol` and `plot.eda_mean_sweep` methods now allow for n-way
+  `margin` diagnostic plots
+- Fixed bug in `eda_boxls` whereby the `base` argument was not passed to
+  `eda_re`
+- `eda_npol` now allows for interactive effects via the `max_order`
+  argument.
+- Added `edtts4.2` data pulled from table 4-2 of *Exploring Data tables,
+  Trends, and Shapes*.
+- Added `feav13_1` data pulled from table 13-1 of *Fundamentals of
+  Exploratory Analysis of Variance*.
+- `eda_matlong` can now handle n-factors and not just a two-dimensional
+  table.
+- Median polish article: added text clarifying Tukey’s interaction term
+  as being an approximation to interaction.
+- Re-wrote
+  [`eda_shuffle()`](https://mgimond.github.io/tukeyedar/reference/eda_shuffle.md).
+  It now can perform permutations on one or more columns of a dataframe.
+- Fixes variability decomposition labeling problem for objects of class
+  `eda_polish` ([\#30](https://github.com/mgimond/tukeyedar/issues/30))
+- Fixes missing regression line in median polish diagnostic plot method
+  ([\#29](https://github.com/mgimond/tukeyedar/issues/29)).
+- `eda_rfs` now outputs the f-values, residuals and fit-minus-mean
+  values as a dataframe
+  ([\#24](https://github.com/mgimond/tukeyedar/issues/24)).
+- Fixed bug in
+  [`eda_rfs()`](https://mgimond.github.io/tukeyedar/reference/eda_rfs.md)
+  where the quantile type was not properly specified
+  ([\#25](https://github.com/mgimond/tukeyedar/issues/25)).
+- Added a new function,
+  [`eda_mdens()`](https://mgimond.github.io/tukeyedar/reference/eda_mdens.md),
+  that allows for any number of batches and not just two as is the case
+  with `eda_dens`.
+- Added a warning to
+  [`eda_dens()`](https://mgimond.github.io/tukeyedar/reference/eda_dens.md)
+  when `p != 1` and `bw` is manually specified, to remind users to
+  adjust `bw` for the transformed data scale.
+- Added a `kernel = "sliding"` option to
+  [`eda_dens()`](https://mgimond.github.io/tukeyedar/reference/eda_dens.md)
+  for a sliding-window density estimator
+  ([\#28](https://github.com/mgimond/tukeyedar/issues/28)).
+- Fixed bug in
+  [`eda_qq()`](https://mgimond.github.io/tukeyedar/reference/eda_qq.md)
+  where `pch` and `size` arguments were ignored
+  ([\#27](https://github.com/mgimond/tukeyedar/issues/27)).
+
+## tukeyedar 0.5.0
+
+- Added internal function `.eda_plot_xy` used by many XY plotting
+  functions.
+- Added internal function `.eda_plot_vardecomp` used to view decomposed
+  n-way tables.
+- Added new datasets–mostly used with n-way table polishing functions.
+- Added the log base argument `base` to `eda_re`.
+- Added an exploratory ANOVA decomposition set of functions. These
+  include:
+  - `eda_mean_sweep`: The main ANOVA decomposition function
+  - `plot.eda_mean_sweep`: Plot method for `eda_mean_sweep`
+  - `eda_anova_table`: Generates traditional ANOVA table from
+    `eda_mean_sweep` output.
+- Added `eda_npol` median polish function that allows for n-way tables
+  with more than two factors.
+- Added plot method `plot.eda_npol` for `eda_npol` objects.
+- Added a variability decomposition plot, `eda_vd`, that can be used
+  with both n-way tables an linear models.
+- Added `eda_matlong` that converts a 2-way table between long form and
+  matrix form. Useful when running tables through `eda_pol` and
+  `medpolish` functions.
+- Modified `plot.eda_lm` method to now make use of the `.eda_plot_xy`
+  internal function. Function also adds a `raw_tick` argument that
+  allows for the display of the raw (untransformed) variables on a
+  transformed axis.
+- Added a `raw_tick` argument to `eda_lm` that allows for the display of
+  the raw (untransformed) variables on a transformed axis.
+- Minor changes to `eda_boxls`, `eda_unipow`, `eda_bipow`, `eda_pol`,
+  `eda_sym`, `eda_sl`, `eda_rline` and `eda_qq` to reflect the  
+  new `base` argument in `eda_re` and changes to internal plotting
+  functions.
+- Minor changes to the plot methods `plot.eda_rline` and
+  `plot.eda_polish`.
+
+## tukeyedar 0.4.0
+
+- Took out the normal and symmetry options from `eda_qq` and created
+  their own functions: `eda_qqsym` and `eda_theo`. The latter allows for
+  theoretical distributions other than Normal.
+- Added the `eda_fval` function that generates f-values (probabilities)
+  based on one of six algorithms
+- Added the `eda_theopan` function that generates multi-panel
+  theoretical QQ plots.
+- Added the `eda_qqpool` function that generates multi-panel pooled
+  residual plots.
+- Added the `eda_shuffle` function that permutes values across groups.
+- Added the `eda_sim` function that simulates distributions given
+  kurtosis and skewness.
+- `eda_sl` now outputs Cleveland’s spread-location plot as well as
+  Tukey’s spread-versus-level plot.
+- Added `eda_untie` function that splits ties in a vector by nudging
+  them by a small amount.
+- Fixed bug in `eda_rline` where incorrect residuals were returned.
+- Fixed margin width for `eda_jitter` and `eda_boxls` plots when in
+  horizontal mode.
+
+## tukeyedar 0.3.0
+
+- Added the `eda_rfs` function (the Cleveland residual-fit spread plot).
+- Added the `eda_viol` function that generates a violin plot.
+- Added the `eda_jitter` function that generates a jitter plot from
+  univariate datasets.
+- Added the `eda_qqmat` function that generates a qq plot matrix.
+- `eda_lm` now outputs an `eda_lm` class.
+- `eda_rline` now outputs `fitted.values` class.
+- `eda_lm` now accepts `poly = 0`. This generates a flat line. Can be
+  used with `robust = TRUE`.
+- Following changes were made to the `eda_qq` function:
+  - It now generates different point symbols for values outside of the
+    `inner` region
+  - The `inner` region default is now 75%.
+  - The outer bounds dashed line argument, `l.val` was removed (this to
+    de-clutter the plot)
+  - Removed the quantile-difference plot. Its interpretation is tricky
+    when dealing with a multiplicative offset.
+
+## tukeyedar 0.2.6
+
+- Added the quantile-difference plot to the `eda_qq` function.
+- Removed redundant `outliers` argument from `eda_boxls`
+  ([\#21](https://github.com/mgimond/tukeyedar/issues/21)).
+
+## tukeyedar 0.2.5
+
+- Added symmetry QQ option to `eda_qq` function.
+- Ensure that all re-expressions default to Box-Cox method.
+
+## tukeyedar 0.2.4
+
+- Added polynomial option to `eda_lm` function.
+- Added robust fitting option to `eda_lm` function (uses
+  [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html))
+
+## tukeyedar 0.2.3
+
+- Added `show.par` option to `eda_qq`
+- fixed issue [\#17](https://github.com/mgimond/tukeyedar/issues/17).
+
+## tukeyedar 0.2.2
+
+- Re-wrote eda_rline function. This also fixed issue
+  [\#15](https://github.com/mgimond/tukeyedar/issues/15).
+
+## tukeyedar 0.2.1
+
+- Added the option to plot the density distribution alongside the Normal
+  fit in `eda_normfit`.
+
+## tukeyedar 0.2.0
+
+- Added a Normal QQ plot option to `eda_qq`.
+- Added symmetrical Normal fit plot function `eda_normfit`.
+- Updated eda_boxls aesthetics.
+- Updated median polish diagnostic plot aesthetics.
+
+## tukeyedar 0.1.1
+
+- Introduces the median polish function `eda_pol`.
+- Introduces the QQ and Tukey mean-difference plot `eda_qq`.
+- Introduces the density plot function `eda_dens`.
+- Adds re-expression parameters to `eda_lm` via the parameters `px` and
+  `py`.
+- Adds `sd` labels to SD dashed lines in `eda_lm`.
+- `eda_lm` will now output `lm` intercept and slope.
+- Adds plot method for `eda_rline` object.
+- In `eda_re` if `p = 1`, box-cox option is ignored.
+- Homogenized plot appearances.
+- Added power parameter argument to `eda_boxls`.
+- Added power parameter argument to `eda_sl`.
+- Added plot option to `eda_sl`.
+
+## tukeyedar 0.1.0
+
+- Initial release of `tukeyedar`
