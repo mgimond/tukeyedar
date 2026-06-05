@@ -145,9 +145,9 @@ eda_theo(
 
 - inner:
 
-  Fraction of the data considered as "mid values". Defaults to 75\\
-  which of the tail-end points are to be symbolized differently,
-  `tails`.
+  Fraction of the data considered as "mid values". Defaults to 75%. Used
+  to define shaded region boundaries, `q`, or to identify which of the
+  tail-end points are to be symbolized differently, `tails`.
 
 - tail.pch:
 

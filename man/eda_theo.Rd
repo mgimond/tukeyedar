@@ -93,7 +93,7 @@ should be symbolized differently. Tail-end points are symbolized via the
 \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
 
 \item{inner}{Fraction of the data considered as "mid values". Defaults to
-75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
+75\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently, \code{tails}.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}

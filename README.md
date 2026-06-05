@@ -11,8 +11,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The `tukeyedar` package houses data exploration tools. Many functions
-are inspired by work published by Tukey (1977), Hoaglin (1983), Velleman
-and Hoaglin (1981), and Cleveland (1993).
+are inspired by work published by Tukey (1977), Hoaglin et al. (1983),
+Velleman and Hoaglin (1981), Hoaglin et al. (1985), Hoaglin et al.
+(1990), and Cleveland (1993).
 
 > This package was initially developed for an introductory course in
 > Exploratory Data Analysis (EDA). As such, many of its functions have
@@ -23,15 +24,16 @@ and Hoaglin (1981), and Cleveland (1993).
 
 ## Installation
 
-You can install the development version of tukeyedar from
-[GitHub](https://github.com/) with:
+The package is available from
+[GitHub](https://github.com/mgimond/tukeyedar/). It can be installed
+using the following command:
 
 ``` r
 install.packages("remotes")
 remotes::install_github("mgimond/tukeyedar")
 ```
 
-Note that the vignettes will not be automatically generated with the
+Note that the vignettes may not be automatically generated with the
 above command, however, the vignettes are available on this website (see
 next section). If you want a local version of the vignettes, add the
 `build_vignettes = TRUE` parameter.
@@ -70,7 +72,7 @@ IDE, the vignettes may not render very well so you might opt to view
 them in a web browser via the functions
 `RShowDoc("RLine", package = "tukeyedar")`.
 
-## Using the functions
+## Using the `tukeyedar` functions
 
 All functions start with `eda_`. For example, to generate a three point
 summary plot of the `mpg` vs. `disp` from the `mtcars` dataset, type:
@@ -80,7 +82,7 @@ library(tukeyedar)
 eda_3pt(mtcars, disp, mpg)
 ```
 
-Note that most functions are *pipe* friendly. For examples:
+Note that most functions are *pipe* friendly. For example:
 
 ``` r
 # Using R >= 4.1
@@ -93,8 +95,7 @@ mtcars %>% eda_3pt(disp, mpg)
 
 ------------------------------------------------------------------------
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-visdata1993" class="csl-entry">
 
@@ -104,8 +105,22 @@ Cleveland, William. 1993. *Visualizing Data*. Hobart Press.
 
 <div id="ref-understanding_eda1983" class="csl-entry">
 
-Hoaglin, Mosteller, D. C. 1983. *Understanding Robust and Exploratory
-Data Analysis*. Wiley.
+Hoaglin, D. C., F. Mosteller, and J. W. Tukey. 1983. *Understanding
+Robust and Exploratory Data Analysis*. Wiley.
+
+</div>
+
+<div id="ref-EDTTS_eda1985" class="csl-entry">
+
+Hoaglin, D. C., F. Mosteller, and J. W. Tukey. 1985. *Exploring Data
+Tables, Trends, and Shapes*. Wiley.
+
+</div>
+
+<div id="ref-FEAV_eda1990" class="csl-entry">
+
+Hoaglin, D. C., F. Mosteller, and J. W. Tukey. 1990. *Fundamentals of
+Exploratory Analysis of Variance*. Wiley.
 
 </div>
 
@@ -118,7 +133,7 @@ Tukey, John W. 1977. *Exploratory Data Analysis*. Addison-Wesley.
 <div id="ref-applied_eda1981" class="csl-entry">
 
 Velleman, P. F., and D. C. Hoaglin. 1981. *Applications, Basics and
-Computing of Exploratory Data Analysis*. Boston: Duxbury Press.
+Computing of Exploratory Data Analysis*. Duxbury Press.
 
 </div>
 

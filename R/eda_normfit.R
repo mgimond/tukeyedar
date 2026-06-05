@@ -18,7 +18,7 @@
 #'   data should be displayed in the plot's upper-right corner.
 #' @param sq Boolean determining if the plot should be square.
 #' @param inner Fraction of values that should be captured by the inner color
-#'   band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
+#'   band of the normal and density plots. Defaults to 0.6826 (inner 68% of
 #'   values).
 #' @param dens Boolean determining if the density plot should be displayed
 #'   alongside the Normal fit plot.
@@ -56,7 +56,7 @@
 #'   The plots have two fill colors: one for the inner band and the other for
 #'   the outer band. The inner band shows the area of the curve that encompasses
 #'   the desired fraction of values defined by \code{inner}. By default, this
-#'   value is 0.6826, or 68.26\% (this is roughly the percentage of values
+#'   value is 0.6826, or 68.26 percent (this is roughly the percentage of values
 #'   covered by +/- 1 standard deviations of a Normal distribution). For the
 #'   Normal fit plot, the range is computed from the theoretical Normal and not
 #'   from the actual values. For the density plot, the range is computed from

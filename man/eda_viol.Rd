@@ -57,7 +57,7 @@ data should be displayed in the plot's upper-right corner.}
 \item{sq}{Boolean determining if the plot should be square.}
 
 \item{inner}{Fraction of values that should be captured by the inner color
-band of the normal and density plots. Defaults to 0.6826 (inner 68\\% of
+band of the normal and density plots. Defaults to 0.6826 (inner 68\% of
 values).}
 
 \item{bw}{Bandwidth parameter passed to the \code{density()} function.}
@@ -124,7 +124,7 @@ the \code{stats::density} function.\cr
 The plots have two fill colors: one for the inner band and the other for
 the outer band. The inner band shows the area of the curve that encompasses
 the desired fraction of mid-values defined by \code{inner}. By default, this
-value is 0.6826, or 68.26\\% (this is roughly the percentage of values
+value is 0.6826, or 68.26\% (this is roughly the percentage of values
 covered by +/- 1 standard deviations of a Normal distribution). The range
 is computed from the actual values and not from a fitted normal
 distribution. \cr

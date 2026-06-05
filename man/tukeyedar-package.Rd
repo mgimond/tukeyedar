@@ -5,6 +5,8 @@
 \alias{tukeyedar-package}
 \title{tukeyedar: Tukey Inspired Exploratory Data Analysis Functions}
 \description{
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
 A set of Tukey inspired functions for use in exploring datasets in a robust manner.
 
 This packages hosts a small set of Tukey inspired functions for use

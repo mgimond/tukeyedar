@@ -64,7 +64,7 @@ ranging from 21-25).}
 applicable if \code{rgb()} is not used to define point colors.}
 
 \item{inner}{Fraction of the input data considered as "mid values". Defaults to
-75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
+75\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently, \code{tails}.}
 
 \item{q}{Boolean determining if \code{inner} data region should be shaded.}
@@ -109,13 +109,13 @@ symmetrical, the points will fall on the line.
 
  singer <- lattice::singer
  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
- 
+
  # Default plot
  eda_sym(tenor1)
- 
+
  # To remove inner region grey box set q to FALSE
  eda_sym(tenor1, q = FALSE)
- 
+
  # You can also choose to have the points outside of the inner region
  # symbolized differently
  eda_sym(tenor1, q = FALSE, tails = TRUE, tail.pch = 3)

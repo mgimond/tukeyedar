@@ -268,8 +268,13 @@ reducing the uncertainty around our estimate. Had we not split the data
 into groups and stuck with one overall mean value, we would have ended
 up with a larger residual spread as shown in Figure 12.
 
-    #>  The mid 90.0% of residuals covers about 2.95 units.
-    #>  The fitted values cover a range of 0.00 units, or about 0.0% of the mid 90.0% of residuals.
+``` r
+
+df$all <- "all"
+eda_rfs(df, y, all, q = TRUE) 
+#>  The mid 90.0% of residuals covers about 2.95 units.
+#>  The fitted values cover a range of 0.00 units, or about 0.0% of the mid 90.0% of residuals.
+```
 
 ![Figure 12. An rfs plot of the data as it was presented to us before
 the data values were split into groups. The single fitted estimate is

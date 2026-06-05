@@ -40,7 +40,7 @@
 #' @param iqr Boolean determining if an IQR line should be fitted to the points.
 #' @param grid Boolean determining if a grid should be added.
 #' @param inner Fraction of the data considered as "mid values". Defaults to
-#'  75\%. Used  to define shaded region boundaries, \code{q}, or to identify
+#'  75%. Used  to define shaded region boundaries, \code{q}, or to identify
 #'  which of the tail-end points are to be symbolized differently, \code{tails}.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the

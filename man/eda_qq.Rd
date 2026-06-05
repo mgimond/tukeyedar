@@ -91,7 +91,7 @@ applicable if \code{rgb()} is not used to define point color.}
 \item{med}{Boolean determining if median lines should be drawn.}
 
 \item{inner}{Fraction of the data considered as "mid values". Defaults to
-75\\%. Used  to define shaded region boundaries, \code{q}, or to identify
+75\%. Used  to define shaded region boundaries, \code{q}, or to identify
 which of the tail-end points are to be symbolized differently,
 \code{tails=TRUE}.}
 
@@ -184,7 +184,7 @@ Values will reflect power transformation defined in \code{p}.
 mean-difference plot
 }
 \details{
-By default, the QQ plot will highlight the inner 75\\% of the data
+By default, the QQ plot will highlight the inner 75\% of the data
 for both x and y axes to mitigate the visual influence of extreme values.
 The \code{inner} argument controls the extent of this region. For example
 \code{inner = 0.5} will highlight the IQR region. \cr

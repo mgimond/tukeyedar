@@ -94,7 +94,8 @@ eda_sym(
 - inner:
 
   Fraction of the input data considered as "mid values". Defaults to
-  75\\ which of the tail-end points are to be symbolized differently,
+  75%. Used to define shaded region boundaries, `q`, or to identify
+  which of the tail-end points are to be symbolized differently,
   `tails`.
 
 - q:
@@ -172,15 +173,15 @@ symmetrical, the points will fall on the line.
 
  singer <- lattice::singer
  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
- 
+
  # Default plot
  eda_sym(tenor1)
 
- 
+
  # To remove inner region grey box set q to FALSE
  eda_sym(tenor1, q = FALSE)
 
- 
+
  # You can also choose to have the points outside of the inner region
  # symbolized differently
  eda_sym(tenor1, q = FALSE, tails = TRUE, tail.pch = 3)

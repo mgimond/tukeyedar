@@ -1,8 +1,7 @@
 # N-way Median Polish with Interaction Support
 
-Apply median polish to a multiway table to extract common, main, and
-interactive effects. This function is an extension of `eda_npol` that
-calculates detailed comparison values (CVs) for diagnostic plots.
+Apply median polish to a multi-way table to extract common, main, and
+interactive effects.
 
 ## Usage
 

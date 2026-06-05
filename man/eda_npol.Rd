@@ -62,9 +62,8 @@ the interaction margin (e.g., "A:B") or "residuals" for the n-way residual CV.
 \item{power}{The power transformation applied.}
 }
 \description{
-Apply median polish to a multiway table to extract common, main,
-and interactive effects. This function is an extension of \code{eda_npol}
-that calculates detailed comparison values (CVs) for diagnostic plots.
+Apply median polish to a multi-way table to extract common, main,
+and interactive effects.
 }
 \details{
 This function implements the "sweeping approach" to data

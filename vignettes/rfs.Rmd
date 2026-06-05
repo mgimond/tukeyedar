@@ -179,7 +179,7 @@ eda_rfs(df, y, groups, q = TRUE, inner = 0.95)
 
 Adding the grouping variable improves our estimation of $y$ by reducing the uncertainty around our estimate. Had we not split the data into groups and stuck with one overall mean value, we would have ended up with a larger residual spread as shown in Figure 12.
 
-```{r fig.height=3.5, fig.width=5, fig.cap="Figure 12. An rfs plot of the data as it was presented to us before the data values were split into groups. The single fitted estimate is the overall mean.", fig.align="center", echo = FALSE}
+```{r fig.height=3.5, fig.width=5, fig.cap="Figure 12. An rfs plot of the data as it was presented to us before the data values were split into groups. The single fitted estimate is the overall mean.", fig.align="center", echo = TRUE}
 df$all <- "all"
 eda_rfs(df, y, all, q = TRUE) 
 ```

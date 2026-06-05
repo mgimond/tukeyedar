@@ -77,7 +77,8 @@ eda_viol(
 - inner:
 
   Fraction of values that should be captured by the inner color band of
-  the normal and density plots. Defaults to 0.6826 (inner 68\\ values).
+  the normal and density plots. Defaults to 0.6826 (inner 68% of
+  values).
 
 - bw:
 
@@ -184,9 +185,10 @@ arguments are passed on to the
 The plots have two fill colors: one for the inner band and the other for
 the outer band. The inner band shows the area of the curve that
 encompasses the desired fraction of mid-values defined by `inner`. By
-default, this value is 0.6826, or 68.26\\ covered by +/- 1 standard
-deviations of a Normal distribution). The range is computed from the
-actual values and not from a fitted normal distribution.  
+default, this value is 0.6826, or 68.26% (this is roughly the percentage
+of values covered by +/- 1 standard deviations of a Normal
+distribution). The range is computed from the actual values and not from
+a fitted normal distribution.  
   
 Measures of centrality are added to the plot. By default, both the mean
 (dashed line) and the median (solid line) are added to the plot.  

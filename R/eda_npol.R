@@ -1,8 +1,7 @@
 #' @title N-way Median Polish with Interaction Support
 #'
-#' @description Apply median polish to a multiway table to extract common, main,
-#' and interactive effects. This function is an extension of \code{eda_npol}
-#' that calculates detailed comparison values (CVs) for diagnostic plots.
+#' @description Apply median polish to a multi-way table to extract common, main,
+#' and interactive effects.
 #'
 #' @param dat A data frame in long form containing the response and factor
 #'   variables.

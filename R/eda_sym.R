@@ -32,7 +32,7 @@
 #' @param q Boolean determining if \code{inner} data region should be shaded.
 #' @param qcol Fill color of inner quantile box.
 #' @param inner Fraction of the input data considered as "mid values". Defaults to
-#'  75\%. Used  to define shaded region boundaries, \code{q}, or to identify
+#'  75%. Used  to define shaded region boundaries, \code{q}, or to identify
 #'  which of the tail-end points are to be symbolized differently, \code{tails}.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
@@ -60,34 +60,34 @@
 #'
 #'  singer <- lattice::singer
 #'  tenor1 <- subset(singer, voice.part == "Tenor 1", select = height, drop = TRUE )
-#'  
+#'
 #'  # Default plot
 #'  eda_sym(tenor1)
-#'  
+#'
 #'  # To remove inner region grey box set q to FALSE
 #'  eda_sym(tenor1, q = FALSE)
-#'  
+#'
 #'  # You can also choose to have the points outside of the inner region
 #'  # symbolized differently
 #'  eda_sym(tenor1, q = FALSE, tails = TRUE, tail.pch = 3)
 
 
-eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5, 
-                     show.par = TRUE, grey = 0.6, pch = 21, 
+eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
+                     show.par = TRUE, grey = 0.6, pch = 21,
                     p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
-                    inner = 0.75, q = TRUE, qcol = rgb(0, 0, 0, 0.05), 
-                    tails = FALSE, tail.pch = 21, tail.p.col = "grey70", 
+                    inner = 0.75, q = TRUE, qcol = rgb(0, 0, 0, 0.05),
+                    tails = FALSE, tail.pch = 21, tail.p.col = "grey70",
                     tail.p.fill = NULL, xlab = NULL, ylab = NULL, title = NULL,
                     t.size = 1.2, plot = TRUE, ...) {
-  
+
   # Check for valid arguments (include arguments available in plot.defaults)
   dots <- list(...)
   dot_names <- names(dots)
-  dot_names <- dot_names[dot_names != ""] 
+  dot_names <- dot_names[dot_names != ""]
   internal_args <- names(formals(.eda_plot_xy))
   par_args <- names(par())
   allowed_args <- union(internal_args, par_args)
-  
+
   # Check for invalid names
   invalid <- setdiff(dot_names, allowed_args)
   if (length(invalid) > 0) {
@@ -95,21 +95,21 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
                     deparse(substitute(.eda_plot_xy)),
                     paste(invalid, collapse = ", ")))
   }
-  
+
   # Remove missing elements
   nodata <- which(is.na(x))
   if(length(nodata > 0)){
     x <-  x[-nodata]
     cat(length(nodata), " elements had missing values. These were removed from the data.")
   }
-  
+
   # Re-express data if required
   if (p != 1) {
     x <- eda_re(x, p = p, tukey = tukey, base = base)
   }
   x.isna <- is.na(x)
   rm.nan <- ifelse( any(x.isna), 1 , 0)
-  
+
   # Re-expression may produce NaN values. Output warning if TRUE
   if( rm.nan > 0 ) {
     warning(paste("\nRe-expression produced NaN values. These observations will",
@@ -117,16 +117,16 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
                   "in the ouptut."))
     x <- x[!x.isna]
   }
-  
+
   # Get upper bounds of inner values
   b.val = c(0, .5 + inner / 2)
-  
+
   # Split x in half
   med <- median(x)
   len <- length(x)
   x.sort <- sort(x)
   n2 <- ifelse( len%%2 == 0, len/2, (len + 1)/2)
-  
+
   # Convert x and y to number of units from the median
   x <- med - x.sort[1:n2]
   y <- x.sort[ (len + 1) - (1:n2) ] - med
@@ -134,17 +134,17 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
   y <- sort(y)
   xlab <- "lower half"
   ylab <- "upper half"
-  
+
   # Create dataframe for output
   zd <- data.frame(y = y, x = x)
   names(zd) <- c(ylab, xlab)
-  
+
   # Get XY limits
   xylim <- range(x,y)
-  
+
   # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
-  
+
   # Set point color parameters.
   if(!is.null(alpha)){
     if(p.col %in% colors() & p.fill %in% colors() ){
@@ -152,11 +152,11 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
       p.fill <- adjustcolor( p.fill, alpha.f = alpha)
     }
   }
-  
+
   # Get quantile parameters
   qx <- quantile(x, b.val, qtype = q.type)
   qy <- quantile(y, b.val, qtype = q.type)
-  
+
   # If tail points  are to be plotted differently, identify them
   if(tails == TRUE){
       lower.tail <- 0
@@ -165,7 +165,7 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
     } else {
       upper.tail <- 0
     }
-    
+
     inner.tails <- (lower.tail+1):(length(x) - upper.tail)
     outer.tails <- -inner.tails
   }
@@ -179,7 +179,7 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
                          square = TRUE, xlab = xlab, ylab = ylab,
                          xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
                          grey = grey,  reg = FALSE, loe = FALSE, mean.l = FALSE,
-                         inner = inner,q = FALSE, , qcol = qcol, q.type = q.type, 
+                         inner = inner,q = FALSE, , qcol = qcol, q.type = q.type,
                          p.fill = p.fill, show.par = FALSE, ...)
   } else {
     df <- data.frame(x=x[inner.tails],y = y[inner.tails])
@@ -187,7 +187,7 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
                          square = TRUE, xlab = xlab, ylab = ylab,
                          xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
                          grey = grey,  reg = FALSE, loe = FALSE, mean.l = FALSE,
-                         inner = inner, q = FALSE, qcol = qcol, q.type = q.type, 
+                         inner = inner, q = FALSE, qcol = qcol, q.type = q.type,
                          p.fill = p.fill, show.par = FALSE, ...)
     if (length(x[outer.tails]) != 0){  # Nothing to plot if tail index is empty
       .post <- par(mar = lst0$parxy)
@@ -198,10 +198,10 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
       par(.post)
     }
   }
-  
+
   .post <- par(mar = lst0$parxy)
   on.exit(par(.post))
-  
+
   # Add empirical QQ line ----
   abline(0, 1, col = plotcol)
 
@@ -213,9 +213,9 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
     rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
          col = qcol, border = NA)
   }
-  
+
   par(.post)
-  
+
   # Add power/formula parameters to plot
   if (show.par == TRUE) {
     .post <- par(mar = lst0$parxy)
@@ -223,6 +223,6 @@ eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1),q.type = 5,
     mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
     par(.post)
   }
-  
+
 
 }

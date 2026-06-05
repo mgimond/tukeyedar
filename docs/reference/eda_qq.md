@@ -134,9 +134,9 @@ eda_qq(
 
 - inner:
 
-  Fraction of the data considered as "mid values". Defaults to 75\\
-  which of the tail-end points are to be symbolized differently,
-  `tails=TRUE`.
+  Fraction of the data considered as "mid values". Defaults to 75%. Used
+  to define shaded region boundaries, `q`, or to identify which of the
+  tail-end points are to be symbolized differently, `tails=TRUE`.
 
 - q:
 
@@ -336,10 +336,10 @@ Returns a list with the following components:
 
 ## Details
 
-By default, the QQ plot will highlight the inner 75\\ for both x and y
-axes to mitigate the visual influence of extreme values. The `inner`
-argument controls the extent of this region. For example `inner = 0.5`
-will highlight the IQR region.  
+By default, the QQ plot will highlight the inner 75% of the data for
+both x and y axes to mitigate the visual influence of extreme values.
+The `inner` argument controls the extent of this region. For example
+`inner = 0.5` will highlight the IQR region.  
   
 If the shaded regions are too distracting, you can opt to have the
 tail-end points symbolized differently by setting `tails = TRUE` and
