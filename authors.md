@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/mgimond/tukeyedar/blob/v0.6.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/mgimond/tukeyedar/blob/main/inst/CITATION)
 
 text
 
