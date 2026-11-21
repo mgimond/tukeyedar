@@ -47,11 +47,13 @@
 #'  75%. Used  to define shaded region boundaries, \code{q}, or to identify
 #'  which of the tail-end points are to be symbolized differently,
 #'  \code{tails=TRUE}.
-#' @param q Boolean determining if \code{inner} data region should be shaded.
+#' @param q Boolean determining if \code{inner} data region should be shaded. This
+#' is automatically set to \code{FALSE} if \code{tails=TRUE}.
 #' @param qcol Fill color of inner quantile box.
 #' @param tails Boolean determining if points outside of the \code{inner} region
 #'   should be symbolized differently. Tail-end points are symbolized via the
-#'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.
+#'  \code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments. If this
+#'  option is selected, \code{q} will automatically be set to \code{FALSE}.
 #' @param switch Boolean determining if the axes should be swapped in an
 #'  empirical QQ plot. Only applies to dataframe input. Ignored if vectors are
 #'  passed to the function.
@@ -180,6 +182,13 @@
 
 eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALSE,
                    p = 1L, tukey = FALSE, base = exp(1), fx = NULL, fy = NULL,
+                   # --- Simulation Parameters ---
+                   nsim = 0,               # Number of permutation runs (0 = off)
+                   sim.alpha = 0.15,       # Transparency of simulated points
+                   sim.col = "coral",     # Color for simulated cloud
+                   sim.pch = 16,           # Point type for simulation
+                   sim.type = "points",    # "points" or "lines" (spaghetti plot)
+                   # -----------------------------
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                    p.fill = "grey80", size = 1, alpha = 0.8,
                    med = TRUE, inner = 0.75, q = TRUE,
@@ -203,6 +212,11 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     warning(paste("The argument switch was set to TRUE yet the input dataset ",
                   "is not a dataframe. Switch only applies to data stored ",
                   "in a dataframe."))
+
+  # If tails are plotted separately, turn off quantile shading to avoid redundancy
+  if (tails == TRUE & q == TRUE) {
+    q <- FALSE
+  }
 
   # Extract data ----
   if("data.frame" %in% class(x)){
@@ -285,8 +299,38 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     bad <- x.isna | y.isna
     x <- x[!bad]
     y <- y[!bad]
-
   }
+
+  # --- Permutation Simulation Block ----
+  sim_list <- list()
+
+  if (nsim > 0) {
+    xy_pool <- c(x, y)
+    nx <- length(x)
+    N  <- length(xy_pool)
+
+    for (i in seq_len(nsim)) {
+      # Randomly shuffle values across batches
+      shuffled <- sample(xy_pool, size = N, replace = FALSE)
+      x_sim <- shuffled[1:nx]
+      y_sim <- shuffled[(nx + 1):N]
+
+      # Compute interpolated quantiles for permuted pair
+      qq_sim <- qqplot(x_sim, y_sim, plot.it = FALSE, qtype = q.type)
+
+      if (md == FALSE) {
+        sim_list[[i]] <- data.frame(x = qq_sim$x, y = qq_sim$y)
+      } else {
+        # Convert to Tukey Mean-Difference coordinates
+        sim_list[[i]] <- data.frame(
+          x = (qq_sim$y + qq_sim$x) * 0.5,
+          y =  qq_sim$y - qq_sim$x
+        )
+      }
+    }
+  }
+
+  # --- End simulation block ----
 
   # Get upper/lower bounds of inner values
   b.val = c(.5 - inner / 2 , .5 + inner / 2)
@@ -321,32 +365,11 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
   # # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
 
-  # # Set point color parameters.
-  # if(!is.null(alpha)){
-  #   if(p.col %in% colors() & p.fill %in% colors() ){
-  #     p.col  <- adjustcolor( p.col,  alpha.f = alpha)
-  #     p.fill <- adjustcolor( p.fill, alpha.f = alpha)
-  #   }
-  # }
-
   # Generate qqplot using base function
   qq <- qqplot(x,y, plot.it = FALSE, qtype = q.type)
 
   x <- qq$x
   y <- qq$y
-
-  # Generate plots ----
-
-  # # Get lines-to-inches ratio
-  # in2line <- ( par("mar") / par("mai") )[2]
-  #
-  # # Create a dummy plot to extract y-axis labels
-  # pdf(NULL)
-  # plot(x = x, y = y, type = "n", xlab = "", ylab = "", xaxt = "n",
-  #      yaxt='n', main = NULL)
-  # #  y.labs <- range(axTicks(2))
-  # y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
-  # dev.off()
 
   # Get quantile parameters
   qx <- quantile(x, b.val, type = q.type)
@@ -372,25 +395,28 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     outer.tails <- -inner.tails
   }
 
-  # # Set plot parameters
-  # .pardef <- par(pty = "s", col = plotcol, mar = c(3,y.wid,3,1))
-  # on.exit(par(.pardef))
-
   # QQ plot ----
   if(plot == TRUE & md == FALSE ){
 
     medx <- median(x)
     medy <- median(y)
 
+    # Determine axis limits including simulation bounds
+    if (nsim > 0) {
+      all_sim_x <- unlist(lapply(sim_list, function(d) d$x))
+      all_sim_y <- unlist(lapply(sim_list, function(d) d$y))
+      xylim <- range(c(x, y, all_sim_x, all_sim_y), na.rm = TRUE)
+    } else {
+      xylim <- range(x, y, na.rm = TRUE)
+    }
+
     # Generate plot
     xylim <- range(x,y)
 
     # QQ plot: Empirical ----
     if(tails == FALSE){
-      # plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-      #       col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-      #       xlim = xylim, ylim = xylim)
       df <- data.frame(x,y)
+
       lst0 <- .eda_plot_xy(df, x, y, px = p, py = p, tukey = tukey, base = base,
                            square = TRUE, xlab = xlab, ylab = ylab,
                            xlim = xylim, ylim = xylim,  sd = FALSE, asp = FALSE,
@@ -407,10 +433,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
                            inner = inner, q = q, qcol = qcol, q.type = q.type,
                            p.fill = p.fill, show.par = FALSE, pch = pch,
                            p.col = p.col, size = size, alpha = alpha, ...)
-      # plot( x=x[inner.tails], y=y[inner.tails],  ylab=NA, las=1,
-      #       yaxt='n', xaxt='n', xlab=NA,
-      #       col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-      #       xlim = xylim, ylim = xylim)
 
       if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
         .post <- par(mar = lst0$parxy)
@@ -423,33 +445,37 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
       }
     }
 
-    # box(col=plotcol)
-    # axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    # axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9,
-    #      tck = -0.02)
+    # --- Draw simulation cloud inside custom margin window ---
+    if (nsim > 0) {
+      .post <- par(mar = lst0$parxy)
+      on.exit(par(.post))
 
-    # Y-label
-    # mtext(ylab, side=3, adj= -0.06 ,col=plotcol,  padj = -1.2, cex = par("cex"))
-    # Get plot specs
-    # lbl_width <- strwidth(ylab, units = "inches")
-    # mar_width <- par("mai")[2]
-    # loc <- par("usr") # in XY coordinates
-    # xscl <- (loc[2] - loc[1]) / par("pin")[1]
-    # # Place y-label
-    # if(lbl_width/2 > mar_width * 0.6){
-    #   xloc <- loc[1] + (lbl_width/2 - mar_width * 0.6) * xscl
-    # } else {
-    #   xloc <- loc[1]
-    # }
-    # text(xloc, loc[4], labels = ylab, col=plotcol, cex = par("cex"),
-    #      xpd = TRUE, pos = 3, offset = 1)
-    #
-    #
-    # title(xlab = xlab, line =1.8, col.lab=plotcol)
-    #
-    # if(!is.null(title)){
-    #   title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
-    # }
+      sim_color <- adjustcolor(sim.col, alpha.f = sim.alpha)
+      for (i in seq_len(nsim)) {
+        if (sim.type == "lines") {
+          lines(sim_list[[i]]$x, sim_list[[i]]$y, col = sim_color, lwd = 1)
+        } else {
+          points(sim_list[[i]]$x, sim_list[[i]]$y, pch = sim.pch,
+                 col = sim_color, cex = size * 0.8)
+        }
+      }
+
+      # --- Re-overlay Observed Data (if simulation was drawn over .eda_plot_xy) ---
+
+      if (tails == FALSE) {
+        points(x = x, y = y, pch = pch, col = p.col, bg = p.fill, cex = size)
+      } else {
+        points(x = x[inner.tails], y = y[inner.tails], pch = pch,
+               col = p.col, bg = p.fill, cex = size)
+        if (length(x[outer.tails]) != 0) {
+          points(x = x[outer.tails], y = y[outer.tails],
+                 col.lab = plotcol, pch = tail.pch, col = tail.p.col,
+                 bg = tail.p.fill, cex = size)
+        }
+      }
+      par(.post)
+    }
+    # End simulation cloud -----
 
     .post <- par(mar = lst0$parxy)
     on.exit(par(.post))
@@ -464,14 +490,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     }
 
     par(.post)
-    # Add core boxes ----
-    # sq <- par("usr") # get plot corners
-    # if(q == TRUE){
-    #   rect(xleft = qx[1], xright = qx[2], ybottom=sq[3],ytop=sq[4],
-    #        col = rgb(0,0,0,0.05), border = NA)
-    #   rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
-    #        col = rgb(0,0,0,0.05), border = NA)
-    # }
 
     # Add power/formula parameters to plot
     if(show.par == TRUE){
@@ -495,37 +513,72 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     md.y  <- (y - x)
     md.x  <- (y + x) * 0.5
 
+    # Determine axis limits including simulation bounds
+    if (nsim > 0) {
+      all_sim_x <- unlist(lapply(sim_list, function(d) d$x))
+      all_sim_y <- unlist(lapply(sim_list, function(d) d$y))
+      xlim <- range(c(md.x, all_sim_x), na.rm = TRUE)
+      ylim <- range(c(md.y, 0, all_sim_y), na.rm = TRUE)
+    } else {
+      xlim <- range(md.x, na.rm = TRUE)
+      ylim <- range(md.y, 0, na.rm = TRUE)
+    }
+
     # Get quantile parameters
     qy <- quantile(md.y, b.val, type = q.type)
     medx <- median(md.x)
     medy <- median(md.y)
 
-    # Generate plot
-    ylim <- range(md.y, 0)
-    xlim <- range(md.x)
+    # Initialize Canvas Frame (blank plot window)
+    plot(x = md.x, y = md.y, type = "n", ylab = NA, las = 1, yaxt = 'n', xaxt = 'n',
+         xlab = NA, xlim = xlim, ylim = ylim)
 
-    if(tails != TRUE){
-      plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-            ylim = ylim, xlim = xlim)
-    } else {
-      plot( x=md.x[inner.tails], y=md.y[inner.tails],  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-            col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-            xlim = xlim, ylim = ylim, col.lab=plotcol)
-      if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-        points( x=md.x[outer.tails], y=md.y[outer.tails], yaxt='n', xaxt='n',
-                col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-                bg = tail.p.fill, cex = size)
+    # Draw simulation cloud (background)
+    if (nsim > 0) {
+      sim_color <- adjustcolor(sim.col, alpha.f = sim.alpha)
+      for (i in seq_len(nsim)) {
+        if (sim.type == "lines") {
+          lines(sim_list[[i]]$x, sim_list[[i]]$y, col = sim_color, lwd = 1)
+        } else {
+          points(sim_list[[i]]$x, sim_list[[i]]$y, pch = sim.pch,
+                 col = sim_color, cex = size * 0.8)
+        }
       }
     }
 
+    # Draw Observed Points (Layer 2 - foreground)
+    if (tails != TRUE) {
+      points(x = md.x, y = md.y, pch = pch, col = p.col, bg = p.fill, cex = size)
+    } else {
+      points(x = md.x[inner.tails], y = md.y[inner.tails], pch = pch, col = p.col,
+             bg = p.fill, cex = size)
+      if (length(x[outer.tails]) != 0) {
+        points(x = md.x[outer.tails], y = md.y[outer.tails], pch = tail.pch,
+               col = tail.p.col, bg = tail.p.fill, cex = size)
+      }
+    }
+
+    # if(tails != TRUE){
+    #   plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+    #         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+    #         ylim = ylim, xlim = xlim)
+    # } else {
+    #   plot( x=md.x[inner.tails], y=md.y[inner.tails],  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
+    #         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
+    #         xlim = xlim, ylim = ylim, col.lab=plotcol)
+    #   if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
+    #     points( x=md.x[outer.tails], y=md.y[outer.tails], yaxt='n', xaxt='n',
+    #             col.lab=plotcol, pch = tail.pch, col = tail.p.col,
+    #             bg = tail.p.fill, cex = size)
+    #   }
+    # }
+
+    # Box & Axes Labels
     box(col=plotcol)
     axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
     axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.7)
 
-    # Y-label
-    #mtext(ylab2, side=3, adj= -0.06 ,col=plotcol,  padj = -1.1, cex = par("cex"))
-    # Get plot specs
+    # Place y-label
     lbl_width <- strwidth(ylab2, units = "inches")
     mar_width <- par("mai")[2]
     loc <- par("usr") # in XY coordinates
@@ -544,6 +597,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
       title(main = title, line =1.2, col.main=plotcol, cex.main=t.size)
     }
 
+    # Add horizontal reference line at y = 0
     abline(h = 0,  col = plotcol)
 
     # Add median lines
@@ -552,6 +606,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
       abline(h = medy, col = "grey80", lty = 2)
     }
 
+    #  Add shaded box (only if q == TRUE, which is FALSE when tails == TRUE)
     sq <- par("usr") # get plot corners
      if(q == TRUE){
        rect(xleft = sq[1], xright = sq[2], ybottom=qy[1],ytop=qy[2],
