@@ -61,6 +61,22 @@
 #' @param ylab Y label for output plot. Ignored if \code{x} is a dataframe.
 #' @param title Title to add to plot.
 #' @param t.size Title size.
+#' @param nsim Integer. Number of random permutations (shuffles) to generate
+#'   for constructing a null reference distribution cloud. Default is \code{0}
+#'   (no simulation).
+#'   When \code{nsim > 0}, observations from both batches are pooled and randomly
+#'   reallocated into two synthetic groups of original size to visually represent
+#'   sampling variability under the null hypothesis of equal distributions.
+#' @param sim.alpha Numeric. Transparency value between \code{0} (fully transparent)
+#'   and \code{1} (opaque) applied to simulated points or lines. Default is \code{0.15}.
+#' @param sim.col Character. Color used to render the simulated permutation cloud
+#'   or lines. Default is \code{"grey60"}.
+#' @param sim.pch Integer or character. Plotting symbol for simulated points when
+#'   \code{sim.type = "points"}. Default is \code{16} (solid circle).
+#' @param sim.type Character. Format of the simulated envelope display: \code{"points"}
+#'   (default) overlays a point cloud emphasizing density concentration, while
+#'   \code{"lines"} draws connected quantile lines for each permutation run (spaghetti plot).
+#'
 #' @param ... Arguments that are passed to \code{.eda_plot_xy}.
 #'
 #' @inheritDotParams  .eda_plot_xy
@@ -77,6 +93,14 @@
 #'   \cr
 #'   The middle dashed line represents each batch's median value. It can be
 #'   turned off by setting \code{med = FALSE}\cr
+#'   \cr
+#'   To help assess whether deviations from the reference line (y = x or y = 0)
+#'   reflect true structural differences (e.g., offset, scale, or tail behavior)
+#'   rather than natural sampling variation, setting \code{nsim > 0} generates
+#'   an empirical null envelope. The values from both batches are pooled and
+#'   repeatedly permuted across the two groups using \code{\link[base]{sample}}.
+#'   The resulting quantiles are plotted behind the observed data with alpha
+#'   transparency (\code{sim.alpha}).
 #'   \cr
 #'   Console output prints the suggested multiplicative and additive offsets. It
 #'   adopts a resistant line fitting technique to derive the coefficients. The
@@ -172,6 +196,7 @@
 #'  # species' petal widths.
 #'  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 #'
+#'  #
 
 # eda_qq <- function(x, y = NULL, fac = NULL, p = 1L, norm = F, sym = F, switch = F,
 #                    tukey = FALSE, md = FALSE, fx = NULL, fy = NULL,
