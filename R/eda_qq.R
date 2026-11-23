@@ -222,11 +222,9 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
                    switch = FALSE, xlab = NULL, ylab = NULL, title = NULL,
                    t.size = 1.2, plot = TRUE, ...)  {
 
-  # Check for invalid arguments
-  # input <- names(list(...))
-  # check <- input %in% names(formals(cat))
-  # if (any(!check)) warning(sprintf("%s is not a valid argument.",
-  #                                  paste(input[!check], collapse = ", ")))
+  #Save complete original graphics state and guarantee full reset on exit
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
 
   # Parameters check
   if(norm == TRUE)
@@ -326,6 +324,36 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     y <- y[!bad]
   }
 
+  # Get upper/lower bounds of inner values
+  b.val = c(.5 - inner / 2 , .5 + inner / 2)
+
+  # Compute x and y values ----
+  zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
+
+  zd <- data.frame(y = zl$y - zl$x, x = zl$x)
+  zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
+
+  # Get suggested multiplier and offset (only for empirical data)
+  z <- eda_rline(zd,x,y)
+  x.multi <-  1 + z$b
+  x.add <- median(zl$y - sort(zl$x * x.multi))
+
+  # Apply formula if present
+  if(!is.null(fx) & !is.null(fy))
+    warning(paste("You should apply a formula to just one axis.\n",
+                  "You are applying the formula", fx,"to the x-axis",
+                  "and the formula",fy ,"to the y-axis."))
+  if(!is.null(fx)){
+    fx <- tolower(fx)
+    if(!grepl("x", fx)) stop("Formula fx does not contain \"x\" variable.")
+    x <- eval(parse(text=fx))
+  }
+  if(!is.null(fy)){
+    fy <- tolower(fy)
+    if(!grepl("y", fy)) stop("Formula fy does not contain \"y\" variable.")
+    y <- eval(parse(text=fy))
+  }
+
   # --- Permutation Simulation Block ----
   sim_list <- list()
 
@@ -356,36 +384,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
   }
 
   # --- End simulation block ----
-
-  # Get upper/lower bounds of inner values
-  b.val = c(.5 - inner / 2 , .5 + inner / 2)
-
-  # Compute x and y values ----
-  zl <- qqplot(x, y, plot.it = FALSE, qtype = q.type) # Interpolate (if needed)
-
-  zd <- data.frame(y = zl$y - zl$x, x = zl$x)
-  zd$x <- zd$x - median(zd$x); zd$y <- zd$y - median(zd$y)
-
-  # Get suggested multiplier and offset (only for empirical data)
-  z <- eda_rline(zd,x,y)
-  x.multi <-  1 + z$b
-  x.add <- median(zl$y - sort(zl$x * x.multi))
-
-  # Apply formula if present
-  if(!is.null(fx) & !is.null(fy))
-    warning(paste("You should apply a formula to just one axis.\n",
-                  "You are applying the formula", fx,"to the x-axis",
-                  "and the formula",fy ,"to the y-axis."))
-  if(!is.null(fx)){
-    fx <- tolower(fx)
-    if(!grepl("x", fx)) stop("Formula fx does not contain \"x\" variable.")
-    x <- eval(parse(text=fx))
-  }
-  if(!is.null(fy)){
-    fy <- tolower(fy)
-    if(!grepl("y", fy)) stop("Formula fx does not contain \"y\" variable.")
-    y <- eval(parse(text=fy))
-  }
 
   # # Set plot elements color
   plotcol <- rgb(1-grey, 1-grey, 1-grey)
@@ -436,7 +434,7 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
     }
 
     # Generate plot
-    xylim <- range(x,y)
+#    xylim <- range(x,y)
 
     # QQ plot: Empirical ----
     if(tails == FALSE){
@@ -461,19 +459,16 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
 
       if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
         .post <- par(mar = lst0$parxy)
-        on.exit(par(.post))
 
         points( x=x[outer.tails], y=y[outer.tails],
                 col.lab=plotcol, pch = tail.pch, col = tail.p.col,
                 bg = tail.p.fill, cex = size)
-        par(.post)
       }
     }
 
     # --- Draw simulation cloud inside custom margin window ---
     if (nsim > 0) {
       .post <- par(mar = lst0$parxy)
-      on.exit(par(.post))
 
       sim_color <- adjustcolor(sim.col, alpha.f = sim.alpha)
       for (i in seq_len(nsim)) {
@@ -498,12 +493,10 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
                  bg = tail.p.fill, cex = size)
         }
       }
-      par(.post)
     }
     # End simulation cloud -----
 
     .post <- par(mar = lst0$parxy)
-    on.exit(par(.post))
 
     # Add empirical QQ line ----
     abline(0, 1, col = plotcol)
@@ -514,16 +507,12 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
       abline(h = medy, col = "grey80", lty = 2)
     }
 
-    par(.post)
-
     # Add power/formula parameters to plot
     if(show.par == TRUE){
       .post <- par(mar = lst0$parxy)
-      on.exit(par(.post))
       params <- gsub(";\\s*;?\\s*$", "",  paste0("p=", p,"; ",fx,"; ",fy))
       params <- gsub("\\; \\;", ";", params)
       mtext(side = 3, text=params, adj=1, cex = 0.65)
-      par(.post)
     }
 
 
