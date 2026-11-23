@@ -2,6 +2,7 @@
 
 ## New features
 * `eda_qq()`: Added `nsim` parameter (along with `sim.alpha`, `sim.col`, `sim.pch`, and `sim.type`) to overlay a null permutation envelope for visual comparison against sampling variability.
+* `eda_sym()`: Added `nsim` parameter (along with `sim.alpha`, `sim.col`, `sim.pch`, and `sim.type`) to overlay a null permutation envelope for visual comparison against sampling variability.
 
 ## Minor changes & fixes
 * `eda_qq()`: Setting `tails = TRUE` now automatically sets `q = FALSE` to prevent overlapping quantile shading with tail point symbolization.
