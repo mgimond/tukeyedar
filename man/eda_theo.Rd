@@ -14,6 +14,11 @@ eda_theo(
   dist.l = list(),
   resid = FALSE,
   stat = mean,
+  nsim = 0,
+  sim.alpha = 0.2,
+  sim.col = "coral",
+  sim.pch = 16,
+  sim.type = "points",
   plot = TRUE,
   show.par = TRUE,
   grey = 0.6,
@@ -24,6 +29,7 @@ eda_theo(
   alpha = 0.8,
   med = TRUE,
   q = FALSE,
+  qcol = rgb(0, 0, 0, 0.05),
   iqr = TRUE,
   grid = FALSE,
   tails = FALSE,
@@ -60,6 +66,17 @@ are computed using the \code{stat} parameter.}
 
 \item{stat}{Statistic to use if residuals are to be computed. Currently
 \code{mean} (default) or \code{median}.}
+
+\item{nsim}{Integer. Number of random draws to generate for constructing
+the null reference envelope. Default is \code{0} (off).}
+
+\item{sim.alpha}{Numeric. Transparency value (\code{0} to \code{1}) for simulated cloud. Default \code{0.2}.}
+
+\item{sim.col}{Character. Color for simulated cloud. Default \code{"coral"}.}
+
+\item{sim.pch}{Integer or character. Plotting symbol for simulated points. Default \code{16}.}
+
+\item{sim.type}{Character. Format of simulation display: \code{"points"} or \code{"lines"}.}
 
 \item{plot}{Boolean determining if plot should be generated.}
 
@@ -119,8 +136,9 @@ quantiles. Any transformation applied to \code{x} is reflected in the
 output.
 }
 \description{
-\code{eda_theo} generates a theoretical QQ plot for many common
-distributions including the Normal, uniform and gamma distributions.
+\code{eda_theo} generates a theoretical QQ plot for common
+distributions (Normal, Exponential, Uniform, Gamma, Chi-Squared, Weibull)
+with an optional null reference simulation envelope.
 }
 \details{
 The function generates a theoretical QQ plot.
@@ -136,6 +154,17 @@ the \code{d.list} argument. Some quantile functions require at least one
 argument. For example, the \code{qgamma} function requires that the shape
 parameter be specified and the \code{qchisq} function requires that  the
 degrees of freedom, \code{df}, be specified. See examples.
+\cr \cr
+To help evaluate whether departures from the theoretical reference line reflect
+true non-conformance to the target distribution rather than natural sampling
+variability, setting \code{nsim > 0} generates an empirical null envelope.
+Under the null hypothesis that the data arise from the specified theoretical
+distribution, synthetic samples of size \eqn{N} are repeatedly drawn and scaled
+to match the sample's quantiles. The resulting simulation runs are plotted
+behind the observed data with alpha transparency (\code{sim.alpha}). If the
+observed points remain inside the concentration of the simulated cloud, the
+apparent deviations are consistent with random sampling variation for a sample
+of size \eqn{N}.
 }
 \examples{
 
@@ -145,9 +174,15 @@ degrees of freedom, \code{df}, be specified. See examples.
  # Generate a normal QQ plot
  eda_theo(bass2)
 
+ # Normal QQ plot with 20 null reference simulations
+ eda_theo(bass2, nsim = 20)
+
+ # Normal QQ plot with simulation envelope rendered as spaghetti lines
+ eda_theo(bass2, nsim = 50, sim.type = "lines")
+
  # Generate a chi-squared QQ plot. The distribution requires that the degrees
  # of freedom be specified. The inner 70\% shaded region is added.
- set.seed(270); x <- rchisq(100, df =3)
+ set.seed(271); x <- rchisq(100, df =3)
  eda_theo(x, dist = "chisq", dist.l = list(df = 3), q = TRUE)
 
  # Generate a gamma QQ plot. Note that gamma requires at the very least the
