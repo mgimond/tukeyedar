@@ -190,8 +190,17 @@ of size \eqn{N}.
  # gamma distribution where shape = df/2 and rate = 1/2.
  eda_theo(x, dist = "gamma", dist.l = list(shape = 3/2, rate = 1/2), q = TRUE)
 
- # Generate a uniform QQ plot
- eda_theo(bass2, dist = "unif")
+ # Generate a uniform QQ plot for a Normally derived variable
+ set.seed(218)
+ x <- rnorm(60)
+ eda_theo(x, dist = "unif")
+
+ # Compare x to null distribution envelope
+ eda_theo(x, dist = "unif", nsim=40)
+ eda_theo(x, dist = "unif", nsim=50, sim.type="lines")
+
+ # Do the tails deviate much from a theoretical Normal distribution?
+ eda_theo(x, dist = "norm", nsim=50, sim.type="lines")
 
  # The uniform QQ plot can double as a quantile plot
  eda_theo(bass2, dist = "unif", q = FALSE, med = FALSE,

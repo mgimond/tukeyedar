@@ -11,6 +11,11 @@ eda_rfs(
   p = 1L,
   tukey = FALSE,
   base = exp(1),
+  nsim = 0,
+  sim.alpha = 0.2,
+  sim.col = "coral",
+  sim.pch = 16,
+  sim.type = "points",
   show.par = TRUE,
   stat = mean,
   grey = 0.7,
@@ -23,67 +28,78 @@ eda_rfs(
   size = 0.8,
   alpha = 0.7,
   ylim = NULL,
-  bar = FALSE
+  bar = FALSE,
+  ...
 )
 }
 \arguments{
-\item{dat}{An eda_lm model, an lm model or a dataframe of univariate data.}
+\item{dat}{Univariate data frame or model object (\code{lm}, \code{eda_lm},
+or \code{eda_rline}).}
 
-\item{x}{Column of values if \code{dat} is a dataframe, ignored otherwise.}
+\item{x}{Continuous variable (if \code{dat} is a data frame).}
 
-\item{grp}{Column of categorical variable if \code{dat} is a dataframe, ignored
-otherwise.}
+\item{grp}{Grouping variable (if \code{dat} is a data frame).}
 
-\item{p}{Power transformation to apply to univariate data. Ignored if linear
-model is passed to function.}
+\item{p}{Power transformation to apply to \code{x}. Applies to univariate
+scenario only.}
 
-\item{tukey}{Boolean determining if a Tukey transformation should be adopted
-(\code{TRUE}) or if a Box-Cox transformation should be adopted (\code{FALSE}).}
+\item{tukey}{Logical determining if a Tukey transformation should
+be adopted. Applies to univariate scenario only.}
 
-\item{base}{Base used with the log() function if \code{p = 0}.}
+\item{base}{Base used with \code{log()} if \code{p = 0}. Applies to
+univariate scenario only.}
 
-\item{show.par}{Boolean determining if the power transformation used with the
-data should be displayed in the plot's upper-right corner.}
+\item{nsim}{Integer. Number of random permutations to generate for
+constructing null reference envelopes. Default is \code{0} (off).}
 
-\item{stat}{Choice of summary statistic to use when centering the fitted
-values around 0. The \code{stat} parameter is also used for fitting
-univariate values (i.e. for summarizing groups). \code{stat} can be either
-\code{mean} or \code{median}.}
+\item{sim.alpha}{Numeric. Transparency value (\code{0} to \code{1})
+for simulated cloud. Default \code{0.2}.}
 
-\item{grey}{Grey level to apply to plot elements (0 to 1 with 1 = black).}
+\item{sim.col}{Character. Color for simulated cloud.
+Default \code{"coral"}.}
+
+\item{sim.pch}{Integer or character. Plotting symbol for simulated
+points. Default \code{16}.}
+
+\item{sim.type}{Character. Format of simulation display:
+\code{"points"} or \code{"lines"}.}
+
+\item{show.par}{Logical determining if transformation parameters
+are displayed.}
+
+\item{stat}{Summary statistic function (\code{mean} or
+\code{median}).}
+
+\item{grey}{Grey level for plot elements (0 to 1).}
 
 \item{pch}{Point symbol type.}
 
 \item{p.col}{Color for point symbol.}
 
-\item{p.fill}{Point fill color passed to \code{bg} (Only used for \code{pch}
-ranging from 21-25).}
+\item{p.fill}{Point fill color.}
 
-\item{inner}{Fraction of values that should be captured by the shaded region.
-Defaults to inner 90 percent of values.}
+\item{inner}{Fraction of input data considered as "mid values"
+(default 0.9).}
 
-\item{q}{Boolean determining if grey quantile boxes should be plotted.}
+\item{q}{Logical determining if inner quantile region should
+be shaded.}
 
-\item{qtype}{Defines the quantile algorithm used in the \code{quantile}
-function. Defaults to \code{type = 5}.}
+\item{qtype}{Integer specifying quantile algorithm type (1-9).}
 
-\item{size}{Point size (0-1)}
+\item{size}{Point size.}
 
-\item{alpha}{Point transparency (0 = transparent, 1 = opaque). Only
-applicable if \code{rgb()} is not used to define point colors.}
+\item{alpha}{Point transparency.}
 
-\item{ylim}{Define custom y axis limits.}
+\item{ylim}{Y-axis limits.}
 
-\item{bar}{Boolean determining if spread comparison stacked bars should be
-plotted.}
-}
-\value{
-Returns a dataframe with the f-values, fit-minus-mean values,
-and residual values.
+\item{bar}{Logical determining if a proportion-of-spread stacked
+bar is added.}
+
+\item{...}{Additional arguments.}
 }
 \description{
 \code{eda_rfs} generates a Cleveland residual-fit spread plot
-for univariate or bivariate data.
+with an optional null reference permutation envelope.
 }
 \details{
 The \code{eda_rfs} function generates a residual-fit spread plot for
@@ -114,13 +130,21 @@ the variability in the data. The longer the green bar relative to the red
 bar, the greater the grouping variable's (for univariate data) or linear
 model's (for bivariate data) effect in minimizing the uncertainty in the
 estimated value.
+\cr \cr
+Setting \code{nsim > 0} generates an empirical null envelope for
+both the fitted values and residual panels. For univariate grouping
+models, group labels are repeatedly permuted across observations
+using \code{\link[base]{sample}}. For linear models, response
+values are permuted relative to predictors. Comparing observed
+curves to the null clouds allows direct visual assessment of
+whether the model explains variation beyond random chance.
 }
 \examples{
 
 # Generate a basic residual-fit spread plot
 eda_rfs(mtcars,mpg, cyl)
 
-# Add inner 90\% region to residuals (grey boxes in plot)
+# Add inner 90\% region to the residuals plot (shaded area in plot)
 # Vertical grey box shows matching y-values
 eda_rfs(mtcars,mpg, cyl, q = TRUE)
 
@@ -148,6 +172,11 @@ eda_rfs(M2,q =TRUE)
 
 M3 <- eda_rline(mtcars, mpg, hp)
 eda_rfs(M3, q =TRUE)
+
+# Add simulaton envelopes to plots
+eda_rfs(M1,q =TRUE,nsim=60, sim.type="lines")
+eda_rfs(mtcars,mpg, cyl, nsim=60)
+
 }
 \references{
 \itemize{

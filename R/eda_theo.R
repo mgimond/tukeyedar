@@ -118,8 +118,17 @@
 #'  # gamma distribution where shape = df/2 and rate = 1/2.
 #'  eda_theo(x, dist = "gamma", dist.l = list(shape = 3/2, rate = 1/2), q = TRUE)
 #'
-#'  # Generate a uniform QQ plot
-#'  eda_theo(bass2, dist = "unif")
+#'  # Generate a uniform QQ plot for a Normally derived variable
+#'  set.seed(218)
+#'  x <- rnorm(60)
+#'  eda_theo(x, dist = "unif")
+#'
+#'  # Compare x to null distribution envelope
+#'  eda_theo(x, dist = "unif", nsim=40)
+#'  eda_theo(x, dist = "unif", nsim=50, sim.type="lines")
+#'
+#'  # Do the tails deviate much from a theoretical Normal distribution?
+#'  eda_theo(x, dist = "norm", nsim=50, sim.type="lines")
 #'
 #'  # The uniform QQ plot can double as a quantile plot
 #'  eda_theo(bass2, dist = "unif", q = FALSE, med = FALSE,
@@ -241,7 +250,7 @@ eda_theo <- function(x, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
       raw_sim <- do.call(rtheo, c(list(n = N), dist.l))
 
       # Scale draw to match y-axis coordinates if dist doesn't fix scale
-      if (dist %in% c("norm", "exp") && length(dist.l) == 0) {
+      if (dist %in% c("norm", "exp", "unif") && length(dist.l) == 0) {
         sim_y <- int_iqr + slope_iqr * sort(raw_sim)
       } else {
         sim_y <- sort(raw_sim)
