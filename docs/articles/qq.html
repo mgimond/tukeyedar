@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2026-06-05</h4>
+            <h4 data-toc-skip class="date">2026-11-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/qq.Rmd" class="external-link"><code>vignettes/qq.Rmd</code></a></small>
       <div class="d-none name"><code>qq.Rmd</code></div>
@@ -122,18 +122,19 @@ values by their <strong>matching quantiles</strong>.</p>
 <pre><code><span><span class="co">#&gt;  [1] "Suggested offsets:y = x * 1.4573 + (0.9914)"</span></span></code></pre>
 <ul>
 <li>Each point represents matching quantiles from each batch.</li>
-<li>The <em>shaded region</em> represent each batch’s middle values (
+<li>The <em>shaded region</em> represents each batch’s middle values (
 75% of middle values by default).</li>
 <li>The <em>dashed lines</em> inside the shaded boxes represent each
 batch’s medians.</li>
 <li>The <em>upper right-hand text</em> indicates the power
-transformation applied to the both batches (default is a power of
+transformation applied to both batches (default is a power of
 <code>1</code> which is original measurement scale). If a formula is
 applied to one or both batches, it too will appear in the upper
 right-hand text.</li>
-<li>The <code>eda_qq</code> will also output the <em>suggested
-relationship</em> between the y variable and the x variable in the
-console. It bases this on each batch’s interquartile values.</li>
+<li>The <code><a href="../reference/eda_qq.html">eda_qq()</a></code> function will also output the
+<em>suggested relationship</em> between the y variable and the x
+variable in the console. It bases this on each batch’s interquartile
+values.</li>
 <li>If the output is assigned to a new object, that object will store a
 list of the following values: the <code>x</code> value (interpolated if
 needed), the <code>y</code> value (interpolated if needed), the power
@@ -150,7 +151,7 @@ the formula applied to the y variable.</li>
 <p>The function will accept a <em>dataframe</em> with a column of the
 quantitative variable of interest, and a column of the category each
 measurement belongs to. It will also accept <em>two separate vector
-objects</em>. For example, to pass two separate vector object,
+objects</em>. For example, to pass two separate vector objects,
 <code>x</code> and <code>y</code>, type:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
@@ -236,18 +237,18 @@ argument.</p>
 <code>q = FALSE</code>.</p>
 </div>
 <div class="section level3">
-<h3 id="applying-different-symbol-to-tail-end-points">Applying different symbol to tail-end points<a class="anchor" aria-label="anchor" href="#applying-different-symbol-to-tail-end-points"></a>
+<h3 id="applying-a-different-symbol-to-tail-end-points">Applying a different symbol to tail-end points<a class="anchor" aria-label="anchor" href="#applying-a-different-symbol-to-tail-end-points"></a>
 </h3>
-<p>If the grey region is too distracting, but you still wish to
-distinguish identify the inner core values from the tail-end values, you
-can set <code>tails = TRUE</code> to enable to the point symbol option,
-and <code>q = FALSE</code> to remove the grey region.</p>
+<p>If the grey region is too distracting, but you still wish to identify
+the inner core values from the tail-end values, you can set
+<code>tails = TRUE</code> to enable to the point symbol option, and
+<code>q = FALSE</code> to remove the grey region.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, tails <span class="op">=</span> <span class="cn">TRUE</span>, q <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="288"></p>
 <p>By default, the tail-end points are symbolized using an open point
-symbol (as opposed to a filled point symbol applied t the inner core
-points). The tail-end point symbol can be modfied via the
+symbol (as opposed to a filled point symbol applied to the inner core
+points). The tail-end point symbol can be modified via the
 <code>tail.pch</code>, <code>tail.col</code> and<code>tail.fill</code>
 arguments. For example, to change the tail-end point symbol to a
 <code>+</code> symbol, type:</p>
@@ -326,11 +327,13 @@ distributions.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">543</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-15-2.png" class="r-plt" alt="" width="576"></p>
 <p>When two distributions are identical, the points will line up along
-the `<span class="math inline">\(x=y\)</span> line as shown above. This
+the <span class="math inline">\(x=y\)</span> line as shown above. This
 will also generate overlapping density plots as seen on the right
 plot.</p>
 </div>
@@ -340,24 +343,28 @@ plot.</p>
 <p>We will work off of the same batches, but this time we will offset
 the second batch, <code>y</code>, by <code>2</code>. This case is
 referred to as an <strong>additive offset</strong>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mgimond.github.io/tukeyedar/">tukeyedar</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">543</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">2</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-16-2.png" class="r-plt" alt="" width="576"></p>
 <p>You’ll note that the points are parallel to the <span class="math inline">\(x=y\)</span> line. This indicates that the
 distributions have the exact same shape. But, they do not fall on the
 <span class="math inline">\(x=y\)</span> line–they are offset by
 <code>+2</code> units when measured along the y-axis, as expected. We
 can confirm this by adding <code>2</code> to the <code>x</code>
 batch:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x + 2"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x + 2"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x + 2"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x + 2"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-17-2.png" class="r-plt" alt="" width="576"></p>
 <p>The points now overlap the <span class="math inline">\(x=y\)</span>
 line perfectly. The density distribution overlap exactly as well.</p>
 </div>
@@ -367,11 +374,13 @@ line perfectly. The density distribution overlap exactly as well.</p>
 <p>Next, we explore two batches that share the same central value but
 where the second batch is <code>0.5</code> times that of the first. This
 case is referred to as a <strong>multiplicative offset</strong>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">0.5</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-18-2.png" class="r-plt" alt="" width="576"></p>
 <p>Here, the series of points are at an angle of the <span class="math inline">\(x=y\)</span> line yet, you’ll note that the points
 follow a perfectly straight line. This suggests a multiplicative offset
 with no change in location. This indicates that the “shape” between the
@@ -391,21 +400,25 @@ line, we want to choose a multiplier that is greater than
 <code>1</code>.</p>
 <p>Here, we know that the multiplier is <code>0.5</code>. Let’s confirm
 this with the following code chunk:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-19-2.png" class="r-plt" alt="" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="both-additive-and-multiplicative-offset">Both additive and multiplicative offset<a class="anchor" aria-label="anchor" href="#both-additive-and-multiplicative-offset"></a>
 </h3>
 <p>In this next example, we add both a multiplicative <em>and</em> an
 additive offset to the data.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">2</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-20-2.png" class="r-plt" alt="" width="576"></p>
 <p>We now see both a multiplicative offset (the points form an angle to
 the <span class="math inline">\(x=y\)</span> line) and an additive
 offset (the points do not intersect the <span class="math inline">\(x=y\)</span> line). This suggests that the
@@ -415,19 +428,23 @@ first identify the multiplicative offset such that the points are
 rendered parallel to the <span class="math inline">\(x=y\)</span> line.
 Once the multiplier is identified, we can then identify the additive
 offset.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-21-2.png" class="r-plt" alt="" width="576"></p>
 <p>No surprise, the multiplier of <code>0.5</code> renders the series of
 points parallel to the <span class="math inline">\(x=y\)</span> line. We
 can now eyeball the offset of <code>+2</code> when measuring the
 distance between any of the points and the <span class="math inline">\(x=y\)</span> line when measured along the
 y-axis.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5 + 2"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5 + 2"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5 + 2"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, fx <span class="op">=</span> <span class="st">"x * 0.5 + 2"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-22-2.png" class="r-plt" alt="" width="576"></p>
 <p>We can model the relationship between y and x as <span class="math inline">\(y = x * 0.5 + 2\)</span>.</p>
 </div>
 <div class="section level3">
@@ -437,13 +454,15 @@ y-axis.</p>
 that any distribution can be used in a QQ plot. For example, two equally
 skewed distributions that differ by their central values will generate
 points that are perfectly lined up.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">540</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="va">x2</span> <span class="op">+</span> <span class="fl">0.2</span> </span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">y2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">y2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">y2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_dens.html">eda_dens</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">y2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-23-2.png" class="r-plt" alt="" width="576"></p>
 <p>Since both distributions have an identical shape, the points will
 follow a straight line regardless of the nature of the shape (skewed,
 unimodal, bimodal, etc…).</p>
@@ -456,7 +475,7 @@ the distributions are inherently dissimilar. For example, if we generate
 a plain vanilla plot (i.e. one without the built-in inner core guides)
 of two batches pulled from an identical theoretical distribution, we get
 the following QQ plot.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span></span>
@@ -466,7 +485,7 @@ the following QQ plot.</p>
 the plot leading one to place a disproportionate emphasis on these
 values. Adding the grey regions and the median value lines helps us
 identify the bulk of the data (inner 75% by default).</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span></span>
@@ -483,10 +502,10 @@ makes little sense since you end up comparing two batches measured on a
 different scale. In this example, we make use of R’s
 <code>Indometh</code> dataset where we compare indometacin plasma
 concentrations between two test subjects.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">Indometh</span>, <span class="va">Subject</span> <span class="op">==</span> <span class="fl">1</span>, select <span class="op">=</span> <span class="va">conc</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Test subject 1</span></span>
 <span><span class="va">s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">Indometh</span>, <span class="va">Subject</span> <span class="op">==</span> <span class="fl">2</span>, select <span class="op">=</span> <span class="va">conc</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Test subject 2</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">s1</span>, <span class="va">s2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" alt="" width="288"></p>
 <p>The QQ plot’s shaded regions are shifted towards lower values. The
@@ -502,7 +521,7 @@ values are measures of concentration, we might want to adopt a
 <code>log</code> transformation. The power transformation is defined
 with the <code>p</code> argument (a power parameter value of
 <code>0</code> defines a log transformation).</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">s1</span>, <span class="va">s2</span>, p <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" alt="" width="288"></p>
 <pre><code><span><span class="co">#&gt;  [1] "Suggested offsets:y = x * 0.8508 + (0.3914)"</span></span></code></pre>
@@ -510,7 +529,7 @@ with the <code>p</code> argument (a power parameter value of
 <p>Note that the suggested offset displayed in the console applies to
 the transformed dataset. We can verify this by applying the offset to
 the x batch.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">s1</span>, <span class="va">s2</span>, p <span class="op">=</span> <span class="fl">0</span>, fx <span class="op">=</span> <span class="st">"x * 0.8501 + 0.3902"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-29-1.png" class="r-plt" alt="" width="288"></p>
 <p>We can characterize the differences in indometacin plasma
@@ -530,13 +549,15 @@ batches to the x-axis. For example, the following figure on the left
 fails to clearly identify the multiplicative offset. The latter can be
 clearly seen in the Tukey mean-difference plot (on the right) which is
 invoked by setting the argument <code>md = TRUE</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">321</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">0.97</span> <span class="op">+</span> <span class="fl">0.3</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, title <span class="op">=</span> <span class="st">"QQ plot"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"M-D plot"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, title <span class="op">=</span> <span class="st">"QQ plot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-30-1.png" class="r-plt" alt="" width="576"></p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="st">"M-D plot"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-30-2.png" class="r-plt" alt="" width="576"></p>
 <p>Note that the mean-difference plot highlights the mid
 <em>difference</em> values defined by the <code>inner</code> argument.
 This does not clearly reflect the mid values shown in the QQ plot. If
@@ -544,9 +565,104 @@ you want the mean-difference plot to show the inner core values, set
 <code>tails</code> to <code>TRUE</code>. In doing so, you might want to
 disable the shaded region to have most of the emphasis placed on the
 points.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, tails <span class="op">=</span> <span class="cn">TRUE</span>, q <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qq_files/figure-html/unnamed-chunk-31-1.png" class="r-plt" alt="" width="288"></p>
+</div>
+<div class="section level2">
+<h2 id="assessing-pattern-vs--noise-with-permutation-envelopes">Assessing pattern vs. noise with permutation envelopes<a class="anchor" aria-label="anchor" href="#assessing-pattern-vs--noise-with-permutation-envelopes"></a>
+</h2>
+<p>When comparing two batches in a QQ plot, subtle departures from the
+<span class="math inline">\(y = x\)</span> reference line (or <span class="math inline">\(y = 0\)</span> line in a Mean-Difference plot)
+often raise a fundamental question: <strong>Are these differences
+indicative of real structural shifts in location, scale, or tails, or
+are they simply artifacts of random sampling variability?</strong></p>
+<p>To provide a visual benchmark against chance variation,
+<code><a href="../reference/eda_qq.html">eda_qq()</a></code> includes an optional <strong>permutation
+simulation routine</strong> triggered by setting
+<code>nsim &gt; 0</code>.</p>
+<div class="section level3">
+<h3 id="mechanics-of-the-pooled-permutation">Mechanics of the pooled Permutation<a class="anchor" aria-label="anchor" href="#mechanics-of-the-pooled-permutation"></a>
+</h3>
+<p>Setting <code>nsim &gt; 0</code> constructs a reference envelope
+under the benchmark that both batches come from an identical underlying
+distribution:</p>
+<ul>
+<li>
+<strong>Pooling and Shuffling:</strong> The observations from both
+batches (<span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>) are pooled into a single combined
+sample.</li>
+<li>
+<strong>Synthetic Reallocation:</strong> For each simulation run,
+the pooled data are randomly permuted and split into two synthetic
+batches matching the original sample sizes (<span class="math inline">\(n_x\)</span> and <span class="math inline">\(n_y\)</span>).</li>
+<li>
+<strong>Quantile Alignment:</strong> Interpolated quantile pairs are
+calculated for each permuted pair and rendered behind the observed data
+points. If <code>md = TRUE</code> is active, the simulated runs are
+automatically mapped to Tukey Mean-Difference coordinates.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="simulation-parameters">Simulation parameters<a class="anchor" aria-label="anchor" href="#simulation-parameters"></a>
+</h3>
+<p>The visual appearance of the permutation reference cloud is
+controlled by five parameters:</p>
+<ul>
+<li>
+<code>nsim</code>: Number of permutation iterations (default is
+<code>0</code>, which turns off simulation).</li>
+<li>
+<code>sim.type</code>: Simulation display type. Either
+<code>"points"</code> (default) or <code>"lines"</code> for a
+spaghetti-plot envelope.</li>
+<li>
+<code>sim.col</code>: Color of the simulated reference cloud
+(default is <code>"coral"</code>).</li>
+<li>
+<code>sim.alpha</code>: Transparency setting (<code>0</code> to
+<code>1</code>).</li>
+<li>
+<code>sim.pch</code>: Plotting symbol used when
+<code>sim.type = "points"</code> (default is <code>16</code>).</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="interpreting-the-reference-cloud">Interpreting the Reference Cloud<a class="anchor" aria-label="anchor" href="#interpreting-the-reference-cloud"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Within the Cloud:</strong> If the observed quantile points
+fall comfortably inside the concentration of the permuted cloud, the
+variation between the two batches is consistent with what one would
+expect from random sampling alone.</li>
+<li>
+<strong>Beyond the Cloud:</strong> If the observed points curve or
+step <strong>outside the permuted cloud</strong>, it indicates a
+structural difference between the two distributions (such as an additive
+shift, a difference in spread/slope, or heavier tails in one
+batch).</li>
+</ol>
+<p>The following code block displays an empirical QQ plot comparing
+morning and afternoon departure delays at Logan airport with a 100-run
+point permutation envelope.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">am</span> <span class="op">&lt;-</span> <span class="va">logan</span><span class="op">[</span><span class="va">logan</span><span class="op">$</span><span class="va">am_pm</span> <span class="op">==</span> <span class="st">"am"</span>, <span class="st">"delay"</span><span class="op">]</span></span>
+<span><span class="va">pm</span> <span class="op">&lt;-</span> <span class="va">logan</span><span class="op">[</span><span class="va">logan</span><span class="op">$</span><span class="va">am_pm</span> <span class="op">==</span> <span class="st">"pm"</span>, <span class="st">"delay"</span><span class="op">]</span></span>
+<span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">am</span>, <span class="va">pm</span>, nsim<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-32-1.png" class="r-plt" alt="" width="288"></p>
+<p>The following code block displays the same data using a
+spaghetti-plot envelope.</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">am</span>, <span class="va">pm</span>, nsim<span class="op">=</span><span class="fl">100</span>, sim.type <span class="op">=</span> <span class="st">"lines"</span>, sim.alpha<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="288"></p>
+<p>When compared against the 100-run permutation envelope, the observed
+quantile points step well outside and above the bounds of the reference
+cloud. In exploratory terms, this pronounced departure reveals a clear
+location shift: afternoon flight delays are consistently higher across
+all quantiles than morning delays. This demonstrates a genuine
+structural pattern rather than random sampling noise.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="creating-a-qq-plot-matrix">Creating a QQ plot matrix<a class="anchor" aria-label="anchor" href="#creating-a-qq-plot-matrix"></a>
@@ -555,15 +671,15 @@ points.</p>
 plot matrix. It adopts many of the same arguments available in the
 <code>eda_qq</code> function, but it does not adopt some of
 <code>eda_qq</code>’s default settings. For example, the inner region
-shading parameter <code>q</code> is set to <code>FALSE</code>–this to
-minimize clutter in the densely packed matrix. Instead, points Falling
+shading parameter <code>q</code> is set to <code>FALSE</code>–this is to
+minimize clutter in the densely packed matrix. Instead, points falling
 outside of the <em>inner</em> region are symbolized with an open point
 symbol. For example, to generate an empirical QQ plot matrix of singer
-height values conditioned of voice parts type:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+height values conditioned on voice part:</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">singer</span> <span class="op">&lt;-</span> <span class="fu">lattice</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lattice/man/singer.html" class="external-link">singer</a></span></span>
 <span><span class="fu"><a href="../reference/eda_qqmat.html">eda_qqmat</a></span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qq_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="qq_files/figure-html/unnamed-chunk-35-1.png" class="r-plt" alt="" width="672"></p>
 <p>You can, of course, adopt the same point symbol for all points by
 setting <code>tails = FALSE</code>.</p>
 <p>The matrix limits the output to the lower triangle given that the
@@ -575,9 +691,9 @@ residuals QQ plot matrix (<code>resid = TRUE</code>) by subtracting the
 input values with the group mean (<code>stat = mean</code>) or median
 (<code>stat = median</code>). For example, to generate a residuals QQ
 plot of singer height, type:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/eda_qqmat.html">eda_qqmat</a></span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qq_files/figure-html/unnamed-chunk-35-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="qq_files/figure-html/unnamed-chunk-37-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="a-working-example">A working example<a class="anchor" aria-label="anchor" href="#a-working-example"></a>
@@ -592,40 +708,40 @@ represent derived normal temperatures for the 1981-2010 period
 (<code>wat95</code>) and the 1991-2020 period (<code>wat05</code>) for
 the city of Waterville, Maine (USA). We will subset the data to the
 daily <em>average</em> normals, <code>avg</code>:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">old</span> <span class="op">&lt;-</span> <span class="va">wat95</span><span class="op">$</span><span class="va">avg</span> <span class="co"># legacy temperature normals</span></span>
 <span><span class="va">new</span> <span class="op">&lt;-</span> <span class="va">wat05</span><span class="op">$</span><span class="va">avg</span> <span class="co"># current temperature normals</span></span></code></pre></div>
 <p>We will now compare their distributions. We’ll omit the shaded region
 for now.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span>, q <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qq_files/figure-html/unnamed-chunk-37-1.png" class="r-plt" alt="" width="288"></p>
+<p><img src="qq_files/figure-html/unnamed-chunk-39-1.png" class="r-plt" alt="" width="288"></p>
 <p>At first glance, the batches do not seem to differ. But how close are
 the points to the <span class="math inline">\(x=y\)</span> line? We will
 rotate the plot to zoom in on the <span class="math inline">\(x=y\)</span> line by setting
 <code>md = TRUE</code>.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">old</span>, <span class="va">new</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qq_files/figure-html/unnamed-chunk-38-1.png" class="r-plt" alt="" width="288"></p>
+<p><img src="qq_files/figure-html/unnamed-chunk-40-1.png" class="r-plt" alt="" width="288"></p>
 <p>This view is proving to be far more insightful. Note that for most of
 the data, we have an overall offset of 0.5 suggesting that the new
-normals are about 0.5°F. warmer. We could stop there, but the pattern
+normals are about 0.5°F warmer. We could stop there, but the pattern
 observed in the Tukey mean-difference plot is far from random. In fact,
 we can break the pattern into three distinct ones at around 35°F and
 50°F. We will categorize these groups as <code>low</code>,
 <code>mid</code> and <code>high</code> values.</p>
 <p>This next chunk of code will generate three separate QQ plots for
 each range of values.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"mid"</span>, <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">Q</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="va">out</span><span class="op">$</span><span class="va">avg</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">old</span> <span class="op">+</span> <span class="va">out</span><span class="op">$</span><span class="va">new</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
 <span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">out</span>, <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">avg</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">avg</span><span class="op">)</span>, <span class="fl">35</span>, <span class="fl">50</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">avg</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>                       labels <span class="op">=</span> <span class="va">labs</span>, include.lowest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">labs</span>, FUN <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">out2</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">old</span>, <span class="va">out2</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">new</span> ,</span>
-<span>                                xlab <span class="op">=</span> <span class="st">"old"</span>, ylab <span class="op">=</span> <span class="st">"new"</span>, md <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span>                                xlab <span class="op">=</span> <span class="st">"old"</span>, ylab <span class="op">=</span> <span class="st">"new"</span>, md <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>                         <span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="va">x</span>, line <span class="op">=</span> <span class="fl">3</span>, col.main <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span><span class="op">}</span> <span class="op">)</span></span></code></pre></div>
-<p><img src="qq_files/figure-html/unnamed-chunk-40-1.png" class="r-plt" alt="" width="864"></p>
+<p><img src="qq_files/figure-html/unnamed-chunk-42-1.png" class="r-plt" alt="" width="864"><img src="qq_files/figure-html/unnamed-chunk-42-2.png" class="r-plt" alt="" width="864"><img src="qq_files/figure-html/unnamed-chunk-42-3.png" class="r-plt" alt="" width="864"></p>
 <pre><code><span><span class="co">#&gt;  [1] "Suggested offsets:y = x * 0.9507 + (1.6599)"</span></span>
 <span><span class="co">#&gt;  [1] "Suggested offsets:y = x * 1.047 + (-1.6502)"</span></span>
 <span><span class="co">#&gt;  [1] "Suggested offsets:y = x * 0.9938 + (0.9268)"</span></span></code></pre>
@@ -641,42 +757,49 @@ have generated different patterns in the QQ and Tukey plots. This is
 because this approach could generate different quantile pairs.</p>
 </blockquote>
 <p>Next, we’ll adopt the suggested offsets generated in the console.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">xform</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x * 0.9506 + 1.661"</span>,</span>
-<span>           <span class="st">"x * 1.0469 - 1.6469"</span>,</span>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xform</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x * 0.9507 + 1.661"</span>,</span>
+<span>           <span class="st">"x * 1.047  - 1.650"</span>,</span>
 <span>           <span class="st">"x * 0.9938 + 0.9268"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">xform</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">labs</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">labs</span>, FUN <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="../reference/eda_qq.html">eda_qq</a></span><span class="op">(</span><span class="va">out2</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">old</span>, <span class="va">out2</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">new</span>, </span>
 <span>                                fx <span class="op">=</span> <span class="va">xform</span><span class="op">[</span><span class="va">x</span><span class="op">]</span>,</span>
-<span>                                xlab <span class="op">=</span> <span class="st">"old"</span>, ylab <span class="op">=</span> <span class="st">"new"</span>, md <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span>                         <span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="va">x</span>, line <span class="op">=</span> <span class="fl">3</span>, col.main <span class="op">=</span> <span class="st">"coral3"</span><span class="op">)</span><span class="op">}</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="qq_files/figure-html/unnamed-chunk-41-1.png" class="r-plt" alt="" width="864"></p>
+<span>                                xlab <span class="op">=</span> <span class="st">"old"</span>, ylab <span class="op">=</span> <span class="st">"new"</span>, md <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span>
+<span>                        <span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qq_files/figure-html/unnamed-chunk-43-1.png" class="r-plt" alt="" width="864"><img src="qq_files/figure-html/unnamed-chunk-43-2.png" class="r-plt" alt="" width="864"><img src="qq_files/figure-html/unnamed-chunk-43-3.png" class="r-plt" alt="" width="864"></p>
 <p>The proposed offsets seem to do a good job in characterizing the
 differences in temperatures.</p>
 <p>The characterization of the differences in normal temperatures
 between the old and new set of normals can be formalized as follows:</p>
 <p><span class="math display">\[
 new = \begin{cases}
-old * 0.9506 + 1.661, &amp;  T_{avg} &lt; 35 \\
-old * 1.0469 - 1.6469, &amp; 35 \le T_{avg} &lt; 50  \\
-old * 0.9938 + 0.9268, &amp; T_{avg} \ge 50
+old \times 0.9507 + 1.661, &amp;  T_{avg} &lt; 35 \\
+old \times 1.047 - 1.650, &amp; 35 \le T_{avg} &lt; 50  \\
+old \times 0.9938 + 0.9268, &amp; T_{avg} \ge 50
 \end{cases}
 \]</span></p>
 <p>The key takeaways from this analysis can be summarized as
 follows:</p>
 <ul>
 <li>Overall, the new normals are about 0.5°F warmer.</li>
-<li>The offset is not uniform across the full range of temperature
-values.</li>
-<li>For lower temperature (those less than 35°F), the new normals have a
-slightly narrower distribution and are about 1.7°F warmer.</li>
-<li>For the mid temperature values (between 35°F and 50°F) the new
-normals have a slightly wider distribution and are overall about 1.6°F
-cooler.</li>
-<li>For the higher range of temperature values (those greater than
-50°F), the new normals have a slightly narrower distribution and are
-about 0.9°F warmer.</li>
+<li>Non-uniform Offset: The magnitude and nature of the difference vary
+across temperature ranges:
+<ul>
+<li>Low Temperatures (<span class="math inline">\(&lt;
+35^\circ\text{F}\)</span>): The new normals have a slightly narrower
+distribution (<span class="math inline">\(b = 0.95\)</span>), being
+roughly <span class="math inline">\(0.9^\circ\text{F}\)</span> warmer at
+lower values and tapering down to nearly <span class="math inline">\(0.2^\circ\text{F}\)</span> warmer as temperatures
+approach <span class="math inline">\(35^\circ\text{F}\)</span>.</li>
+<li>Mid Temperatures (<span class="math inline">\(35^\circ\text{F}\)</span> to <span class="math inline">\(50^\circ\text{F}\)</span>): The new normals show a
+slightly wider distribution (<span class="math inline">\(b =
+1.05\)</span>), transitioning from identical temperatures at <span class="math inline">\(35^\circ\text{F}\)</span> to being about <span class="math inline">\(0.7^\circ\text{F}\)</span> warmer at <span class="math inline">\(50^\circ\text{F}\)</span> (averaging <span class="math inline">\(\sim 0.3^\circ\text{F}\)</span> to <span class="math inline">\(0.4^\circ\text{F}\)</span> warmer overall).</li>
+<li>High Temperatures (<span class="math inline">\(\ge
+50^\circ\text{F}\)</span>): The distribution shape is nearly identical
+(<span class="math inline">\(b \approx 0.99\)</span>), with the new
+normals consistently hovering around <span class="math inline">\(0.5^\circ\text{F}\)</span> to <span class="math inline">\(0.6^\circ\text{F}\)</span> warmer.</li>
+</ul>
+</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -690,7 +813,7 @@ about 0.9°F warmer.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

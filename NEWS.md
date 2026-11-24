@@ -10,6 +10,7 @@
 * `eda_rfs()`: Modified wording in text console output. It will now report the 
    relative spread breakdown in percentages. This aligns the text with the green 
    and red segments of the stacked bar plot.
+*  Updated the `rfs` vignette to include simulation option.
 
 # tukeyedar 0.6.0
 
