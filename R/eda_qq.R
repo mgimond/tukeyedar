@@ -101,7 +101,7 @@
 #'   repeatedly permuted across the two groups using \code{\link[base]{sample}}.
 #'   The resulting quantiles are plotted behind the observed data with alpha
 #'   transparency (\code{sim.alpha}).
-#'   \cr
+#'   \cr \cr
 #'   Console output prints the suggested multiplicative and additive offsets. It
 #'   adopts a resistant line fitting technique to derive the coefficients. The
 #'   suggested offsets output applies to the raw or re-expressed data but it
@@ -196,24 +196,11 @@
 #'  # species' petal widths.
 #'  eda_qq(setosa, virginica, fx = "x *  1.7143 + 1.6286", md = TRUE)
 #'
-#'  #
-
-# eda_qq <- function(x, y = NULL, fac = NULL, p = 1L, norm = F, sym = F, switch = F,
-#                    tukey = FALSE, md = FALSE, fx = NULL, fy = NULL,
-#                    ...,  q=TRUE, q.type = 5,   plot = TRUE,  grey = 0.6,
-#                    med = TRUE,  tails = FALSE, inner = 0.75,
-#                    tail.pch = 21, tail.p.col = "grey70", t.size = 1.2) {
-
 
 eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALSE,
                    p = 1L, tukey = FALSE, base = exp(1), fx = NULL, fy = NULL,
-                   # --- Simulation Parameters ---
-                   nsim = 0,               # Number of permutation runs (0 = off)
-                   sim.alpha = 0.15,       # Transparency of simulated points
-                   sim.col = "coral",     # Color for simulated cloud
-                   sim.pch = 16,           # Point type for simulation
-                   sim.type = "points",    # "points" or "lines" (spaghetti plot)
-                   # -----------------------------
+                   nsim = 0, sim.alpha = 0.2, sim.col = "coral",
+                   sim.pch = 16, sim.type = "points",
                    show.par = TRUE, grey = 0.6, pch = 21, p.col = "grey50",
                    p.fill = "grey80", size = 1, alpha = 0.8,
                    med = TRUE, inner = 0.75, q = TRUE,
@@ -481,7 +468,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
       }
 
       # --- Re-overlay Observed Data (if simulation was drawn over .eda_plot_xy) ---
-
       if (tails == FALSE) {
         points(x = x, y = y, pch = pch, col = p.col, bg = p.fill, cex = size)
       } else {
@@ -514,7 +500,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
       params <- gsub("\\; \\;", ";", params)
       mtext(side = 3, text=params, adj=1, cex = 0.65)
     }
-
 
     #  M-D plot ----
   } else if(plot == TRUE & md == TRUE) {
@@ -571,21 +556,6 @@ eda_qq <- function(x, y = NULL, fac = NULL, norm = FALSE, sym = FALSE, md = FALS
                col = tail.p.col, bg = tail.p.fill, cex = size)
       }
     }
-
-    # if(tails != TRUE){
-    #   plot( x=md.x, y=md.y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-    #         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-    #         ylim = ylim, xlim = xlim)
-    # } else {
-    #   plot( x=md.x[inner.tails], y=md.y[inner.tails],  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-    #         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-    #         xlim = xlim, ylim = ylim, col.lab=plotcol)
-    #   if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-    #     points( x=md.x[outer.tails], y=md.y[outer.tails], yaxt='n', xaxt='n',
-    #             col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-    #             bg = tail.p.fill, cex = size)
-    #   }
-    # }
 
     # Box & Axes Labels
     box(col=plotcol)

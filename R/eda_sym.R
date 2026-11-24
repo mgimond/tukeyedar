@@ -86,11 +86,8 @@
 
 
 eda_sym <- function(x, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
-                    nsim = 0,            # Number of random sign-flips (0 = off)
-                    sim.alpha = 0.2,     # Transparency of simulated cloud
-                    sim.col = "coral",   # Color for simulated cloud
-                    sim.pch = 16,        # Point type for simulation
-                    sim.type = "points", # "points" or "lines"
+                    nsim = 0, sim.alpha = 0.2, sim.col = "coral",
+                    sim.pch = 16, sim.type = "points",
                     show.par = TRUE, grey = 0.6, pch = 21,
                     p.col = "grey50", p.fill = "grey80", size = 0.8, alpha = 0.8,
                     inner = 0.75, q = TRUE, qcol = rgb(0, 0, 0, 0.05),

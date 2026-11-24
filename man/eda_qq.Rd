@@ -16,6 +16,11 @@ eda_qq(
   base = exp(1),
   fx = NULL,
   fy = NULL,
+  nsim = 0,
+  sim.alpha = 0.2,
+  sim.col = "coral",
+  sim.pch = 16,
+  sim.type = "points",
   show.par = TRUE,
   grey = 0.6,
   pch = 21,
@@ -71,6 +76,26 @@ computed after any transformation is applied to the x variable.}
 \item{fy}{Formula to apply to y variable before pairing up with x. This is
 computed after any transformation is applied to the y variable.}
 
+\item{nsim}{Integer. Number of random permutations (shuffles) to generate
+for constructing a null reference distribution cloud. Default is \code{0}
+(no simulation).
+When \code{nsim > 0}, observations from both batches are pooled and randomly
+reallocated into two synthetic groups of original size to visually represent
+sampling variability under the null hypothesis of equal distributions.}
+
+\item{sim.alpha}{Numeric. Transparency value between \code{0} (fully transparent)
+and \code{1} (opaque) applied to simulated points or lines. Default is \code{0.15}.}
+
+\item{sim.col}{Character. Color used to render the simulated permutation cloud
+or lines. Default is \code{"grey60"}.}
+
+\item{sim.pch}{Integer or character. Plotting symbol for simulated points when
+\code{sim.type = "points"}. Default is \code{16} (solid circle).}
+
+\item{sim.type}{Character. Format of the simulated envelope display: \code{"points"}
+(default) overlays a point cloud emphasizing density concentration, while
+\code{"lines"} draws connected quantile lines for each permutation run (spaghetti plot).}
+
 \item{show.par}{Boolean determining if parameters such as power
 transformation and formula should be displayed.}
 
@@ -95,7 +120,8 @@ applicable if \code{rgb()} is not used to define point color.}
 which of the tail-end points are to be symbolized differently,
 \code{tails=TRUE}.}
 
-\item{q}{Boolean determining if \code{inner} data region should be shaded.}
+\item{q}{Boolean determining if \code{inner} data region should be shaded. This
+is automatically set to \code{FALSE} if \code{tails=TRUE}.}
 
 \item{q.type}{An integer between 1 and 9 selecting one of the nine quantile
 algorithms. (See \code{quantile} function).}
@@ -104,7 +130,8 @@ algorithms. (See \code{quantile} function).}
 
 \item{tails}{Boolean determining if points outside of the \code{inner} region
 should be symbolized differently. Tail-end points are symbolized via the
-\code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments.}
+\code{tail.pch},  \code{tail.p.col} and \code{tail.p.fill} arguments. If this
+option is selected, \code{q} will automatically be set to \code{FALSE}.}
 
 \item{tail.pch}{Tail-end point symbol type (See \code{tails}).}
 
@@ -197,6 +224,14 @@ tail-end points symbolized differently by setting \code{tails = TRUE} and
 The middle dashed line represents each batch's median value. It can be
 turned off by setting \code{med = FALSE}\cr
 \cr
+To help assess whether deviations from the reference line (y = x or y = 0)
+reflect true structural differences (e.g., offset, scale, or tail behavior)
+rather than natural sampling variation, setting \code{nsim > 0} generates
+an empirical null envelope. The values from both batches are pooled and
+repeatedly permuted across the two groups using \code{\link[base]{sample}}.
+The resulting quantiles are plotted behind the observed data with alpha
+transparency (\code{sim.alpha}).
+\cr \cr
 Console output prints the suggested multiplicative and additive offsets. It
 adopts a resistant line fitting technique to derive the coefficients. The
 suggested offsets output applies to the raw or re-expressed data but it
