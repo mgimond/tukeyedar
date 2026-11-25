@@ -45,9 +45,9 @@ knitr::opts_chunk$set(echo = TRUE, dev.args=list(pointsize=10))
 
 # Introduction
 
-The *empirical quantile-quantile plot* (QQ plot) is probably one of the most underused and least appreciated plots in univariate analysis. It is used to compare two distributions across their *full* range of values. It is a generalization of the boxplot in that it does not limit the comparison to just the median and upper and lower quartiles. In fact, it compares *all* values by matching each value in one batch to its corresponding quantile in the other batch. The sizes of each batch need not be the same. If they differ, the larger batch is interpolated down to the smaller batch's set of quantiles.
+The *empirical quantile-quantile plot* (QQ plot) is probably one of the most underused and least appreciated plots in univariate analysis. It is used to compare two distributions across their *full* range of values. A QQ plot can be thought of as extending the boxplot's comparison of medians and quartiles to comparisons across the entire distribution. It compares *all* values by matching each value in one batch to its corresponding quantile in the other batch. The sizes of each batch need not be the same. If they differ, the larger batch is interpolated down to the smaller batch's set of quantiles.
 
-A QQ plot does not only help visualize the differences in distributions, but it can also model the relationship between both batches. Note that this is not to be confused with modeling the relationship between a bivariate dataset where the latter pairs up the points by *observational units* whereas a QQ plot pairs up the values by their **matching quantiles**.
+A QQ plot does not only help visualize the differences in distributions, but it can characterize how one distribution must be transformed to align with another. Note that this is not to be confused with modeling the relationship between a bivariate dataset where the latter pairs up the points by *observational units* whereas a QQ plot pairs up the values by their **matching quantiles**.
 
 
 # Anatomy of the `eda_qq` plot
@@ -210,7 +210,7 @@ The points now overlap the $x=y$ line perfectly. The density distribution overla
 
 ## Multiplicative offset
 
-Next, we explore two batches that share the same central value but where the second batch is `0.5` times that of the first. This case is referred to as a **multiplicative offset**.
+Next, we explore two batches that share the same central value but where the second batch is `0.5` times that of the first. This case is referred to as a **multiplicative offset** (often called a scale or spread difference).
 
 ```{r fig.height=3, fig.width = 6, echo=2:4, results='hide'}
 OP <- par(mfrow=c(1,2))
@@ -246,7 +246,7 @@ eda_dens(x, y)
 par(OP)
 ```
 
-We now see both a multiplicative offset (the points form an angle to the $x=y$ line) and an additive offset (the points do not intersect the $x=y$ line). This suggests that the *width* of the batches differ and that their values are offset by a constant value across the full range of values. It's usually best to first identify the multiplicative offset such that the points are rendered parallel to the $x=y$ line. Once the multiplier is identified, we can then identify the additive offset.
+We now see both a multiplicative offset (the points form an angle to the $x=y$ line) and an additive offset (the points do not intersect the $x=y$ line). This suggests that the *width* of the batches differ and that their values are offset by a constant value across the full range of values. It's usually best to first identify the multiplicative offset such that the points are rendered parallel to the $x=y$ line. Multiplicative differences affect the slope of the quantile relationship, whereas additive differences affect only its vertical displacement. Correcting the slope first makes the remaining vertical displacement easier to assess.
 
 ```{r fig.height=3, fig.width = 6, echo=2:3, results='hide'}
 OP <- par(mfrow=c(1,2))
@@ -282,7 +282,7 @@ par(OP)
 
 Since both distributions have an identical shape, the points will follow a straight line regardless of the nature of the shape (skewed, unimodal, bimodal, etc...).
 
-When distributions are not symmetrical, you should be careful in not letting the long tails of the distribution  bias your interpretation of the plots given that the tail-end values will take up a disproportionately larger portion of the plot. Tail-end values tend to be noisy and will undoubtedly generate a QQ plot that may suggest that the distributions are inherently dissimilar. For example, if we generate a plain vanilla plot (i.e. one without the built-in inner core guides) of two batches pulled from an identical theoretical distribution, we get the following QQ plot.
+When distributions are not symmetrical, you should be careful in not letting the long tails of the distribution bias your interpretation of the plots given that the tail-end values will take up a disproportionately larger portion of the plot. Tail-end values tend to be noisy and will undoubtedly generate a QQ plot that may suggest that the distributions are inherently dissimilar. For example, if we generate a plain vanilla plot (i.e. one without the built-in inner core guides) of two batches pulled from an identical theoretical distribution, we get the following QQ plot.
 
 ```{r fig.height=3, fig.width = 3, results='hide'}
 set.seed(18)
@@ -313,7 +313,7 @@ s2 <- subset(Indometh, Subject == 2, select = conc, drop = TRUE) # Test subject 
 eda_qq(s1, s2)
 ```
 
-The QQ plot's shaded regions are shifted towards lower values. The shaded regions show the mid 75% of values for each batch. When the regions are shifted towards lower values or higher values, this suggests skewed data. Another telltale sign of a skewed dataset is the gradual dispersion of the points in any of the two diagonal directions. Here, we go from a relatively high density of points near the lower values and a lower density of points near higher values.  This does not preclude us from identifying multiplicative/additive offsets, but many statistical procedures benefit from a symmetrical distribution. Given that the values are measures of concentration, we might want to adopt a `log` transformation. The power transformation is defined with the `p` argument (a power parameter value of `0` defines a log transformation).
+The QQ plot's shaded regions are shifted towards lower values. The shaded regions show the mid 75% of values for each batch. In a symmetric distribution, the median tends to sit near the center of the middle 75% box. When the median is noticeably displaced toward one edge of the box, the distribution is typically skewed. Another telltale sign of a skewed dataset is the gradual dispersion of the points in any of the two diagonal directions. Here, we go from a relatively high density of points near the lower values and a lower density of points near higher values.  This does not preclude us from identifying multiplicative/additive offsets, but many statistical procedures benefit from a symmetrical distribution. Given that the values are measures of concentration, we might want to adopt a `log` transformation. The power transformation is defined with the `p` argument (a power parameter value of `0` defines a log transformation).
 
 ```{r  fig.width=3, fig.height=3}
 eda_qq(s1, s2, p = 0)
@@ -437,13 +437,13 @@ We will now compare their distributions. We'll omit the shaded region for now.
 Q <- eda_qq(old, new, q = FALSE)
 ```
 
-At first glance, the batches do not seem to differ. But how close are the points to the $x=y$ line? We will rotate the plot to zoom in on the $x=y$ line by setting `md = TRUE`.
+At first glance, the batches do not seem to differ. But how close are the points to the $x=y$ line? We will rotate the plot to zoom in on the $x=y$ line by setting the mean-difference parameter `md` to `TRUE`.
 
 ```{r fig.height=3, fig.width=3, results='hide'}
 Q <- eda_qq(old, new, md = TRUE)
 ```
 
-This view is proving to be far more insightful. Note that for most of the data, we have an overall offset of 0.5 suggesting that the new normals are about 0.5&deg;F warmer. We could stop there, but the pattern observed in the Tukey mean-difference plot is far from random. In fact, we can break the pattern into three distinct ones at around 35&deg;F and 50&deg;F. We will categorize these groups as `low`, `mid` and `high` values.
+This view is proving to be far more insightful. Note that for most of the data, we have an overall offset of 0.5 suggesting that the new normals are about 0.5&deg;F warmer. We could stop there, but the pattern observed in the Tukey mean-difference plot seems far from random. In fact, we can break the pattern into three distinct ones at around 35&deg;F and 50&deg;F. We will categorize these groups as `low`, `mid` and `high` values. Note that these breakpoints are identified visually from the mean-difference plot and should be viewed as exploratory partitions rather than formally estimated thresholds.
 
 This next chunk of code will generate three separate QQ plots for each range of values.
 
@@ -506,6 +506,7 @@ old \times 0.9938 + 0.9268, & T_{avg} \ge 50
 \end{cases}
 $$
 
+It's important to recall that these equations characterize the relationship between **corresponding quantiles** in the two distributions rather than **day-to-day temperature pairs**.
 
 The key takeaways from this analysis can be summarized as follows:
 
