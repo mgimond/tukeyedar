@@ -16,6 +16,11 @@ eda_sl(
   jitter = 0.01,
   robust = TRUE,
   loess.d = list(family = "symmetric", degree = 1, span = 1),
+  nsim = 0,
+  sim.alpha = 0.5,
+  sim.col = "grey",
+  sim.pch = 16,
+  sim.type = "lines",
   label = TRUE,
   label.col = "lightsalmon",
   xlab = NULL,
@@ -61,6 +66,22 @@ spread-level plot.}
 
 \item{loess.d}{Arguments passed to the internal loess function. Applies only
 to the bivariate model s-l plots and the spread-level plot.}
+
+\item{nsim}{Integer. Number of random residual permutations to generate for
+constructing an empirical reference envelope (default is \code{0}, which turns
+off simulation). Supported for univariate data inputs (\code{type = "location"}
+and \code{type = "level"}).}
+
+\item{sim.alpha}{Transparency setting (\code{0} to \code{1}, default is \code{0.5})
+allowing overlapping simulation runs to form a dense reference band.}
+
+\item{sim.col}{Color of the simulated reference envelope (default is \code{"grey"}).}
+
+\item{sim.pch}{Plotting symbol used when \code{sim.type = "points"} (default is \code{16}).}
+
+\item{sim.type}{Format of the simulation display—either \code{"lines"} (default)
+or \code{"points"}. Note that when \code{type = "level"}, \code{sim.type} is
+automatically set to \code{"lines"}.}
 
 \item{label}{Logical; Determines if group labels are to be added to the
 spread-location plot.}
@@ -181,6 +202,27 @@ a linear model.\cr
 \eqn{\ spread = \sqrt{|residuals|}} \cr
 \eqn{\ dependence = x\ variable}
 }
+
+To assess whether observed differences in group spreads (or an apparent trend in
+a spread-level plot) reflect genuine scale dependence (heteroscedasticity) rather than
+natural sampling noise, \code{eda_sl()} includes an optional permutation simulation
+routine triggered by setting \code{nsim > 0} (supported for univariate data).
+
+Rather than shuffling factor labels (which would artificially collapse group medians
+toward the grand median) the simulation holds observed group locations fixed on the
+x-axis and randomly permutes the centered residuals across all observations under
+the benchmark of equal variance (homoscedasticity).
+
+When \code{type = "location"}, group median spreads (\eqn{\sqrt{|\text{residuals}|}})
+are recomputed from the shuffled residuals across each iteration. This renders a visual
+reference envelope (spaghetti lines when \code{sim.type = "lines"}) across the full location
+spectrum. If the observed red summary line sits comfortably within the simulation cloud,
+group spread differences are consistent with random variation.
+
+When \code{type = "level"}, the log(spread) versus log(location) regression line is refitted
+across each permutation iteration. This builds a visual slope envelope demonstrating how
+much slope variation occurs naturally under homoscedasticity. This provides a visual benchmark
+before selecting a power transformation (\eqn{p = 1 - b}).
 }
 \examples{
 cars <- MASS::Cars93
@@ -196,11 +238,16 @@ eda_sl(cars, MPG.city, Type, ylab = expression(sqrt(abs(residuals))) )
 # following power = 1 - slope
 eda_sl(cars, MPG.city, Type, type = "level")
 
+# Spread-level plot with a 100-run permutation line envelope
+eda_sl(cars, MPG.city, Type, type = "level", nsim=100)
+
 # A slope of around 3 is computed from the s-l plot, therefore, a suggested
 # power is 1 - 3 = -2. We can apply a power transformation within the
 # function via the p argument. By default, a Box-Cox transformation method
 # is adopted.
-eda_sl(cars, MPG.city, Type, p = -2)
+# The resulting s-l plot shows a slope that is more representative of naturally
+# occurring variability under homoscedasticity.
+eda_sl(cars, MPG.city, Type, type = "level", p=-2, nsim=100)
 
 # Spread-location plot can also be generated from residuals of a linear model
 M1 <- lm(mpg ~ hp, mtcars)
