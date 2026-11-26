@@ -44,6 +44,15 @@
 #'  \code{tail.pch}, \code{tail.p.col} and \code{tail.p.fill} arguments.
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 75 percent of values.
+#' @param nsim Integer. Number of random permutations (factor label shuffles) to generate
+#'   for constructing an empirical reference envelope across panels (default is \code{0},
+#'   which turns off simulation).
+#' @param sim.type Format of the simulation display—either \code{"lines"} (default)
+#'   or \code{"points"}.
+#' @param sim.col Color of the simulated reference cloud (default is \code{"coral"}).
+#' @param sim.alpha Transparency setting (\code{0} to \code{1}, default is \code{0.2})
+#'   allowing overlapping simulation runs to form a dense reference band.
+#' @param sim.pch Plotting symbol used when \code{sim.type = "points"} (default is \code{16}).
 #' @param text.size Size for category text above the plot.
 #' @param title Title to display. If set to \code{TRUE}, defaults to
 #'   \code{"Pooled residuals QQ plot"}. If set to \code{FALSE}, omits title from output.
@@ -56,6 +65,11 @@
 #' @details The function will generate a multi-panel pooled values QQ plots.
 #'  The function defaults to a pooled residuals QQ plots which is the most common
 #'  use for this kind of plot.
+#'  \cr\cr
+#' To assess whether observed departures in individual group panels reflect genuine
+#' group-specific distributional shifts rather than natural within-group sampling variability,
+#' \code{eda_qqpool()} includes an optional permutation simulation routine triggered by
+#' setting \code{nsim > 0}.
 #'
 #' @returns Returns a dataframe with \code{x} (or its residuals if
 #' \code{resid = TRUE}), \code{fac}, the f-value (by \code{fac} group), and
@@ -72,9 +86,14 @@
 #' singer <- lattice::singer
 #' eda_qqpool(singer, height, voice.part, nrow = 2)
 #'
+#' # Pooled QQ plot with a 50-run permutation reference line envelope
+#' eda_qqpool(singer, height, voice.part, nrow = 2, nsim = 100)
+#'
 
 eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
                           resid = TRUE, stat = mean, show.par = FALSE,
+                          nsim = 0, sim.type = "lines", sim.col = "coral",
+                          sim.alpha = 0.2, sim.pch = 16,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
                           p.col = "grey40", p.fill = "grey60", size = 1,
                           text.size = 0.8, tail.pch = 21, tail.p.col = "grey70",
@@ -186,6 +205,43 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type
   names(dfout) <- c(xname, facname, "f.val", "pooled.res")
   lst <- split(dfout, dfout[facname])
 
+  # --- Permutation Simulation Block ---
+  sim_list <- vector("list", length(fac_un))
+  names(sim_list) <- fac_un
+
+  if (nsim > 0) {
+    for (b in seq_len(nsim)) {
+      # 1. Shuffle factor labels
+      fac_sim <- sample(fac)
+      x_sim <- x
+
+      # 2. Compute residuals if requested
+      if (resid == TRUE) {
+        x_sim <- ave(x_sim, fac_sim, FUN = function(v) v - stat(v))
+      }
+
+      # 3. Sort and calculate f-values
+      order_sim <- order(fac_sim, x_sim)
+      x_sim <- x_sim[order_sim]
+      fac_sim_ord <- fac_sim[order_sim]
+
+      f_val_sim <- unlist(lapply(split(x_sim, fac_sim_ord), function(v) {
+        eda_fval(seq_along(v), q.type = q.type)
+      }))
+
+      pooled_sim <- quantile(x_sim, probs = f_val_sim)
+      df_sim <- data.frame(x = x_sim, fac = fac_sim_ord, f.val = f_val_sim,
+                           pooled = pooled_sim)
+
+      # 4. Store simulated quantile pairs for each group level
+      for (g in fac_un) {
+        grp_data <- df_sim[df_sim$fac == g, ]
+        sim_list[[g]][[b]] <- data.frame(x = grp_data$pooled, y = grp_data$x)
+      }
+    }
+  }
+
+
   # Set plot parameters
   lmin <- min(dev.size("cm")) # Get smallest plot window dimension
   dim.cm <- lmin / fac_num * 1.3 # plot width and height
@@ -276,19 +332,43 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type
 
         # Generate plot ----
         if(plot == TRUE){
-          if(tails != TRUE){
-            plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-                  ylim = xylim, xlim = xylim,
-                  col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
-          } else {
-            plot( x=x[inner.tails], y=y[inner.tails], ylab=NA, las = 1,
-                  yaxt='n', xaxt='n', xlab=NA, ylim = xylim, xlim = xylim,
-                  col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
-            if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-              points( x=x[outer.tails], y=y[outer.tails], yaxt='n', xaxt='n',
-                      col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-                      bg = tail.p.fill, cex = size)
+          # Initialize blank canvas frame for this panel
+          plot(x = x, y = y, type = "n", ylab = NA, las = 1, yaxt = 'n',
+               xaxt = 'n', xlab = NA, ylim = xylim, xlim = xylim)
+
+          # Draw Simulation Reference Cloud (Background)
+          if (nsim > 0 && !is.null(sim_list[[i]])) {
+            sim_color <- adjustcolor(sim.col, alpha.f = sim.alpha)
+            for (b in seq_len(nsim)) {
+              sim_df <- sim_list[[i]][[b]]
+              if (sim.type == "lines") {
+                lines(sim_df$x, sim_df$y, col = sim_color, lwd = 1)
+              } else {
+                points(sim_df$x, sim_df$y, pch = sim.pch, col = sim_color,
+                       cex = size * 0.8)
+              }
             }
+          }
+
+          # Draw 1:1 Reference Line (0, 1)
+          abline(0, 1, col = plotcol)
+
+          # Draw Observed Group Points (Foreground)
+          if (tails != TRUE) {
+            points(x = x, y = y, pch = pch, col = p.col, bg = p.fill, cex = size)
+          } else {
+            points(x = x[inner.tails], y = y[inner.tails], pch = pch, col = p.col,
+                   bg = p.fill, cex = size)
+            if (length(x[outer.tails]) != 0) {
+              points(x = x[outer.tails], y = y[outer.tails], pch = tail.pch,
+                     col = tail.p.col, bg = tail.p.fill, cex = size)
+            }
+          }
+
+          # Add optional median reference lines
+          if( med == TRUE){
+            abline(v = medx, col = "grey80", lty = 2)
+            abline(h = medy, col = "grey80", lty = 2)
           }
 
           # Add x-axis. To prevent overlapping labels remove end labels
@@ -308,11 +388,7 @@ eda_qqpool <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type
           abline(0, 1, col = plotcol)
 
 
-          # Add medians
-          if( med == TRUE){
-            abline(v = medx, col = "grey80", lty = 2)
-            abline(h = medy, col = "grey80", lty = 2)
-          }
+
 
           # Add core region
           sq <- par("usr") # get plot corners
