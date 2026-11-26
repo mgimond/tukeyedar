@@ -1,7 +1,7 @@
 # tukeyedar 0.6.0.9000
 
 ## New features
-* `eda_qq()`, `eda_sym()`, `eda_theo`, `eda_rfs()`: Added `nsim` parameter (along 
+* `eda_qq()`, `eda_sym()`, `eda_theo`, `eda_rfs()`, `eda_sl()`: Added `nsim` parameter (along 
    with `sim.alpha`, `sim.col`, `sim.pch`, and `sim.type`) to overlay a null 
    permutation envelope for visual comparison against sampling variability.
 

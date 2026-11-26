@@ -28,6 +28,17 @@
 #'  spread-level plot.
 #' @param loess.d Arguments passed to the internal loess function. Applies only
 #'  to the bivariate model s-l plots and the spread-level plot.
+#' @param nsim Integer. Number of random residual permutations to generate for
+#'   constructing an empirical reference envelope (default is \code{0}, which turns
+#'   off simulation). Supported for univariate data inputs (\code{type = "location"}
+#'   and \code{type = "level"}).
+#' @param sim.type Format of the simulation display—either \code{"lines"} (default)
+#'   or \code{"points"}. Note that when \code{type = "level"}, \code{sim.type} is
+#'   automatically set to \code{"lines"}.
+#' @param sim.col Color of the simulated reference envelope (default is \code{"grey"}).
+#' @param sim.alpha Transparency setting (\code{0} to \code{1}, default is \code{0.5})
+#'   allowing overlapping simulation runs to form a dense reference band.
+#' @param sim.pch Plotting symbol used when \code{sim.type = "points"} (default is \code{16}).
 #' @param label Logical; Determines if group labels are to be added to the
 #'  spread-location plot.
 #' @param plot Logical; Determines if plot should be generated.
@@ -88,6 +99,27 @@
 #'           \eqn{\ dependence = x\ variable}
 #'  }
 #'
+#' To assess whether observed differences in group spreads (or an apparent trend in
+#' a spread-level plot) reflect genuine scale dependence (heteroscedasticity) rather than
+#' natural sampling noise, \code{eda_sl()} includes an optional permutation simulation
+#' routine triggered by setting \code{nsim > 0} (supported for univariate data).
+#'
+#' Rather than shuffling factor labels (which would artificially collapse group medians
+#' toward the grand median) the simulation holds observed group locations fixed on the
+#' x-axis and randomly permutes the centered residuals across all observations under
+#' the benchmark of equal variance (homoscedasticity).
+#'
+#' When \code{type = "location"}, group median spreads (\eqn{\sqrt{|\text{residuals}|}})
+#' are recomputed from the shuffled residuals across each iteration. This renders a visual
+#' reference envelope (spaghetti lines when \code{sim.type = "lines"}) across the full location
+#' spectrum. If the observed red summary line sits comfortably within the simulation cloud,
+#' group spread differences are consistent with random variation.
+#'
+#' When \code{type = "level"}, the log(spread) versus log(location) regression line is refitted
+#' across each permutation iteration. This builds a visual slope envelope demonstrating how
+#' much slope variation occurs naturally under homoscedasticity. This provides a visual benchmark
+#' before selecting a power transformation (\eqn{p = 1 - b}).
+#'
 #' @references
 #'  \itemize{
 #'   \item Understanding Robust and Exploratory Data Analysis, Hoaglin,
@@ -109,11 +141,16 @@
 #' # following power = 1 - slope
 #' eda_sl(cars, MPG.city, Type, type = "level")
 #'
+#' # Spread-level plot with a 100-run permutation line envelope
+#' eda_sl(cars, MPG.city, Type, type = "level", nsim=100)
+#'
 #' # A slope of around 3 is computed from the s-l plot, therefore, a suggested
 #' # power is 1 - 3 = -2. We can apply a power transformation within the
 #' # function via the p argument. By default, a Box-Cox transformation method
 #' # is adopted.
-#' eda_sl(cars, MPG.city, Type, p = -2)
+#' # The resulting s-l plot shows a slope that is more representative of naturally
+#' # occurring variability under homoscedasticity.
+#' eda_sl(cars, MPG.city, Type, type = "level", p=-2, nsim=100)
 #'
 #' # Spread-location plot can also be generated from residuals of a linear model
 #' M1 <- lm(mpg ~ hp, mtcars)
@@ -125,39 +162,48 @@
 eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALSE,
                    base = exp(1), sprd = "frth", jitter = 0.01, robust = TRUE,
                    loess.d = list(family = "symmetric", degree=1, span = 1),
-                   label = TRUE, label.col = "lightsalmon",  
+                   nsim = 0, sim.alpha = 0.5, sim.col = "grey",
+                   sim.pch = 16, sim.type = "lines",
+                   label = TRUE, label.col = "lightsalmon",
                    xlab = NULL, ylab = NULL, labelxbuff = 0.05,
                    labelybuff = 0.05, show.par = FALSE, plot = TRUE,  ...) {
-  
+
   # Check that input is either an eda_lm model or a dataframe
   if (! (inherits(dat,"data.frame") |
          (inherits(dat,"eda_lm") |
           inherits(dat, "lm") |
           inherits(dat, "eda_rline"))))
     stop("The input object must of class eda_lm or a data.frame.")
-  
+
   # Parameters check
   if (!sprd %in% c("frth", "IQR"))
     stop("Argument \"sprd\" must be one of \"frth\" or \"IQR\".",
          call. = FALSE)
-  
+
   # Check that type is properly specified
   if(!type %in% c("location", "level", "dependence"))
     stop("type argument is invalid.")
-  
+
+  # Check: Force sim.type = "lines" when type = "level"
+  if (nsim > 0 && type == "level" && sim.type == "points") {
+    warning("sim.type = 'points' is not supported when type = 'level'. Resetting sim.type to 'lines'.",
+            call. = FALSE)
+    sim.type <- "lines"
+  }
+
   # Initialize some variables
   ylim = NULL
   xlim = NULL
   reg = FALSE
   loe = FALSE
-  
+
   # Extract data
   if(inherits(dat,"data.frame")){     # Univariate input
     dtype <- "univariate"
     x   <- eval(substitute(x), dat)
     fac <- eval(substitute(fac), dat)
     if(is.factor(fac)) fac <- droplevels(fac)
-    
+
     # Remove missing values from the data
     which_na <- which(is.na(x))
     if(length(which_na > 0)){
@@ -166,7 +212,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
       if(is.factor(fac)) fac <- droplevels(fac)
       warning(cat(length(which_na),"rows were removed due to NAs being present.\n"))
     }
-    
+
     # Check that each group has at least two values (only applies to univariate
     # data). Remove groups with less than 2 records.
     group_n <- table(fac)
@@ -189,7 +235,12 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     }
     dtype <- "model"
   }
-  
+
+  # The simulation option is currently only available for univariate data
+  if (nsim > 0 && dtype == "model") {
+    warning("Permutation simulation for eda_sl() is currently supported for univariate data frames only.")
+  }
+
   # Get labels
   if(is.null(xlab)){
     if (dtype == "model" & type == "location"){
@@ -207,7 +258,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
       ylab <- "Spread"
     }
   }
-  
+
   # Re-express data if required (only applies to univariate data)
   if(inherits(dat,"data.frame")){
     x <- eda_re(x, p = p, tukey = tukey, base = base)
@@ -220,7 +271,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
                     "in the ouptut."))
     }
   }
-  
+
   # # Set point color parameters.
   # if(!is.null(alpha)){
   #   if(p.col %in% colors() & p.fill %in% colors() ){
@@ -228,13 +279,13 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
   #     p.fill <- adjustcolor( p.fill, alpha.f = alpha)
   #   }
   # }
-  
+
   # Custom function
   frth_sprd <- function(x) {
     lsum <- eda_lsum(x, l=2)
     return(lsum[2,6]) # Returns spread
   }
-  
+
   # Spread-location plot options
   if(type == "location" & dtype == "univariate"){  # univariate spread-location
     reg = FALSE
@@ -265,105 +316,102 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
     spread <- sqrt(abs(y))
     df4 <- data.frame(Level = level, Spread = spread)
   }
-  
+
+  # --- Permutation Simulation Block (Univariate only) ----
+  sim_lines <- list()
+
+  if (nsim > 0 && dtype == "univariate") {
+    for (i in seq_len(nsim)) {
+
+      if (type == "location") {
+        # 1. Compute observed group medians and centered residuals
+        meds_obs <- tapply(x, fac, median)
+        res_obs  <- x - meds_obs[as.character(fac)]
+
+        # 2. Shuffle residuals across all observations (holding locations fixed)
+        res_sim <- sample(res_obs)
+        spread_sim <- sqrt(abs(res_sim))
+        spread_med_sim <- tapply(spread_sim, fac, median)
+
+        # 3. Store simulation line spanning the full observed x-range
+        sim_lines[[i]] <- data.frame(
+          x = sort(meds_obs),
+          y = spread_med_sim[order(meds_obs)]
+        )
+
+      } else if (type == "level") {
+        # For log(spread) vs log(median), permuting residuals across groups
+        meds_obs <- tapply(x, fac, median)
+        res_obs  <- x - meds_obs[as.character(fac)]
+
+        res_sim <- sample(res_obs)
+        x_sim <- meds_obs[as.character(fac)] + res_sim
+        x_fac_sim <- split(x_sim, fac)
+
+        level_sim  <- log(unlist(lapply(x_fac_sim, median)))
+        spread_sim <- if (sprd == "frth") {
+          log(unlist(lapply(x_fac_sim, frth_sprd)))
+        } else {
+          log(unlist(lapply(x_fac_sim, IQR)))
+        }
+
+        df_sim <- data.frame(Level = level_sim, Spread = spread_sim)
+
+        # Filter out non-finite values (-Inf from log(0) or NaN/NA)
+        df_sim <- df_sim[is.finite(df_sim$Level) & is.finite(df_sim$Spread), ]
+
+        # Fit model only if at least 2 valid group levels remain
+        if (nrow(df_sim) >= 2) {
+          M_sim  <- if (robust) {
+            suppressWarnings(MASS::rlm(Spread ~ Level, df_sim))
+          } else {
+            lm(Spread ~ Level, data = df_sim)
+          }
+        }
+
+        rx <- range(level_sim)
+        sim_lines[[i]] <- data.frame(
+          x = rx,
+          y = predict(M_sim, newdata = data.frame(Level = rx))
+        )
+      }
+    }
+  }
+  # End of simulation block
+
   df <- data.frame(level, spread)
-  
+
   if(plot == TRUE){
-    
-    lst0 <- .eda_plot_xy(df, level, spread, xlab = xlab, ylab = ylab, reg = reg, 
-                         loe = loe, loess.d = loess.d, sd = FALSE, mean.l = FALSE, 
-                         py = p, px = 1, tukey = tukey, base = base, asp = FALSE, 
+
+    lst0 <- .eda_plot_xy(df, level, spread, xlab = xlab, ylab = ylab, reg = reg,
+                         loe = loe, loess.d = loess.d, sd = FALSE, mean.l = FALSE,
+                         py = p, px = 1, tukey = tukey, base = base, asp = FALSE,
                          xlim = xlim, ylim = ylim, show.par = show.par, robust = robust,  ...)
-    
-    # Generated plot (if requested)
-    # if(plot == TRUE){
-    #   
-    #   # Get lines-to-inches ratio
-    #   in2line <- ( par("mar") / par("mai") )[2]
-    #   
-    #   # Create a dummy plot to extract y-axis labels
-    #   pdf(NULL)
-    #   plot(x = level, y = spread, type = "n", xlab = "", ylab = "", xaxt = "n",
-    #        yaxt='n', main = NULL, xlim=xlim, ylim=ylim)
-    #   y.wid <- max( strwidth( axTicks(2), units="inches")) * in2line + 1.2
-    #   dev.off()
-    #   
-    #   # Compute the margin width (returned in inches before converting to lines)
-    #   # y.wid <- max( strwidth( y.labs[1], units="inches"),
-    #   #               strwidth( y.labs[2], units="inches")) * in2line + 1
-    #   
-    #   # .pardef <- par(col = plotcol, mar = c(3,y.wid,3,1))
-    #   
-    #   if(equal == TRUE ){
-    #     .pardef <- par(mar = c(3,y.wid,3,1), col = plotcol, pty = "s")
-    #   } else {
-    #     .pardef <- par(mar = c(3,y.wid,3,1), col = plotcol)
-    #   }
-    #   on.exit(par(.pardef))
-    #   
-    #   plot( x=level, y=spread , ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-    #         col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size,
-    #         ylim = ylim, xlim = xlim)
-    #   box(col=plotcol)
-    #   axis(1,col=plotcol, col.axis=plotcol, labels=TRUE, padj = -0.5)
-    #   axis(2,col=plotcol, col.axis=plotcol, labels=TRUE, las=1, hadj = 0.9, tck = -0.02)
-    #   #mtext(ylab, side=3, adj= -0.06 , col=plotcol, padj = -1.2, cex = par("cex"))
-    #   
-    #   # Y-label
-    #   
-    #   # Get plot specs
-    #   lbl_width <- strwidth(ylab, units = "inches")
-    #   mar_width <- par("mai")[2]
-    #   loc <- par("usr") # in XY coordinates
-    #   xscl <- (loc[2] - loc[1]) / par("pin")[1]
-    #   # Place y-label
-    #   if(lbl_width/2 > mar_width * 0.6){
-    #     xloc <- loc[1] + (lbl_width/2 - mar_width * 0.6) * xscl
-    #   } else {
-    #     xloc <- loc[1]
-    #   }
-    #   text(xloc, loc[4], labels = ylab, col=plotcol, cex = par("cex"), xpd = TRUE, pos = 3, offset = 1)
-    #   
-    #   
-    #   if (type == "location" & dtype == "univariate"){
-    #     title(xlab = xlab, line = 1.8, col.lab=plotcol)
-    #     lines(sort(meds),spread_med[order(meds)], col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
-    #     points(meds, spread_med, col = rgb(1, 0.5, 0.5, 0.8), pch = 15)
-    #     if (label == TRUE){
-    #       with(df4, label_placement(Level, Spread, grp, label.col))
-    #     }
-    #     if(show.par == TRUE){
-    #       mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
-    #     }
-    #   } else if (type == "level" & dtype == "univariate") {
-    #     if(robust == TRUE){
-    #       Mlevel <- MASS::rlm(Spread ~ Level, df4)
-    #     } else {
-    #       Mlevel <- lm(Spread ~ Level, df4)
-    #     }
-    #     abline(Mlevel, col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
-    #     loess.l  <- modifyList(list(), loess.d)
-    #     lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),
-    #            col=loe.col, lw = 1.5, lt = 2 )
-    #     cat("Slope = ", Mlevel$coefficients[2])
-    #     title(xlab = xlab, line = 1.8, col.lab=plotcol)
-    #     if(show.par == TRUE){
-    #       mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
-    #     }
-    #   } else {
-    #     loess.l  <- modifyList(list(), loess.d)
-    #     lines( do.call( "loess.smooth",c( list(x=df4$Level,y=df4$Spread), loess.l)),
-    #            col=loe.col, lw = 1.5, lt = 1 )
-    #     title(xlab = xlab, line = 1.8, col.lab=plotcol)
-    #   }
-    #   par(.pardef)
-    # }
-    
+
+    # Render Simulation Cloud (Background Layer) ---
+    if (nsim > 0 && dtype == "univariate") {
+      .post <- par(mar = lst0$parxy)
+      sim_color <- adjustcolor(sim.col, alpha.f = sim.alpha)
+
+      for (i in seq_len(nsim)) {
+        if (type == "location") {
+          if (sim.type == "lines") {
+            lines(sim_lines[[i]]$x, sim_lines[[i]]$y, col = sim_color, lwd = 1)
+          } else {
+            points(sim_lines[[i]]$x, sim_lines[[i]]$y, pch = sim.pch, col = sim_color, cex = 0.8)
+          }
+        } else if (type == "level") {
+          lines(sim_lines[[i]]$x, sim_lines[[i]]$y, col = sim_color, lwd = 1, lty = 1)
+        }
+      }
+    }
+
+    # Draw Observed Summary Lines (Foreground Layer) ---
     if (type == "location" & dtype == "univariate"){
-      
+
       .post <- par(mar = lst0$parxy)
       on.exit(par(.post))
-      
+
     #  title(xlab = xlab, line = 1.8, col.lab=plotcol)
       lines(sort(meds),spread_med[order(meds)], col = rgb(1, 0.5, 0.5, 0.9), lw = 2)
       points(meds, spread_med, col = rgb(1, 0.5, 0.5, 0.8), pch = 15)
@@ -374,7 +422,7 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
       #   mtext(side = 3, text=paste0("p=",p), adj=1, cex = 0.65)
       # }
       par(.post)
-    } 
+    }
   }
 
   invisible(df4)
@@ -383,10 +431,10 @@ eda_sl <- function(dat, x=NULL, fac=NULL, type = "location", p = 1, tukey = FALS
 
 label_placement <- function(x,y,grp, label.col){
   df <- data.frame(x,y,grp)
-  
+
   # Get range of values for each group
   ranges <- tapply(y, grp, FUN = function(x)diff(range(x)))
-  
+
   # Calculate label positions
   label_positions <- aggregate(cbind(x, y) ~  grp, df,
                                FUN = function(x) c(mean = mean(x), max = max(x)))
@@ -395,7 +443,7 @@ label_placement <- function(x,y,grp, label.col){
     group <- label_positions$grp[i]
     mean_level <- label_positions$x[i, "mean"]
     max_spread <- label_positions$y[i, "max"]
-    
+
     # Place the text above the highest point in the cluster
     text(x = mean_level, y = max_spread + 0.07 * ranges[i], labels = group,
          col = label.col, cex = 0.8)
