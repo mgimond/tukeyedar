@@ -18,6 +18,11 @@ eda_theopan(
   resid = FALSE,
   stat = mean,
   show.par = FALSE,
+  nsim = 0,
+  sim.type = "points",
+  sim.col = "coral",
+  sim.alpha = 0.2,
+  sim.pch = 16,
   plot = TRUE,
   grey = 0.6,
   pch = 21,
@@ -74,6 +79,20 @@ are computed using the \code{stat} parameter.}
 
 \item{show.par}{Boolean determining if power transformation should be
 displayed in the plot.}
+
+\item{nsim}{Integer. Number of random theoretical draws to generate per group for
+constructing an empirical reference envelope across panels (default is \code{0},
+which turns off simulation).}
+
+\item{sim.type}{Format of the simulation display—either \code{"points"} (default)
+or \code{"lines"}.}
+
+\item{sim.col}{Color of the simulated reference envelope (default is \code{"coral"}).}
+
+\item{sim.alpha}{Transparency setting (\code{0} to \code{1}, default is \code{0.2})
+allowing overlapping simulation runs to form a dense reference band.}
+
+\item{sim.pch}{Plotting symbol used when \code{sim.type = "points"} (default is \code{16}).}
 
 \item{plot}{Boolean determining if plot should be generated.}
 
@@ -149,6 +168,15 @@ gamma QQ plot (\code{dist="gamma"}), chi-squared QQ plot
 currently supported. By default, the Normal QQ plot maps the unit Normal
 quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
 of 1 unit).
+\cr\cr
+To evaluate whether departures from a theoretical distribution across individual
+group panels reflect true group-specific non-conformance rather than
+expected small-sample variability, \code{eda_theopan()} includes an optional
+simulation routine triggered by setting \code{nsim > 0}. For each iteration,
+\eqn{N_g} random observations are sampled from the specified theoretical
+distribution (\code{dist}) for each group, scaled via the group's IQR
+reference line, and displayed as a background reference cloud behind the
+observed data points across all panels.
 }
 \examples{
 
@@ -158,6 +186,9 @@ eda_theopan(singer, height, voice.part)
 
 # Split into two rows
 eda_theopan(singer, height, voice.part, nrow = 2, title = TRUE)
+
+# Add a 50-run permutation reference point envelope
+eda_theopan(singer, height, voice.part, nrow=2, nsim=50)
 
 # Compare to a uniform distribution
 eda_theopan(singer, height, voice.part, nrow = 2, dist = "unif")

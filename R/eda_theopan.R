@@ -48,6 +48,15 @@
 #' @param inner Fraction of mid-values to highlight in \code{q} or \code{tails}.
 #'   Defaults to the inner 75 percent of values.
 #' @param iqr Boolean determining if an IQR line should be fitted to the points.
+#' @param nsim Integer. Number of random theoretical draws to generate per group for
+#'   constructing an empirical reference envelope across panels (default is \code{0},
+#'   which turns off simulation).
+#' @param sim.type Format of the simulation display—either \code{"points"} (default)
+#'   or \code{"lines"}.
+#' @param sim.col Color of the simulated reference envelope (default is \code{"coral"}).
+#' @param sim.alpha Transparency setting (\code{0} to \code{1}, default is \code{0.2})
+#'   allowing overlapping simulation runs to form a dense reference band.
+#' @param sim.pch Plotting symbol used when \code{sim.type = "points"} (default is \code{16}).
 #' @param text.size Size for category text above the plot.
 #' @param title Title to display. If set to \code{TRUE}, defaults to
 #'   theoretical distribution type. If set to \code{FALSE}, omits title
@@ -66,6 +75,15 @@
 #'  currently supported. By default, the Normal QQ plot maps the unit Normal
 #'  quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
 #'  of 1 unit).
+#'  \cr\cr
+#'  To evaluate whether departures from a theoretical distribution across individual
+#'  group panels reflect true group-specific non-conformance rather than
+#'  expected small-sample variability, \code{eda_theopan()} includes an optional
+#'  simulation routine triggered by setting \code{nsim > 0}. For each iteration,
+#'  \eqn{N_g} random observations are sampled from the specified theoretical
+#'  distribution (\code{dist}) for each group, scaled via the group's IQR
+#'  reference line, and displayed as a background reference cloud behind the
+#'  observed data points across all panels.
 #'
 #' @returns Returns a list with the following components:
 #'
@@ -93,6 +111,9 @@
 #' # Split into two rows
 #' eda_theopan(singer, height, voice.part, nrow = 2, title = TRUE)
 #'
+#' # Add a 50-run permutation reference point envelope
+#' eda_theopan(singer, height, voice.part, nrow=2, nsim=50)
+#'
 #' # Compare to a uniform distribution
 #' eda_theopan(singer, height, voice.part, nrow = 2, dist = "unif")
 #'
@@ -112,6 +133,8 @@
 eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.type = 5,
                           dist = "norm", dist.l = list(), ylim = NULL,
                           resid = FALSE, stat = mean, show.par = FALSE,
+                          nsim = 0, sim.type = "points", sim.col = "coral",
+                          sim.alpha = 0.2, sim.pch = 16,
                           plot = TRUE, grey = 0.6, pch = 21, nrow = 1,
                           p.col = "grey40", p.fill = "grey60", size = 1,
                           text.size = 0.8, tail.pch = 21, tail.p.col = "grey70",
@@ -230,6 +253,45 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.typ
   # Set the list names to match the voice parts
   names(lstout) <- fac_un
 
+  # Permutation / Simulation Block under H0 -----
+  # Setup random theoretical generator function
+  rtheo <- get(paste0("r", dist), mode = "function")
+
+  sim_list <- vector("list", fac_num)
+  names(sim_list) <- fac_un
+
+  if (nsim > 0) {
+    for (j in seq_along(fac_un)) {
+      g <- fac_un[j]
+      dfgrp <- lstout[[g]]
+      y_obs <- dfgrp[, 1]
+      x_theo <- dfgrp[, 2]
+      N_g <- length(y_obs)
+
+      # Compute IQR scaling parameters for group g
+      probs_iqr <- c(0.25, 0.75)
+      yy_iqr <- as.vector(quantile(y_obs, probs_iqr, names = FALSE, type = q.type))
+      xx_iqr <- do.call(qtheo, c(list(p = probs_iqr), dist.l))
+      slope_iqr <- diff(yy_iqr) / diff(xx_iqr)
+      int_iqr   <- yy_iqr[[1L]] - slope_iqr * xx_iqr[[1L]]
+
+      sim_list[[g]] <- vector("list", nsim)
+      for (b in seq_len(nsim)) {
+        raw_sim <- do.call(rtheo, c(list(n = N_g), dist.l))
+        if (dist %in% c("norm", "exp", "unif") && length(dist.l) == 0) {
+          sim_y <- int_iqr + slope_iqr * sort(raw_sim)
+        } else {
+          sim_y <- sort(raw_sim)
+        }
+        sim_list[[g]][[b]] <- data.frame(x = x_theo, y = sim_y)
+      }
+    }
+  }
+
+  # End simulation ---
+
+
+
   # Set plot parameters
   lmin <- min(dev.size("cm")) # Get smallest plot window dimension
   dim.cm <- lmin / fac_num * 1.3 # plot width and height
@@ -237,9 +299,16 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.typ
 
    # Get axes limits for plots
   lim.buffer = 0.05
-  if(is.null(ylim)){
-      ylim <- range(unlist(lst))
-      ylim <- c(ylim[1] - diff(ylim) * lim.buffer  , ylim[2] + diff(ylim) * lim.buffer)
+  if (is.null(ylim)) {
+    if (nsim > 0) {
+      all_sim_y <- unlist(lapply(sim_list, function(g_list) {
+        lapply(g_list, function(df) df$y)
+      }))
+      ylim <- range(c(unlist(lst), all_sim_y), na.rm = TRUE)
+    } else {
+      ylim <- range(unlist(lst), na.rm = TRUE)
+    }
+    ylim <- c(ylim[1] - diff(ylim) * lim.buffer, ylim[2] + diff(ylim) * lim.buffer)
   }
 
   xlim <- range(unlist(lapply(lstout, function(df) df[,2])))
@@ -330,18 +399,38 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.typ
 
         # Generate plot ----
         if(plot == TRUE){
-          if(tails != TRUE){
-            plot( x=x, y=y,  ylab=NA, las=1, yaxt='n', xaxt='n', xlab=NA,
-                  xlim = xlim, ylim = ylim,
-                  col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
+          # Initialize canvas frame for this panel
+          plot(x = x, y = y, type = "n", ylab = NA, las = 1, yaxt = 'n',
+               xaxt = 'n', xlab = NA, xlim = xlim, ylim = ylim)
+
+          # Draw Simulation Cloud (Background)
+          if (nsim > 0 && !is.null(sim_list[[fac_un[j]]])) {
+            sim_color <- adjustcolor(sim.col, alpha.f = sim.alpha)
+            for (b in seq_len(nsim)) {
+              sim_df <- sim_list[[fac_un[j]]][[b]]
+              if (sim.type == "lines") {
+                lines(sim_df$x, sim_df$y, col = sim_color, lwd = 1)
+              } else {
+                points(sim_df$x, sim_df$y, pch = sim.pch, col = sim_color,
+                       cex = size * 0.8)
+              }
+            }
+          }
+
+          # Add IQR Reference Line
+          # if (iqr == TRUE) {
+          #   abline(int, slope, col = plotcol)
+          # }
+
+          # Draw Observed Points (Foreground)
+          if (tails != TRUE) {
+            points(x = x, y = y, pch = pch, col = p.col, bg = p.fill, cex = size)
           } else {
-            plot( x=x[inner.tails], y=y[inner.tails], ylab=NA, las = 1,
-                  yaxt='n', xaxt='n', xlab=NA, xlim = xlim, ylim = ylim,
-                  col.lab=plotcol, pch = pch, col = p.col, bg = p.fill, cex = size)
-            if (length(x[outer.tails]) !=0){  # Nothing to plot if tail index is empty
-              points( x=x[outer.tails], y=y[outer.tails], yaxt='n', xaxt='n',
-                      col.lab=plotcol, pch = tail.pch, col = tail.p.col,
-                      bg = tail.p.fill, cex = size)
+            points(x = x[inner.tails], y = y[inner.tails], pch = pch,
+                   col = p.col, bg = p.fill, cex = size)
+            if (length(x[outer.tails]) != 0) {
+              points(x = x[outer.tails], y = y[outer.tails], pch = tail.pch,
+                     col = tail.p.col, bg = tail.p.fill, cex = size)
             }
           }
 
@@ -349,8 +438,7 @@ eda_theopan <- function(dat, x, fac, p = 1L, tukey = FALSE, base = exp(1), q.typ
           ticks <- pretty(x)
           labels <- ticks
           labels[c(1, length(labels))] <- ""
-          axis(1,col=plotcol, col.axis=plotcol,  padj = -0.7,
-               labels = TRUE)
+          axis(1,col=plotcol, col.axis=plotcol,  padj = -0.7, labels = TRUE)
 
           # Add y-axis if marginal plot
           if( i %in% seq(1,fac_num, by=ncol)){
