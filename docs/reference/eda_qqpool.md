@@ -18,6 +18,11 @@ eda_qqpool(
   resid = TRUE,
   stat = mean,
   show.par = FALSE,
+  nsim = 0,
+  sim.type = "lines",
+  sim.col = "coral",
+  sim.alpha = 0.2,
+  sim.pch = 16,
   plot = TRUE,
   grey = 0.6,
   pch = 21,
@@ -87,6 +92,30 @@ eda_qqpool(
 
   Boolean determining if power transformation should be displayed in the
   plot.
+
+- nsim:
+
+  Integer. Number of random permutations (factor label shuffles) to
+  generate for constructing an empirical reference envelope across
+  panels (default is `0`, which turns off simulation).
+
+- sim.type:
+
+  Format of the simulation display—either `"lines"` (default) or
+  `"points"`.
+
+- sim.col:
+
+  Color of the simulated reference cloud (default is `"coral"`).
+
+- sim.alpha:
+
+  Transparency setting (`0` to `1`, default is `0.2`) allowing
+  overlapping simulation runs to form a dense reference band.
+
+- sim.pch:
+
+  Plotting symbol used when `sim.type = "points"` (default is `16`).
 
 - plot:
 
@@ -187,7 +216,12 @@ Returns a dataframe with `x` (or its residuals if `resid = TRUE`),
 
 The function will generate a multi-panel pooled values QQ plots. The
 function defaults to a pooled residuals QQ plots which is the most
-common use for this kind of plot.
+common use for this kind of plot.\
+\
+To assess whether observed departures in individual group panels reflect
+genuine group-specific distributional shifts rather than natural
+within-group sampling variability, `eda_qqpool()` includes an optional
+permutation simulation routine triggered by setting `nsim > 0`.
 
 ## References
 
@@ -200,5 +234,9 @@ common use for this kind of plot.
 # Default output
 singer <- lattice::singer
 eda_qqpool(singer, height, voice.part, nrow = 2)
+
+
+# Pooled QQ plot with a 50-run permutation reference line envelope
+eda_qqpool(singer, height, voice.part, nrow = 2, nsim = 100)
 
 ```

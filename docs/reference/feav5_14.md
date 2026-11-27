@@ -2,8 +2,8 @@
 
 This dataset contains measurements of light absorbance for positive
 control samples from an ELISA (Enzyme-Linked Immunosorbent Assay) test
-for HIV. Data are pulled from table 5-14 of the referenced source.  
-  
+for HIV. Data are pulled from table 5-14 of the referenced source.\
+\
 The dataset is an example of a two-factor experimental design with
 nested factors. The experiment involved five different production lots.
 For each lot, five individual runs of the test were performed. Within

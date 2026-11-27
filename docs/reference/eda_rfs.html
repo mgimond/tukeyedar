@@ -5,9 +5,9 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Residual-Fit Spread Plot — eda_rfs"><meta name="description" content="eda_rfs generates a Cleveland residual-fit spread plot
-for univariate or bivariate data."><meta property="og:description" content="eda_rfs generates a Cleveland residual-fit spread plot
-for univariate or bivariate data."><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Residual-Fit Spread Plot — eda_rfs"><meta name="description" content="eda_rfs generates a Cleveland residual-fit spread plot
+with an optional null reference permutation envelope."><meta property="og:description" content="eda_rfs generates a Cleveland residual-fit spread plot
+with an optional null reference permutation envelope."><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +15,7 @@ for univariate or bivariate data."><meta property="og:image" content="https://mg
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@ for univariate or bivariate data."><meta property="og:image" content="https://mg
 
     <div class="ref-description section level2">
     <p><code>eda_rfs</code> generates a Cleveland residual-fit spread plot
-for univariate or bivariate data.</p>
+with an optional null reference permutation envelope.</p>
     </div>
 
     <div class="section level2">
@@ -63,6 +63,11 @@ for univariate or bivariate data.</p>
 <span>  p <span class="op">=</span> <span class="fl">1L</span>,</span>
 <span>  tukey <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sim.alpha <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  sim.col <span class="op">=</span> <span class="st">"coral"</span>,</span>
+<span>  sim.pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  sim.type <span class="op">=</span> <span class="st">"points"</span>,</span>
 <span>  show.par <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  stat <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>  grey <span class="op">=</span> <span class="fl">0.7</span>,</span>
@@ -75,7 +80,8 @@ for univariate or bivariate data.</p>
 <span>  size <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  bar <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  bar <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -84,46 +90,70 @@ for univariate or bivariate data.</p>
 
 
 <dl><dt id="arg-dat">dat<a class="anchor" aria-label="anchor" href="#arg-dat"></a></dt>
-<dd><p>An eda_lm model, an lm model or a dataframe of univariate data.</p></dd>
+<dd><p>Univariate data frame or model object (<code>lm</code>, <code>eda_lm</code>,
+or <code>eda_rline</code>).</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Column of values if <code>dat</code> is a dataframe, ignored otherwise.</p></dd>
+<dd><p>Continuous variable (if <code>dat</code> is a data frame).</p></dd>
 
 
 <dt id="arg-grp">grp<a class="anchor" aria-label="anchor" href="#arg-grp"></a></dt>
-<dd><p>Column of categorical variable if <code>dat</code> is a dataframe, ignored
-otherwise.</p></dd>
+<dd><p>Grouping variable (if <code>dat</code> is a data frame).</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
-<dd><p>Power transformation to apply to univariate data. Ignored if linear
-model is passed to function.</p></dd>
+<dd><p>Power transformation to apply to <code>x</code>. Applies to univariate
+scenario only.</p></dd>
 
 
 <dt id="arg-tukey">tukey<a class="anchor" aria-label="anchor" href="#arg-tukey"></a></dt>
-<dd><p>Boolean determining if a Tukey transformation should be adopted
-(<code>TRUE</code>) or if a Box-Cox transformation should be adopted (<code>FALSE</code>).</p></dd>
+<dd><p>Logical determining if a Tukey transformation should
+be adopted. Applies to univariate scenario only.</p></dd>
 
 
 <dt id="arg-base">base<a class="anchor" aria-label="anchor" href="#arg-base"></a></dt>
-<dd><p>Base used with the log() function if <code>p = 0</code>.</p></dd>
+<dd><p>Base used with <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> if <code>p = 0</code>. Applies to
+univariate scenario only.</p></dd>
+
+
+<dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
+<dd><p>Integer. Number of random permutations to generate for
+constructing null reference envelopes. Default is <code>0</code> (off).</p></dd>
+
+
+<dt id="arg-sim-alpha">sim.alpha<a class="anchor" aria-label="anchor" href="#arg-sim-alpha"></a></dt>
+<dd><p>Numeric. Transparency value (<code>0</code> to <code>1</code>)
+for simulated cloud. Default <code>0.2</code>.</p></dd>
+
+
+<dt id="arg-sim-col">sim.col<a class="anchor" aria-label="anchor" href="#arg-sim-col"></a></dt>
+<dd><p>Character. Color for simulated cloud.
+Default <code>"coral"</code>.</p></dd>
+
+
+<dt id="arg-sim-pch">sim.pch<a class="anchor" aria-label="anchor" href="#arg-sim-pch"></a></dt>
+<dd><p>Integer or character. Plotting symbol for simulated
+points. Default <code>16</code>.</p></dd>
+
+
+<dt id="arg-sim-type">sim.type<a class="anchor" aria-label="anchor" href="#arg-sim-type"></a></dt>
+<dd><p>Character. Format of simulation display:
+<code>"points"</code> or <code>"lines"</code>.</p></dd>
 
 
 <dt id="arg-show-par">show.par<a class="anchor" aria-label="anchor" href="#arg-show-par"></a></dt>
-<dd><p>Boolean determining if the power transformation used with the
-data should be displayed in the plot's upper-right corner.</p></dd>
+<dd><p>Logical determining if transformation parameters
+are displayed.</p></dd>
 
 
 <dt id="arg-stat">stat<a class="anchor" aria-label="anchor" href="#arg-stat"></a></dt>
-<dd><p>Choice of summary statistic to use when centering the fitted
-values around 0. The <code>stat</code> parameter is also used for fitting
-univariate values (i.e. for summarizing groups). <code>stat</code> can be either
-<code>mean</code> or <code>median</code>.</p></dd>
+<dd><p>Summary statistic function (<code>mean</code> or
+<code>median</code>).</p></dd>
 
 
 <dt id="arg-grey">grey<a class="anchor" aria-label="anchor" href="#arg-grey"></a></dt>
-<dd><p>Grey level to apply to plot elements (0 to 1 with 1 = black).</p></dd>
+<dd><p>Grey level for plot elements (0 to 1).</p></dd>
 
 
 <dt id="arg-pch">pch<a class="anchor" aria-label="anchor" href="#arg-pch"></a></dt>
@@ -135,47 +165,44 @@ univariate values (i.e. for summarizing groups). <code>stat</code> can be either
 
 
 <dt id="arg-p-fill">p.fill<a class="anchor" aria-label="anchor" href="#arg-p-fill"></a></dt>
-<dd><p>Point fill color passed to <code>bg</code> (Only used for <code>pch</code>
-ranging from 21-25).</p></dd>
+<dd><p>Point fill color.</p></dd>
 
 
 <dt id="arg-inner">inner<a class="anchor" aria-label="anchor" href="#arg-inner"></a></dt>
-<dd><p>Fraction of values that should be captured by the shaded region.
-Defaults to inner 90 percent of values.</p></dd>
+<dd><p>Fraction of input data considered as "mid values"
+(default 0.9).</p></dd>
 
 
 <dt id="arg-q">q<a class="anchor" aria-label="anchor" href="#arg-q"></a></dt>
-<dd><p>Boolean determining if grey quantile boxes should be plotted.</p></dd>
+<dd><p>Logical determining if inner quantile region should
+be shaded.</p></dd>
 
 
 <dt id="arg-qtype">qtype<a class="anchor" aria-label="anchor" href="#arg-qtype"></a></dt>
-<dd><p>Defines the quantile algorithm used in the <code>quantile</code>
-function. Defaults to <code>type = 5</code>.</p></dd>
+<dd><p>Integer specifying quantile algorithm type (1-9).</p></dd>
 
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
-<dd><p>Point size (0-1)</p></dd>
+<dd><p>Point size.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>Point transparency (0 = transparent, 1 = opaque). Only
-applicable if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb()</a></code> is not used to define point colors.</p></dd>
+<dd><p>Point transparency.</p></dd>
 
 
 <dt id="arg-ylim">ylim<a class="anchor" aria-label="anchor" href="#arg-ylim"></a></dt>
-<dd><p>Define custom y axis limits.</p></dd>
+<dd><p>Y-axis limits.</p></dd>
 
 
 <dt id="arg-bar">bar<a class="anchor" aria-label="anchor" href="#arg-bar"></a></dt>
-<dd><p>Boolean determining if spread comparison stacked bars should be
-plotted.</p></dd>
+<dd><p>Logical determining if a proportion-of-spread stacked
+bar is added.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments.</p></dd>
 
 </dl></div>
-    <div class="section level2">
-    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Returns a dataframe with the f-values, fit-minus-mean values,
-and residual values.</p>
-    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The <code>eda_rfs</code> function generates a residual-fit spread plot for
@@ -202,7 +229,15 @@ helpful in quickly gauging the effect the fitted values have in explaining
 the variability in the data. The longer the green bar relative to the red
 bar, the greater the grouping variable's (for univariate data) or linear
 model's (for bivariate data) effect in minimizing the uncertainty in the
-estimated value.</p>
+estimated value.
+<br><br>
+Setting <code>nsim &gt; 0</code> generates an empirical null envelope for
+both the fitted values and residual panels. For univariate grouping
+models, group labels are repeatedly permuted across observations
+using <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></code>. For linear models, response
+values are permuted relative to predictors. Comparing observed
+curves to the null clouds allows direct visual assessment of
+whether the model explains variation beyond random chance.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -217,40 +252,46 @@ estimated value.</p>
 <span class="r-in"><span><span class="co"># Generate a basic residual-fit spread plot</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 10.69 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 108.2% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 52.0% explained (fitted) vs 48.0% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Add inner 90% region to residuals (grey boxes in plot)</span></span></span>
+<span class="r-in"><span><span class="co"># Add inner 90% region to the residuals plot (shaded area in plot)</span></span></span>
 <span class="r-in"><span><span class="co"># Vertical grey box shows matching y-values</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 10.69 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 108.2% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 52.0% explained (fitted) vs 48.0% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Change guide to encompass mid 75% of residual values</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, q <span class="op">=</span> <span class="cn">TRUE</span>, inner <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 75.0% of residuals covers about 8.02 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 144.2% of the mid 75.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 59.1% explained (fitted) vs 40.9% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use median instead of the mean to compute group summaries and to</span></span></span>
 <span class="r-in"><span><span class="co"># recenter the fitted values around 0.</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, stat <span class="op">=</span> <span class="va">median</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 10.98 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 10.80 units, or about 98.4% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 10.80 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 49.6% explained (fitted) vs 50.4% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Apply power transformation of -1 to mpg. Defaults to box-cox method.</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 0.04 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 0.03 units, or about 74.0% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 0.03 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 42.5% explained (fitted) vs 57.5% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Display a stacked bar plot showing relative importance in spreads</span></span></span>
 <span class="r-in"><span><span class="co"># between fitted values and residuals.</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, bar <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 10.69 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units, or about 108.2% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 52.0% explained (fitted) vs 48.0% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate rfs plot for bivariate model output. Model can be generated from</span></span></span>
@@ -258,7 +299,8 @@ estimated value.</p>
 <span class="r-in"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">hp</span> <span class="op">~</span> <span class="va">mpg</span>, <span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M1</span>,q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 123.58 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units, or about 167.9% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 62.7% explained (fitted) vs 37.3% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="eda_lm.html">eda_lm</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span>, <span class="va">hp</span><span class="op">)</span></span></span>
@@ -267,14 +309,29 @@ estimated value.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 324.082314  -8.829731 </span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M2</span>,q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 123.58 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units, or about 167.9% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 62.7% explained (fitted) vs 37.3% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="eda_rline.html">eda_rline</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span>, <span class="va">hp</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M3</span>, q <span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 125.51 units.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 252.28 units, or about 201.0% of the mid 90.0% of residuals.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 252.28 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 66.8% explained (fitted) vs 33.2% unexplained (residuals).</span>
 <span class="r-plt img"><img src="eda_rfs-10.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add simulaton envelopes to plots</span></span></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">M1</span>,q <span class="op">=</span><span class="cn">TRUE</span>,nsim<span class="op">=</span><span class="fl">60</span>, sim.type<span class="op">=</span><span class="st">"lines"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 123.58 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 207.50 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 62.7% explained (fitted) vs 37.3% unexplained (residuals).</span>
+<span class="r-plt img"><img src="eda_rfs-11.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu">eda_rfs</span><span class="op">(</span><span class="va">mtcars</span>,<span class="va">mpg</span>, <span class="va">cyl</span>, nsim<span class="op">=</span><span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The mid 90.0% of residuals covers about 10.69 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The fitted values cover a range of 11.56 units.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Relative spread breakdown: 52.0% explained (fitted) vs 48.0% unexplained (residuals).</span>
+<span class="r-plt img"><img src="eda_rfs-12.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -286,7 +343,7 @@ estimated value.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

@@ -63,87 +63,87 @@ eda_vd(
 
   `response`
 
-  :   A character string specifying the name of the response variable
-      column in the `dat` data frame.
+  : A character string specifying the name of the response variable
+    column in the `dat` data frame.
 
   `type`
 
-  :   A character string specifying the type of plot to generate. Must
-      be either `"boxpnt"` or `"box"`.
+  : A character string specifying the type of plot to generate. Must be
+    either `"boxpnt"` or `"box"`.
 
   `input`
 
-  :   A character string. `"reg"` = bivariate model input. `"nway"` =
-      univariate model or N-way table input.
+  : A character string. `"reg"` = bivariate model input. `"nway"` =
+    univariate model or N-way table input.
 
   `eff`
 
-  :   A list of effect values. Required when `input = "nway"`.
+  : A list of effect values. Required when `input = "nway"`.
 
   `rotate`
 
-  :   Logical. If `TRUE`, rotates the plot orientation.
+  : Logical. If `TRUE`, rotates the plot orientation.
 
   `padding`
 
-  :   Numeric. Controls padding for plot limits.
+  : Numeric. Controls padding for plot limits.
 
   `show.resp`
 
-  :   Logical. If `TRUE`, includes a boxplot for the response variable.
+  : Logical. If `TRUE`, includes a boxplot for the response variable.
 
   `outliers`
 
-  :   Logical. If `TRUE`, outliers are displayed in boxplots.
+  : Logical. If `TRUE`, outliers are displayed in boxplots.
 
   `label`
 
-  :   Logical. Controls whether labels are displayed.
+  : Logical. Controls whether labels are displayed.
 
   `order`
 
-  :   Logical. Controls ordering (likely of factors or effects).
+  : Logical. Controls ordering (likely of factors or effects).
 
   `cex.txt`
 
-  :   Numeric. Controls text size.
+  : Numeric. Controls text size.
 
   `lim`
 
-  :   Numeric. Explicit limits for the plot axes.
+  : Numeric. Explicit limits for the plot axes.
 
   `overlap`
 
-  :   Character. Specifies how to handle overlapping points, must be one
-      of `"stack"`, `"overplot"`, or `"jitter"`.
+  : Character. Specifies how to handle overlapping points, must be one
+    of `"stack"`, `"overplot"`, or `"jitter"`.
 
   `pch`
 
-  :   Point symbol type. Only applicable if `type = "boxpnt"`.
+  : Point symbol type. Only applicable if `type = "boxpnt"`.
 
   `p.col`
 
-  :   Point border color. Only applicable if `type = "boxpnt"`.
+  : Point border color. Only applicable if `type = "boxpnt"`.
 
   `p.fill`
 
-  :   Point fill color. Only applicable if `type = "boxpnt"`.
+  : Point fill color. Only applicable if `type = "boxpnt"`.
 
   `size`
 
-  :   Point size. Only applicable if `type = "boxpnt"`.
+  : Point size. Only applicable if `type = "boxpnt"`.
 
   `alpha`
 
-  :   Transparency level for points (0 = transparent, 1 = opaque).
+  : Transparency level for points (0 = transparent, 1 = opaque).
 
   `grey`
 
-  :   Numeric. Controls grayscale coloring for plot elements and axes.
+  : Numeric. Controls grayscale coloring for plot elements and axes.
 
   `title`
 
-  :   Plot title. If title is to be omitted, set to `NULL`.
+  : Plot title. If title is to be omitted, set to `NULL`.
 
 ## Value
 

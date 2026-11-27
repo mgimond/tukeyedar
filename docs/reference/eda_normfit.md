@@ -170,8 +170,8 @@ This function will generate a mirrored Normal distribution fitted to the
 data if `dens` is set to `FALSE` or a side-by-side density/Normal fit
 plot if `dens` is set to `TRUE`. If the latter, the density plot will be
 on the left side and the Normal fit will be on the right side of the
-vertical axis.  
-  
+vertical axis.\
+\
 The plots have two fill colors: one for the inner band and the other for
 the outer band. The inner band shows the area of the curve that
 encompasses the desired fraction of values defined by `inner`. By
@@ -179,8 +179,8 @@ default, this value is 0.6826, or 68.26 percent (this is roughly the
 percentage of values covered by +/- 1 standard deviations of a Normal
 distribution). For the Normal fit plot, the range is computed from the
 theoretical Normal and not from the actual values. For the density plot,
-the range is computed from the actual values.  
-  
+the range is computed from the actual values.\
+\
 If a density plot is desired, `dens = TRUE`, a gap (defined by `offset`)
 is created between the left side density plot and the right side Normal
 fit plot. This function makes use of the built-in
@@ -188,14 +188,13 @@ fit plot. This function makes use of the built-in
 such, you can pass the `bw` and `kernel` parameters as you would for the
 [`density()`](https://rdrr.io/r/stats/density.html) function. Points
 showing the location of values along the y-axis are also added to help
-view their distributions relative to the density and Normal fit
-curves.  
-  
+view their distributions relative to the density and Normal fit curves.\
+\
 Measures of centrality are computed differently for the Normal fit and
 density plots. The mean is added to the Normal fit plot and the median
 is added to the density plot. These measures of centrality are shown as
-black horizontal lines in the plot.  
-  
+black horizontal lines in the plot.\
+\
 The areas under the density and Normal fit plots are scaled to their
 peak values, respectively. So, the areas should not be compared between
 both distributions.

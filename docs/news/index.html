@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,23 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="tukeyedar-development-version">tukeyedar (development version)<a class="anchor" aria-label="anchor" href="#tukeyedar-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.6.0.9000" id="tukeyedar-0609000">tukeyedar 0.6.0.9000<a class="anchor" aria-label="anchor" href="#tukeyedar-0609000"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-6-0-9000">New features<a class="anchor" aria-label="anchor" href="#new-features-0-6-0-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/eda_qq.html">eda_qq()</a></code>, <code><a href="../reference/eda_sym.html">eda_sym()</a></code>, <code>eda_theo</code>, <code><a href="../reference/eda_rfs.html">eda_rfs()</a></code>, <code><a href="../reference/eda_sl.html">eda_sl()</a></code>, <code>eda_qqpool</code>, <code>eda_theopan</code>: Added <code>nsim</code> parameter (along with <code>sim.alpha</code>, <code>sim.col</code>, <code>sim.pch</code>, and <code>sim.type</code>) to overlay a null permutation envelope for visual comparison against sampling variability.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes--fixes-0-6-0-9000">Minor changes &amp; fixes<a class="anchor" aria-label="anchor" href="#minor-changes--fixes-0-6-0-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/eda_qq.html">eda_qq()</a></code>: Setting <code>tails = TRUE</code> now automatically sets <code>q = FALSE</code> to prevent overlapping quantile shading with tail point symbolization.</li>
+<li>
+<code><a href="../reference/eda_rfs.html">eda_rfs()</a></code>: Modified wording in text console output. It will now report the relative spread breakdown in percentages. This aligns the text with the green and red segments of the stacked bar plot.</li>
+<li>Updated the <code>rfs</code> vignette to include simulation option.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.0" id="tukeyedar-060">tukeyedar 0.6.0<a class="anchor" aria-label="anchor" href="#tukeyedar-060"></a></h2>
 <ul><li>Added the <code>ANOVA: beyond the p-value</code> vignette.</li>
 <li>
 <code>plot.eda_npol</code> and <code>plot.eda_mean_sweep</code> methods now allow for n-way <code>margin</code> diagnostic plots</li>
@@ -195,7 +211,7 @@ new <code>base</code> argument in <code>eda_re</code> and changes to internal pl
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

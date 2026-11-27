@@ -117,12 +117,11 @@ plot.
 The rfs plot facilitates the comparison of both spreads by sharing the
 same y axis and by having both spreads centered on 0. In this working
 example, the spreads are about identical suggesting that the grouping
-variable \\groups\\ can help explain some of the variability in the
-data.
+variable `groups` can help explain some of the variability in the data.
 
 To help develop an intuitive feel for the interpretation of the rfs
 plot, we can explore two extreme scenarios. In this next scenario, we
-assign groups to the values in \\y\\ in such a way as to maximize the
+assign groups to the values in `y` in such a way as to maximize the
 separation in each group (see Figure 5).
 
 ![Figure 5. An example of a dataset that exhibits a clear separation in
@@ -200,7 +199,8 @@ library(tukeyedar)
 
 eda_rfs(df, y, groups)
 #>  The mid 90.0% of residuals covers about 1.68 units.
-#>  The fitted values cover a range of 1.87 units, or about 111.2% of the mid 90.0% of residuals.
+#>  The fitted values cover a range of 1.87 units.
+#>  Relative spread breakdown: 52.6% explained (fitted) vs 47.4% unexplained (residuals).
 ```
 
 ![Figure 9. An rfs plot generated using the eda_rfs()
@@ -212,9 +212,10 @@ In addition to generating a plot, the function will also output
 information about the spreads in the console. It extracts the range of
 values associated with the mid 90% of the residuals.
 
-The plot and the console output indicate that the mid 90% of the
-residuals cover a range of about 1.6 units, roughly. This is about 15%
-less than the spread covered by the estimates.
+The plot and the console output indicate that the mid `90%` of the
+residuals cover a range of about 1.7 units, while the fitted values
+cover 1.9 units—demonstrating a relative spread breakdown of 52.6%
+explained (fitted) vs 47.4% unexplained (residuals).
 
 The reason the mid 90% of values is chosen is to prevent outliers or
 extreme values in the residuals from disproportionately exaggerating the
@@ -250,7 +251,8 @@ example.
 
 eda_rfs(df, y, groups, q = TRUE, inner = 0.95)
 #>  The mid 95.0% of residuals covers about 2.07 units.
-#>  The fitted values cover a range of 1.87 units, or about 90.0% of the mid 95.0% of residuals.
+#>  The fitted values cover a range of 1.87 units.
+#>  Relative spread breakdown: 47.4% explained (fitted) vs 52.6% unexplained (residuals).
 ```
 
 ![Figure 11. An rfs plot generated using the eda_rfs() function with the
@@ -273,7 +275,8 @@ up with a larger residual spread as shown in Figure 12.
 df$all <- "all"
 eda_rfs(df, y, all, q = TRUE) 
 #>  The mid 90.0% of residuals covers about 2.95 units.
-#>  The fitted values cover a range of 0.00 units, or about 0.0% of the mid 90.0% of residuals.
+#>  The fitted values cover a range of 0.00 units.
+#>  Relative spread breakdown: 0.0% explained (fitted) vs 100.0% unexplained (residuals).
 ```
 
 ![Figure 12. An rfs plot of the data as it was presented to us before
@@ -287,13 +290,12 @@ overall mean.
 In the above code, we added a new column with a unique grouping value,
 `"all"`, shared across all \\y\\ values. This results in a single
 “group” for the rfs spread plot. 90% of the inner residual spread covers
-a range of 2.76 units–quite a bit more than the spread in residuals
-observed when we added the grouping variable to the mix.
+a range of 2.95 units–100% of the variability in the data.
 
-### eda_rfs() options
+### `eda_rfs()` options
 
 You’ve already been introduced to the `q` and `inner` arguments which
-allows you to set and visualize the inner range of the residual spread
+allow you to set and visualize the inner range of the residual spread
 rfs plot and in the console.
 
 Another `eda_rfs` option modifies the summary statistic used with
@@ -309,7 +311,8 @@ have a disproportionate influence on the mean value as shown in Figure
 
 eda_rfs(mtcars, hp, am, q = TRUE)
 #>  The mid 90.0% of residuals covers about 205.80 units.
-#>  The fitted values cover a range of 33.42 units, or about 16.2% of the mid 90.0% of residuals.
+#>  The fitted values cover a range of 33.42 units.
+#>  Relative spread breakdown: 14.0% explained (fitted) vs 86.0% unexplained (residuals).
 ```
 
 ![Figure 13. An rfs plot of horsepower values in the mtcars dataset
@@ -329,7 +332,8 @@ shown in Figure 14.
 
 eda_rfs(mtcars, hp, am, stat = median, q = TRUE)
 #>  The mid 90.0% of residuals covers about 226.30 units.
-#>  The fitted values cover a range of 66.00 units, or about 29.2% of the mid 90.0% of residuals.
+#>  The fitted values cover a range of 66.00 units.
+#>  Relative spread breakdown: 22.6% explained (fitted) vs 77.4% unexplained (residuals).
 ```
 
 ![Figure 14. An rfs plot of horsepower values in the mtcars dataset
@@ -355,7 +359,8 @@ argument `p = 0` as shown in Figure 15.
 
 eda_rfs(mtcars, hp, am,  q = TRUE, p = 0)
 #>  The mid 90.0% of residuals covers about 1.56 units.
-#>  The fitted values cover a range of 0.33 units, or about 21.1% of the mid 90.0% of residuals.
+#>  The fitted values cover a range of 0.33 units.
+#>  Relative spread breakdown: 17.4% explained (fitted) vs 82.6% unexplained (residuals).
 ```
 
 ![Figure 15. An rfs plot of log transformed horsepower values in the
@@ -380,24 +385,23 @@ spread is defined by the `inner` argument. To enable the bar plot, set
 
 eda_rfs(mtcars, hp, cyl,  bar = TRUE)
 #>  The mid 90.0% of residuals covers about 111.29 units.
-#>  The fitted values cover a range of 126.58 units, or about 113.7% of the mid 90.0% of residuals.
+#>  The fitted values cover a range of 126.58 units.
+#>  Relative spread breakdown: 53.2% explained (fitted) vs 46.8% unexplained (residuals).
 ```
 
-![Figure 15. An rfs plot of log transformed horsepower values in the
+![Figure 16. An rfs plot of log transformed horsepower values in the
 mtcars dataset conditioned on transmission type (am variable in the
 dataset). Results are reported in the transformed variable
 units.](rfs_files/figure-html/unnamed-chunk-19-1.png)
 
-Figure 15. An rfs plot of log transformed horsepower values in the
+Figure 16. An rfs plot of log transformed horsepower values in the
 mtcars dataset conditioned on transmission type (am variable in the
 dataset). Results are reported in the transformed variable units.
 
-The red bar is the relative spread of the residuals and the green bar is
-the relative spread of the fitted values. The stacked bar plot can be
-helpful in quickly gauging the effect the fitted values have in
-explaining the variability in the data. The longer the green bar
-relative to the red bar, the greater the fitted value’s effect in
-minimizing the uncertainty in the estimated value.
+The red bar represents the relative spread of the residuals
+(*unexplained*), and the green bar represents the relative spread of the
+fitted values (*explained*). The percentages reported in the console
+match the visual height proportions of these bar segments directly.
 
 ### Rfs plots for bivariate analysis
 
@@ -411,11 +415,11 @@ that estimate. For example, if we want to estimate the miles-per-gallon
 consumed by a vehicle from the `mtcars` built-in dataset, we could start
 with the simplest estimate–that being the mean.
 
-![Figure 16. A jitter plot of 32 miles-per-gallon measurements from the
+![Figure 17. A jitter plot of 32 miles-per-gallon measurements from the
 mtcars dataset. The mean value is fitted to the data giving us a first
 estimate of the variable.](rfs_files/figure-html/unnamed-chunk-20-1.png)
 
-Figure 16. A jitter plot of 32 miles-per-gallon measurements from the
+Figure 17. A jitter plot of 32 miles-per-gallon measurements from the
 mtcars dataset. The mean value is fitted to the data giving us a first
 estimate of the variable.
 
@@ -430,10 +434,10 @@ vehicle’s horsepower can help us home in on a more precise estimate of
 miles-per-gallon. Figure 17 gives us a scatter plot of miles-per-gallon
 vs horsepower.
 
-![Figure 17. A scatter plot of miles-per gallon (mpg) vs. horsepower
-(hp).](rfs_files/figure-html/R.options-1.png)
+![Figure 18. A scatter plot of miles-per gallon (mpg) vs. horsepower
+(hp).](rfs_files/figure-html/unnamed-chunk-21-1.png)
 
-Figure 17. A scatter plot of miles-per gallon (mpg) vs. horsepower (hp).
+Figure 18. A scatter plot of miles-per gallon (mpg) vs. horsepower (hp).
 
 The pattern in the scatter plot suggests that `mpg` decreases as a
 function of increasing `hp`.
@@ -445,12 +449,12 @@ a unique estimate of `mpg` for any unique value of `hp`. A common model
 fitting strategy is the least-squares regression technique (see Figure
 18).
 
-![Figure 18. A scatter plot of miles-per-gallon (mpg) vs. horsepower
+![Figure 19. A scatter plot of miles-per-gallon (mpg) vs. horsepower
 (hp) with a fitted linear model. The vertical grey dashed lines
 highlight the error in the estimated
-values.](rfs_files/figure-html/unnamed-chunk-21-1.png)
+values.](rfs_files/figure-html/unnamed-chunk-22-1.png)
 
-Figure 18. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp)
+Figure 19. A scatter plot of miles-per-gallon (mpg) vs. horsepower (hp)
 with a fitted linear model. The vertical grey dashed lines highlight the
 error in the estimated values.
 
@@ -462,12 +466,12 @@ help us assess how much of the variability in `mpg` can be explained by
 this newly fitted model and how it compares to the residuals (Figure
 19).
 
-![Figure 19. An rfs plot of the bivariate model whereby the fitted
+![Figure 20. An rfs plot of the bivariate model whereby the fitted
 values are plotted on the left quantile plot and the residuals are
 plotted on the right quantile
-plot.](rfs_files/figure-html/unnamed-chunk-22-1.png)
+plot.](rfs_files/figure-html/unnamed-chunk-23-1.png)
 
-Figure 19. An rfs plot of the bivariate model whereby the fitted values
+Figure 20. An rfs plot of the bivariate model whereby the fitted values
 are plotted on the left quantile plot and the residuals are plotted on
 the right quantile plot.
 
@@ -479,21 +483,21 @@ deviation, or error, in the estimated value from that of each
 observation. For example, the estimated `mpg` value for the largest `hp`
 value of `335` is `7.24` and the residual is `+7.75` `hp` units.
 
-![Figure 20. Example of how a fitted model and its residuals are mapped
+![Figure 21. Example of how a fitted model and its residuals are mapped
 to an rfs plot. The red points on the fitted line represent the
 estimated values for all 32 observations in the mtcars
 dataset.](rfs_lm_1.png)
 
-Figure 20. Example of how a fitted model and its residuals are mapped to
+Figure 21. Example of how a fitted model and its residuals are mapped to
 an rfs plot. The red points on the fitted line represent the estimated
 values for all 32 observations in the mtcars dataset.
 
 We can see that the spread in the fitted model and the residuals is
 comparable with the fitted model explaining a bit more of the
 variability in the data than adopting the much simpler *mean* model in
-Figure 16.
+Figure 17.
 
-#### Using eda_rfs() with a regression model
+#### Using `eda_rfs()` with a regression model
 
 You must first create a model using either the built-in
 [`lm()`](https://rdrr.io/r/stats/lm.html) function or this package’s
@@ -508,28 +512,101 @@ function.
 M1 <- eda_lm(mtcars, hp, mpg)
 ```
 
-![Figure 21. A scatter plot of miles-per-gallon vs horsepower from the
-built-in mtcars dataset. A linear model is fitted to the
-data.](rfs_files/figure-html/unnamed-chunk-24-1.png)
-
-Figure 21. A scatter plot of miles-per-gallon vs horsepower from the
-built-in mtcars dataset. A linear model is fitted to the data.
-
-The resulting rfs plot is shown in Figure 22.
-
-``` r
-
-eda_rfs(M1, q = TRUE)
-#>  The mid 90.0% of residuals covers about 13.00 units.
-#>  The fitted values cover a range of 19.31 units, or about 148.6% of the mid 90.0% of residuals.
-```
-
 ![Figure 22. A scatter plot of miles-per-gallon vs horsepower from the
 built-in mtcars dataset. A linear model is fitted to the
 data.](rfs_files/figure-html/unnamed-chunk-25-1.png)
 
 Figure 22. A scatter plot of miles-per-gallon vs horsepower from the
 built-in mtcars dataset. A linear model is fitted to the data.
+
+The resulting rfs plot is shown in Figure 23.
+
+``` r
+
+eda_rfs(M1, q = TRUE)
+#>  The mid 90.0% of residuals covers about 13.00 units.
+#>  The fitted values cover a range of 19.31 units.
+#>  Relative spread breakdown: 59.8% explained (fitted) vs 40.2% unexplained (residuals).
+```
+
+![Figure 23. An rfs plot of the regression
+model.](rfs_files/figure-html/unnamed-chunk-26-1.png)
+
+Figure 23. An rfs plot of the regression model.
+
+### Assessing pattern vs. noise with permutation envelopes
+
+A central goal in exploratory data analysis is determining whether
+observed differences across groups or fitted model relationships reflect
+**meaningful structural patterns** or merely **random sampling
+variation**. To provide an empirical visual benchmark,
+[`eda_rfs()`](https://mgimond.github.io/tukeyedar/reference/eda_rfs.md)
+includes an optional **permutation simulation routine** triggered by
+setting `nsim > 0`.
+
+Setting `nsim > 0` repeatedly shuffles the dataset to generate a cloud
+of reference runs under the benchmark of no systematic relationship:
+
+- **Univariate / ANOVA Scenarios (`data.frame`):** Group labels (`grp`)
+  are permuted across observations using `sample(grp)`. For each
+  permutation, group summary statistics (means or medians) and their
+  corresponding residuals are re-estimated, sorted and plotted.
+- **Regression Scenarios (`lm`, `eda_lm`, `eda_rline`):** Response
+  values are permuted relative to the predictor variable. The model is
+  refitted across each iteration then builds a visual envelope of how
+  much spread one could expect by pure chance.
+
+``` r
+
+eda_rfs(M1, q = TRUE, nsim = 99)
+```
+
+![Figure 24. An rfs plot of the regression model with a permutation
+envelope added to the
+plot.](rfs_files/figure-html/unnamed-chunk-27-1.png)
+
+Figure 24. An rfs plot of the regression model with a permutation
+envelope added to the plot.
+
+The appearance of the permutation reference cloud is controlled by five
+parameters:
+
+- `nsim`: Number of permutation iterations (default is `0`, which turns
+  off simulation).
+- `sim.type`: Format of the simulation display—either `"points"`
+  (default) or `"lines"` for a spaghetti-plot envelope.
+- `sim.col`: Color of the simulated reference cloud (default is
+  `"coral"`).
+- `sim.alpha`: Transparency setting, (`0` to `1`, defaults to `0.2`)
+  allowing overlapping simulation runs to build a dense reference band.
+- `sim.pch`: Symbol used when `sim.type = "points"` (default is `16`).
+
+``` r
+
+eda_rfs(M1, q = TRUE, nsim = 99, sim.type = "lines", sim.alpha = 0.3)
+```
+
+![Figure 25. An rfs plot of the regression model with a permutation
+envelope added to the plot. Envelope is generated from connecting line
+segments instead of
+points.](rfs_files/figure-html/unnamed-chunk-28-1.png)
+
+Figure 25. An rfs plot of the regression model with a permutation
+envelope added to the plot. Envelope is generated from connecting line
+segments instead of points.
+
+#### Interpreting the reference cloud
+
+When `nsim > 0` is active, the permuted baseline envelope is rendered
+behind the observed data points across both panels:
+
+1.  **Fit Panel (Left):** If the observed data curve (foreground points)
+    extends **distinctly beyond the reference cloud**, the model
+    captures a real pattern rather than a chance ordering.
+2.  **Residual Panel (Right):** If the observed residual points are
+    **noticeably tighter or flatter than the permuted envelope**, the
+    model effectively accounts for a substantial portion of the
+    variation.
 
 ### Reference
 

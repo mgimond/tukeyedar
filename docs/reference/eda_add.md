@@ -56,7 +56,7 @@ Returns the `eda_rline` intercept and slope.
 This function adds an eda_rline slope and 3-pt summary points to an
 existing scatter plot.
 
-  
+\
 See the [Resistant Line
 article](https://mgimond.github.io/tukeyedar/articles/polish.md) for a
 detailed breakdown of the resistant line technique.

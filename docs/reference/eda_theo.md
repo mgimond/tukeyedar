@@ -1,7 +1,8 @@
 # Theoretical QQ plot
 
-`eda_theo` generates a theoretical QQ plot for many common distributions
-including the Normal, uniform and gamma distributions.
+`eda_theo` generates a theoretical QQ plot for common distributions
+(Normal, Exponential, Uniform, Gamma, Chi-Squared, Weibull) with an
+optional null reference simulation envelope.
 
 ## Usage
 
@@ -16,6 +17,11 @@ eda_theo(
   dist.l = list(),
   resid = FALSE,
   stat = mean,
+  nsim = 0,
+  sim.alpha = 0.2,
+  sim.col = "coral",
+  sim.pch = 16,
+  sim.type = "points",
   plot = TRUE,
   show.par = TRUE,
   grey = 0.6,
@@ -26,6 +32,7 @@ eda_theo(
   alpha = 0.8,
   med = TRUE,
   q = FALSE,
+  qcol = rgb(0, 0, 0, 0.05),
   iqr = TRUE,
   grid = FALSE,
   tails = FALSE,
@@ -85,6 +92,29 @@ eda_theo(
   Statistic to use if residuals are to be computed. Currently `mean`
   (default) or `median`.
 
+- nsim:
+
+  Integer. Number of random draws to generate for constructing the null
+  reference envelope. Default is `0` (off).
+
+- sim.alpha:
+
+  Numeric. Transparency value (`0` to `1`) for simulated cloud. Default
+  `0.2`.
+
+- sim.col:
+
+  Character. Color for simulated cloud. Default `"coral"`.
+
+- sim.pch:
+
+  Integer or character. Plotting symbol for simulated points. Default
+  `16`.
+
+- sim.type:
+
+  Character. Format of simulation display: `"points"` or `"lines"`.
+
 - plot:
 
   Boolean determining if plot should be generated.
@@ -128,6 +158,10 @@ eda_theo(
 - q:
 
   Boolean determining if `inner` data region should be shaded.
+
+- qcol:
+
+  Fill color of inner quantile box.
 
 - iqr:
 
@@ -195,13 +229,24 @@ plot (`dist="unif"`), gamma QQ plot (`dist="gamma"`), chi-squared QQ
 plot (`dist="chisq"`), and the Weibull QQ plot (`dist="weibull"`) are
 supported. By default, the Normal QQ plot maps the unit Normal quantiles
 to the x-axis (i.e. centered on a mean of 0 and standard deviation of 1
-unit).  
-  
+unit).\
+\
 Note that arguments can be passed to the respective quantile functions
 via the `d.list` argument. Some quantile functions require at least one
 argument. For example, the `qgamma` function requires that the shape
 parameter be specified and the `qchisq` function requires that the
-degrees of freedom, `df`, be specified. See examples.
+degrees of freedom, `df`, be specified. See examples.\
+\
+To help evaluate whether departures from the theoretical reference line
+reflect true non-conformance to the target distribution rather than
+natural sampling variability, setting `nsim > 0` generates an empirical
+null envelope. Under the null hypothesis that the data arise from the
+specified theoretical distribution, synthetic samples of size \\N\\ are
+repeatedly drawn and scaled to match the sample's quantiles. The
+resulting simulation runs are plotted behind the observed data with
+alpha transparency (`sim.alpha`). If the observed points remain inside
+the concentration of the simulated cloud, the apparent deviations are
+consistent with random sampling variation for a sample of size \\N\\.
 
 ## References
 
@@ -222,9 +267,17 @@ degrees of freedom, `df`, be specified. See examples.
  eda_theo(bass2)
 
 
+ # Normal QQ plot with 20 null reference simulations
+ eda_theo(bass2, nsim = 20)
+
+
+ # Normal QQ plot with simulation envelope rendered as spaghetti lines
+ eda_theo(bass2, nsim = 50, sim.type = "lines")
+
+
  # Generate a chi-squared QQ plot. The distribution requires that the degrees
  # of freedom be specified. The inner 70% shaded region is added.
- set.seed(270); x <- rchisq(100, df =3)
+ set.seed(271); x <- rchisq(100, df =3)
  eda_theo(x, dist = "chisq", dist.l = list(df = 3), q = TRUE)
 
 
@@ -234,8 +287,20 @@ degrees of freedom, `df`, be specified. See examples.
  eda_theo(x, dist = "gamma", dist.l = list(shape = 3/2, rate = 1/2), q = TRUE)
 
 
- # Generate a uniform QQ plot
- eda_theo(bass2, dist = "unif")
+ # Generate a uniform QQ plot for a Normally derived variable
+ set.seed(218)
+ x <- rnorm(60)
+ eda_theo(x, dist = "unif")
+
+
+ # Compare x to null distribution envelope
+ eda_theo(x, dist = "unif", nsim=40)
+
+ eda_theo(x, dist = "unif", nsim=50, sim.type="lines")
+
+
+ # Do the tails deviate much from a theoretical Normal distribution?
+ eda_theo(x, dist = "norm", nsim=50, sim.type="lines")
 
 
  # The uniform QQ plot can double as a quantile plot

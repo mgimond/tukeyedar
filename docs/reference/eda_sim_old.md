@@ -1,7 +1,7 @@
 # Simulate data using Fleishman transformation
 
-**\[deprecated\]**  
-  
+**\[deprecated\]**\
+\
 
 This function is deprecated. Use `eda_sim` instead.
 
@@ -63,16 +63,16 @@ the specified skewness and excess kurtosis, and `X` is a standard normal
 variable. The coefficients are solved using a numerical optimization
 approach based on minimizing the residuals of Fleishman's equations. An
 excess kurtosis is defined as the kurtosis of a Normal distribution
-(k=3) minus 3.  
-  
+(k=3) minus 3.\
+\
 
 The function is valid for a skewness range of -3 to 3 and an excess
 kurtosis greater than `-1.13168 + 1.58837 * skew ^ 2`. If
 `check = TRUE`, the function will warn the user if an invalid
 combination of skewness and kurtosis are passed to the function.
 Deviation from the recommended combination will result in a distribution
-that may not reflect the desired skewness and kurtosis values.  
-  
+that may not reflect the desired skewness and kurtosis values.\
+\
 
 If the proper combination of skewness and kurtosis parameters are passed
 to the function, the output distribution will have a mean of around `0`

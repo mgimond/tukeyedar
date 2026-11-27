@@ -72,7 +72,7 @@ No return value
 ## Details
 
 The output is a lattice of descriptive plots showing the transformed
-data across different powers.  
+data across different powers.\
 
 ## References
 

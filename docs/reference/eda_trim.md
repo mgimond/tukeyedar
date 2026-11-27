@@ -2,14 +2,14 @@
 
 Removes records from either tail-ends of a sorted dataset. Trimming can
 be performed by number of records (specify the `num =` option) or by
-quantiles (specify the `prop=` option).  
-  
-`eda_trim` Trims a vector  
-`eda_trim_df` Trims a data frame  
-`eda_ltrim` Left-trims a vector  
-`eda_rtrim` Right-trims a vector  
-`eda_ltrim_df` Left-trims a dataframe  
-`eda_rtrim_df` Right-trims a dataframe  
+quantiles (specify the `prop=` option).\
+\
+`eda_trim` Trims a vector\
+`eda_trim_df` Trims a data frame\
+`eda_ltrim` Left-trims a vector\
+`eda_rtrim` Right-trims a vector\
+`eda_ltrim_df` Left-trims a dataframe\
+`eda_rtrim_df` Right-trims a dataframe\
 
 ## Usage
 

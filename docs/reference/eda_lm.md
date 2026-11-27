@@ -65,160 +65,159 @@ eda_lm(
 
   `raw_tick`
 
-  :   Logical. If `TRUE`, original (untransformed) equally spaced tick
-      values are displayed on the re-expressed axes.
+  : Logical. If `TRUE`, original (untransformed) equally spaced tick
+    values are displayed on the re-expressed axes.
 
   `xlim`
 
-  :   X-axis range.
+  : X-axis range.
 
   `ylim`
 
-  :   Y-axis range.
+  : Y-axis range.
 
   `show.par`
 
-  :   Logical; whether to display plot parameter summary on the plot.
-      Currently only applies to regression model input.
+  : Logical; whether to display plot parameter summary on the plot.
+    Currently only applies to regression model input.
 
   `reg`
 
-  :   Logical; whether to fit and display a regression line.
+  : Logical; whether to fit and display a regression line.
 
   `poly`
 
-  :   Integer; regression model polynomial degree (defaults to 1 for
-      linear model).
+  : Integer; regression model polynomial degree (defaults to 1 for
+    linear model).
 
   `robust`
 
-  :   Logical; if `TRUE`, uses robust regression
-      ([`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html)).
+  : Logical; if `TRUE`, uses robust regression
+    ([`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html)).
 
   `rlm.d`
 
-  :   List; parameters for
-      [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html), (e.g.,
-      `list(psi = "psi.bisquare")`).
+  : List; parameters for
+    [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html), (e.g.,
+    `list(psi = "psi.bisquare")`).
 
   `w`
 
-  :   Optional numeric vector of weights for regression.
+  : Optional numeric vector of weights for regression.
 
   `lm.col`
 
-  :   Regression line color.
+  : Regression line color.
 
   `lm.lw`
 
-  :   Numeric; Regression line width.
+  : Numeric; Regression line width.
 
   `lm.lty`
 
-  :   Numeric; Regression line type.
+  : Numeric; Regression line type.
 
   `sd`
 
-  :   Logical; whether to show ±1 SD lines.
+  : Logical; whether to show ±1 SD lines.
 
   `mean.l`
 
-  :   Logical; whether to show x and y mean reference lines.
+  : Logical; whether to show x and y mean reference lines.
 
   `asp`
 
-  :   Logical; whether to preserve the aspect ratio (ignored if
-      `square = FALSE`).
+  : Logical; whether to preserve the aspect ratio (ignored if
+    `square = FALSE`).
 
   `square`
 
-  :   Logical; whether to create a square plotting window.
+  : Logical; whether to create a square plotting window.
 
   `grey`
 
-  :   Numeric between `0-1`; controls grayscale background elements
-      (`0 = black`, `1 = white`).
+  : Numeric between `0-1`; controls grayscale background elements
+    (`0 = black`, `1 = white`).
 
   `pch`
 
-  :   Integer; point symbol.
+  : Integer; point symbol.
 
   `p.col`
 
-  :   Point border color.
+  : Point border color.
 
   `p.fill`
 
-  :   Point fill color.
+  : Point fill color.
 
   `size`
 
-  :   Point size.
+  : Point size.
 
   `alpha`
 
-  :   Point transparency level (0 = 100\\ transparent, 1 = 100\\
-      opaque).
+  : Point transparency level (0 = 100\\ transparent, 1 = 100\\ opaque).
 
   `q`
 
-  :   Logical; whether to draw inner quantile boxes (quantile shading).
+  : Logical; whether to draw inner quantile boxes (quantile shading).
 
   `q.type`
 
-  :   Integer; type of quantile calculation (see `quantile`).
+  : Integer; type of quantile calculation (see `quantile`).
 
   `inner`
 
-  :   Numeric; defines the inner fraction of values to highlight with
-      quantile shading.
+  : Numeric; defines the inner fraction of values to highlight with
+    quantile shading.
 
   `qcol`
 
-  :   Fill color of quantile shading.
+  : Fill color of quantile shading.
 
   `loe`
 
-  :   Logical; whether to plot loess smooth line.
+  : Logical; whether to plot loess smooth line.
 
   `loe.lw`
 
-  :   Numeric; Loess smooth line width.
+  : Numeric; Loess smooth line width.
 
   `loe.col`
 
-  :   Loess smooth color.
+  : Loess smooth color.
 
   `loe.lty`
 
-  :   Numeric; Loess smooth line type.
+  : Numeric; Loess smooth line type.
 
   `loess.d`
 
-  :   List; parameters for `loess.smooth`, e.g.,
-      `list(span = 0.7, degree = 1)`.
+  : List; parameters for `loess.smooth`, e.g.,
+    `list(span = 0.7, degree = 1)`.
 
   `stats`
 
-  :   Logical; if `TRUE`, displays model statistics (R², β, p-value).
+  : Logical; if `TRUE`, displays model statistics (R², β, p-value).
 
   `stat.size`
 
-  :   Text size for `stats` plot display.
+  : Text size for `stats` plot display.
 
   `hline`
 
-  :   Numeric; location(s) of additional horizontal reference lines. Can
-      be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
+  : Numeric; location(s) of additional horizontal reference lines. Can
+    be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
 
   `vline`
 
-  :   Numeric; location(s) of additional vertical reference lines. Can
-      be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
+  : Numeric; location(s) of additional vertical reference lines. Can be
+    passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
 
   `plot`
 
-  :   Logical. Generates a plot if `TRUE`.
+  : Logical. Generates a plot if `TRUE`.
 
 ## Value
 
@@ -244,20 +243,20 @@ Returns a list of class `eda_lm`. Output includes the following if
 The function will plot a regression line and, if requested, a loess fit.
 The function adopts the least squares fitting technique by default. It
 defaults to a first order polynomial fit. The polynomial order can be
-specified via the `poly` argument.  
-  
+specified via the `poly` argument.\
+\
 The plot displays the +/- 1 standard deviations as dashed lines. In
 theory, if both x and y values follow a perfectly Normal distribution,
-roughly 68 percent of the points should fall in between these lines.  
-  
+roughly 68 percent of the points should fall in between these lines.\
+\
 The true 68 percent of values can be displayed as a shaded region by
 setting `q=TRUE`. It uses the `quantile` function to compute the upper
 and lower bounds defining the inner 68 percent of values. If the data
 follow a Normal distribution, the grey rectangle edges should coincide
 with the +/- 1SD dashed lines. If you wish to show the interquartile
 ranges (IQR) instead of the inner 68 percent of values, simply set
-`inner = 0.5`.  
-  
+`inner = 0.5`.\
+\
 The function offers the option to re-express the values via the `px` and
 `py` arguments. But note that if the re-expression produces `NaN` values
 (such as if a negative value is logged) those points will be removed
@@ -265,8 +264,8 @@ from the plot. This will result in fewer observations being plotted. If
 observations are removed as a result of a re-expression, a warning
 message will be displayed in the console. The re-expression powers are
 shown in the upper right side of the plot. To suppress the display of
-the re-expressions set `show.par = FALSE`.  
-  
+the re-expressions set `show.par = FALSE`.\
+\
 If the `robust` argument is set to TRUE, `MASS`'s built-in robust
 fitting model, `rlm`, is used to fit the regression line to the data.
 `rlm` arguments can be passed as a list via the `rlm.d` argument.

@@ -31,13 +31,13 @@ plot(
 
   `"effects"` (default)
 
-  :   Generates a variability decomposition plot showing residuals and
-      factor effects.
+  : Generates a variability decomposition plot showing residuals and
+    factor effects.
 
   `"diagnostic"`
 
-  :   Generates a diagnostic plot. Its behavior is controlled by the
-      `margin` argument.
+  : Generates a diagnostic plot. Its behavior is controlled by the
+    `margin` argument.
 
 - reg:
 
@@ -81,11 +81,11 @@ returns `NULL`.
 
 This method generates two types of plots for `eda_npol` objects:
 
-**1. Variability Decomposition Plot (`plot = "effects"`)**  
+**1. Variability Decomposition Plot (`plot = "effects"`)**\
 Visualizes residuals and the spread of all fitted effects. Calls
 [`.eda_plot_vardecomp`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_vardecomp.md).
 
-**2. Diagnostic Plot (`plot = "diagnostic"`)**  
+**2. Diagnostic Plot (`plot = "diagnostic"`)**\
 When used with an object from `eda_npol`, this plot's behavior is
 controlled by the `margin` argument. Calls
 [`.eda_plot_xy`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_xy.md).

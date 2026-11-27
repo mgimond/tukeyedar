@@ -30,13 +30,13 @@ This function computes the fractional value (f-value) for each element
 in a numeric vector `x`. The f-value provides a measure of the position
 of a data point relative to the rest of the data, scaled to the range
 \[0,1\]. This fraction is sometimes reported as the probability or
-cumulative frequency.  
-  
+cumulative frequency.\
+\
 Different algorithms are used to compute the f-value. `eda_fval` offers
 as optional algorithm type `4` through `9` documented in
 [`stats::quantile`](https://rdrr.io/r/stats/quantile.html). The
-algorithms used are:  
-  
+algorithms used are:\
+\
 
 - `4`: f = i / n,
 

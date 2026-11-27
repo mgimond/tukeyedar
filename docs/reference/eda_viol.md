@@ -180,18 +180,18 @@ This function will generate a violin plot from the data. It implements
 the [`stats::density`](https://rdrr.io/r/stats/density.html) function
 when generating the shape of the plots. As such the `bw` and `kernel`
 arguments are passed on to the
-[`stats::density`](https://rdrr.io/r/stats/density.html) function.  
-  
+[`stats::density`](https://rdrr.io/r/stats/density.html) function.\
+\
 The plots have two fill colors: one for the inner band and the other for
 the outer band. The inner band shows the area of the curve that
 encompasses the desired fraction of mid-values defined by `inner`. By
 default, this value is 0.6826, or 68.26% (this is roughly the percentage
 of values covered by +/- 1 standard deviations of a Normal
 distribution). The range is computed from the actual values and not from
-a fitted normal distribution.  
-  
+a fitted normal distribution.\
+\
 Measures of centrality are added to the plot. By default, both the mean
-(dashed line) and the median (solid line) are added to the plot.  
+(dashed line) and the median (solid line) are added to the plot.\
 
 ## See also
 

@@ -17,6 +17,11 @@ eda_qq(
   base = exp(1),
   fx = NULL,
   fy = NULL,
+  nsim = 0,
+  sim.alpha = 0.2,
+  sim.col = "coral",
+  sim.pch = 16,
+  sim.type = "points",
   show.par = TRUE,
   grey = 0.6,
   pch = 21,
@@ -96,6 +101,37 @@ eda_qq(
   Formula to apply to y variable before pairing up with x. This is
   computed after any transformation is applied to the y variable.
 
+- nsim:
+
+  Integer. Number of random permutations (shuffles) to generate for
+  constructing a null reference distribution cloud. Default is `0` (no
+  simulation). When `nsim > 0`, observations from both batches are
+  pooled and randomly reallocated into two synthetic groups of original
+  size to visually represent sampling variability under the null
+  hypothesis of equal distributions.
+
+- sim.alpha:
+
+  Numeric. Transparency value between `0` (fully transparent) and `1`
+  (opaque) applied to simulated points or lines. Default is `0.15`.
+
+- sim.col:
+
+  Character. Color used to render the simulated permutation cloud or
+  lines. Default is `"grey60"`.
+
+- sim.pch:
+
+  Integer or character. Plotting symbol for simulated points when
+  `sim.type = "points"`. Default is `16` (solid circle).
+
+- sim.type:
+
+  Character. Format of the simulated envelope display: `"points"`
+  (default) overlays a point cloud emphasizing density concentration,
+  while `"lines"` draws connected quantile lines for each permutation
+  run (spaghetti plot).
+
 - show.par:
 
   Boolean determining if parameters such as power transformation and
@@ -140,7 +176,8 @@ eda_qq(
 
 - q:
 
-  Boolean determining if `inner` data region should be shaded.
+  Boolean determining if `inner` data region should be shaded. This is
+  automatically set to `FALSE` if `tails=TRUE`.
 
 - q.type:
 
@@ -155,7 +192,8 @@ eda_qq(
 
   Boolean determining if points outside of the `inner` region should be
   symbolized differently. Tail-end points are symbolized via the
-  `tail.pch`, `tail.p.col` and `tail.p.fill` arguments.
+  `tail.pch`, `tail.p.col` and `tail.p.fill` arguments. If this option
+  is selected, `q` will automatically be set to `FALSE`.
 
 - tail.pch:
 
@@ -203,122 +241,122 @@ eda_qq(
 
   `dat`
 
-  :   Optional data frame containing `x` and `y`.
+  : Optional data frame containing `x` and `y`.
 
   `px`
 
-  :   Power transformation used in the input data to display if
-      `show.par = TRUE`.
+  : Power transformation used in the input data to display if
+    `show.par = TRUE`.
 
   `py`
 
-  :   Power transformation used in the input data to display if
-      `show.par = TRUE`.
+  : Power transformation used in the input data to display if
+    `show.par = TRUE`.
 
   `raw_tick`
 
-  :   Logical. If `TRUE`, original (untransformed) equally spaced tick
-      values are displayed on the re-expressed axes.
+  : Logical. If `TRUE`, original (untransformed) equally spaced tick
+    values are displayed on the re-expressed axes.
 
   `xlim`
 
-  :   X-axis range.
+  : X-axis range.
 
   `ylim`
 
-  :   Y-axis range.
+  : Y-axis range.
 
   `reg`
 
-  :   Logical; whether to fit and display a regression line.
+  : Logical; whether to fit and display a regression line.
 
   `poly`
 
-  :   Integer; regression model polynomial degree (defaults to 1 for
-      linear model).
+  : Integer; regression model polynomial degree (defaults to 1 for
+    linear model).
 
   `robust`
 
-  :   Logical; if `TRUE`, uses robust regression
-      ([`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html)).
+  : Logical; if `TRUE`, uses robust regression
+    ([`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html)).
 
   `rlm.d`
 
-  :   List; parameters for
-      [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html), (e.g.,
-      `list(psi = "psi.bisquare")`).
+  : List; parameters for
+    [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html), (e.g.,
+    `list(psi = "psi.bisquare")`).
 
   `w`
 
-  :   Optional numeric vector of weights for regression.
+  : Optional numeric vector of weights for regression.
 
   `lm.col`
 
-  :   Regression line color.
+  : Regression line color.
 
   `lm.lw`
 
-  :   Numeric; Regression line width.
+  : Numeric; Regression line width.
 
   `lm.lty`
 
-  :   Numeric; Regression line type.
+  : Numeric; Regression line type.
 
   `sd`
 
-  :   Logical; whether to show ±1 SD lines.
+  : Logical; whether to show ±1 SD lines.
 
   `mean.l`
 
-  :   Logical; whether to show x and y mean reference lines.
+  : Logical; whether to show x and y mean reference lines.
 
   `asp`
 
-  :   Logical; whether to preserve the aspect ratio (ignored if
-      `square = FALSE`).
+  : Logical; whether to preserve the aspect ratio (ignored if
+    `square = FALSE`).
 
   `square`
 
-  :   Logical; whether to create a square plotting window.
+  : Logical; whether to create a square plotting window.
 
   `loe`
 
-  :   Logical; whether to plot loess smooth line.
+  : Logical; whether to plot loess smooth line.
 
   `loe.lw`
 
-  :   Numeric; Loess smooth line width.
+  : Numeric; Loess smooth line width.
 
   `loe.col`
 
-  :   Loess smooth color.
+  : Loess smooth color.
 
   `loe.lty`
 
-  :   Numeric; Loess smooth line type.
+  : Numeric; Loess smooth line type.
 
   `loess.d`
 
-  :   List; parameters for `loess.smooth`, e.g.,
-      `list(span = 0.7, degree = 1)`.
+  : List; parameters for `loess.smooth`, e.g.,
+    `list(span = 0.7, degree = 1)`.
 
   `stats`
 
-  :   Logical; if `TRUE`, displays model statistics (R², β, p-value).
+  : Logical; if `TRUE`, displays model statistics (R², β, p-value).
 
   `stat.size`
 
-  :   Text size for `stats` plot display.
+  : Text size for `stats` plot display.
 
   `hline`
 
-  :   Numeric; location(s) of additional horizontal reference lines. Can
-      be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
+  : Numeric; location(s) of additional horizontal reference lines. Can
+    be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
 
   `vline`
 
-  :   Numeric; location(s) of additional vertical reference lines. Can
-      be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
+  : Numeric; location(s) of additional vertical reference lines. Can be
+    passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
 
 ## Value
 
@@ -339,15 +377,24 @@ Returns a list with the following components:
 By default, the QQ plot will highlight the inner 75% of the data for
 both x and y axes to mitigate the visual influence of extreme values.
 The `inner` argument controls the extent of this region. For example
-`inner = 0.5` will highlight the IQR region.  
-  
+`inner = 0.5` will highlight the IQR region.\
+\
 If the shaded regions are too distracting, you can opt to have the
 tail-end points symbolized differently by setting `tails = TRUE` and
 `q = FALSE`. The tail-end point symbols can be customized via the
-`tail.pch`, `tail.p.col` and `tail.p.fill` arguments.  
+`tail.pch`, `tail.p.col` and `tail.p.fill` arguments.\
 The middle dashed line represents each batch's median value. It can be
-turned off by setting `med = FALSE`  
-  
+turned off by setting `med = FALSE`\
+\
+To help assess whether deviations from the reference line (y = x or y =
+0) reflect true structural differences (e.g., offset, scale, or tail
+behavior) rather than natural sampling variation, setting `nsim > 0`
+generates an empirical null envelope. The values from both batches are
+pooled and repeatedly permuted across the two groups using
+[`sample`](https://rdrr.io/r/base/sample.html). The resulting quantiles
+are plotted behind the observed data with alpha transparency
+(`sim.alpha`).\
+\
 Console output prints the suggested multiplicative and additive offsets.
 It adopts a resistant line fitting technique to derive the coefficients.
 The suggested offsets output applies to the raw or re-expressed data but
@@ -355,10 +402,10 @@ it ignores any `fx` or `fy` transformations applied to the data. Note
 that the suggested offsets may not always be the most parsimonious fit.
 Eyeballing the offsets may sometimes result in a more satisfactory
 characterization of the differences between batches. See the QQ plot
-article for an introduction on its use and interpretation.  
-  
-To generate a Tukey mean-difference plot, set `med = TRUE`.  
-  
+article for an introduction on its use and interpretation.\
+\
+To generate a Tukey mean-difference plot, set `med = TRUE`.\
+\
 For more information on this function and on interpreting a QQ plot see
 the [QQ plot
 article](https://mgimond.github.io/tukeyedar/articles/qq.md).

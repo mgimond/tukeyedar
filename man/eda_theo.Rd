@@ -101,6 +101,8 @@ applicable if \code{rgb()} is not used to define point colors.}
 
 \item{q}{Boolean determining if \code{inner} data region should be shaded.}
 
+\item{qcol}{Fill color of inner quantile box.}
+
 \item{iqr}{Boolean determining if an IQR line should be fitted to the points.}
 
 \item{grid}{Boolean determining if a grid should be added.}

@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-panel theoretical QQ plots — eda_theopan"><meta name="description" content="eda_theopan generates a multi-panel theoretical QQ plot
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-panel theoretical QQ plots — eda_theopan"><meta name="description" content="eda_theopan generates a multi-panel theoretical QQ plot
 for a continuous variable conditioned on a grouping variable."><meta property="og:description" content="eda_theopan generates a multi-panel theoretical QQ plot
 for a continuous variable conditioned on a grouping variable."><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -15,7 +15,7 @@ for a continuous variable conditioned on a grouping variable."><meta property="o
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,11 @@ for a continuous variable conditioned on a grouping variable.</p>
 <span>  resid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stat <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>  show.par <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sim.type <span class="op">=</span> <span class="st">"points"</span>,</span>
+<span>  sim.col <span class="op">=</span> <span class="st">"coral"</span>,</span>
+<span>  sim.alpha <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  sim.pch <span class="op">=</span> <span class="fl">16</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  grey <span class="op">=</span> <span class="fl">0.6</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
@@ -155,6 +160,30 @@ are computed using the <code>stat</code> parameter.</p></dd>
 <dt id="arg-show-par">show.par<a class="anchor" aria-label="anchor" href="#arg-show-par"></a></dt>
 <dd><p>Boolean determining if power transformation should be
 displayed in the plot.</p></dd>
+
+
+<dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
+<dd><p>Integer. Number of random theoretical draws to generate per group for
+constructing an empirical reference envelope across panels (default is <code>0</code>,
+which turns off simulation).</p></dd>
+
+
+<dt id="arg-sim-type">sim.type<a class="anchor" aria-label="anchor" href="#arg-sim-type"></a></dt>
+<dd><p>Format of the simulation display—either <code>"points"</code> (default)
+or <code>"lines"</code>.</p></dd>
+
+
+<dt id="arg-sim-col">sim.col<a class="anchor" aria-label="anchor" href="#arg-sim-col"></a></dt>
+<dd><p>Color of the simulated reference envelope (default is <code>"coral"</code>).</p></dd>
+
+
+<dt id="arg-sim-alpha">sim.alpha<a class="anchor" aria-label="anchor" href="#arg-sim-alpha"></a></dt>
+<dd><p>Transparency setting (<code>0</code> to <code>1</code>, default is <code>0.2</code>)
+allowing overlapping simulation runs to form a dense reference band.</p></dd>
+
+
+<dt id="arg-sim-pch">sim.pch<a class="anchor" aria-label="anchor" href="#arg-sim-pch"></a></dt>
+<dd><p>Plotting symbol used when <code>sim.type = "points"</code> (default is <code>16</code>).</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
@@ -271,7 +300,16 @@ gamma QQ plot (<code>dist="gamma"</code>), chi-squared QQ plot
 (<code>dist="chisq"</code>), and the Weibull QQ plot (<code>dist="weibull"</code>) are
 currently supported. By default, the Normal QQ plot maps the unit Normal
 quantiles to the x-axis (i.e. centered on a mean of 0 and standard deviation
-of 1 unit).</p>
+of 1 unit).
+<br><br>
+To evaluate whether departures from a theoretical distribution across individual
+group panels reflect true group-specific non-conformance rather than
+expected small-sample variability, <code>eda_theopan()</code> includes an optional
+simulation routine triggered by setting <code>nsim &gt; 0</code>. For each iteration,
+\(N_g\) random observations are sampled from the specified theoretical
+distribution (<code>dist</code>) for each group, scaled via the group's IQR
+reference line, and displayed as a background reference cloud behind the
+observed data points across all panels.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -298,14 +336,18 @@ of 1 unit).</p>
 <span class="r-in"><span><span class="fu">eda_theopan</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, nrow <span class="op">=</span> <span class="fl">2</span>, title <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_theopan-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a 50-run permutation reference point envelope</span></span></span>
+<span class="r-in"><span><span class="fu">eda_theopan</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, nrow<span class="op">=</span><span class="fl">2</span>, nsim<span class="op">=</span><span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theopan-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compare to a uniform distribution</span></span></span>
 <span class="r-in"><span><span class="fu">eda_theopan</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, nrow <span class="op">=</span> <span class="fl">2</span>, dist <span class="op">=</span> <span class="st">"unif"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theopan-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_theopan-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># A uniform QQ plot is analogous to a Q(f) plot</span></span></span>
 <span class="r-in"><span><span class="fu">eda_theopan</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, nrow <span class="op">=</span> <span class="fl">2</span>, dist <span class="op">=</span> <span class="st">"unif"</span>,</span></span>
 <span class="r-in"><span>              iqr <span class="op">=</span> <span class="cn">FALSE</span>, xlab <span class="op">=</span> <span class="st">"f-value"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theopan-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_theopan-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Normal QQ plots of Waterville daily averages. Mean monthly values are</span></span></span>
 <span class="r-in"><span><span class="co"># subtracted from the data to recenter all batches around 0.  Color and point</span></span></span>
@@ -315,7 +357,7 @@ of 1 unit).</p>
 <span class="r-in"><span><span class="va">wat</span><span class="op">$</span><span class="va">month</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">wat</span><span class="op">$</span><span class="va">date</span>,<span class="st">"%b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="va">month.abb</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">eda_theopan</span><span class="op">(</span><span class="va">wat</span>,<span class="va">avg</span>, <span class="va">month</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, nrow <span class="op">=</span> <span class="fl">3</span>, inner <span class="op">=</span> <span class="fl">0.8</span> ,</span></span>
 <span class="r-in"><span>                    tails <span class="op">=</span> <span class="cn">TRUE</span>, tail.pch <span class="op">=</span> <span class="fl">3</span>, p.fill <span class="op">=</span> <span class="st">"coral"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theopan-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_theopan-6.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -327,7 +369,7 @@ of 1 unit).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

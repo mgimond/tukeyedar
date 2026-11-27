@@ -31,18 +31,18 @@ plot(
 
   `"effects"`
 
-  :   (default) Plots the raw centered effects.
+  : (default) Plots the raw centered effects.
 
   `"ms"`
 
-  :   Scales effects by `sqrt(N / df)` to reflect their relative
-      contribution to variance.
+  : Scales effects by `sqrt(N / df)` to reflect their relative
+    contribution to variance.
 
   `"diagnostic"`
 
-  :   Generates a diagnostic plot of residuals versus comparison values
-      to check for non-additivity (interactions). This is typically used
-      on a model with main effects only.
+  : Generates a diagnostic plot of residuals versus comparison values to
+    check for non-additivity (interactions). This is typically used on a
+    model with main effects only.
 
 - reg:
 
@@ -84,18 +84,18 @@ A plot visualizing residuals and factor effects.
 
 This plot method can generate two types of plots:
 
-**1. Variability Decomposition Plot (`plot = "effects"` or `"ms"`)**  
+**1. Variability Decomposition Plot (`plot = "effects"` or `"ms"`)**\
 This plot, handled by
 [`.eda_plot_vardecomp`](https://mgimond.github.io/tukeyedar/reference/dot-eda_plot_vardecomp.md),
 visualizes the additive overlays: the residuals and the centered main
 and interaction effects.
 
-**2. Diagnostic Plot (`plot = "diagnostic"`)**  
+**2. Diagnostic Plot (`plot = "diagnostic"`)**\
 This plot is a key tool from Exploratory Data Analysis for assessing if
 an additive model is sufficient. It plots the residuals from the model
 against a set of "comparison values". For a two-way model, the
-comparison value is:  
-`(row effect) * (column effect) / (grand mean)`  
+comparison value is:\
+`(row effect) * (column effect) / (grand mean)`\
 A sloping trend in this plot suggests a hidden interaction.
 
 ## References

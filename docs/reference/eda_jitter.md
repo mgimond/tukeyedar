@@ -171,8 +171,8 @@ No values are returned
 
 Function generates jitter plot from a univariate dataset. If no
 categorical variable is passed to the function, a single jitter plot is
-created from the data.  
-  
+created from the data.\
+\
 By default, the plots are ordered based on the statistic, `stat`, used
 to generate the central value.
 

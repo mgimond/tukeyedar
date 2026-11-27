@@ -19,6 +19,11 @@ eda_sl(
   jitter = 0.01,
   robust = TRUE,
   loess.d = list(family = "symmetric", degree = 1, span = 1),
+  nsim = 0,
+  sim.alpha = 0.5,
+  sim.col = "grey",
+  sim.pch = 16,
+  sim.type = "lines",
   label = TRUE,
   label.col = "lightsalmon",
   xlab = NULL,
@@ -87,6 +92,32 @@ eda_sl(
   Arguments passed to the internal loess function. Applies only to the
   bivariate model s-l plots and the spread-level plot.
 
+- nsim:
+
+  Integer. Number of random residual permutations to generate for
+  constructing an empirical reference envelope (default is `0`, which
+  turns off simulation). Supported for univariate data inputs
+  (`type = "location"` and `type = "level"`).
+
+- sim.alpha:
+
+  Transparency setting (`0` to `1`, default is `0.5`) allowing
+  overlapping simulation runs to form a dense reference band.
+
+- sim.col:
+
+  Color of the simulated reference envelope (default is `"grey"`).
+
+- sim.pch:
+
+  Plotting symbol used when `sim.type = "points"` (default is `16`).
+
+- sim.type:
+
+  Format of the simulation display—either `"lines"` (default) or
+  `"points"`. Note that when `type = "level"`, `sim.type` is
+  automatically set to `"lines"`.
+
 - label:
 
   Logical; Determines if group labels are to be added to the
@@ -130,155 +161,154 @@ eda_sl(
 
   `y`
 
-  :   A numeric vector or column name in `dat` for the y-axis.
+  : A numeric vector or column name in `dat` for the y-axis.
 
   `px`
 
-  :   Power transformation used in the input data to display if
-      `show.par = TRUE`.
+  : Power transformation used in the input data to display if
+    `show.par = TRUE`.
 
   `py`
 
-  :   Power transformation used in the input data to display if
-      `show.par = TRUE`.
+  : Power transformation used in the input data to display if
+    `show.par = TRUE`.
 
   `raw_tick`
 
-  :   Logical. If `TRUE`, original (untransformed) equally spaced tick
-      values are displayed on the re-expressed axes.
+  : Logical. If `TRUE`, original (untransformed) equally spaced tick
+    values are displayed on the re-expressed axes.
 
   `xlim`
 
-  :   X-axis range.
+  : X-axis range.
 
   `ylim`
 
-  :   Y-axis range.
+  : Y-axis range.
 
   `reg`
 
-  :   Logical; whether to fit and display a regression line.
+  : Logical; whether to fit and display a regression line.
 
   `poly`
 
-  :   Integer; regression model polynomial degree (defaults to 1 for
-      linear model).
+  : Integer; regression model polynomial degree (defaults to 1 for
+    linear model).
 
   `rlm.d`
 
-  :   List; parameters for
-      [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html), (e.g.,
-      `list(psi = "psi.bisquare")`).
+  : List; parameters for
+    [`MASS::rlm`](https://rdrr.io/pkg/MASS/man/rlm.html), (e.g.,
+    `list(psi = "psi.bisquare")`).
 
   `w`
 
-  :   Optional numeric vector of weights for regression.
+  : Optional numeric vector of weights for regression.
 
   `lm.col`
 
-  :   Regression line color.
+  : Regression line color.
 
   `lm.lw`
 
-  :   Numeric; Regression line width.
+  : Numeric; Regression line width.
 
   `lm.lty`
 
-  :   Numeric; Regression line type.
+  : Numeric; Regression line type.
 
   `sd`
 
-  :   Logical; whether to show ±1 SD lines.
+  : Logical; whether to show ±1 SD lines.
 
   `mean.l`
 
-  :   Logical; whether to show x and y mean reference lines.
+  : Logical; whether to show x and y mean reference lines.
 
   `asp`
 
-  :   Logical; whether to preserve the aspect ratio (ignored if
-      `square = FALSE`).
+  : Logical; whether to preserve the aspect ratio (ignored if
+    `square = FALSE`).
 
   `square`
 
-  :   Logical; whether to create a square plotting window.
+  : Logical; whether to create a square plotting window.
 
   `grey`
 
-  :   Numeric between `0-1`; controls grayscale background elements
-      (`0 = black`, `1 = white`).
+  : Numeric between `0-1`; controls grayscale background elements
+    (`0 = black`, `1 = white`).
 
   `pch`
 
-  :   Integer; point symbol.
+  : Integer; point symbol.
 
   `p.col`
 
-  :   Point border color.
+  : Point border color.
 
   `p.fill`
 
-  :   Point fill color.
+  : Point fill color.
 
   `size`
 
-  :   Point size.
+  : Point size.
 
   `alpha`
 
-  :   Point transparency level (0 = 100\\ transparent, 1 = 100\\
-      opaque).
+  : Point transparency level (0 = 100\\ transparent, 1 = 100\\ opaque).
 
   `q`
 
-  :   Logical; whether to draw inner quantile boxes (quantile shading).
+  : Logical; whether to draw inner quantile boxes (quantile shading).
 
   `q.type`
 
-  :   Integer; type of quantile calculation (see `quantile`).
+  : Integer; type of quantile calculation (see `quantile`).
 
   `inner`
 
-  :   Numeric; defines the inner fraction of values to highlight with
-      quantile shading.
+  : Numeric; defines the inner fraction of values to highlight with
+    quantile shading.
 
   `qcol`
 
-  :   Fill color of quantile shading.
+  : Fill color of quantile shading.
 
   `loe`
 
-  :   Logical; whether to plot loess smooth line.
+  : Logical; whether to plot loess smooth line.
 
   `loe.lw`
 
-  :   Numeric; Loess smooth line width.
+  : Numeric; Loess smooth line width.
 
   `loe.col`
 
-  :   Loess smooth color.
+  : Loess smooth color.
 
   `loe.lty`
 
-  :   Numeric; Loess smooth line type.
+  : Numeric; Loess smooth line type.
 
   `stats`
 
-  :   Logical; if `TRUE`, displays model statistics (R², β, p-value).
+  : Logical; if `TRUE`, displays model statistics (R², β, p-value).
 
   `stat.size`
 
-  :   Text size for `stats` plot display.
+  : Text size for `stats` plot display.
 
   `hline`
 
-  :   Numeric; location(s) of additional horizontal reference lines. Can
-      be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
+  : Numeric; location(s) of additional horizontal reference lines. Can
+    be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
 
   `vline`
 
-  :   Numeric; location(s) of additional vertical reference lines. Can
-      be passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
+  : Numeric; location(s) of additional vertical reference lines. Can be
+    passed via the [`c()`](https://rdrr.io/r/base/c.html) function.
 
 ## Value
 
@@ -292,14 +322,14 @@ parameter passed to the `type` argument. The residual spreads are mapped
 to the y-axis and the levels are mapped to the x-axis. Their values are
 computed as follows:
 
-- `type = "location"` (univariate data):  
-    
-  William Cleveland's spread-location plot applied to univariate data.  
-  \\\\ spread = \sqrt{\|residuals\|}\\  
+- `type = "location"` (univariate data):\
+  \
+  William Cleveland's spread-location plot applied to univariate data.\
+  \\\\ spread = \sqrt{\|residuals\|}\\\
   \\\\ location = medians\\
 
-- `type = "level"` (univariate data):  
-    
+- `type = "level"` (univariate data):\
+  \
   Tukey's spread-level plot (aka spread-versus-level plot, Hoaglin et
   al., p 260). If the pattern is close to linear, the plot can help find
   a power transformation that will help stabilize the spread in the data
@@ -308,25 +338,51 @@ computed as follows:
   linearity. By default, the fourth spread is used to define the spread.
   Alternatively, the IQR can be used by setting `spread = "IQR"`. The
   output will be nearly identical except for small datasets where the
-  two methods may diverge slightly in output.  
-  \\\\ spread = log(fourth\\ spread(residuals))\\  
+  two methods may diverge slightly in output.\
+  \\\\ spread = log(fourth\\ spread(residuals))\\\
   \\\\ location = log(medians)\\
 
 - `type = "location"` if input is a model of class `lm`, `eda_lm` or
-  `eda_rline`:  
-    
+  `eda_rline`:\
+  \
   William Cleveland's spread-location plot (aka scale-location plot)
-  applied to residuals of a linear model.  
-  \\\\ spread = \sqrt{\|residuals\|}\\  
+  applied to residuals of a linear model.\
+  \\\\ spread = \sqrt{\|residuals\|}\\\
   \\\\ location = fitted\\ values\\
 
 - `type = "dependence"` if input is a model of class `lm`, `eda_lm` or
-  `eda_rline`:  
-    
+  `eda_rline`:\
+  \
   William Cleveland's spread-location plot applied to residuals of a
-  linear model.  
-  \\\\ spread = \sqrt{\|residuals\|}\\  
+  linear model.\
+  \\\\ spread = \sqrt{\|residuals\|}\\\
   \\\\ dependence = x\\ variable\\
+
+To assess whether observed differences in group spreads (or an apparent
+trend in a spread-level plot) reflect genuine scale dependence
+(heteroscedasticity) rather than natural sampling noise, `eda_sl()`
+includes an optional permutation simulation routine triggered by setting
+`nsim > 0` (supported for univariate data).
+
+Rather than shuffling factor labels (which would artificially collapse
+group medians toward the grand median) the simulation holds observed
+group locations fixed on the x-axis and randomly permutes the centered
+residuals across all observations under the benchmark of equal variance
+(homoscedasticity).
+
+When `type = "location"`, group median spreads
+(\\\sqrt{\|\text{residuals}\|}\\) are recomputed from the shuffled
+residuals across each iteration. This renders a visual reference
+envelope (spaghetti lines when `sim.type = "lines"`) across the full
+location spectrum. If the observed red summary line sits comfortably
+within the simulation cloud, group spread differences are consistent
+with random variation.
+
+When `type = "level"`, the log(spread) versus log(location) regression
+line is refitted across each permutation iteration. This builds a visual
+slope envelope demonstrating how much slope variation occurs naturally
+under homoscedasticity. This provides a visual benchmark before
+selecting a power transformation (\\p = 1 - b\\).
 
 ## References
 
@@ -352,6 +408,11 @@ eda_sl(cars, MPG.city, Type, ylab = expression(sqrt(abs(residuals))) )
 # power transformation that can stabilize spread across fitted values
 # following power = 1 - slope
 eda_sl(cars, MPG.city, Type, type = "level")
+#>        int Location^1 
+#>  -8.009091   2.969832 
+
+# Spread-level plot with a 100-run permutation line envelope
+eda_sl(cars, MPG.city, Type, type = "level", nsim=100)
 
 #>        int Location^1 
 #>  -8.009091   2.969832 
@@ -360,8 +421,12 @@ eda_sl(cars, MPG.city, Type, type = "level")
 # power is 1 - 3 = -2. We can apply a power transformation within the
 # function via the p argument. By default, a Box-Cox transformation method
 # is adopted.
-eda_sl(cars, MPG.city, Type, p = -2)
+# The resulting s-l plot shows a slope that is more representative of naturally
+# occurring variability under homoscedasticity.
+eda_sl(cars, MPG.city, Type, type = "level", p=-2, nsim=100)
 
+#>        int Location^1 
+#>   92.58405  144.68434 
 
 # Spread-location plot can also be generated from residuals of a linear model
 M1 <- lm(mpg ~ hp, mtcars)

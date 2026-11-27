@@ -4,12 +4,12 @@ This dataset contains results from presidential elections in which
 Franklin D. Roosevelt was elected, covering the years 1932, 1936, 1940,
 and 1944. The data are organized into 13 distinct groupings of states
 with three states represented within each grouping. Data are pulled from
-table 1-5 of the referenced source.  
-  
+table 1-5 of the referenced source.\
+\
 Each numerical entry in `votes` is the ratio of the votes for Roosevelt
 to the sum of votes for Roosevelt and his Republican opponent (scaled by
-x1000).  
-  
+x1000).\
+\
 The dataset serves as an example of a two-way, nested, dataset with the
 `State` votes nested under separate `Grouping` regions.
 

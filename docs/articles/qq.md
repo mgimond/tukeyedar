@@ -4,20 +4,20 @@
 
 The *empirical quantile-quantile plot* (QQ plot) is probably one of the
 most underused and least appreciated plots in univariate analysis. It is
-used to compare two distributions across their *full* range of values.
-It is a generalization of the boxplot in that it does not limit the
-comparison to just the median and upper and lower quartiles. In fact, it
+used to compare two distributions across their *full* range of values. A
+QQ plot can be thought of as extending the boxplot’s comparison of
+medians and quartiles to comparisons across the entire distribution. It
 compares *all* values by matching each value in one batch to its
 corresponding quantile in the other batch. The sizes of each batch need
 not be the same. If they differ, the larger batch is interpolated down
 to the smaller batch’s set of quantiles.
 
 A QQ plot does not only help visualize the differences in distributions,
-but it can also model the relationship between both batches. Note that
-this is not to be confused with modeling the relationship between a
-bivariate dataset where the latter pairs up the points by *observational
-units* whereas a QQ plot pairs up the values by their **matching
-quantiles**.
+but it can characterize how one distribution must be transformed to
+align with another. Note that this is not to be confused with modeling
+the relationship between a bivariate dataset where the latter pairs up
+the points by *observational units* whereas a QQ plot pairs up the
+values by their **matching quantiles**.
 
 ## Anatomy of the `eda_qq` plot
 
@@ -26,16 +26,18 @@ quantiles**.
     #>  [1] "Suggested offsets:y = x * 1.4573 + (0.9914)"
 
 - Each point represents matching quantiles from each batch.
-- The *shaded region* represent each batch’s middle values ( 75% of
+- The *shaded region* represents each batch’s middle values ( 75% of
   middle values by default).
 - The *dashed lines* inside the shaded boxes represent each batch’s
   medians.
 - The *upper right-hand text* indicates the power transformation applied
-  to the both batches (default is a power of `1` which is original
+  to both batches (default is a power of `1` which is original
   measurement scale). If a formula is applied to one or both batches, it
   too will appear in the upper right-hand text.
-- The `eda_qq` will also output the *suggested relationship* between the
-  y variable and the x variable in the console. It bases this on each
+- The
+  [`eda_qq()`](https://mgimond.github.io/tukeyedar/reference/eda_qq.md)
+  function will also output the *suggested relationship* between the y
+  variable and the x variable in the console. It bases this on each
   batch’s interquartile values.
 - If the output is assigned to a new object, that object will store a
   list of the following values: the `x` value (interpolated if needed),
@@ -50,7 +52,7 @@ quantiles**.
 The function will accept a *dataframe* with a column of the quantitative
 variable of interest, and a column of the category each measurement
 belongs to. It will also accept *two separate vector objects*. For
-example, to pass two separate vector object, `x` and `y`, type:
+example, to pass two separate vector objects, `x` and `y`, type:
 
 ``` r
 
@@ -150,10 +152,10 @@ eda_qq(x, y, inner = 0.68)
 You can suppress the plotting of the shaded region by setting
 `q = FALSE`.
 
-### Applying different symbol to tail-end points
+### Applying a different symbol to tail-end points
 
-If the grey region is too distracting, but you still wish to distinguish
-identify the inner core values from the tail-end values, you can set
+If the grey region is too distracting, but you still wish to identify
+the inner core values from the tail-end values, you can set
 `tails = TRUE` to enable to the point symbol option, and `q = FALSE` to
 remove the grey region.
 
@@ -165,8 +167,8 @@ eda_qq(x, y, tails = TRUE, q = FALSE)
 ![](qq_files/figure-html/unnamed-chunk-8-1.png)
 
 By default, the tail-end points are symbolized using an open point
-symbol (as opposed to a filled point symbol applied t the inner core
-points). The tail-end point symbol can be modfied via the `tail.pch`,
+symbol (as opposed to a filled point symbol applied to the inner core
+points). The tail-end point symbol can be modified via the `tail.pch`,
 `tail.col` and`tail.fill` arguments. For example, to change the tail-end
 point symbol to a `+` symbol, type:
 
@@ -268,14 +270,20 @@ set.seed(543)
 x <- rnorm(100)
 y <- x
 eda_qq(x, y)
-eda_dens(x, y)
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-15-1.png)
 
+``` r
+
+eda_dens(x, y)
+```
+
+![](qq_files/figure-html/unnamed-chunk-15-2.png)
+
 When two distributions are identical, the points will line up along the
-\`\\x=y\\ line as shown above. This will also generate overlapping
-density plots as seen on the right plot.
+\\x=y\\ line as shown above. This will also generate overlapping density
+plots as seen on the right plot.
 
 ### Additive offset
 
@@ -290,10 +298,16 @@ set.seed(543)
 x <- rnorm(100)
 y <- x + 2
 eda_qq(x, y)
-eda_dens(x, y)
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-16-1.png)
+
+``` r
+
+eda_dens(x, y)
+```
+
+![](qq_files/figure-html/unnamed-chunk-16-2.png)
 
 You’ll note that the points are parallel to the \\x=y\\ line. This
 indicates that the distributions have the exact same shape. But, they do
@@ -304,10 +318,16 @@ along the y-axis, as expected. We can confirm this by adding `2` to the
 ``` r
 
 eda_qq(x, y, fx = "x + 2")
-eda_dens(x, y, fx = "x + 2")
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-17-1.png)
+
+``` r
+
+eda_dens(x, y, fx = "x + 2")
+```
+
+![](qq_files/figure-html/unnamed-chunk-17-2.png)
 
 The points now overlap the \\x=y\\ line perfectly. The density
 distribution overlap exactly as well.
@@ -316,16 +336,23 @@ distribution overlap exactly as well.
 
 Next, we explore two batches that share the same central value but where
 the second batch is `0.5` times that of the first. This case is referred
-to as a **multiplicative offset**.
+to as a **multiplicative offset** (often called a scale or spread
+difference).
 
 ``` r
 
 y <- x * 0.5
 eda_qq(x, y)
-eda_dens(x, y)
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-18-1.png)
+
+``` r
+
+eda_dens(x, y)
+```
+
+![](qq_files/figure-html/unnamed-chunk-18-2.png)
 
 Here, the series of points are at an angle of the \\x=y\\ line yet,
 you’ll note that the points follow a perfectly straight line. This
@@ -350,10 +377,16 @@ following code chunk:
 ``` r
 
 eda_qq(x, y, fx = "x * 0.5")
-eda_dens(x, y, fx = "x * 0.5")
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-19-1.png)
+
+``` r
+
+eda_dens(x, y, fx = "x * 0.5")
+```
+
+![](qq_files/figure-html/unnamed-chunk-19-2.png)
 
 ### Both additive and multiplicative offset
 
@@ -364,26 +397,41 @@ offset to the data.
 
 y <- x * 0.5 + 2
 eda_qq(x, y)
-eda_dens(x, y)
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-20-1.png)
+
+``` r
+
+eda_dens(x, y)
+```
+
+![](qq_files/figure-html/unnamed-chunk-20-2.png)
 
 We now see both a multiplicative offset (the points form an angle to the
 \\x=y\\ line) and an additive offset (the points do not intersect the
 \\x=y\\ line). This suggests that the *width* of the batches differ and
 that their values are offset by a constant value across the full range
 of values. It’s usually best to first identify the multiplicative offset
-such that the points are rendered parallel to the \\x=y\\ line. Once the
-multiplier is identified, we can then identify the additive offset.
+such that the points are rendered parallel to the \\x=y\\ line.
+Multiplicative differences affect the slope of the quantile
+relationship, whereas additive differences affect only its vertical
+displacement. Correcting the slope first makes the remaining vertical
+displacement easier to assess.
 
 ``` r
 
 eda_qq(x, y, fx = "x * 0.5")
-eda_dens(x, y, fx = "x * 0.5")
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-21-1.png)
+
+``` r
+
+eda_dens(x, y, fx = "x * 0.5")
+```
+
+![](qq_files/figure-html/unnamed-chunk-21-2.png)
 
 No surprise, the multiplier of `0.5` renders the series of points
 parallel to the \\x=y\\ line. We can now eyeball the offset of `+2` when
@@ -393,10 +441,16 @@ when measured along the y-axis.
 ``` r
 
 eda_qq(x, y, fx = "x * 0.5 + 2")
-eda_dens(x, y, fx = "x * 0.5 + 2")
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-22-1.png)
+
+``` r
+
+eda_dens(x, y, fx = "x * 0.5 + 2")
+```
+
+![](qq_files/figure-html/unnamed-chunk-22-2.png)
 
 We can model the relationship between y and x as \\y = x \* 0.5 + 2\\.
 
@@ -413,10 +467,16 @@ set.seed(540)
 x2 <- rbeta(100, 1, 8)
 y2 <- x2 + 0.2 
 eda_qq(x2, y2)
-eda_dens(x2, y2)
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-23-1.png)
+
+``` r
+
+eda_dens(x2, y2)
+```
+
+![](qq_files/figure-html/unnamed-chunk-23-2.png)
 
 Since both distributions have an identical shape, the points will follow
 a straight line regardless of the nature of the shape (skewed, unimodal,
@@ -479,17 +539,19 @@ eda_qq(s1, s2)
 ![](qq_files/figure-html/unnamed-chunk-27-1.png)
 
 The QQ plot’s shaded regions are shifted towards lower values. The
-shaded regions show the mid 75% of values for each batch. When the
-regions are shifted towards lower values or higher values, this suggests
-skewed data. Another telltale sign of a skewed dataset is the gradual
-dispersion of the points in any of the two diagonal directions. Here, we
-go from a relatively high density of points near the lower values and a
-lower density of points near higher values. This does not preclude us
-from identifying multiplicative/additive offsets, but many statistical
-procedures benefit from a symmetrical distribution. Given that the
-values are measures of concentration, we might want to adopt a `log`
-transformation. The power transformation is defined with the `p`
-argument (a power parameter value of `0` defines a log transformation).
+shaded regions show the mid 75% of values for each batch. In a symmetric
+distribution, the median tends to sit near the center of the middle 75%
+box. When the median is noticeably displaced toward one edge of the box,
+the distribution is typically skewed. Another telltale sign of a skewed
+dataset is the gradual dispersion of the points in any of the two
+diagonal directions. Here, we go from a relatively high density of
+points near the lower values and a lower density of points near higher
+values. This does not preclude us from identifying
+multiplicative/additive offsets, but many statistical procedures benefit
+from a symmetrical distribution. Given that the values are measures of
+concentration, we might want to adopt a `log` transformation. The power
+transformation is defined with the `p` argument (a power parameter value
+of `0` defines a log transformation).
 
 ``` r
 
@@ -536,10 +598,16 @@ set.seed(321)
 x <- rnorm(10)
 y <- x * 0.97 + 0.3
 eda_qq(x, y, title = "QQ plot")
-eda_qq(x, y, md = TRUE, title = "M-D plot")
 ```
 
 ![](qq_files/figure-html/unnamed-chunk-30-1.png)
+
+``` r
+
+eda_qq(x, y, md = TRUE, title = "M-D plot")
+```
+
+![](qq_files/figure-html/unnamed-chunk-30-2.png)
 
 Note that the mean-difference plot highlights the mid *difference*
 values defined by the `inner` argument. This does not clearly reflect
@@ -555,16 +623,100 @@ eda_qq(x, y, md = TRUE, tails = TRUE, q = FALSE)
 
 ![](qq_files/figure-html/unnamed-chunk-31-1.png)
 
+## Assessing pattern vs. noise with permutation envelopes
+
+When comparing two batches in a QQ plot, subtle departures from the \\y
+= x\\ reference line (or \\y = 0\\ line in a Mean-Difference plot) often
+raise a fundamental question: **Are these differences indicative of real
+structural shifts in location, scale, or tails, or are they simply
+artifacts of random sampling variability?**
+
+To provide a visual benchmark against chance variation,
+[`eda_qq()`](https://mgimond.github.io/tukeyedar/reference/eda_qq.md)
+includes an optional **permutation simulation routine** triggered by
+setting `nsim > 0`.
+
+### Mechanics of the pooled Permutation
+
+Setting `nsim > 0` constructs a reference envelope under the benchmark
+that both batches come from an identical underlying distribution:
+
+- **Pooling and Shuffling:** The observations from both batches (\\x\\
+  and \\y\\) are pooled into a single combined sample.
+- **Synthetic Reallocation:** For each simulation run, the pooled data
+  are randomly permuted and split into two synthetic batches matching
+  the original sample sizes (\\n_x\\ and \\n_y\\).
+- **Quantile Alignment:** Interpolated quantile pairs are calculated for
+  each permuted pair and rendered behind the observed data points. If
+  `md = TRUE` is active, the simulated runs are automatically mapped to
+  Tukey Mean-Difference coordinates.
+
+### Simulation parameters
+
+The visual appearance of the permutation reference cloud is controlled
+by five parameters:
+
+- `nsim`: Number of permutation iterations (default is `0`, which turns
+  off simulation).
+- `sim.type`: Simulation display type. Either `"points"` (default) or
+  `"lines"` for a spaghetti-plot envelope.
+- `sim.col`: Color of the simulated reference cloud (default is
+  `"coral"`).
+- `sim.alpha`: Transparency setting (`0` to `1`).
+- `sim.pch`: Plotting symbol used when `sim.type = "points"` (default is
+  `16`).
+
+### Interpreting the Reference Cloud
+
+1.  **Within the Cloud:** If the observed quantile points fall
+    comfortably inside the concentration of the permuted cloud, the
+    variation between the two batches is consistent with what one would
+    expect from random sampling alone.
+2.  **Beyond the Cloud:** If the observed points curve or step **outside
+    the permuted cloud**, it indicates a structural difference between
+    the two distributions (such as an additive shift, a difference in
+    spread/slope, or heavier tails in one batch).
+
+The following code block displays an empirical QQ plot comparing morning
+and afternoon departure delays at Logan airport with a 100-run point
+permutation envelope.
+
+``` r
+
+am <- logan[logan$am_pm == "am", "delay"]
+pm <- logan[logan$am_pm == "pm", "delay"]
+eda_qq(am, pm, nsim=100)
+```
+
+![](qq_files/figure-html/unnamed-chunk-32-1.png)
+
+The following code block displays the same data using a spaghetti-plot
+envelope.
+
+``` r
+
+eda_qq(am, pm, nsim=100, sim.type = "lines", sim.alpha=0.3)
+```
+
+![](qq_files/figure-html/unnamed-chunk-33-1.png)
+
+When compared against the 100-run permutation envelope, the observed
+quantile points step well outside and above the bounds of the reference
+cloud. In exploratory terms, this pronounced departure reveals a clear
+location shift: afternoon flight delays are consistently higher across
+all quantiles than morning delays. This demonstrates a genuine
+structural pattern rather than random sampling noise.
+
 ## Creating a QQ plot matrix
 
 A separate function, `eda_qqmat`, is used to create a QQ plot matrix. It
 adopts many of the same arguments available in the `eda_qq` function,
 but it does not adopt some of `eda_qq`’s default settings. For example,
-the inner region shading parameter `q` is set to `FALSE`–this to
-minimize clutter in the densely packed matrix. Instead, points Falling
+the inner region shading parameter `q` is set to `FALSE`–this is to
+minimize clutter in the densely packed matrix. Instead, points falling
 outside of the *inner* region are symbolized with an open point symbol.
 For example, to generate an empirical QQ plot matrix of singer height
-values conditioned of voice parts type:
+values conditioned on voice part:
 
 ``` r
 
@@ -572,7 +724,7 @@ singer <- lattice::singer
 eda_qqmat(singer, height, voice.part)
 ```
 
-![](qq_files/figure-html/unnamed-chunk-33-1.png)
+![](qq_files/figure-html/unnamed-chunk-35-1.png)
 
 You can, of course, adopt the same point symbol for all points by
 setting `tails = FALSE`.
@@ -592,7 +744,7 @@ For example, to generate a residuals QQ plot of singer height, type:
 eda_qqmat(singer, height, voice.part, resid = TRUE)
 ```
 
-![](qq_files/figure-html/unnamed-chunk-35-1.png)
+![](qq_files/figure-html/unnamed-chunk-37-1.png)
 
 ## A working example
 
@@ -620,25 +772,29 @@ for now.
 Q <- eda_qq(old, new, q = FALSE)
 ```
 
-![](qq_files/figure-html/unnamed-chunk-37-1.png)
+![](qq_files/figure-html/unnamed-chunk-39-1.png)
 
 At first glance, the batches do not seem to differ. But how close are
 the points to the \\x=y\\ line? We will rotate the plot to zoom in on
-the \\x=y\\ line by setting `md = TRUE`.
+the \\x=y\\ line by setting the mean-difference parameter `md` to
+`TRUE`.
 
 ``` r
 
 Q <- eda_qq(old, new, md = TRUE)
 ```
 
-![](qq_files/figure-html/unnamed-chunk-38-1.png)
+![](qq_files/figure-html/unnamed-chunk-40-1.png)
 
 This view is proving to be far more insightful. Note that for most of
 the data, we have an overall offset of 0.5 suggesting that the new
-normals are about 0.5°F. warmer. We could stop there, but the pattern
-observed in the Tukey mean-difference plot is far from random. In fact,
-we can break the pattern into three distinct ones at around 35°F and
-50°F. We will categorize these groups as `low`, `mid` and `high` values.
+normals are about 0.5°F warmer. We could stop there, but the pattern
+observed in the Tukey mean-difference plot seems far from random. In
+fact, we can break the pattern into three distinct ones at around 35°F
+and 50°F. We will categorize these groups as `low`, `mid` and `high`
+values. Note that these breakpoints are identified visually from the
+mean-difference plot and should be viewed as exploratory partitions
+rather than formally estimated thresholds.
 
 This next chunk of code will generate three separate QQ plots for each
 range of values.
@@ -651,11 +807,11 @@ out$avg <- (out$old + out$new) / 2
 out2 <- split(out, cut(out$avg, c(min(out$avg), 35, 50, max(out$avg)), 
                        labels = labs, include.lowest = TRUE))
 sapply(labs, FUN = \(x) {eda_qq(out2[[x]]$old, out2[[x]]$new ,
-                                xlab = "old", ylab = "new", md = T)
+                                xlab = "old", ylab = "new", md = TRUE)
                          title(x, line = 3, col.main = "orange")} )
 ```
 
-![](qq_files/figure-html/unnamed-chunk-40-1.png)
+![](qq_files/figure-html/unnamed-chunk-42-1.png)![](qq_files/figure-html/unnamed-chunk-42-2.png)![](qq_files/figure-html/unnamed-chunk-42-3.png)
 
     #>  [1] "Suggested offsets:y = x * 0.9507 + (1.6599)"
     #>  [1] "Suggested offsets:y = x * 1.047 + (-1.6502)"
@@ -674,18 +830,17 @@ Next, we’ll adopt the suggested offsets generated in the console.
 
 ``` r
 
-xform <- c("x * 0.9506 + 1.661",
-           "x * 1.0469 - 1.6469",
+xform <- c("x * 0.9507 + 1.661",
+           "x * 1.047  - 1.650",
            "x * 0.9938 + 0.9268")
 names(xform) <- labs
 sapply(labs, FUN = \(x) {eda_qq(out2[[x]]$old, out2[[x]]$new, 
                                 fx = xform[x],
-                                xlab = "old", ylab = "new", md = T)
-                         title(x, line = 3, col.main = "coral3")}
-)
+                                xlab = "old", ylab = "new", md = TRUE, title = x)
+                        })
 ```
 
-![](qq_files/figure-html/unnamed-chunk-41-1.png)
+![](qq_files/figure-html/unnamed-chunk-43-1.png)![](qq_files/figure-html/unnamed-chunk-43-2.png)![](qq_files/figure-html/unnamed-chunk-43-3.png)
 
 The proposed offsets seem to do a good job in characterizing the
 differences in temperatures.
@@ -693,18 +848,31 @@ differences in temperatures.
 The characterization of the differences in normal temperatures between
 the old and new set of normals can be formalized as follows:
 
-\\ new = \begin{cases} old \* 0.9506 + 1.661, & T\_{avg} \< 35 \\ old \*
-1.0469 - 1.6469, & 35 \le T\_{avg} \< 50 \\ old \* 0.9938 + 0.9268, &
-T\_{avg} \ge 50 \end{cases} \\
+\\ new = \begin{cases} old \times 0.9507 + 1.661, & T\_{avg} \< 35 \\
+old \times 1.047 - 1.650, & 35 \le T\_{avg} \< 50 \\ old \times 0.9938 +
+0.9268, & T\_{avg} \ge 50 \end{cases} \\
+
+It’s important to recall that these equations characterize the
+relationship between **corresponding quantiles** in the two
+distributions rather than **day-to-day temperature pairs**.
 
 The key takeaways from this analysis can be summarized as follows:
 
 - Overall, the new normals are about 0.5°F warmer.
-- The offset is not uniform across the full range of temperature values.
-- For lower temperature (those less than 35°F), the new normals have a
-  slightly narrower distribution and are about 1.7°F warmer.
-- For the mid temperature values (between 35°F and 50°F) the new normals
-  have a slightly wider distribution and are overall about 1.6°F cooler.
-- For the higher range of temperature values (those greater than 50°F),
-  the new normals have a slightly narrower distribution and are about
-  0.9°F warmer.
+- Non-uniform Offset: The magnitude and nature of the difference vary
+  across temperature ranges:
+  - Low Temperatures (\\\< 35^\circ\text{F}\\): The new normals have a
+    slightly narrower distribution (\\b = 0.95\\), being roughly
+    \\0.9^\circ\text{F}\\ warmer at lower values and tapering down to
+    nearly \\0.2^\circ\text{F}\\ warmer as temperatures approach
+    \\35^\circ\text{F}\\.
+  - Mid Temperatures (\\35^\circ\text{F}\\ to \\50^\circ\text{F}\\): The
+    new normals show a slightly wider distribution (\\b = 1.05\\),
+    transitioning from identical temperatures at \\35^\circ\text{F}\\ to
+    being about \\0.7^\circ\text{F}\\ warmer at \\50^\circ\text{F}\\
+    (averaging \\\sim 0.3^\circ\text{F}\\ to \\0.4^\circ\text{F}\\
+    warmer overall).
+  - High Temperatures (\\\ge 50^\circ\text{F}\\): The distribution shape
+    is nearly identical (\\b \approx 0.99\\), with the new normals
+    consistently hovering around \\0.5^\circ\text{F}\\ to
+    \\0.6^\circ\text{F}\\ warmer.

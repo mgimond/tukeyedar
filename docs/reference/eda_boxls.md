@@ -154,15 +154,21 @@ No values are returned
 
 # A basic boxplot. The outlier is labeled with the row number by default.
 eda_boxls(mtcars,mpg, cyl, type="none")
+#> Warning: length(labels) > max(length(x), length(y));
+#> 'labels' truncated to length 2
 
 
 # A basic boxplot. The outlier is labeled with its own value.
 eda_boxls(mtcars,mpg, cyl, type="none", out.txt=mpg )
+#> Warning: length(labels) > max(length(x), length(y));
+#> 'labels' truncated to length 2
 
 
 # Boxplot equalized by level. Note that the outlier text is labeled with its
 # original value.
 eda_boxls(mtcars,mpg, cyl, type="l", out.txt=mpg )
+#> Warning: length(labels) > max(length(x), length(y));
+#> 'labels' truncated to length 2
 
 #> ========================
 #> Note that the data have been equalized with "type" set to "l".
@@ -170,6 +176,8 @@ eda_boxls(mtcars,mpg, cyl, type="l", out.txt=mpg )
 
 # Boxplots equalized by level and spread
 eda_boxls(mtcars,mpg, cyl, type="ls", out.txt=mpg )
+#> Warning: length(labels) > max(length(x), length(y));
+#> 'labels' truncated to length 2
 
 #> ========================
 #> Note that the data have been equalized with "type" set to "ls".

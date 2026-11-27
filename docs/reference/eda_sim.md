@@ -1,7 +1,7 @@
 # Simulate data using Fleishman transformation
 
-**\[experimental\]**  
-  
+**\[experimental\]**\
+\
 Generates random data with the specified skewness and excess kurtosis
 using the Fleishman transformation method.
 
@@ -64,21 +64,21 @@ the specified skewness and excess kurtosis, and `X` is a standard normal
 variable. The coefficients are solved using a numerical optimization
 approach based on minimizing the residuals of Fleishman's equations. An
 excess kurtosis is defined as the kurtosis of a Normal distribution
-(k=3) minus 3.  
-  
+(k=3) minus 3.\
+\
 
 References suggest that the function is valid for a skewness range of -3
 to 3 and an excess kurtosis greater than
 `-1.13168 + 1.58837 * skew ^ 2`. However, the suggested cutoff fails for
 a skewness beyond the range `-2,2` in this function's implementation of
 Fleishman's routine. Instead, a cutoff of
-`-1.13168 + 0.9 + 1.58837 * skew ^ 2` is implemented here.  
-  
+`-1.13168 + 0.9 + 1.58837 * skew ^ 2` is implemented here.\
+\
 If `check = TRUE`, the function will warn the user if an invalid
 combination of skewness and excess kurtosis are passed to the function.
 If `kurt = NULL` , the function will generate the minimum valid excess
-kurtosis value given the input skewness.  
-  
+kurtosis value given the input skewness.\
+\
 
 If the proper combination of skewness and kurtosis parameters are passed
 to the function, the output distribution will have a mean of around `0`

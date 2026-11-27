@@ -5,9 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Theoretical QQ plot — eda_theo"><meta name="description" content="eda_theo generates a theoretical QQ plot for many common
-distributions including the Normal, uniform and gamma distributions."><meta property="og:description" content="eda_theo generates a theoretical QQ plot for many common
-distributions including the Normal, uniform and gamma distributions."><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Theoretical QQ plot — eda_theo"><meta name="description" content="eda_theo generates a theoretical QQ plot for common
+distributions (Normal, Exponential, Uniform, Gamma, Chi-Squared, Weibull)
+with an optional null reference simulation envelope."><meta property="og:description" content="eda_theo generates a theoretical QQ plot for common
+distributions (Normal, Exponential, Uniform, Gamma, Chi-Squared, Weibull)
+with an optional null reference simulation envelope."><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +17,7 @@ distributions including the Normal, uniform and gamma distributions."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +52,9 @@ distributions including the Normal, uniform and gamma distributions."><meta prop
     </div>
 
     <div class="ref-description section level2">
-    <p><code>eda_theo</code> generates a theoretical QQ plot for many common
-distributions including the Normal, uniform and gamma distributions.</p>
+    <p><code>eda_theo</code> generates a theoretical QQ plot for common
+distributions (Normal, Exponential, Uniform, Gamma, Chi-Squared, Weibull)
+with an optional null reference simulation envelope.</p>
     </div>
 
     <div class="section level2">
@@ -66,6 +69,11 @@ distributions including the Normal, uniform and gamma distributions.</p>
 <span>  dist.l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  resid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stat <span class="op">=</span> <span class="va">mean</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sim.alpha <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  sim.col <span class="op">=</span> <span class="st">"coral"</span>,</span>
+<span>  sim.pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  sim.type <span class="op">=</span> <span class="st">"points"</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show.par <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  grey <span class="op">=</span> <span class="fl">0.6</span>,</span>
@@ -76,6 +84,7 @@ distributions including the Normal, uniform and gamma distributions.</p>
 <span>  alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  med <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  q <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  qcol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
 <span>  iqr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  grid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  tails <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -135,6 +144,27 @@ are computed using the <code>stat</code> parameter.</p></dd>
 <code>mean</code> (default) or <code>median</code>.</p></dd>
 
 
+<dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
+<dd><p>Integer. Number of random draws to generate for constructing
+the null reference envelope. Default is <code>0</code> (off).</p></dd>
+
+
+<dt id="arg-sim-alpha">sim.alpha<a class="anchor" aria-label="anchor" href="#arg-sim-alpha"></a></dt>
+<dd><p>Numeric. Transparency value (<code>0</code> to <code>1</code>) for simulated cloud. Default <code>0.2</code>.</p></dd>
+
+
+<dt id="arg-sim-col">sim.col<a class="anchor" aria-label="anchor" href="#arg-sim-col"></a></dt>
+<dd><p>Character. Color for simulated cloud. Default <code>"coral"</code>.</p></dd>
+
+
+<dt id="arg-sim-pch">sim.pch<a class="anchor" aria-label="anchor" href="#arg-sim-pch"></a></dt>
+<dd><p>Integer or character. Plotting symbol for simulated points. Default <code>16</code>.</p></dd>
+
+
+<dt id="arg-sim-type">sim.type<a class="anchor" aria-label="anchor" href="#arg-sim-type"></a></dt>
+<dd><p>Character. Format of simulation display: <code>"points"</code> or <code>"lines"</code>.</p></dd>
+
+
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>Boolean determining if plot should be generated.</p></dd>
 
@@ -176,6 +206,10 @@ applicable if <code><a href="https://rdrr.io/r/grDevices/rgb.html" class="extern
 
 <dt id="arg-q">q<a class="anchor" aria-label="anchor" href="#arg-q"></a></dt>
 <dd><p>Boolean determining if <code>inner</code> data region should be shaded.</p></dd>
+
+
+<dt id="arg-qcol">qcol<a class="anchor" aria-label="anchor" href="#arg-qcol"></a></dt>
+<dd><p>Fill color of inner quantile box.</p></dd>
 
 
 <dt id="arg-iqr">iqr<a class="anchor" aria-label="anchor" href="#arg-iqr"></a></dt>
@@ -251,7 +285,18 @@ Note that arguments can be passed to the respective quantile functions via
 the <code>d.list</code> argument. Some quantile functions require at least one
 argument. For example, the <code>qgamma</code> function requires that the shape
 parameter be specified and the <code>qchisq</code> function requires that  the
-degrees of freedom, <code>df</code>, be specified. See examples.</p>
+degrees of freedom, <code>df</code>, be specified. See examples.
+<br><br>
+To help evaluate whether departures from the theoretical reference line reflect
+true non-conformance to the target distribution rather than natural sampling
+variability, setting <code>nsim &gt; 0</code> generates an empirical null envelope.
+Under the null hypothesis that the data arise from the specified theoretical
+distribution, synthetic samples of size \(N\) are repeatedly drawn and scaled
+to match the sample's quantiles. The resulting simulation runs are plotted
+behind the observed data with alpha transparency (<code>sim.alpha</code>). If the
+observed points remain inside the concentration of the simulated cloud, the
+apparent deviations are consistent with random sampling variation for a sample
+of size \(N\).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -271,26 +316,46 @@ Graphical Methods for Data Analysis (1983)</p></li>
 <span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">bass2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_theo-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Normal QQ plot with 20 null reference simulations</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">bass2</span>, nsim <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theo-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Normal QQ plot with simulation envelope rendered as spaghetti lines</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">bass2</span>, nsim <span class="op">=</span> <span class="fl">50</span>, sim.type <span class="op">=</span> <span class="st">"lines"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theo-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Generate a chi-squared QQ plot. The distribution requires that the degrees</span></span></span>
 <span class="r-in"><span> <span class="co"># of freedom be specified. The inner 70% shaded region is added.</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">270</span><span class="op">)</span>; <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="fl">100</span>, df <span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">271</span><span class="op">)</span>; <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="fl">100</span>, df <span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">x</span>, dist <span class="op">=</span> <span class="st">"chisq"</span>, dist.l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theo-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_theo-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Generate a gamma QQ plot. Note that gamma requires at the very least the</span></span></span>
 <span class="r-in"><span> <span class="co"># shape parameter. The chi-squared distribution is a special case of the</span></span></span>
 <span class="r-in"><span> <span class="co"># gamma distribution where shape = df/2 and rate = 1/2.</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">x</span>, dist <span class="op">=</span> <span class="st">"gamma"</span>, dist.l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">3</span><span class="op">/</span><span class="fl">2</span>, rate <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, q <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theo-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_theo-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="co"># Generate a uniform QQ plot</span></span></span>
-<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">bass2</span>, dist <span class="op">=</span> <span class="st">"unif"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theo-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span> <span class="co"># Generate a uniform QQ plot for a Normally derived variable</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">218</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">x</span>, dist <span class="op">=</span> <span class="st">"unif"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theo-6.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Compare x to null distribution envelope</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">x</span>, dist <span class="op">=</span> <span class="st">"unif"</span>, nsim<span class="op">=</span><span class="fl">40</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theo-7.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">x</span>, dist <span class="op">=</span> <span class="st">"unif"</span>, nsim<span class="op">=</span><span class="fl">50</span>, sim.type<span class="op">=</span><span class="st">"lines"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theo-8.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Do the tails deviate much from a theoretical Normal distribution?</span></span></span>
+<span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">x</span>, dist <span class="op">=</span> <span class="st">"norm"</span>, nsim<span class="op">=</span><span class="fl">50</span>, sim.type<span class="op">=</span><span class="st">"lines"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_theo-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># The uniform QQ plot can double as a quantile plot</span></span></span>
 <span class="r-in"><span> <span class="fu">eda_theo</span><span class="op">(</span><span class="va">bass2</span>, dist <span class="op">=</span> <span class="st">"unif"</span>, q <span class="op">=</span> <span class="cn">FALSE</span>, med <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>          iqr <span class="op">=</span> <span class="cn">FALSE</span>, grid <span class="op">=</span> <span class="cn">TRUE</span>, xlab <span class="op">=</span> <span class="st">"f-value"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="eda_theo-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="eda_theo-10.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -302,7 +367,7 @@ Graphical Methods for Data Analysis (1983)</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

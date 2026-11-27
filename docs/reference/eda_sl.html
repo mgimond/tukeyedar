@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Spread-location and spread-level plots — eda_sl"><meta name="description" content="The eda_sl function generates William Cleveland's
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Spread-location and spread-level plots — eda_sl"><meta name="description" content="The eda_sl function generates William Cleveland's
 spread-location plot for univariate and bivariate data. The function will also
 generate Tukeys' spread-level plot."><meta property="og:description" content="The eda_sl function generates William Cleveland's
 spread-location plot for univariate and bivariate data. The function will also
@@ -17,7 +17,7 @@ generate Tukeys' spread-level plot."><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,6 +71,11 @@ generate Tukeys' <strong>spread-level plot</strong>.</p>
 <span>  jitter <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  robust <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  loess.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"symmetric"</span>, degree <span class="op">=</span> <span class="fl">1</span>, span <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sim.alpha <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  sim.col <span class="op">=</span> <span class="st">"grey"</span>,</span>
+<span>  sim.pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  sim.type <span class="op">=</span> <span class="st">"lines"</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  label.col <span class="op">=</span> <span class="st">"lightsalmon"</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -141,6 +146,32 @@ spread-level plot.</p></dd>
 <dt id="arg-loess-d">loess.d<a class="anchor" aria-label="anchor" href="#arg-loess-d"></a></dt>
 <dd><p>Arguments passed to the internal loess function. Applies only
 to the bivariate model s-l plots and the spread-level plot.</p></dd>
+
+
+<dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
+<dd><p>Integer. Number of random residual permutations to generate for
+constructing an empirical reference envelope (default is <code>0</code>, which turns
+off simulation). Supported for univariate data inputs (<code>type = "location"</code>
+and <code>type = "level"</code>).</p></dd>
+
+
+<dt id="arg-sim-alpha">sim.alpha<a class="anchor" aria-label="anchor" href="#arg-sim-alpha"></a></dt>
+<dd><p>Transparency setting (<code>0</code> to <code>1</code>, default is <code>0.5</code>)
+allowing overlapping simulation runs to form a dense reference band.</p></dd>
+
+
+<dt id="arg-sim-col">sim.col<a class="anchor" aria-label="anchor" href="#arg-sim-col"></a></dt>
+<dd><p>Color of the simulated reference envelope (default is <code>"grey"</code>).</p></dd>
+
+
+<dt id="arg-sim-pch">sim.pch<a class="anchor" aria-label="anchor" href="#arg-sim-pch"></a></dt>
+<dd><p>Plotting symbol used when <code>sim.type = "points"</code> (default is <code>16</code>).</p></dd>
+
+
+<dt id="arg-sim-type">sim.type<a class="anchor" aria-label="anchor" href="#arg-sim-type"></a></dt>
+<dd><p>Format of the simulation display—either <code>"lines"</code> (default)
+or <code>"points"</code>. Note that when <code>type = "level"</code>, <code>sim.type</code> is
+automatically set to <code>"lines"</code>.</p></dd>
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
@@ -338,7 +369,24 @@ William Cleveland's spread-location plot applied to residuals of
 a linear model.<br>
 \(\ spread = \sqrt{|residuals|}\) <br>
 \(\ dependence = x\ variable\)</p></li>
-</ul></div>
+</ul><p>To assess whether observed differences in group spreads (or an apparent trend in
+a spread-level plot) reflect genuine scale dependence (heteroscedasticity) rather than
+natural sampling noise, <code>eda_sl()</code> includes an optional permutation simulation
+routine triggered by setting <code>nsim &gt; 0</code> (supported for univariate data).</p>
+<p>Rather than shuffling factor labels (which would artificially collapse group medians
+toward the grand median) the simulation holds observed group locations fixed on the
+x-axis and randomly permutes the centered residuals across all observations under
+the benchmark of equal variance (homoscedasticity).</p>
+<p>When <code>type = "location"</code>, group median spreads (\(\sqrt{|\text{residuals}|}\))
+are recomputed from the shuffled residuals across each iteration. This renders a visual
+reference envelope (spaghetti lines when <code>sim.type = "lines"</code>) across the full location
+spectrum. If the observed red summary line sits comfortably within the simulation cloud,
+group spread differences are consistent with random variation.</p>
+<p>When <code>type = "level"</code>, the log(spread) versus log(location) regression line is refitted
+across each permutation iteration. This builds a visual slope envelope demonstrating how
+much slope variation occurs naturally under homoscedasticity. This provides a visual benchmark
+before selecting a power transformation (\(p = 1 - b\)).</p>
+    </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
 
@@ -363,6 +411,11 @@ David C., Frederick Mosteller, and John W. Tukey, 1983.</p></li>
 <span class="r-in"><span><span class="co"># power transformation that can stabilize spread across fitted values</span></span></span>
 <span class="r-in"><span><span class="co"># following power = 1 - slope</span></span></span>
 <span class="r-in"><span><span class="fu">eda_sl</span><span class="op">(</span><span class="va">cars</span>, <span class="va">MPG.city</span>, <span class="va">Type</span>, type <span class="op">=</span> <span class="st">"level"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        int Location^1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -8.009091   2.969832 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Spread-level plot with a 100-run permutation line envelope</span></span></span>
+<span class="r-in"><span><span class="fu">eda_sl</span><span class="op">(</span><span class="va">cars</span>, <span class="va">MPG.city</span>, <span class="va">Type</span>, type <span class="op">=</span> <span class="st">"level"</span>, nsim<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_sl-3.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        int Location^1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  -8.009091   2.969832 </span>
@@ -371,8 +424,12 @@ David C., Frederick Mosteller, and John W. Tukey, 1983.</p></li>
 <span class="r-in"><span><span class="co"># power is 1 - 3 = -2. We can apply a power transformation within the</span></span></span>
 <span class="r-in"><span><span class="co"># function via the p argument. By default, a Box-Cox transformation method</span></span></span>
 <span class="r-in"><span><span class="co"># is adopted.</span></span></span>
-<span class="r-in"><span><span class="fu">eda_sl</span><span class="op">(</span><span class="va">cars</span>, <span class="va">MPG.city</span>, <span class="va">Type</span>, p <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># The resulting s-l plot shows a slope that is more representative of naturally</span></span></span>
+<span class="r-in"><span><span class="co"># occurring variability under homoscedasticity.</span></span></span>
+<span class="r-in"><span><span class="fu">eda_sl</span><span class="op">(</span><span class="va">cars</span>, <span class="va">MPG.city</span>, <span class="va">Type</span>, type <span class="op">=</span> <span class="st">"level"</span>, p<span class="op">=</span><span class="op">-</span><span class="fl">2</span>, nsim<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_sl-4.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        int Location^1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   92.58405  144.68434 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Spread-location plot can also be generated from residuals of a linear model</span></span></span>
 <span class="r-in"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">hp</span>, <span class="va">mtcars</span><span class="op">)</span></span></span>
@@ -393,7 +450,7 @@ David C., Frederick Mosteller, and John W. Tukey, 1983.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

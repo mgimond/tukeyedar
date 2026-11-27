@@ -95,7 +95,7 @@ an iterative process. This function should mirror the built-in
 `stat::line` function in its fitting strategy but it outputs additional
 parameters.
 
-  
+\
 See the accompanying [resistant line
 article](https://mgimond.github.io/tukeyedar/articles/RLine.md) for a
 detailed breakdown of the resistant line technique.

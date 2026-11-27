@@ -5,8 +5,8 @@ This dataset contains replicated measurements of cross-sectional area
 oncologists. The data represents a fully crossed three-factor
 experimental design with replication within cells–for each unique
 combination of the three factors, two replicate measurements were taken.
-Data are pulled from table 6-5 of the referenced source.  
-  
+Data are pulled from table 6-5 of the referenced source.\
+\
 The data are an extension of the data presented in `feav6_1`, now
 including the two replicate observations instead of just their averages.
 As such, each combination of factors appears twice in the data table

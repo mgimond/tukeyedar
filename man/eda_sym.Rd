@@ -61,7 +61,7 @@ randomly assigned positive or negative signs with equal probability.}
 and \code{1} (opaque) applied to simulated points or lines.}
 
 \item{sim.col}{Character. Color used to render the simulated permutation cloud
-or lines. Default is \\code{"coral"}.}
+or lines. Default is \code{"coral"}.}
 
 \item{sim.pch}{Integer or character. Plotting symbol for simulated points when
 \code{sim.type = "points"}. Default is \code{16} (solid circle).}

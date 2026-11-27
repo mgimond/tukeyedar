@@ -22,7 +22,7 @@
 #' @param sim.alpha Numeric. Transparency value between \code{0} (fully transparent)
 #'   and \code{1} (opaque) applied to simulated points or lines.
 #' @param sim.col Character. Color used to render the simulated permutation cloud
-#'   or lines. Default is \\code{"coral"}.
+#'   or lines. Default is \code{"coral"}.
 #' @param sim.pch Integer or character. Plotting symbol for simulated points when
 #'   \code{sim.type = "points"}. Default is \code{16} (solid circle).
 #' @param sim.type Character. Format of the simulated envelope display: \code{"points"}

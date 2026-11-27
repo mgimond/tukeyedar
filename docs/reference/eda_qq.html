@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Quantile-Quantile and Tukey mean-difference plots — eda_qq"><meta name="description" content="eda_qq Generates an empirical QQ plot and a Tukey
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Quantile-Quantile and Tukey mean-difference plots — eda_qq"><meta name="description" content="eda_qq Generates an empirical QQ plot and a Tukey
 mean-difference plot"><meta property="og:description" content="eda_qq Generates an empirical QQ plot and a Tukey
 mean-difference plot"><meta property="og:image" content="https://mgimond.github.io/tukeyedar/logo.svg"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -15,7 +15,7 @@ mean-difference plot"><meta property="og:image" content="https://mgimond.github.
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,11 @@ mean-difference plot</p>
 <span>  base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,</span>
 <span>  fx <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sim.alpha <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  sim.col <span class="op">=</span> <span class="st">"coral"</span>,</span>
+<span>  sim.pch <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  sim.type <span class="op">=</span> <span class="st">"points"</span>,</span>
 <span>  show.par <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  grey <span class="op">=</span> <span class="fl">0.6</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
@@ -149,6 +154,36 @@ computed after any transformation is applied to the x variable.</p></dd>
 computed after any transformation is applied to the y variable.</p></dd>
 
 
+<dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
+<dd><p>Integer. Number of random permutations (shuffles) to generate
+for constructing a null reference distribution cloud. Default is <code>0</code>
+(no simulation).
+When <code>nsim &gt; 0</code>, observations from both batches are pooled and randomly
+reallocated into two synthetic groups of original size to visually represent
+sampling variability under the null hypothesis of equal distributions.</p></dd>
+
+
+<dt id="arg-sim-alpha">sim.alpha<a class="anchor" aria-label="anchor" href="#arg-sim-alpha"></a></dt>
+<dd><p>Numeric. Transparency value between <code>0</code> (fully transparent)
+and <code>1</code> (opaque) applied to simulated points or lines. Default is <code>0.15</code>.</p></dd>
+
+
+<dt id="arg-sim-col">sim.col<a class="anchor" aria-label="anchor" href="#arg-sim-col"></a></dt>
+<dd><p>Character. Color used to render the simulated permutation cloud
+or lines. Default is <code>"grey60"</code>.</p></dd>
+
+
+<dt id="arg-sim-pch">sim.pch<a class="anchor" aria-label="anchor" href="#arg-sim-pch"></a></dt>
+<dd><p>Integer or character. Plotting symbol for simulated points when
+<code>sim.type = "points"</code>. Default is <code>16</code> (solid circle).</p></dd>
+
+
+<dt id="arg-sim-type">sim.type<a class="anchor" aria-label="anchor" href="#arg-sim-type"></a></dt>
+<dd><p>Character. Format of the simulated envelope display: <code>"points"</code>
+(default) overlays a point cloud emphasizing density concentration, while
+<code>"lines"</code> draws connected quantile lines for each permutation run (spaghetti plot).</p></dd>
+
+
 <dt id="arg-show-par">show.par<a class="anchor" aria-label="anchor" href="#arg-show-par"></a></dt>
 <dd><p>Boolean determining if parameters such as power
 transformation and formula should be displayed.</p></dd>
@@ -192,7 +227,8 @@ which of the tail-end points are to be symbolized differently,
 
 
 <dt id="arg-q">q<a class="anchor" aria-label="anchor" href="#arg-q"></a></dt>
-<dd><p>Boolean determining if <code>inner</code> data region should be shaded.</p></dd>
+<dd><p>Boolean determining if <code>inner</code> data region should be shaded. This
+is automatically set to <code>FALSE</code> if <code>tails=TRUE</code>.</p></dd>
 
 
 <dt id="arg-q-type">q.type<a class="anchor" aria-label="anchor" href="#arg-q-type"></a></dt>
@@ -207,7 +243,8 @@ algorithms. (See <code>quantile</code> function).</p></dd>
 <dt id="arg-tails">tails<a class="anchor" aria-label="anchor" href="#arg-tails"></a></dt>
 <dd><p>Boolean determining if points outside of the <code>inner</code> region
 should be symbolized differently. Tail-end points are symbolized via the
-<code>tail.pch</code>,  <code>tail.p.col</code> and <code>tail.p.fill</code> arguments.</p></dd>
+<code>tail.pch</code>,  <code>tail.p.col</code> and <code>tail.p.fill</code> arguments. If this
+option is selected, <code>q</code> will automatically be set to <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-tail-pch">tail.pch<a class="anchor" aria-label="anchor" href="#arg-tail-pch"></a></dt>
@@ -367,6 +404,14 @@ tail-end points symbolized differently by setting <code>tails = TRUE</code> and
 <br>
 The middle dashed line represents each batch's median value. It can be
 turned off by setting <code>med = FALSE</code><br><br>
+To help assess whether deviations from the reference line (y = x or y = 0)
+reflect true structural differences (e.g., offset, scale, or tail behavior)
+rather than natural sampling variation, setting <code>nsim &gt; 0</code> generates
+an empirical null envelope. The values from both batches are pooled and
+repeatedly permuted across the two groups using <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></code>.
+The resulting quantiles are plotted behind the observed data with alpha
+transparency (<code>sim.alpha</code>).
+<br><br>
 Console output prints the suggested multiplicative and additive offsets. It
 adopts a resistant line fitting technique to derive the coefficients. The
 suggested offsets output applies to the raw or re-expressed data but it
@@ -490,7 +535,7 @@ Graphical Methods for Data Analysis (1983)</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

@@ -421,6 +421,6 @@ conf
 ## References
 
 - *Applications, Basics and Computing of Exploratory Data Analysis*,
-  P.F. Velleman and D.C. Hoaglin, 1981.  
+  P.F. Velleman and D.C. Hoaglin, 1981.\
 - *Understanding robust and exploratory data analysis*, D.C. Hoaglin, F.
   Mosteller and J.W. Tukey, 1983.

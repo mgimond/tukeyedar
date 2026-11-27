@@ -2,8 +2,8 @@
 
 This dataset contains the weight gain (in grams) of rats subjected to
 different dietary treatments. Data are pulled from table 5-12 of the
-referenced source.  
-  
+referenced source.\
+\
 This dataset serves as an example of a two-way table with (balanced)
 replicates (10 replicates per `Level` and `Type` combinations).
 

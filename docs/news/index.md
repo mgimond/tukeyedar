@@ -1,6 +1,31 @@
 # Changelog
 
-## tukeyedar (development version)
+## tukeyedar 0.6.0.9000
+
+### New features
+
+- [`eda_qq()`](https://mgimond.github.io/tukeyedar/reference/eda_qq.md),
+  [`eda_sym()`](https://mgimond.github.io/tukeyedar/reference/eda_sym.md),
+  `eda_theo`,
+  [`eda_rfs()`](https://mgimond.github.io/tukeyedar/reference/eda_rfs.md),
+  [`eda_sl()`](https://mgimond.github.io/tukeyedar/reference/eda_sl.md),
+  `eda_qqpool`, `eda_theopan`: Added `nsim` parameter (along with
+  `sim.alpha`, `sim.col`, `sim.pch`, and `sim.type`) to overlay a null
+  permutation envelope for visual comparison against sampling
+  variability.
+
+### Minor changes & fixes
+
+- [`eda_qq()`](https://mgimond.github.io/tukeyedar/reference/eda_qq.md):
+  Setting `tails = TRUE` now automatically sets `q = FALSE` to prevent
+  overlapping quantile shading with tail point symbolization.
+- [`eda_rfs()`](https://mgimond.github.io/tukeyedar/reference/eda_rfs.md):
+  Modified wording in text console output. It will now report the
+  relative spread breakdown in percentages. This aligns the text with
+  the green and red segments of the stacked bar plot.
+- Updated the `rfs` vignette to include simulation option.
+
+## tukeyedar 0.6.0
 
 - Added the `ANOVA: beyond the p-value` vignette.
 - `plot.eda_npol` and `plot.eda_mean_sweep` methods now allow for n-way
@@ -77,7 +102,7 @@
 - Added a `raw_tick` argument to `eda_lm` that allows for the display of
   the raw (untransformed) variables on a transformed axis.
 - Minor changes to `eda_boxls`, `eda_unipow`, `eda_bipow`, `eda_pol`,
-  `eda_sym`, `eda_sl`, `eda_rline` and `eda_qq` to reflect the  
+  `eda_sym`, `eda_sl`, `eda_rline` and `eda_qq` to reflect the\
   new `base` argument in `eda_re` and changes to internal plotting
   functions.
 - Minor changes to the plot methods `plot.eda_rline` and

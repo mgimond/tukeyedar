@@ -98,6 +98,7 @@ importFrom(stats,
   setNames
 )
 importFrom(utils,
+  capture.output,
   combn,
   modifyList
 )

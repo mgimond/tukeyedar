@@ -3,8 +3,8 @@
 This dataset contains measurements of the Diamond Pyramid Hardness
 Number (DPHN) of simulated dental fillings. The response variable
 represents the sum of 10 individual DPHN readings for each sample. Data
-are pulled from table 6-8 of the referenced source.  
-  
+are pulled from table 6-8 of the referenced source.\
+\
 The data were collected from a study involving five different dentists.
 The dental fillings were made from two types of gold alloy (`A1` and
 `AuCa`), sintered at three different temperatures (`1500F`, `1600F`,

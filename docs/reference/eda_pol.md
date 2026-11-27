@@ -160,7 +160,7 @@ applies a median polish, but other statistical summaries such as the
 mean can be passed to the function via the `stat = ` argument. The
 function returns a list of row/column effects along with global and
 residual values. It will also generate a colored table if
-`plot = TRUE`.  
+`plot = TRUE`.\
 For an N-way table with more than two factors, see
 [`eda_npol`](https://mgimond.github.io/tukeyedar/reference/eda_npol.md).
 

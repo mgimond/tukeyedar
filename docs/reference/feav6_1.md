@@ -3,8 +3,8 @@
 This dataset contains measurements of cross-sectional area (in mm²) of
 simulated solid tumors. These measurements were estimated by 13
 different oncologists. Data are pulled from table 6-1 of the referenced
-source.  
-  
+source.\
+\
 This dataset represents a three-factor experimental design with fully
 crossed factors. The primary factors involved are the Oncologist (the
 individual performing the estimate), the Material from which the tumor

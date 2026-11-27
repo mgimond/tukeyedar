@@ -38,18 +38,17 @@ eda_mean_sweep(
 
   `max_order = 1`
 
-  :   (default) Only main effects are calculated and included in the
-      decomposition.
+  : (default) Only main effects are calculated and included in the
+    decomposition.
 
   `max_order = 2`
 
-  :   Main effects and all two-way interactions among the specified
-      factors are included.
+  : Main effects and all two-way interactions among the specified
+    factors are included.
 
   `max_order = k`
 
-  :   Main effects and all interaction terms up to order `k` are
-      included.
+  : Main effects and all interaction terms up to order `k` are included.
 
 - nesting:
 
@@ -119,8 +118,8 @@ as residuals.
 
 Nested factors are specifically handled by computing their effects
 within each level of their parent factor ensuring appropriate variance
-attribution.  
-  
+attribution.\
+\
 Unbalanced designs are supported by calculating group wise means
 allowing for a robust decomposition even when cell counts are unequal.
 

@@ -1,6 +1,6 @@
 #' @export
 #' @import grDevices
-#' @importFrom utils modifyList
+#' @importFrom utils modifyList capture.output
 #' @title Residual-Fit Spread Plot
 #'
 #' @description
@@ -297,6 +297,7 @@ eda_rfs <- function(dat, x = NULL, grp = NULL, p = 1L, tukey = FALSE, base = exp
   # eda_rline model scenario ----
 
   if (inherits(dat, "eda_rline")) {
+    y <- NULL  # Suppresses R CMD check NOTE for non-standard evaluation in eda_rline()
     res_sort <- sort(dat$residuals)
     model_sort <- sort(dat$fitted.values - stat(dat$fitted.values))
     fval <- (seq_along(res_sort) - 0.5) / length(res_sort)

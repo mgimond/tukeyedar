@@ -11,6 +11,11 @@ eda_sym(
   tukey = FALSE,
   base = exp(1),
   q.type = 5,
+  nsim = 0,
+  sim.alpha = 0.2,
+  sim.col = "coral",
+  sim.pch = 16,
+  sim.type = "points",
   show.par = TRUE,
   grey = 0.6,
   pch = 21,
@@ -59,6 +64,35 @@ eda_sym(
   An integer between 1 and 9 selecting one of the nine quantile
   algorithms used to generate inner shaded region. (See `quantile`tile
   function).
+
+- nsim:
+
+  Integer. Number of random sign-flip permutations to generate for
+  constructing a null reference distribution cloud. Default is `0` (no
+  simulation). When `nsim > 0`, deviations from the median are randomly
+  assigned positive or negative signs with equal probability.
+
+- sim.alpha:
+
+  Numeric. Transparency value between `0` (fully transparent) and `1`
+  (opaque) applied to simulated points or lines.
+
+- sim.col:
+
+  Character. Color used to render the simulated permutation cloud or
+  lines. Default is `"coral"`.
+
+- sim.pch:
+
+  Integer or character. Plotting symbol for simulated points when
+  `sim.type = "points"`. Default is `16` (solid circle).
+
+- sim.type:
+
+  Character. Format of the simulated envelope display: `"points"`
+  (default) overlays a point cloud emphasizing density concentration,
+  while `"lines"` draws connected quantile lines for each permutation
+  run (spaghetti plot).
 
 - show.par:
 

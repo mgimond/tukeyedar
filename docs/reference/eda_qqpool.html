@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-panel pooled values QQ plots — eda_qqpool"><meta name="description" content="eda_qqpool generates multi-panel pooled values QQ plots
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-panel pooled values QQ plots — eda_qqpool"><meta name="description" content="eda_qqpool generates multi-panel pooled values QQ plots
 for a continuous variable conditioned on a grouping variable. This plot is
 most frequently used to compare residuals to pooled residuals."><meta property="og:description" content="eda_qqpool generates multi-panel pooled values QQ plots
 for a continuous variable conditioned on a grouping variable. This plot is
@@ -17,7 +17,7 @@ most frequently used to compare residuals to pooled residuals."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">tukeyedar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,11 @@ most frequently used to compare residuals to pooled residuals.</p>
 <span>  resid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  stat <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>  show.par <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sim.type <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  sim.col <span class="op">=</span> <span class="st">"coral"</span>,</span>
+<span>  sim.alpha <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  sim.pch <span class="op">=</span> <span class="fl">16</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  grey <span class="op">=</span> <span class="fl">0.6</span>,</span>
 <span>  pch <span class="op">=</span> <span class="fl">21</span>,</span>
@@ -140,6 +145,30 @@ are computed using the <code>stat</code> parameter.</p></dd>
 <dt id="arg-show-par">show.par<a class="anchor" aria-label="anchor" href="#arg-show-par"></a></dt>
 <dd><p>Boolean determining if power transformation should be
 displayed in the plot.</p></dd>
+
+
+<dt id="arg-nsim">nsim<a class="anchor" aria-label="anchor" href="#arg-nsim"></a></dt>
+<dd><p>Integer. Number of random permutations (factor label shuffles) to generate
+for constructing an empirical reference envelope across panels (default is <code>0</code>,
+which turns off simulation).</p></dd>
+
+
+<dt id="arg-sim-type">sim.type<a class="anchor" aria-label="anchor" href="#arg-sim-type"></a></dt>
+<dd><p>Format of the simulation display—either <code>"lines"</code> (default)
+or <code>"points"</code>.</p></dd>
+
+
+<dt id="arg-sim-col">sim.col<a class="anchor" aria-label="anchor" href="#arg-sim-col"></a></dt>
+<dd><p>Color of the simulated reference cloud (default is <code>"coral"</code>).</p></dd>
+
+
+<dt id="arg-sim-alpha">sim.alpha<a class="anchor" aria-label="anchor" href="#arg-sim-alpha"></a></dt>
+<dd><p>Transparency setting (<code>0</code> to <code>1</code>, default is <code>0.2</code>)
+allowing overlapping simulation runs to form a dense reference band.</p></dd>
+
+
+<dt id="arg-sim-pch">sim.pch<a class="anchor" aria-label="anchor" href="#arg-sim-pch"></a></dt>
+<dd><p>Plotting symbol used when <code>sim.type = "points"</code> (default is <code>16</code>).</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
@@ -241,7 +270,12 @@ the matching pooled residuals.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function will generate a multi-panel pooled values QQ plots.
 The function defaults to a pooled residuals QQ plots which is the most common
-use for this kind of plot.</p>
+use for this kind of plot.
+<br><br>
+To assess whether observed departures in individual group panels reflect genuine
+group-specific distributional shifts rather than natural within-group sampling variability,
+<code>eda_qqpool()</code> includes an optional permutation simulation routine triggered by
+setting <code>nsim &gt; 0</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -257,6 +291,10 @@ use for this kind of plot.</p>
 <span class="r-in"><span><span class="fu">eda_qqpool</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="eda_qqpool-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Pooled QQ plot with a 50-run permutation reference line envelope</span></span></span>
+<span class="r-in"><span><span class="fu">eda_qqpool</span><span class="op">(</span><span class="va">singer</span>, <span class="va">height</span>, <span class="va">voice.part</span>, nrow <span class="op">=</span> <span class="fl">2</span>, nsim <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="eda_qqpool-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -268,7 +306,7 @@ use for this kind of plot.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

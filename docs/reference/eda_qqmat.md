@@ -180,13 +180,13 @@ Returns a list with the following components:
 The function will generate an empirical QQ plot matrix. Most of the
 arguments available in `eda_qq` are echoed in this function. The one
 notable difference is the default settings. By default, `eda_qqmat` will
-generate a plain vanilla set of plots.  
-  
+generate a plain vanilla set of plots.\
+\
 The QQ plot matrix is most effective in comparing residuals after the
 data are fitted by the mean or median. To plot the residuals, set
 `resid=TRUE`. By default, the `mean` is used. You can change the
-statistic to the median by setting `stat=median`.  
-  
+statistic to the median by setting `stat=median`.\
+\
 The function also allows for batch transformation of values via the `p`
 argument. The transformation is applied to the data prior to computing
 the residuals.
