@@ -7,8 +7,8 @@ output:
     toc: TRUE
     css: style.css
 vignette: >
-  %\VignetteIndexEntry{ANOVA: beyond the p-value}
   %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{ANOVA: beyond the p-value}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
@@ -146,7 +146,7 @@ df   <- data.frame(base,
 df$yield <- df$base
 ```
 
-The variable `yield` is the response variable. At this point, it's soley a function of the `base` yield value. 
+The variable `yield` is the response variable. At this point, it's solely a function of the `base` yield value. 
 
 ```{r echo=FALSE, fig.height=2.1, fig.width = 2.5}
 library(tukeyedar)
@@ -170,12 +170,12 @@ Next, we'll include our first effect: We'll add different Phosphorous concentrat
 df$yieldP <- df$base + df$P
 ```
 
-We will refer to the simple formula we use to create our data the *generative model*.
+We will refer to the simple formula we use to create our data as the *generative model*.
 
 This gives us the following model:
 
 $$
-Yield_{(P,\ N)} = 10 + 0.5(P0.5) + 1.5(P1.5) + 2(P2.0)
+Yield_{(P)} = 10 + 0.5(P0.5) + 1.5(P1.5) + 2(P2.0)
 $$
 Where the `P0.5`, `P1.5` and `P2.0` are binary values that take on a value of `0` or `1` depending on which Phosphorous treatment was applied to the potted plants.
 
@@ -195,8 +195,7 @@ Using the base R environment, one may extract each factor's **effect** using the
 aov(yieldP ~ Plevel, df) |> model.tables()
 ```
 
-This above approach makes use of least square method--a popular implementation of an ANOVA analysis. Note that `aov()` requires that the factors be passes as characters (or R factors) and not as the numeric `N` and `P` values  otherwise, R would have treated `P` and `N` as a single continuous variable and performed a linear
-  regression
+This above approach makes use of least square method--a popular implementation of an ANOVA analysis. Note that `aov()` requires that the factors be passed as characters (or R factors) and not as the numeric `N` and `P` values; otherwise, R would have treated `P` and `N` as a single continuous variable and performed a linear regression.
 
 The `aov()` function is the standard, but for the rest of this article, we'll use a function from the `tukeyedar` package called `eda_mean_sweep()`. It calculates the exact same effects but does so adopting a *sweeping* routine.
 
@@ -217,7 +216,7 @@ MP$global
 This results in a model of the form:
 
 $$
-Yield = 11.334 -0.833(P0.5) + 0.167(P1.5) + 0.667(P2.0)
+Yield_{(P)} = 11.334 -0.833(P0.5) + 0.167(P1.5) + 0.667(P2.0)
 $$
 This might look like a completely different model from the one used to construct the dataset, but it's just a different way of telling the same story. Let's calculate the yield for a plant given the `P1.5` treatment:
 
@@ -240,7 +239,7 @@ So what happens when we add Nitrogen as a treatment to our tomato plants? One po
 df$yieldPN <- df$base + df$N + df$P
 ``` 
 
-This yields the following mathematical mode:
+This yields the following mathematical model:
 
 $$
 Yield_{(P,\ N)} = 10 + 0.5(P0.5) + 1.5(P1.5) + 2(P2.0) + 1(N1) + 2(N2)
@@ -261,7 +260,7 @@ MPN$global
 MPN$effects
 ```
 
-The output gives us a gloabl mean and the effects for both `Plevel` and `Nlevel.`
+The output gives us a global mean and the effects for both `Plevel` and `Nlevel.`
 
    * Global Mean: `r round(MPN$global, 3)` 
    * `Plevel` effects: `r round(MPN$effects$P, 3)` 
@@ -285,13 +284,16 @@ This is the same yield generated from the base model.
 
 The ANOVA output correctly suggests that the `P` treatment effect is greater than the `N` treatment effect meaning that the Phosphorous factor, as a whole, creates more variation in the yield than the Nitrogen factor does. This doesn't mean that every level of P is better than N, but that the choice of Phosphorous level has a bigger impact on the final outcome. 
 
-Here's how we can tell from the effect values:
+Here's how we can tell from the effect values: 
+
    * For Nitrogen, the effects are `-0.5` and `+0.5`. The "swing" from the worst
      level (N1) to the best level (N2) is `(+0.5) - (-0.5) = 1` pound of
-     tomatoes.
+     tomatoes. 
+     
    * For Phosphorous, the effects range from `-0.833` to `+0.667`. The "swing"
      from the worst level (P0.5) to the best level `(P2.0) is (+0.667) -
-     (-0.833) = 1.5` pounds.
+     (-0.833) = 1.5` pounds. 
+     
 
 Because the total range of influence is bigger for Phosphorous (a 1.5 lb swing) than for Nitrogen (a 1.0 lb swing), the ANOVA correctly identifies that P is the more impactful factor in our experiment for explaining the variation in tomato yield.
 
@@ -333,7 +335,7 @@ We'll create an explicit interaction term. It will be `0` for all combinations e
 
 ```{r}
 df$interaction <- ifelse(df$N == 2 & df$P == 2, 2.5, 0)
-df$yieldPN2 <- df$base + df$N + df$P + + df$interaction
+df$yieldPN2 <- df$base + df$N + df$P + df$interaction
 ```
 
 ```{r echo=FALSE, fig.height=2.1, fig.width = 2.5}
@@ -375,20 +377,20 @@ Adding the interactive component (`max_order = 2`) creates a more complex model.
 $$
 \begin{align}
 {Yield_{(P,\ N)}} &=  13.25 - 1.25(P0.5) -0.25(P1.5) + 1.5(P2.0) - 0.92(N1) + 0.92(N2) \\
-             &0.417(P0.5:N1) + 0.417(P1.5:N1) - 0.833(P2.0:N1) \\
+             &+ 0.417(P0.5:N1) + 0.417(P1.5:N1) - 0.833(P2.0:N1) \\
              &- 0.417(P0.5:N2) - 0.417(P1.5:N2) + 0.833(P2.0:N2)
 \end{align}
 $$
 Where the interactive factor levels (e.g. `(P0.5:N1)`) are binary values that take on a `1` if the response value is associated with that combination of effects.
 
-Recall from our earlier discussion that the ANOVA does not seek to recreated the base model used to generate the data. As such, it's no surprise that non-zero values are associated with the interactive effects that were explicitly set to 0 in the base model.
+Recall from our earlier discussion that the ANOVA does not seek to recreate the base model used to generate the data. As such, it's no surprise that non-zero values are associated with the interactive effects that were explicitly set to 0 in the base model.
 
 Revisiting our example of the tomato yield for a treatment of `P2.0:N2`, we can now use the full model, which includes the main effects plus the specific interaction effect for that cell
 
 $$
 \begin{align}
-{Yield_{(P,\ N)}} &=  13.25 - 1.25(0) -0.25(0) + 1.5(1) - 0.92(0) + 0.92(1) \\
-             &0.417(0) + 0.417(0) - 0.833(0) \\
+{Yield_{(P2.0,\ N2)}} &=  13.25 - 1.25(0) -0.25(0) + 1.5(1) - 0.92(0) + 0.92(1) \\
+             &+ 0.417(0) + 0.417(0) - 0.833(0) \\
              &- 0.417(0) - 0.417(0) + 0.833(1) = 16.5
 \end{align}
 $$
@@ -406,7 +408,7 @@ This plot tells a clear story. Previously, when we analyzed a truly additive dat
 
 This is the visual proof that our model is wrong. Those large residuals are   the *"synergy"* from the interaction that the simple additive model could not explain.  In statistics, we give this leftover, unexplained variation a formal name: the **Residual**, often symbolized by the Greek letter $\varepsilon$.  
 
-As such, when fitting a model to data other than one created synthetically (as is the case here), you want to include a **Residuals** component, $\varepsilon$ to your model. Given that some of the yield data in `df$yieldPN2` was not captured by the `N` and `P` components, our earlier equation was not complete. Adding $\varepsilon$ completes the model.
+As such, when fitting a model to data other than one created synthetically (as is the case here), you want to add a **Residuals** component, $\varepsilon$, to your model. Given that some of the yield data in `df$yieldPN2` was not captured by the `N` and `P` components, our earlier equation was not complete. Adding $\varepsilon$ completes the model.
 
 $$
 Yield_{(P,\ N)} = 13.25 - 1.25(P0.5) -0.25(P1.5) + 1.5(P2.0) - 0.92(N1) + 0.92(N2) +\varepsilon 
@@ -442,7 +444,7 @@ df2   <- data.frame(base,
                     N      = rep(c(1,2),3))
 ```
 
-If we layout the plants in a grid, we have the following yield distributions:
+If we lay out the plants in a grid, we have the following yield distributions:
 
 ```{r echo=FALSE, fig.height=2.1, fig.width = 2.5}
 df2$yield <- df2$base
@@ -464,7 +466,7 @@ MR$effects
 MR$residuals
 ```
 
-The output shows exactly what we designed it to: the main effects for `Plevel` and `Nlevel` are zero. All the variability we added has been isolated perfectly into the **Residuals**. This is because we intentionally created a "noise" vector that was perfectly balanced, or *orthogonal*, to our experimental design. This isn't just luck; it's a crucial design principle   that ensures our noise doesn't masquerade as a fake effect, a problem known as **confounding**
+The output shows exactly what we designed it to: the main effects for `Plevel` and `Nlevel` are zero. All the variability we added has been isolated perfectly into the **Residuals**. This is because we intentionally created a "noise" vector that was perfectly balanced, preventing random noise from biasing our factor estimates, or masquerading as a true treatment effect due to lack of balance.
 
 The variability decomposition plot shows this visually: there is variation
   in the Response and the Residuals, but no effects for P or N.
@@ -508,7 +510,7 @@ This plot reveals the true power of ANOVA. Look closely:
   * The `Plevel` and `Nlevel` effects are identical to the ones we saw in the
   "perfect world" of Part 1. The noise did not distort the signal at all. 
   * The `Residuals` component is a perfect match for the noise we analyzed
-  in Step 1. The residuals from our addtive model (`MRPN`) should numerically identical to the residuals from our noise-only model (`MR`). Let's check:
+  in Step 1. The residuals from our additive model (`MRPN`) should be numerically identical to the residuals from our noise-only model (`MR`). Let's check:
   
 ```{r}
 all.equal(MR$residuals, MRPN$residuals)
@@ -559,9 +561,12 @@ To find the real clue, we need a more specialized tool: the diagnostic plot.
 plot(MRPN2, plot = "diagnostic")
 ```
 
-This plot is specifically designed to hunt for hidden multiplicative interactions. It graphs the **Residuals** from our additive model against a set of **Comparison Value** calculated from the main effects. If the points were to form a random, unstructured cloud around the horizontal line, it would suggest our additive model is sufficient.
+This plot is specifically designed to hunt for hidden multiplicative interactions. It graphs the **Residuals** from our additive model against a set of **Comparison Values** ($CV_{ij}$) calculated from the main effects as follows:
 
-But here, we see a clear (downward) sloping trend. This non-random pattern is evidence that our simple additive model is may not be appropriate and that a hidden interaction effect is at play.
+$$\text{CV}_{ij} = \frac{\hat{\alpha}_i \cdot \hat{\beta}_j}{\hat{\mu}}$$
+where $\hat{\alpha}_i$ is the main effect for level $i$ of the first factor (e.g., Phosphorous), $\hat{\beta}_j$ is the main effect for level $j$ of the second factor (e.g., Nitrogen), and $\hat{\mu}$ is the global mean.
+
+If the points were to form a random, unstructured cloud around the horizontal line, it would suggest our additive model is sufficient. But here, we see a clear (downward) sloping trend. This non-random pattern is evidence that our simple additive model may not be appropriate and that a hidden interaction effect is at play.
  
 #### The Final Decomposition: Fitting the Complete Model
 
@@ -604,7 +609,7 @@ Let's simulate this by creating a new dataset where we have two plants for each 
 
 ![](figures/plants_replicates.png){width=130px}
 
-We will give each of these 12 plants its own unique "noise" value (ecnompassed in the `base` value).
+We will give each of these 12 plants its own unique "noise" value (encompassed in the `base` value).
 
 
 ```{r}
@@ -680,7 +685,7 @@ Our example used two factors (P and N), making it a two-way ANOVA. This principl
 
 If you'd like to continue exploring the concepts covered in this article, here are a few recommended resources:
 
-* For a *robust alternative* of a traditional ANOVA, see the [median polish article](polish.html) and its accompanying function `eda_pol()`. For an n-way version of the median polish, see the function `eda_npol()`.
+* For a *robust alternative* to a traditional ANOVA, see the [median polish article](polish.html) and its accompanying function `eda_pol()`. For an n-way version of the median polish, see the function `eda_npol()`.
 
 * For a presentation of a traditional ANOVA and its hypothesis testing side of the statistic, see [this article](https://mgimond.github.io/Stats-in-R/ANOVA.html).
 

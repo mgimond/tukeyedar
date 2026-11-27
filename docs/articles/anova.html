@@ -75,7 +75,7 @@
                         <h4 data-toc-skip class="author">Manuel
 Gimond</h4>
             
-            <h4 data-toc-skip class="date">2026-11-26</h4>
+            <h4 data-toc-skip class="date">2026-11-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mgimond/tukeyedar/blob/HEAD/vignettes/anova.Rmd" class="external-link"><code>vignettes/anova.Rmd</code></a></small>
       <div class="d-none name"><code>anova.Rmd</code></div>
@@ -139,7 +139,7 @@ tomatoes).</p>
 <span>                   N      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">yield</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">base</span></span></code></pre></div>
 <p>The variable <code>yield</code> is the response variable. At this
-point, it’s soley a function of the <code>base</code> yield value.</p>
+point, it’s solely a function of the <code>base</code> yield value.</p>
 <p><img src="anova_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="240"></p>
 <p>Mathematically, we can express this as:</p>
 <p><span class="math display">\[
@@ -164,11 +164,11 @@ concentration increases tomato yield by 0.5, 1.5 and 2 pounds
 respectively.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">yieldP</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">base</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">P</span></span></code></pre></div>
-<p>We will refer to the simple formula we use to create our data the
+<p>We will refer to the simple formula we use to create our data as the
 <em>generative model</em>.</p>
 <p>This gives us the following model:</p>
 <p><span class="math display">\[
-Yield_{(P,\ N)} = 10 + 0.5(P0.5) + 1.5(P1.5) + 2(P2.0)
+Yield_{(P)} = 10 + 0.5(P0.5) + 1.5(P1.5) + 2(P2.0)
 \]</span> Where the <code>P0.5</code>, <code>P1.5</code> and
 <code>P2.0</code> are binary values that take on a value of
 <code>0</code> or <code>1</code> depending on which Phosphorous
@@ -195,10 +195,10 @@ contribution each factor (aka category) makes to the response variable
 <span><span class="co">## -0.8333  0.1667  0.6667</span></span></code></pre>
 <p>This above approach makes use of least square method–a popular
 implementation of an ANOVA analysis. Note that <code><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov()</a></code>
-requires that the factors be passes as characters (or R factors) and not
-as the numeric <code>N</code> and <code>P</code> values otherwise, R
+requires that the factors be passed as characters (or R factors) and not
+as the numeric <code>N</code> and <code>P</code> values; otherwise, R
 would have treated <code>P</code> and <code>N</code> as a single
-continuous variable and performed a linear regression</p>
+continuous variable and performed a linear regression.</p>
 <p>The <code><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov()</a></code> function is the standard, but for the rest of
 this article, we’ll use a function from the <code>tukeyedar</code>
 package called <code><a href="../reference/eda_mean_sweep.html">eda_mean_sweep()</a></code>. It calculates the exact
@@ -221,7 +221,7 @@ we have effect values of [-0.833, 0.167, 0.667].</p>
 <pre class="output"><code><span><span class="co">## [1] 11.33333</span></span></code></pre>
 <p>This results in a model of the form:</p>
 <p><span class="math display">\[
-Yield = 11.334 -0.833(P0.5) + 0.167(P1.5) + 0.667(P2.0)
+Yield_{(P)} = 11.334 -0.833(P0.5) + 0.167(P1.5) + 0.667(P2.0)
 \]</span> This might look like a completely different model from the one
 used to construct the dataset, but it’s just a different way of telling
 the same story. Let’s calculate the yield for a plant given the
@@ -257,7 +257,7 @@ meaning that the benefits afforded by each nutrient are added to one
 another. The previous model can be augmented as,</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">yieldPN</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">base</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">N</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">P</span></span></code></pre></div>
-<p>This yields the following mathematical mode:</p>
+<p>This yields the following mathematical model:</p>
 <p><span class="math display">\[
 Yield_{(P,\ N)} = 10 + 0.5(P0.5) + 1.5(P1.5) + 2(P2.0) + 1(N1) + 2(N2)
 \]</span> As with the Phosphorous factors, the Nitrogen factors take on
@@ -280,7 +280,7 @@ two-way analysis of variance and look at the effects it extracts.</p>
 <span><span class="co">## $N</span></span>
 <span><span class="co">##    1    2 </span></span>
 <span><span class="co">## -0.5  0.5</span></span></code></pre>
-<p>The output gives us a gloabl mean and the effects for both
+<p>The output gives us a global mean and the effects for both
 <code>Plevel</code> and <code>Nlevel.</code></p>
 <ul>
 <li>Global Mean: 12.833</li>
@@ -314,13 +314,16 @@ the Phosphorous factor, as a whole, creates more variation in the yield
 than the Nitrogen factor does. This doesn’t mean that every level of P
 is better than N, but that the choice of Phosphorous level has a bigger
 impact on the final outcome.</p>
-<p>Here’s how we can tell from the effect values: * For Nitrogen, the
-effects are <code>-0.5</code> and <code>+0.5</code>. The “swing” from
-the worst level (N1) to the best level (N2) is
-<code>(+0.5) - (-0.5) = 1</code> pound of tomatoes. * For Phosphorous,
-the effects range from <code>-0.833</code> to <code>+0.667</code>. The
-“swing” from the worst level (P0.5) to the best level
-<code>(P2.0) is (+0.667) -      (-0.833) = 1.5</code> pounds.</p>
+<p>Here’s how we can tell from the effect values:</p>
+<ul>
+<li><p>For Nitrogen, the effects are <code>-0.5</code> and
+<code>+0.5</code>. The “swing” from the worst level (N1) to the best
+level (N2) is <code>(+0.5) - (-0.5) = 1</code> pound of
+tomatoes.</p></li>
+<li><p>For Phosphorous, the effects range from <code>-0.833</code> to
+<code>+0.667</code>. The “swing” from the worst level (P0.5) to the best
+level <code>(P2.0) is (+0.667) - (-0.833) = 1.5</code> pounds.</p></li>
+</ul>
 <p>Because the total range of influence is bigger for Phosphorous (a 1.5
 lb swing) than for Nitrogen (a 1.0 lb swing), the ANOVA correctly
 identifies that P is the more impactful factor in our experiment for
@@ -377,7 +380,7 @@ for all combinations except for <code>N=2</code> and <code>P=2</code>
 where we’ll add a boost of <code>2.5</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">interaction</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">N</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">&amp;</span> <span class="va">df</span><span class="op">$</span><span class="va">P</span> <span class="op">==</span> <span class="fl">2</span>, <span class="fl">2.5</span>, <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">df</span><span class="op">$</span><span class="va">yieldPN2</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">base</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">N</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">P</span> <span class="op">+</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">interaction</span></span></code></pre></div>
+<span><span class="va">df</span><span class="op">$</span><span class="va">yieldPN2</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">base</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">N</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">P</span> <span class="op">+</span> <span class="va">df</span><span class="op">$</span><span class="va">interaction</span></span></code></pre></div>
 <p><img src="anova_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="240"></p>
 <p>Now, if we were to fit the additive model used earlier, we would not
 be able to fully capture the interactive effect.</p>
@@ -440,7 +443,7 @@ of the individual interaction adjustments:</p>
 \begin{align}
 {Yield_{(P,\ N)}} &amp;=  13.25 - 1.25(P0.5) -0.25(P1.5) + 1.5(P2.0) -
 0.92(N1) + 0.92(N2) \\
-             &amp;0.417(P0.5:N1) + 0.417(P1.5:N1) - 0.833(P2.0:N1) \\
+             &amp;+ 0.417(P0.5:N1) + 0.417(P1.5:N1) - 0.833(P2.0:N1) \\
              &amp;- 0.417(P0.5:N2) - 0.417(P1.5:N2) + 0.833(P2.0:N2)
 \end{align}
 \]</span> Where the interactive factor levels
@@ -448,7 +451,7 @@ of the individual interaction adjustments:</p>
 <code>1</code> if the response value is associated with that combination
 of effects.</p>
 <p>Recall from our earlier discussion that the ANOVA does not seek to
-recreated the base model used to generate the data. As such, it’s no
+recreate the base model used to generate the data. As such, it’s no
 surprise that non-zero values are associated with the interactive
 effects that were explicitly set to 0 in the base model.</p>
 <p>Revisiting our example of the tomato yield for a treatment of
@@ -456,9 +459,9 @@ effects that were explicitly set to 0 in the base model.</p>
 main effects plus the specific interaction effect for that cell</p>
 <p><span class="math display">\[
 \begin{align}
-{Yield_{(P,\ N)}} &amp;=  13.25 - 1.25(0) -0.25(0) + 1.5(1) - 0.92(0) +
-0.92(1) \\
-             &amp;0.417(0) + 0.417(0) - 0.833(0) \\
+{Yield_{(P2.0,\ N2)}} &amp;=  13.25 - 1.25(0) -0.25(0) + 1.5(1) -
+0.92(0) + 0.92(1) \\
+             &amp;+ 0.417(0) + 0.417(0) - 0.833(0) \\
              &amp;- 0.417(0) - 0.417(0) + 0.833(1) = 16.5
 \end{align}
 \]</span> This matches the 16.5 lbs yield we originally generated. By
@@ -484,8 +487,8 @@ simple additive model could not explain. In statistics, we give this
 leftover, unexplained variation a formal name: the
 <strong>Residual</strong>, often symbolized by the Greek letter <span class="math inline">\(\varepsilon\)</span>.</p>
 <p>As such, when fitting a model to data other than one created
-synthetically (as is the case here), you want to include a
-<strong>Residuals</strong> component, <span class="math inline">\(\varepsilon\)</span> to your model. Given that
+synthetically (as is the case here), you want to add a
+<strong>Residuals</strong> component, <span class="math inline">\(\varepsilon\)</span>, to your model. Given that
 some of the yield data in <code>df$yieldPN2</code> was not captured by
 the <code>N</code> and <code>P</code> components, our earlier equation
 was not complete. Adding <span class="math inline">\(\varepsilon\)</span> completes the model.</p>
@@ -535,7 +538,7 @@ random.</p>
 <p>Let’s return to our baseline scenario: six tomato plants with no
 fertilizer. This time, we’ll introduce the natural variability we
 discussed by giving each plant a slightly different base yield.</p>
-<p>If we layout the plants in a grid, we have the following yield
+<p>If we lay out the plants in a grid, we have the following yield
 distributions:</p>
 <p><img src="anova_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" alt="" width="240"></p>
 <p>Our current baseline model is thus,</p>
@@ -566,10 +569,9 @@ noise.</p>
 <code>Plevel</code> and <code>Nlevel</code> are zero. All the
 variability we added has been isolated perfectly into the
 <strong>Residuals</strong>. This is because we intentionally created a
-“noise” vector that was perfectly balanced, or <em>orthogonal</em>, to
-our experimental design. This isn’t just luck; it’s a crucial design
-principle that ensures our noise doesn’t masquerade as a fake effect, a
-problem known as <strong>confounding</strong></p>
+“noise” vector that was perfectly balanced, preventing random noise from
+biasing our factor estimates, or masquerading as a true treatment effect
+due to lack of balance.</p>
 <p>The variability decomposition plot shows this visually: there is
 variation in the Response and the Residuals, but no effects for P or
 N.</p>
@@ -614,9 +616,9 @@ by adding the same <code>P</code> and <code>N</code> effects from
 identical to the ones we saw in the “perfect world” of Part 1. The noise
 did not distort the signal at all.</li>
 <li>The <code>Residuals</code> component is a perfect match for the
-noise we analyzed in Step 1. The residuals from our addtive model
-(<code>MRPN</code>) should numerically identical to the residuals from
-our noise-only model (<code>MR</code>). Let’s check:</li>
+noise we analyzed in Step 1. The residuals from our additive model
+(<code>MRPN</code>) should be numerically identical to the residuals
+from our noise-only model (<code>MR</code>). Let’s check:</li>
 </ul>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">MR</span><span class="op">$</span><span class="va">residuals</span>, <span class="va">MRPN</span><span class="op">$</span><span class="va">residuals</span><span class="op">)</span></span></code></pre></div>
@@ -685,13 +687,19 @@ diagnostic plot.</p>
 <span><span class="co">##              -4.532467e-17              -3.263930e+00</span></span></code></pre>
 <p>This plot is specifically designed to hunt for hidden multiplicative
 interactions. It graphs the <strong>Residuals</strong> from our additive
-model against a set of <strong>Comparison Value</strong> calculated from
-the main effects. If the points were to form a random, unstructured
-cloud around the horizontal line, it would suggest our additive model is
-sufficient.</p>
-<p>But here, we see a clear (downward) sloping trend. This non-random
-pattern is evidence that our simple additive model is may not be
-appropriate and that a hidden interaction effect is at play.</p>
+model against a set of <strong>Comparison Values</strong> (<span class="math inline">\(CV_{ij}\)</span>) calculated from the main effects
+as follows:</p>
+<p><span class="math display">\[\text{CV}_{ij} = \frac{\hat{\alpha}_i
+\cdot \hat{\beta}_j}{\hat{\mu}}\]</span> where <span class="math inline">\(\hat{\alpha}_i\)</span> is the main effect for
+level <span class="math inline">\(i\)</span> of the first factor (e.g.,
+Phosphorous), <span class="math inline">\(\hat{\beta}_j\)</span> is the
+main effect for level <span class="math inline">\(j\)</span> of the
+second factor (e.g., Nitrogen), and <span class="math inline">\(\hat{\mu}\)</span> is the global mean.</p>
+<p>If the points were to form a random, unstructured cloud around the
+horizontal line, it would suggest our additive model is sufficient. But
+here, we see a clear (downward) sloping trend. This non-random pattern
+is evidence that our simple additive model may not be appropriate and
+that a hidden interaction effect is at play.</p>
 </div>
 <div class="section level4">
 <h4 id="the-final-decomposition-fitting-the-complete-model">The Final Decomposition: Fitting the Complete Model<a class="anchor" aria-label="anchor" href="#the-final-decomposition-fitting-the-complete-model"></a>
@@ -762,7 +770,7 @@ treatment. We would have multiple plants, or
 plants for each of our 6 treatment cells, for a total of 12 plants.</p>
 <p><img src="figures/plants_replicates.png" width="130"></p>
 <p>We will give each of these 12 plants its own unique “noise” value
-(ecnompassed in the <code>base</code> value).</p>
+(encompassed in the <code>base</code> value).</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">base</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9.5</span>, <span class="fl">9.5</span>, <span class="fl">11.5</span>, <span class="fl">10.5</span>, <span class="fl">10.5</span>, <span class="fl">9.5</span>, <span class="fl">8.5</span>, <span class="fl">10.5</span>, <span class="fl">10.5</span>, <span class="fl">11.5</span>, <span class="fl">9.5</span>, <span class="fl">8.5</span><span class="op">)</span></span>
 <span><span class="va">df3</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">base</span>, </span>
@@ -857,7 +865,7 @@ models grow in complexity.</p>
 <p>If you’d like to continue exploring the concepts covered in this
 article, here are a few recommended resources:</p>
 <ul>
-<li><p>For a <em>robust alternative</em> of a traditional ANOVA, see the
+<li><p>For a <em>robust alternative</em> to a traditional ANOVA, see the
 <a href="polish.html">median polish article</a> and its accompanying
 function <code><a href="../reference/eda_pol.html">eda_pol()</a></code>. For an n-way version of the median
 polish, see the function <code><a href="../reference/eda_npol.html">eda_npol()</a></code>.</p></li>
